@@ -1,0 +1,230 @@
+@extends('layouts._front.dashboard')
+
+@section('content')
+ <section id="order-history" class="section">
+    	<div class="uk-margin-large-top uk-container-center uk-width-medium-7-10">
+        <table class="uk-table">
+             <tr style="background:#000">
+                <td colspan="2" align="center">
+                    <a href="{{ url('/') }}"> 
+                        <img src="{{ url('_front/assets/images/logo.png')}} " width="170" height="110" alt="Clarkin">
+                    </a>
+                </td>  
+             </tr> 
+             <tr>
+                  <td class="uk-text-bold">Order No : {{ $data->order_code }}</td>
+                  <td class="uk-text-right uk-text-bold">Order Date : {{ date('F d, Y',strtotime($data->order_date)) }}</td>
+             </tr> 
+             <tr>
+                <td colspan="2"><hr></td>
+             </tr> 
+             <tr>
+                <td style="margin-top:15px;margin-bottom:15px;">
+                    <div class="uk-grid">
+                        <div class="uk-width-large-1-1 uk-text-bold">
+                            BILLING INFORMATION
+                        </div>
+                    </div>
+                    <div class="uk-grid">
+                        <div class="uk-width-large-1-1">
+                            <span class="uk-text-left">
+                            {{ $data->bFirstname . ' ' . $data->bLastname }} <br>
+                            {{ $data->bAddress . ' ' . $data->bAddress1 . ' ' . $data->bCity . ' ' . $data->bSTate . ' ' . $data->bCountry . ' ' . $data->bZip }} <br>
+                            <a href="mailto:{{ $data->bEmail }}" style="color:#666;text-decoration:none;border-bottom:dotted 1px #333;"> {{ $data->bEmail }}</a> <br>
+                            {{ $data->bPhone }}
+                          </span>
+                        </div>  
+                    </div>  
+                </td>
+                
+                <td class="uk-text-left" style="margin-top:15px;margin-bottom:15px;">
+                    <div class="uk-grid">
+                        <div class="uk-width-large-1-1 uk-text-bold">
+                            SHIPPING INFORMATION
+                        </div>  
+                    </div>
+                    <div class="uk-grid">
+                        <div class="uk-width-large-1-1 uk-text-left">
+                             {{ $data->sFirstname . ' ' . $data->sLastname }} <br>
+                              {{ str_replace(";", " ", $data->fldCartShippingAddress) }} <br>
+                              <a href="mailto: {{ $data->sEmail }}" style="color:#666;text-decoration:none;border-bottom:dotted 1px #333;"> {{  $data->sEmail }}</a> <br>
+                             {{ $data->sPhone }}
+                        </div>  
+                    </div>
+                </td>
+                
+             </tr>     
+              <tr>
+                <td colspan="2"><hr></td>
+             </tr>         
+        </table>
+        
+         <table class="uk-table">
+            <tr>
+                <td class="uk-text-bold">PRODUCT NAME</td>
+                <td class="uk-text-bold">OPTIONS</td>
+                <td class="uk-text-bold">AMOUNT</td>
+                <td class="uk-text-bold uk-width-1-10">QTY</td>
+                <td class="uk-text-bold">TOTAL</td>
+            </tr>  
+            @foreach($cart as $carts)
+                <tr>
+                    <td>
+                      <img src="{{ App\Models\Cart::getReturnFrameImage($data->order_code ,$carts->fldProductSlug,$carts->image) }}">
+                      </br>{{ $carts->product_name }} 
+                     
+
+                    </td>
+                    <td>
+
+
+                      @if($carts->fldCartFrameDesc)
+                        <strong>FRAME:</strong> {{$carts->fldCartFrameDesc}} <br/>
+                      @endif
+
+                      @if($carts->fldCartFrameInfo)
+                        <strong>FRAME SKU:</strong> {{$carts->fldCartFrameInfo}} <br/>
+                      @endif
+
+                      @if($carts->fldCartLinerDesc)
+                        <strong>LINER:</strong> {{$carts->fldCartLinerDesc}} <br/>
+                      @endif
+
+                      @if($carts->fldCartLinerSku)
+                        <strong>LINER SKU:</strong> {{$carts->fldCartLinerSku}} <br/>
+                      @endif
+
+                      @if($carts->fldCartImageSize)
+                        <strong>PHOTO SIZE:</strong> {{$carts->fldCartImageSize}} <br/>
+                      @endif
+
+
+                      @if($carts->fldCartMat1Info)
+                          <?php $mat1 = explode(';', $carts->fldCartMat1Info) ?>
+                          <strong>MAT1 SKU:</strong> {{ $mat1[0] }} <br/>
+
+                          @if($carts->fldCartMat1Options)
+                              <?php $mat1Opts = json_decode($carts->fldCartMat1Options, false) ?>
+                              <strong>MAT1 OPTIONS:</strong> {{ implode(', ', $mat1Opts) }} <br/>
+                          @endif
+
+                      @endif
+
+                      @if($carts->fldCartMat2Info)
+                          <?php $mat2 = explode(';', $carts->fldCartMat2Info) ?>
+                          <strong>MAT2 SKU:</strong> {{ $mat2[0] }} <br/>
+
+                          @if($carts->fldCartMat2Options)
+                              <?php $mat2Opts = json_decode($carts->fldCartMat2Options, false) ?>
+                              <strong>MAT2 OPTIONS:</strong> {{ implode(', ', $mat2Opts) }} <br/>
+                          @endif
+
+                      @endif
+
+                      @if($carts->fldCartMat3Info)
+                          <?php $mat3 = explode(';', $carts->fldCartMat3Info) ?>
+                          <strong>MAT3 SKU:</strong> {{ $mat3[0] }} <br/>
+
+                          @if($carts->fldCartMat3Options)
+                              <?php $mat3Opts = json_decode($carts->fldCartMat3Options, false) ?>
+                              <strong>MAT3 OPTIONS:</strong> {{ implode(', ', $mat3Opts) }} <br/>
+                          @endif
+
+                      @endif
+
+                      @if($carts->fldCartFinishkitInfo)
+                        <strong>GLAZING:</strong>  <br/>
+                        <strong>GLAZING SKU:</strong>  <br/>
+                      @endif
+
+                    </td>
+                    <td>$ {{ number_format($carts->product_price,2) }}</td>
+                    <td>{{ $carts->quantity }}</td>
+                    <td>$ {{ number_format($carts->total,2) }}</td>
+                </tr>                  
+            @endforeach
+                 <tr>
+                    <td colspan="5"><hr></td>
+                 </tr> 
+                <tr>                   
+                   <td colspan="3" class="uk-text-right uk-text-bold">SUB-TOTAL : </td>
+                   <td colspan="2">$ {{ number_format($cart[0]->subtotal,2) }}</td>                  
+                </tr> 
+                {{-- */$total = $cart[0]->subtotal + $data->fldCartTax;/* --}} 
+                <tr>
+                  
+                   <td colspan="3" class="uk-text-right uk-text-bold">TAX : </td>
+                   <td colspan="2">$ {{ number_format($data->fldCartTax,2) }}</td>                  
+                </tr> 
+                 @if($data->fldCartShippingRateShippingAmount != "")
+                 {{-- */$total = $total + $data->fldCartShippingRateShippingAmount;/* --}} 
+                 <tr>
+                   
+                   <td  colspan="3" class="uk-text-right uk-text-bold">Shipping (  {{ $data->fldCartShippingRateShippingName }}  ) : </td>
+                   <td>$ {{ number_format($data->fldCartShippingRateShippingAmount,2) }}</td>                  
+                </tr> 
+                @endif
+                @if($data->fldCartCouponCodeCouponCode != "")
+                      {{-- */$total = $total - $data->fldCartCouponCodeCouponPrice;/* --}} 
+                      <tr>
+                         
+                         <td colspan="3" class="uk-text-right uk-text-bold">DISCOUNT CODE ( {{ $data->fldCartCouponCodeCouponCode }} ) : </td>
+                         <td colspan="2">$ ( - {{ number_format($data->fldCartCouponCodeCouponPrice,2) }} )</td>                  
+                      </tr>
+                @endif      
+
+                 <tr>
+               
+                   <td colspan="3" class="uk-text-right uk-text-bold">GRAND TOTAL: </td>
+                   <td colspan="2">$ {{ number_format($total,2) }}</td>                  
+                </tr> 
+
+         </table> 
+      
+    </div>  
+	</section>
+@stop
+
+
+@section('headercodes')
+ 
+@stop
+
+ 
+@section('extracodes')  
+ {{-- */ /* */ /* --}}
+	<script>
+		$(document).ready(function(){
+		});
+            function delete_me(deleting_id){
+                  var confirmdelete = UIkit.modal.confirm('Are you sure?', function(){    
+                        $('.history-item-'+deleting_id).addClass('bg-red');
+                        //delete query here
+                        /* $(ajax) */
+                        setTimeout(function(){
+                              // hide
+                              $('.history-item-'+deleting_id).fadeOut();
+                        },300);
+                        return true; 
+                  }, function(){
+                        return false; 
+                  }
+                  );
+
+            }
+
+            function orderRecords(orderNo) {                  
+                  $.get( "{{ url('dashboard/customer/orderInfo/') }}/"+orderNo, function( data ) {
+                       console.log(data);
+                         $("#productCode").html(data.fldCartOrderNo);
+                         $("#productDESC").html(data.fldProductDescription);
+                        $("#productImage").attr('src',data.imageFrame);
+                         $("#productDate").html(data.fldCartOrderDate);
+                        $("#productPrice").html(data.fldCartProductPrice);
+                        $("#orderShipping").html(data.fldAddress);
+                         $("#orderTranID").html(data.fldCartOrderNo);
+                         $("#orderItemDetails").html(data.orderDetails);
+                  });
+            }
+	</script>
+@stop

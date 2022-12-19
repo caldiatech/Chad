@@ -1,0 +1,48 @@
+form fieldset {
+	width:auto;
+	margin:0;
+	border:none;
+}
+form fieldset input, form fieldset textarea, form label {
+	font:normal 13px Arial !important;
+}
+form p {
+	position:relative;
+	margin:0 0 5px;
+}
+form p label {
+	position:absolute;
+	top:0;
+	left:1px;
+	text-transform:capitalize;
+}
+form p label.txtarea {
+	position:absolute;
+	top:0;
+	left:0;
+	text-transform:capitalize;
+}
+form p br {
+	display:none;
+}
+form fieldset p input, form fieldset p textarea {
+	display:block;
+	padding:5px;
+	width:auto;
+	margin:0;
+}
+form fieldset p label {
+	display:block;
+	width:auto;
+	margin:5px;
+	padding:0;
+}
+form fieldset p textarea, form fieldset p input {
+	border:solid 1px #ccc;
+}
+form fieldset p textarea {
+	height:auto;
+}
+form fieldset p label {
+	color:#777;
+}

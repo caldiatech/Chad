@@ -1,0 +1,250 @@
+/*----------------------------------------
+Name: core.css
+Developed by: Mark Joseph Rivera
+Copyright: 2010 @ Dog and Rooster
+----------------------------------------*/
+
+/* --+ RESETS +-- */
+
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, figure, footer, header, hgroup, nav, section, time, audio, video
+{ font-size:100%; margin:0; padding:0; border:none; outline:0; }
+
+article, aside, figure, footer, header, hgroup, nav, section { display:block; }
+html { overflow-y:scroll; }
+table { border-collapse:collapse; border-spacing:0; }
+p { margin:0 0 10px; }
+a { outline:0; text-decoration:none; }
+a img { border:0; text-decoration:none; }
+h2, h3, h4, h5, h6 { font-weight:normal; line-height:normal; margin:0 0 10px; }
+h2 { font-size:19px; } h3 { font-size:17px; } h4 { font-size:15px; } h5 { font-size:13px; } h6 { font-size:11px; }
+
+.center { text-align:center; } .left { text-align:left; } .right { text-align:right; }
+.col1 { float:left; } .col2 { float:right; }
+.smaller { font-size:11px; } .small { font-size:small; } .medium { font-size:medium; } .large { font-size:large; } .larger { font-size:larger; }
+.first { margin-left:0 !important; padding-left:0 !important; } .last { margin-right:0 !important; padding-right:0 !important; }
+.top { margin-top:0 !important; padding-top:0 !important; } .bottom { margin-bottom:0 !important; padding-bottom:0 !important; }
+.dotted { border:none; border-bottom:dotted 1px #CCC; }
+.hline { border:none; border-bottom:solid 1px #CCC; }
+
+.clearfix:after { content:'.'; display:block; height:0; clear:both; visibility:hidden; }
+.clearfix { display:inline-block; min-height:1%; }
+.clearfix { *display:block; }
+* html .clearfix { height:1%; }
+.clear { clear:both; }
+
+
+
+/* --+ COMPONENTS +-- */
+
+.vanadium-advice { display:block; white-space:normal; color:#A40; } /*Form Validator*/
+.process_info { display:block; font:normal 15px Arial; color:#666; line-height:16px; padding:10px; } /*Mailform Processing*/
+
+.multiform { position:relative; width:926x; }
+.multiform dl { margin-bottom:20px; }
+.multiform dl dt { clear:both; position:relative; display:block; padding:5px 0 5px 5px; }
+.multiform dl dd { clear:both; float:left; padding:5px 0 5px 5px; }
+.multiform dl ul, .multiform dl ol { margin:0!important; }
+.multiform dl dd ol { float:left; width:45%; margin-right:10%; }
+.multiform dl ul li { float:left; display:inline; list-style:none!important; margin:0 10px 0 0!important; }
+.multiform dl ol li { display:block; list-style:none!important; margin-left:0!important; margin-bottom:3px;  }
+.multiform dl label { display:block; font-size:12px; font-weight:bold; margin-bottom:0; }
+.multiform dl input[type=text] { position:relative; width:auto; padding:3px 5px; }
+.multiform dl input[type=file] { width:auto; padding:3px 5px; }
+.multiform dl input[type=checkbox] { position:relative; top:1px; *top:0; }
+.multiform dl input[type=radio] { position:relative; top:2px; *top:0; }
+.multiform dl select { width:auto; padding:5px; }
+.multiform dl textarea { width:auto; height:75px; padding:3px 5px; overflow:hidden; }
+.multiform input, .multiform textarea, .multiform select { font:normal 13px Arial; color:#555; border:solid 1px #BBB; }
+.multiform input[type=button], .multiform input[type=submit], .multiform button { display:inline-block; cursor:pointer; width:auto; padding:4px; }
+.multiform input[type=button], .multiform input[type=submit], .multiform button { *display:inline-block; }
+
+
+
+/* --+ FONT FACE +-- */
+
+@font-face {
+	font-family:'Myriad Pro';
+	src:url('assets/fonts/myriadpro-regular.otf') format('opentype');
+	src:local('Myriad Pro'), url(assets/fonts/myriadpro-regular.otf) format('opentype');
+}
+@font-face {
+	font-family:'Impact';
+	src:url('assets/fonts/impact.ttf') format('truetype');
+	src:local('Impact'), url(assets/fonts/impact.ttf) format('truetype');
+}
+.hdr_title { font-family:'myriad pro'; font-size:2em; }
+
+
+
+/* --+ HTML5 CORE +-- */
+
+body { float:left; background:url(../images/bg_full01.gif) no-repeat fixed center top; font:normal 13px Tahoma; color:#555; width:100%; }
+
+figure#adminaccess { width:1280px; margin:auto; }
+figure#adminaccess section { background:none; }
+
+figure#admincontent { background:url(../images/bg_transblack-70.png) repeat; width:1260px; margin:10px auto; padding:10px; border:solid 1px #a2abb1; } 
+figure#admincontent { -webkit-box-shadow:0 0 5px #000; -moz-box-shadow:0 0 5px #000; box-shadow:0 0 5px #000; }
+figure#admincontent section { float:left; background:#EEE; margin-top:-5px; z-index:0; }
+
+header, section, footer { clear:both; position:relative; width:1260px; }
+
+header { background:url(../images/bg_dashboard.png) no-repeat; height:55px; z-index:1; }
+header h1 { position:absolute; top:12px; left:10px; background:url(../images/titles/h1_acm2.png) no-repeat; font:normal 14px/28px Tahoma; color:#919aa1; text-shadow:1px 1px 0 #FFF; text-indent:133px; text-transform:uppercase; width:auto; height:28px; }
+footer { background:url(../images/bg_footer.jpg) no-repeat; height:30px; }
+
+aside { position:absolute; top:0; left:0; width:244px; }
+aside ul { list-style:none; margin:0; }
+aside li { width:244px; height:52px; }
+aside li a { display:block; background:url(../images/nav_panel.jpg) no-repeat; text-indent:10px; line-height:52px; width:244px; height:52px; }
+aside li a { font:normal 15px Tahoma; color:#3e454c; }
+aside li img { position:relative; top:12px; margin-right:10px; }
+aside li a:hover { background-position: 0 -52px; }
+
+article { float:left; background:#FFF; width:975px; min-height:500px; margin-left:244px; padding:20px; border-left:solid 1px #d6d6d6; }
+
+/*Round Edge and Behavior for IE*/
+.edge { -moz-border-radius:5px; border-radius:5px; }
+.pie { *behavior:url(http://192.168.1.100/_frameworks/acm2/dev2/assets/css/_pie.htc); }
+
+
+/*HTML Accessories*/
+.line { clear:both; background:url(../images/bg_border.jpg) repeat-x bottom left; font-family:avantgarde; font-size:25px; font-weight:bold; text-transform:uppercase; color:#464f55; margin:-10px 0 10px; padding-bottom:10px; }
+
+/********************************************************
+	Login Panel
+********************************************************/
+#loginpanel { background:url(../images/bg_transblack-70.png) repeat; width:798px; height:468px; margin:180px auto 0; padding:100px 0 0 0; border:solid 1px #a2abb1; }
+#loginpanel { -webkit-box-shadow:0 0 5px #000; -moz-box-shadow:0 0 5px #000; box-shadow:0 0 5px #000; }
+#loginpanel .col1 { font-size:14px; color:#FFF; width:300px; height:225px; padding:30px 45px 0 53px; border-right:dotted 1px #FFF; }
+#loginpanel .col1 h2 { background:url(../images/titles/h2_acm2.png) no-repeat right; width:auto; height:59px; }
+#loginpanel .col1 h3 { background:url(../images/titles/h3_acm2.png) no-repeat right; width:auto; height:18px; margin-bottom:20px; }
+#loginpanel .col2 { font-size:16px; color:#FFF; width:300px; height:240px; padding:15px 45px 0 54px; }
+#loginpanel .col2 ul { font-variant:small-caps; list-style:none; margin:0; }
+#loginpanel .col2 li { position:relative; padding:0 0 15px 65px; }
+#loginpanel .col2 li.un { background:url(../images/icons/icon_username.png) no-repeat 0 17px; }
+#loginpanel .col2 li.pw { background:url(../images/icons/icon_password.png) no-repeat 0 17px; }
+#loginpanel .col2 li.sc { background:url(../images/icons/icon_security.png) no-repeat 0 17px; }
+#loginpanel .col2 label { display:block; margin-bottom:2px; }
+#loginpanel .col2 input[type=text], #loginpanel .col2 input[type=password] { font-size:15px; color:#555; line-height:42px; text-indent:5px; width:228px; height:42px; border:0; }
+#loginpanel .col2 input[type=text], #loginpanel .col2 input[type=password] { -moz-border-radius:5px; border-radius:5px; }
+#loginpanel .col2 img { position:absolute; bottom:23px; right:15px; width:104px; height:29px; }
+#loginpanel input[type=submit] { display:block; background:url(../images/icons/btn_sign-in.png) no-repeat; text-indent:-9999px; width:277px; height:81px; margin:30px auto; border:0; }
+
+
+/********************************************************
+	Dashboard Panel
+********************************************************/
+#module_box { float:left; width:975px; }
+#module_box h3 { font:normal 13px Tahoma; margin-bottom:10px; }
+#module_box ul { clear:both; float:left; width:1080px; list-style:none; margin:0 0 20px; overflow:hidden; }
+#module_box li { float:left; position:relative; background:#f6f6f7 url(../images/icons/icon_settings.png) no-repeat 10px 10px; line-height:16px; width:163px; height:113px; margin-right:11px; border:solid 1px #CCC; }
+#module_box li a { position:absolute; top:0; left:0; color:#555; width:113px; height:98px; padding:15px 0 0 50px; }
+#module_box li:hover { background:#dadee2 url(../images/icons/icon_settings.png) no-repeat 10px 10px; cursor:pointer; }
+#module_box li span { position:absolute; bottom:15px; left:10px; font-size:11px; color:#666; line-height:12px; margin:0; padding-right:10px; }
+
+
+/********************************************************
+	Page / Clients / Users Table Panel
+********************************************************/
+#page_control { background:#FFF url(../images/bg_control.jpg) repeat-x bottom left; text-align:right; line-height:13px; width:995px; height:33px; margin:0 0 10px -20px; padding-right:20px; }
+#page_control a { color:#395375; padding-left:10px; border-left:solid 1px #c7cfd7; }
+#page_control a:first-child { border-left:0; }
+#page_control a img { vertical-align:middle; }
+
+#page_manager { float:left; width:975px; margin:15px 0; border:solid 1px #CCC; }
+#page_manager thead, tbody { width:975px; padding:5px; }
+#page_manager thead td { background:url(../images/bg_header.jpg) repeat-x; font:bold 13px Arial; color:#FFF; text-shadow:1px 1px #000; text-indent:5px; line-height:25px; padding:0 3px; }
+#page_manager tbody td { text-indent:5px; padding:5px 3px; }
+#page_manager tbody td img { display:inline; margin:0 12px; }
+#page_manager tbody .row1 { background:#FFF; }
+#page_manager tbody .row2 { background:#f6f6f7; }
+#page_manager tbody tr:hover { background:#DDD; } 
+#page_manager tfoot th { background:#EEE; padding:2px 5px; }
+#page_manager tfoot dl { float:left; font-size:11px; font-weight:normal; width:100%; }
+#page_manager tfoot dl dd { color:#999; margin:0; }
+#page_manager tfoot dl dd a { color:#555; margin:0; }
+
+#pageform { float:left; width:auto; padding:10px 0; }
+#pageform ul { clear:both; float:left; list-style:none; width:973px; margin:0 0 10px; border:solid 1px #CCC; }
+#pageform li:first-child { position:relative; background:url(../images/bg_header.jpg) repeat-x; color:#FFF; width:953px; padding:5px 10px; border-bottom:solid 1px #CCC; }
+#pageform li:first-child span { position:absolute; right:10px; }
+#pageform li:first-child span a { color:#FFF; }
+#pageform li:first-child span a:hover { color:#999; }
+#pageform li { float:left; background:#FFF; font-size:12px; width:953px; padding:10px; }
+#pageform dl { clear:both; float:left; width:100%; }
+#pageform dt, #membersform dd { padding:5px 0; }
+#pageform dt { float:left; text-align:right; line-height:23px; width:150px; margin-right:8px; }
+#pageform #cancelaccount dt { float:left; text-align:right; line-height:23px; width:20px; margin-right:8px; }
+#pageform dd small { display:block; font-size:11px; color:#999; line-height:12px; }
+#pageform dd { float:left; width:790px; }
+#pageform dd label { display:block; }
+#pageform dd input[type=text] { width:auto; padding:3px; border:solid 1px #CCC; }
+#pageform dd input[type=password] { width:auto; padding:3px; border:solid 1px #CCC; }
+#pageform dd input[name=password] { color:#999; }
+#pageform dd input[type=file] { width:auto; padding:3px;  }
+#pageform input[type=submit] { position:relative; background:url(../images/icons/btn_save.png) no-repeat; width:70px; height:25px; border:0; }
+#pageform input[type=reset] { position:relative; background:url(../images/icons/btn_cancel.png) no-repeat; width:70px; height:25px; border:0;  }
+#pageform dd textarea { font:normal 13px Arial; width:780px; height:120px; margin-bottom:5px; padding:3px; border:solid 1px #CCC; overflow:auto; }
+#pageform dd select { padding:3px; border:solid 1px #CCC; }
+
+
+/********************************************************
+	Client Management Panel
+********************************************************/
+#membersform { float:left; width:auto; padding:10px 0; }
+#membersform ul { clear:both; float:left; list-style:none; width:673px; margin:0 0 10px; border:solid 1px #CCC; }
+#membersform li:first-child { position:relative; background:url(../images/bg_header.jpg) repeat-x; color:#FFF; width:653px; padding:5px 10px; border-bottom:solid 1px #CCC; }
+#membersform li:first-child span { position:absolute; right:10px; }
+#membersform li:first-child span a { color:#FFF; }
+#membersform li:first-child span a:hover { color:#999; }
+#membersform li { float:left; background:#FFF; font-size:12px; width:653px; padding:10px; }
+#membersform dl { clear:both; float:left; width:100%; }
+#membersform dt, #membersform dd { padding:5px 0; }
+#membersform dt { float:left; text-align:right; line-height:23px; width:150px; margin-right:8px; }
+#membersform #cancelaccount dt { float:left; text-align:right; line-height:23px; width:20px; margin-right:8px; }
+#membersform dd small { display:block; font-size:11px; color:#999; line-height:12px; }
+#membersform dd { float:left; width:480px; }
+#membersform dd label { display:block; }
+#membersform dd input[type=text] { width:auto; padding:3px; border:solid 1px #CCC; }
+#membersform dd input[type=password] { width:auto; padding:3px; border:solid 1px #CCC; }
+#membersform dd input[name=password] { color:#999; }
+#membersform dd input[type=file] { width:auto; padding:3px;  }
+#membersform input[type=submit] { position:relative; background:url(../images/icons/btn_save.png) no-repeat; width:70px; height:25px; border:0; }
+#membersform input[type=reset] { position:relative; background:url(../images/icons/btn_cancel.png) no-repeat; width:70px; height:25px; border:0;  }
+#membersform dd textarea { font:normal 13px Arial; width:480px; height:125px; padding:3px; border:solid 1px #CCC; overflow:auto; }
+#membersform dd select { padding:3px; border:solid 1px #CCC; }
+
+#cm_projects { width:765px; padding:10px 20px 10px 0; }
+#cm_projects .preview { position:relative; background:#f7f8f9 url(../images/bg_header.jpg) repeat-x; width:745px; min-height:500px; padding:35px 10px 5px 10px; border:solid 1px #a3b9cd; }
+#cm_projects .preview { -webkit-box-shadow:0 0 5px #a3b9cd; -moz-box-shadow:0 0 5px #a3b9cd; box-shadow:0 0 5px #a3b9cd; }
+#cm_projects .preview h3 { position:absolute; top:0; left:10px; font:bold 15px Arial; font-variant:small-caps; color:#FFF; text-shadow:1px 1px 0 #000; text-transform:lowercase; line-height:25px; height:25px; }
+#cm_projects .preview #toolbar { position:absolute; top:30px; right:10px; display:none; font:bold 11px Arial; color:#828f9a; cursor:pointer; z-index:1; }
+#cm_projects .preview #toolbar img { position:relative; top:1px; margin-left:5px; }
+#cm_projects .preview #scope { padding-top:10px; }
+#cm_projects .preview #scope:hover #toolbar { display:inherit; }
+	
+#cm_projects .edit { position:relative; display:none; width:745px; }
+#cm_projects .edit textarea { display:block; width:745px; height:450px; }
+#cm_projects .edit input, #cm_projects .edit button { margin:10px 0; padding:5px 10px; }
+
+#cm_controls { background:#f7f8f9; width:189px; min-height:550px; margin:-10px -20px -20px 0; padding:10px; border-left:solid 1px #e9eaed; }
+#cm_controls h3 { font:bold 13px Arial; color:#afb8c1; text-shadow:1px 1px 0 #FFF; }
+#cm_controls ul { list-style:none; margin:0 0 15px 5px; }
+#cm_controls li { background:url(../images/icons/icon_arrow.png) no-repeat center left; margin-bottom:5px; padding:2px 2px 2px 15px; }
+#cm_controls li a { color:#828f9a; }
+#cm_controls li a:hover { padding-left:3px; }
+
+
+
+.success {font:bold 13px Arial; color:#F00; border:1px solid #FDD9DC; width:400px; height:20px; padding:5px 5px;}
+
+
+
+
+
+
+
+
+
+

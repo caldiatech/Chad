@@ -1,0 +1,190 @@
+<?php
+namespace App\Http\Controllers;
+
+use Illuminate\Routing\Controller;
+
+use App\Models\Product;
+use App\Models\ProductOptions;
+use App\SoapXmlBuilder;
+
+use View;
+use Input;
+use Hash;
+use Redirect;
+use Session;
+use Validator;
+use SoapClient;
+use SimpleXMLElement;
+use Illuminate\Http\Request;
+
+class GraphikDimensionController extends Controller
+{
+	public function __construct() {
+      	  $this->graphikUserID = '1000506996﻿';
+   	  	  $this->graphikUserName = 'DEMO';
+          $this->graphik_AccessCode = '0FC64D717788C2310626F5D6A199EA54754DB71051E9D578';
+    }
+
+    public function displayAll($type=0) //display all records
+    {       
+		//if not login redirect to login page    
+		if(!Session::has('dnradmin_id')) { return Redirect::to('dnradmin/');}
+		$wsdl = "https://ifs.graphikservices.com/services/catalogService?wsdl";
+		$options = array(
+		  "userId" => $this->graphikUserID,
+		  "detailLevel" => 1
+		);
+		$client = new SoapClient($wsdl, $options);
+		if($type==0):
+			$response = $client->__soapCall("getAllProducts", array($options));
+		elseif ($type==1): //display all frames
+			$response = $client->__soapCall("getAllFrames", array($options));
+		elseif ($type==2): //display all mats
+			$response = $client->__soapCall("getAllMats", array($options));			
+		elseif ($type==3): //display all glazing
+			$response = $client->__soapCall("getAllGlazings", array($options));				
+		endif;	
+		dd($response);
+		// return $response;
+    }
+
+    public function displayByPage($pageno,$numberRow)  //display all records by page
+    { 
+    	//if not login redirect to login page    
+		if(!Session::has('dnradmin_id')) { return Redirect::to('dnradmin/');}
+		$wsdl = "https://ifs.graphikservices.com/services/catalogService?wsdl";
+		$options = array(
+		  "userId" => $this->graphikUserID,
+		  "detailLevel" => 1,
+		  "startingRow"=>$pageno,
+		  "numberRows"=>$numberRow
+		);
+		$client = new SoapClient($wsdl, $options);
+		$response = $client->__soapCall("getProducts", array($options));
+		return $response;
+    }
+
+    public function getPackagePricing(Request $request) {
+
+    	$paperSku = $request->get('paperSku');
+    	$paperType = $request->get('paperType');
+    	$canvasStyle = $request->get('canvasStyle');
+    	$borderStyle = $request->get('borderStyle');
+
+    	$frameSku = $request->get('frameSku');
+    	$productId = $request->get('productId');
+    	$width = $request->get('image_width');
+    	$height = $request->get('image_height');
+
+    	$mats = $request->get('mats');
+    	$mat_options = $request->get('mat_options');
+    	$mats_width = $request->get('mats_width');
+
+    	$product = $product = Product::find($productId);
+
+		$productOption = ProductOptions::leftJoin('tblOptionsAssets','tblOptionsAssets.fldOptionsAssetsID','=','tblProductOptions.fldProductOptionsAssetsID')
+					->where('fldProductOptionsProductID','=',$product->fldProductID)
+					->select('fldProductOptionsPrice','fldProductOptionsID','fldOptionsAssetsWidth','fldOptionsAssetsHeight')
+					->get();
+
+		//get the product options assets
+		if(count($productOption) > 0) {
+			$product->fldProductImageHeight = $productOption{0}->fldOptionsAssetsHeight;
+			$product->fldProductImageWidth = $productOption{0}->fldOptionsAssetsWidth;
+			$product->fldProductImagePrice = $productOption{0}->fldProductOptionsPrice;
+			$product->fldProductImageID = $productOption{0}->fldProductOptionsID;
+		} else {
+			// default sizes
+			$product->fldProductImageHeight = 8;
+			$product->fldProductImageWidth = 11;
+			$product->fldProductImageID = 0;
+		}
+
+
+    	$xmlbld = new SoapXmlBuilder;
+		$xmlbld->setImageElem($width, $height, $product->fldProductName, url(PRODUCT_IMAGE_PATH.$product->fldProductSlug.'/'.MEDIUM_IMAGE.$product->fldProductImage ), $borderStyle);   	
+    	
+    	if($request->has('frameSku'))
+			$xmlbld->setFrameElem($frameSku);
+
+		if($request->has('mats')) {
+			$xmlbld->setMatElem($mats, $mats_width, $mat_options);	
+		}
+
+		if($request->has('finishkitSku')) {
+			$xmlbld->setFinishElem($request->get('finishkitSku'));	
+		}
+
+		$xmlbld->setPaperElem($paperSku, $paperType, $canvasStyle);
+
+		// dd($xmlbld->buildBody('getProductGroupPrice', 'pricingGroupRequest'));
+
+		$packagePrice = $xmlbld->curlExec('getProductGroupPrice', 'pricingGroupRequest');
+		if(isset($packagePrice['PricedProductPackage'])){
+			$packagePrice = $packagePrice['PricedProductPackage'];
+		}
+
+		return response()->json($packagePrice);
+    }
+
+
+	public function getShipping() {
+    	$wsdl = "https://ifs.graphikservices.com/services/shippingService?wsdl";
+
+    	$options = array(
+    		"userAccess"=>"79FE7017D6ACDEF082F845C766968E0A36DE84953739018C",
+    		"externalOrder"=>array(
+    			"costData"=> array(
+    				"discountAmount" => 44.7,
+    				"feeCost" => 35.95,
+    				"merchCost" => 142.86,
+    				"oversizedShipFeeTotal" => 0,
+    				"promoAmount" => 0,
+    				"retailCost" => 0,
+    				"shippingCost" => 0,
+    				"taxCost" => 0,
+    				"totalCost" => 134.11
+    			),
+    			"customer"=>array(
+    				"shippingAddress"=>array(
+    					"activeInd" => 1,
+    					"addressType" => "SHIPPING",
+    					"city"=>"High Point",
+    					"company"=>"Graphik Dimensions, Ltd.",
+    					"country"=>"US",
+    					"firstName"=>"John",
+    					"homePhone"=>"3365555555",
+    					"lastName"=>"Doe",
+    					"prefix"=>"MR",
+    					"state"=>"NC",
+    					"street"=>"2103 Brentwood St.",
+    					"streetTwo"=>"",
+    					"zip"=>"27263"
+    				),
+    				"vendorID"=>1233444
+    			),
+    			"externalOrderId"=>9991404241,
+    			"insuranceFee"=>0.00,
+    			"shippingData"=>array(
+    				"discountAmount"=>0.00,
+    				"shippingService"=>"STANDARD"
+    			)
+    		)
+    	);
+		
+		
+		$client = new SoapClient($wsdl, $options);
+		$response = $client->__soapCall("getShippingAmoutsByMerchPrice", array($options));
+		print_r($response);die();
+		if (is_soap_fault($response)) {
+			return false;
+		}
+
+		return $response;
+    }
+
+	
+  
+ 	
+	
+}

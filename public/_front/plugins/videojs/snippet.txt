@@ -1,0 +1,16 @@
+Use Miro Video Converter to convert your video to required / dedicated format.
+http://www.mirovideoconverter.com/
+
+# Use this format to deploy the video player
+<video id="example_video_1" class="video-js vjs-default-skin" controls width="640" height="480" poster="http://video-js.zencoder.com/oceans-clip.jpg" autoplay preload="auto" loop data-setup="{}">
+  <source type="video/mp4" src="http://video-js.zencoder.com/oceans-clip.mp4">
+  <source type="video/mp4" src="http://video-js.zencoder.com/oceans-clip.ogg">
+  <source type="video/webm" src="http://video-js.zencoder.com/oceans-clip.wbm">
+</video>
+
+# Requirements
+1. Video Clip Cover Image
+2. MP4 Video
+3. OGG Video
+4. WBM Video
+5. Attributes for your player

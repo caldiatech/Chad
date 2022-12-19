@@ -1,0 +1,103 @@
+@extends('layouts._front.shoppingcart')
+
+@section('content')
+    <span class="bgtrans"></span>
+	   <div class="uk-width-1-1 uk-margin-large  uk-margin-large-top"> 
+             <div class="uk-container uk-container-center uk-margin-medium-bottom">
+                <article id="main" role="main">
+                    <div class="uk-grid">
+                        <div class="uk-width-medium-6-10 uk-width-1-1">               
+                             <h1 class="uk-h2 text-uppercase">New Customers</h1>
+                            <p>By creating an account with our store, you will be able to move through the checkout process faster.</p>
+                            {!! Html::link('registration', "Create an Account",array('class'=>'uk-button uk-button-primary')) !!}
+                		</div>
+                		<div class="uk-width-medium-4-10 uk-width-1-1 uk-margin-top">    
+                            <div class="box-bordered full-width padding-medium ">        
+                                <h4>Registered Customers</h4>
+                                <p>If you have an account with us, please log in.</p>
+				@if(Session::has('reset-success'))                                       
+                                          <div class="uk-alert uk-alert-success"><strong>Success: </strong>Your password has been reset. You can now use your new password to login.</div>                                    
+                                @endif
+
+                                 @if(Session::has('error')) 
+              					<div class="uk-alert uk-alert-danger">{!!Session::get('error')!!}</div>
+             			@endif                      
+                                 {!! Form::open(array('url' => '/login', 'method' => 'post',  'class' => 'row-fluid account-login input-100')) !!}               
+                                <div class="formbox">
+                                    <div class="uk-padding-small-top uk-grid uk-margin-remove">
+                                        <div class="uk-width-large-4-10  line-height-text uk-width-medium-1-1  uk-width-small-1-4  uk-width-1-1 uk-padding-remove " style="max-width:110px; ">
+                                         {!! Form::label('email', '* Email Address',array('style'=>'')); !!}
+                                        </div>
+                                        <div class="uk-width-large-6-10  uk-width-medium-1-1  uk-width-small-2-3  uk-width-1-1 uk-padding-remove">
+	                                        {!! Form::text('email','',array('id'=>'email','required')) !!}
+						  @if($errors->login->first('email'))
+                       					 <div class="uk-text-danger">{!!$errors->login->first('email')!!}</div>
+                     			 	  @endif
+                                        </div>
+                                       
+                                    </div>
+                                    <div class="uk-padding-small-top uk-grid uk-margin-remove">								
+                                        <div class="uk-width-large-4-10 line-height-text  uk-width-medium-1-1  uk-width-small-1-4  uk-width-1-1 uk-padding-remove " style="max-width:110px; ">
+                                            {!! Form::label('password', '* Password',array('style'=>'')); !!}
+                                        </div>
+                                        <div class="uk-width-large-6-10   uk-width-medium-1-1  uk-width-small-2-3  uk-width-1-1 uk-padding-remove">
+                                            {!! Form::password('password','',array('id'=>'password','required')) !!}
+					    @if($errors->login->first('password'))
+                       				 <div class="uk-text-danger">{!!$errors->login->first('password')!!}</div>
+                     			    @endif
+                                        </div>
+					 
+
+                                    </div>
+                                    <div class="uk-padding-small-top">
+                                         {!! Form::submit('Login',array('name'=>'login','class'=>'uk-button uk-button-primary'))!!}
+                                    </div>
+                                </div>
+                                 {!! Form::close() !!} 
+                                <p>
+                                    <a href="javascript:void(0)" class="full-width" data-uk-toggle="{target:'#forgotPass', animation:'uk-animation-slide-left, uk-animation-slide-right'}">I can't access my account, please help.</a>
+				     @if(Session::has('forgot-success'))                                       
+                                          <div class="uk-alert full-width uk-alert-success">Your password reset link has been sent to your email on file. Please check your inbox for this email. If you do not receive it please make sure to check your Spam or Junk folders.</div>                                    
+                                    @endif
+		
+                                    @if(Session::has('error-forgot'))
+                                        <div id="forgotPass">
+                                          <div class="uk-alert uk-alert-danger"><strong>Error!</strong> {!!Session::get('error-forgot')!!}</div>
+                                    @else
+                                        <div id="forgotPass" class="uk-hidden">
+                                    @endif 
+                                            {!! Form::open(array('url' => '/forgot-password', 'method' => 'post',  'class' => 'row-fluid account-login input-100')) !!}
+						  <p class="uk-text-danger">To reset your password, enter the email address you use to sign in to Clarkin. </p>
+                                                  <div class="formbox">
+                                                        <div class="uk-padding-small-top uk-grid uk-margin-remove">
+                                                            <div class="uk-width-large-4-10  line-height-text uk-width-medium-1-1  uk-width-small-1-4  uk-width-1-1 uk-padding-remove " style="max-width:110px; ">
+                                                             {!! Form::label('username', '* Email Address',array('style'=>'width:75px')); !!}
+                                                            </div>
+                                                            <div class="uk-width-large-6-10   uk-width-medium-1-1  uk-width-small-2-3  uk-width-1-1 uk-padding-remove">
+                                                            {!! Form::text('email','',array('id'=>'username','required')) !!}
+                                                            @if($errors->login->first('email'))
+                                                                <div class="uk-text-danger">{!!$errors->login->first('username')!!}</div>
+                                                             @endif
+                                                            </div>
+                                                             
+                                                        </div>
+                                                       
+                                                        <div class="uk-padding-small-top">
+                                                             {!! Form::submit('Forgot Password',array('name'=>'login','class'=>'uk-button uk-button-primary'))!!}
+                                                        </div>
+                                                    </div>
+                                             {!! Form::close() !!}    
+                                    </div>
+                                </p>
+                            </div>
+                        </div>
+		
+                    </div><!--ukgrid -->      
+                </div><!--main -->  
+            </div><!--ukcomtainer -->  
+        </div><!--wid11 -->  
+@stop
+
+@section('headercodes')
+	
+@stop

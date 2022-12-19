@@ -1,0 +1,693 @@
+@extends('layouts._front.products')
+@section('content')
+<div class="uk-container uk-container-center uk-margin-medium-bottom  uk-padding-remove">
+  <article id="main" role="main">
+    <!--PAGE BREADCRUMB -->
+    <div class="uk-breadcrumb-wrapper  uk-margin-top  uk-margin-bottom  uk-width-1-1" >
+      <ul class="uk-breadcrumb">
+        <li class="product-main-category"><a href="{{url('image-galleries')}}">Image Galleries</a></li>
+        <li class="product-parent-category"><a href="{{url('image-galleries/'.$category_details->fldCategorySlug)}}">{!!$category_details->fldCategoryName!!}</a></li>
+        <li class="uk-active"><span>{!!$product->fldProductName!!}</span></li>
+      </ul>
+    </div>
+    <!--END PAGE BREADCRUMB -->
+    @if(Session::has('error'))
+          <div class="uk-alert uk-alert-danger">{{ Session::get('error') }}</div>
+    @endif
+
+    {!! Form::open(array('action' => 'TempCartController@addShoppingCart', 'method' => 'post',  'class' => 'uk-form-horizontal uk-form-row')) !!}
+    <div class="product-column-wrapper uk-position-relative">
+      <div class="uk-grid">
+      <!--MAIN CONTENTS-->
+      <div class="uk-width-1-1 uk-width-medium-4-10">
+        <div class="frame-box-container">
+            <div class="frame-style-box frame-706x639">
+                 <a href="#enlargedImage" class="uk-overlay" data-uk-modal>
+                  {!! Html::image(url(PRODUCT_IMAGE_PATH.$product->fldProductSlug.'/'.MEDIUM_IMAGE.$product->fldProductImage),'',array('class'=>'frame-style w100 hauto mauto','width'=>'706','height'=>'639', 'id'=>'mainImage')) !!}
+                  <div class="uk-overlay-panel uk-overlay-icon"></div>
+                </a>
+            </div>
+
+            <? 
+            $graphikAPI = \App\Models\GraphikDimension::displayAll(1); // for all frames
+            // $graphikAPI = \App\Models\GraphikDimension::displayAll(6); // for all frames
+            // print_r($graphikAPI);
+
+            // echo "<pre>";
+            // // print_r($graphikAPI);
+            // print_r($graphikAPI->frame);
+            // echo "</pre>";
+            // die();
+
+            //$color = GraphikDimension::getColor($graphikAPI->frame);
+            // list($frameDesc,$frameWidth,$sku,$graphikAPI,$colorValue, $styleValue,$widthValue,$materialValue,$framePrice) = \App\Models\GraphikDimension::getGraphikAttribute($graphikAPI->frame);
+            list($frameDesc,$frameWidth,$sku,$graphikAPI,$color, $styleValue,$widthValue,$materialValue,$framePrice) = \App\Models\GraphikDimension::getGraphikAttribute($graphikAPI->frame);
+            $graphikAPICount = count($graphikAPI);
+            $slideCount = floor($graphikAPICount / 6);
+            $slideFinalCount = fmod($graphikAPICount,6) > 0 ? $slideCount+1 : $slideCount;
+            
+            $graphikPaperAPI = \App\Models\GraphikDimension::displayAll(4); // for paper api
+            $graphikCanvassAPI = \App\Models\GraphikDimension::displayAll(5); // for canvas api
+            $graphikMatsAPI = \App\Models\GraphikDimension::displayAll(2); //for mats
+            $graphikGlazingAPI = \App\Models\GraphikDimension::displayAll(3); //for glazings
+
+            // get default price for frame and paper
+            $xmlbld = new App\SoapXmlBuilder;
+            $xmlbld->setImageElem($product->fldProductImageWidth, $product->fldProductImageHeight, $product->fldProductName, url(PRODUCT_IMAGE_PATH.$product->fldProductSlug.'/'.MEDIUM_IMAGE.$product->fldProductImage));
+            $xmlbld->setPaperElem($graphikPaperAPI->paper->sku);
+            // $xmlbld->setFrameElem($sku);
+            $packagePrice = $xmlbld->curlExec('getProductGroupPrice', 'pricingGroupRequest');
+            $packagePrice = $packagePrice['PricedProductPackage'];
+            ?>
+
+            {!! Form::hidden('image_price',isset($product->fldProductImagePrice) ? number_format($product->fldProductImagePrice,2) : number_format($product->fldProductPrice,2),['id'=>'image_price']) !!}
+            {!! Form::hidden('image_size_id',$product->fldProductImageID,['id'=>'image_size_id']) !!}
+            {!! Form::hidden('frame_info', null, ['id'=>'frame_info']) !!}
+            {!! Form::hidden('frame_price',$framePrice,['id'=>'frame_price']) !!}
+            {!! Form::hidden('frame_desc', '',['id'=>'frame_desc']) !!}
+            {!! Form::hidden('paper_info', null, ['id'=>'paper_info']) !!}
+            {!! Form::hidden('mat1_info','',['id'=>'mat1_info']) !!}
+            {!! Form::hidden('mat2_info','',['id'=>'mat2_info']) !!}
+            {!! Form::hidden('mat3_info','',['id'=>'mat3_info']) !!}
+            {!! Form::hidden('mat1_options','',['id'=>'mat1_options']) !!}
+            {!! Form::hidden('mat2_options','',['id'=>'mat2_options']) !!}
+            {!! Form::hidden('mat3_options','',['id'=>'mat3_options']) !!}
+            {!! Form::hidden('finishkit','',['id'=>'hdn-finishkit']) !!}
+            {!! Form::hidden('finishkit_desc','',['id'=>'hdn-finishkit_desc']) !!}
+            {!! Form::hidden('product_id1',$product->fldProductID,['id'=>'product_id']) !!}
+            {!! Form::hidden('total_price',number_format($product->fldProductImagePrice,2),['id'=>'total_price']) !!}
+
+            <!--<div class="frame-selection" id="frame-selection">  frame 
+              @include('home.product_details.frame-1')
+            </div>-->
+        </div>
+        <a href="#toggle-pice-details2" class="floatingPrice" data-uk-offcanvas="{mode:'slide'}">
+          <img src="{{ url('_front/assets/images/detail.ico')}}"> 
+          <span>Details</span>
+        </a>
+      </div>
+      <div class="uk-width-1-1 uk-width-medium-6-10 product-details-column">
+                {!! Form::hidden('product_id', $product->fldProductID, array('id' => 'product_id1')) !!}
+                {!! Form::hidden('product_id1',$product->fldProductID,array('id'=>'product_id1')) !!}
+                <h1>{{ $product->fldProductName }}</h1>
+                <h2 class="sub-title">{{ $product->fldProductSubTitle}}</h2>
+                <div class="product-description grey light ">
+                  {!! $product->fldProductDescription!!}
+               </div>
+                <div class="full-width your-total">
+                        <div class="uk-grid ">
+                          <div class="uk-width-large-1-2 uk-width-1-2 add-to-cart-section-label">
+                            <label class="lbl-your-total uk-text-large">YOUR TOTAL: </label>
+                              <span class="val-your-total roboto uk-text-bold uk-form-help-inline ">
+                                $<span id="totalPrice">
+                                  {{ number_format($packagePrice['packagePriceData']['discountTotal'] + $product->fldProductImagePrice, 2) }}
+                                  {{-- number_format($product->fldProductImagePrice+$framePrice,2) --}}
+                                  {{-- $packagePrice['packagePriceData']['discountTotal'] .' + '. $product->fldProductImagePrice --}}
+                                  {{-- number_format($packagePrice['packagePriceData']['discountTotal'], 2)--}}
+                                  {{-- $product->fldProductImagePrice --}}
+                                </span>
+                              </span>
+                          </div>
+                          <div class="uk-width-large-1-2 add-to-cart-section uk-width-1-2">
+                           <div class="uk-form-row">
+                                <div class="uk-grid uk-form-horizontal uk-text-right   uk-margin-remove ">
+                                  <div class="uk-width-large-5-10 uk-width-medium-4-10 uk-width-small-1-2 uk-width-1-1 uk-padding-remove  uk-float-right">
+                                       <div class="input-append uk-form-width-mini spinner" data-trigger="spinner">
+                                          <input type="text" value="1" name="qty" data-max="1000" data-min="1" data-step="1" id="text-qty">
+                                          <div class="add-on">
+                                            <a href="javascript:;" class="spin-up btn-update-qty" data-spin="up"><i class="uk-icon-sort-up"></i></a>
+                                            <a href="javascript:;" class="spin-down btn-update-qty" data-spin="down"><i class="uk-icon-sort-down"></i></a>
+                                          </div>
+                                        </div>
+                                  </div>
+                                  <div class="uk-width-large-5-10 uk-width-medium-6-10 uk-width-small-1-2   uk-width-1-1  uk-padding-remove uk-float-right">
+                                     {!! Form::button('Add to cart <i class="uk-icon-check yellow"></i>',array('class'=>'uk-button full-width uk-form-help-inline uk-button-large uk-button-yellow text-uppercase uk-text-bold uk-margin-small-left btn-add-to-cart','type'=>'submit','name'=>'submit'))!!}                    </div>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+      </div>
+      </div>
+    </div>
+
+    <div class="uk-grid">
+      
+      <div class="uk-width-1-1 uk-width-medium-6-10 product-details-column uk-push-1-2">
+        <ul class="uk-subnav product-tab-components uk-tab uk-subnav-pill" data-uk-switcher="{connect:'#product-detail-switcher', animation: 'fade'}">
+                <li class="uk-active" onclick="hideFrames();">
+                    <a href="#" class="toggle-paper toggle-me print_on_paper_toggler toggle-canvas">Paper</a>
+                    <a href="#" class="toggle-paper toggle-me  uk-hidden print_on_canvas_toggler toggle-canvas">Canvas</a></li>
+                <li class="print_on_paper_toggler toggle-me" onclick="hideFrames();"><a href="#">Mats</a></li>
+                <li onclick="displayFrames();"><a href="#">Frames</a></li>
+                <li class="print_on_paper_toggler toggle-me" onclick="hideFrames();"><a href="#">Glazing</a></li>
+            </ul>
+          <ul id="product-detail-switcher" class="uk-switcher">
+            <li> <!-- paper -->
+                @include('home.product_details.paper')
+            </li>
+            <li> <!-- mats -->
+                @include('home.product_details.mats')
+            </li>
+            <li class="uk-active"> <!-- frame -->
+                @include('home.product_details.frame')
+            </li>
+            <li> <!-- glazing -->
+                @include('home.product_details.glazing')
+            </li>
+          </ul>
+      </div><!-- PRODUCT DETAILS -->
+
+      <div class="uk-width-1-1 uk-width-medium-4-10 uk-pull-1-2">
+        <div class="frame-selection" id="frame-selection"> <!-- frame -->
+          @include('home.product_details.frame-1')
+        </div>
+      </div>
+
+    </div><!-- UK GRID -->
+    {!! Form::close() !!}
+    <!--END MAIN CONTENTS-->
+  </article>  </div>
+
+
+<!-- This is the modal -->
+<div id="enlargedImage" class="uk-modal">
+    <div class="uk-modal-dialog uk-modal-dialog-lightbox">
+        <a href="" class="uk-modal-close uk-close uk-close-alt"></a>
+        <img src="{!! url(PRODUCT_IMAGE_PATH.$product->fldProductSlug.'/'.MEDIUM_IMAGE.$product->fldProductImage) !!}" alt="" id="modalImage">
+    </div>
+</div>
+
+@stop
+@section('headercodes')
+<style>
+@media screen and (max-width: 767px){
+  .uk-padding-remove > article{ padding-left: 0; padding-right: 0; } .wrap.content{ padding-top: 0; }
+.frame-box-sticky,.frame-box-sticky  .frame-box-container,.frame-box-sticky  .frame-box-container .frame-style-box{ z-index: 9; }
+}
+</style>
+@stop
+@section('extracodes')
+<script>
+    var image_src = "{{ url(PRODUCT_IMAGE_PATH.$product->fldProductSlug.'/'.MEDIUM_IMAGE.$product->fldProductImage) }}";
+    $(document).ready(function(){
+      loadScript("{!!url('_front/plugins/spinner/src/jquery.spinner.js')!!}", function(){
+        $('#customize-spinner').spinner('changed',function(e, newVal, oldVal){
+            alert(newVal + ' ' + $("#size_height").val())
+        });
+         $('#customize-spinner-height').spinner('changed',function(e, newVal, oldVal){
+              alert(newVal + ' ' + $("#size_width").val())
+        });
+      });
+        load_javascripts();
+        cancel_confirm_print_on_canvas();
+        $('#frameDetails').hide();
+    });
+    function load_javascripts(){
+      {{-- loadScript("{!!url('_front/plugins/uikit/js/components/slideshow.min.js')!!}", function(){ --}}
+          var frames_slider = UIkit.slideshow($('#frame_slider'), { });
+      // });
+      loadcssfile("{!!url('_front/plugins/uikit/css/components/tooltip.min.css')!!}",'css');
+      loadScript("{!!url('_front/plugins/uikit/js/components/tooltip.min.js')!!}", function(){
+      });
+    }
+  </script>
+  {!! HTML::script('_front/plugins/uikit/js/components/pagination.min.js') !!}
+  {!! HTML::script('_front/plugins/uikit/js/components/grid.min.js') !!}
+  {!! HTML::script('_front/plugins/uikit/js/components/slideshow.min.js') !!}
+  {!! HTML::script('_front/plugins/uikit/js/components/sticky.min.js') !!}
+  {!! Html::script('_front/assets/js/cart.js') !!}
+  <script>
+
+    $('.frame-selection').hide();
+    function displayFrames() {
+        $('.frame-selection').show();
+    }
+
+    function hideFrames() {
+        $('.frame-selection').hide();
+    }
+
+     function resetme(){
+      $('#graphikAttribute input').each(function(){ $(this).val(''); });
+      $('#graphikAttribute select').each(function(){ $(this).val(''); });
+       displayLoader();
+      setTimeout(function(){
+        $('#frameDisplay').load("{{ url('frames/display') }}", function() {
+             frames_slider = UIkit.slideshow($('#frame_slider'), { height: '231' });
+         });
+      },1000);
+     }
+
+    function changeFrame(newSku,newFrameWidth,price,frameDesc) {
+
+        console.log('changeFrame');
+        //var newSrc = "https://pod.cloud.graphikservices.com/renderEMF/render?imgUrl={{ url(PRODUCT_IMAGE_PATH.$product->fldProductSlug.'/'.MEDIUM_IMAGE.$product->fldProductImage) }}&imgHI=8&imgWI=11&maxW=400&maxH=400&t=1.5&r=1.5&b=1.5&l=1.5&m1b=1&off=0.375&mat1=PM918&sku="+newSku+"&frameW="+newFrameWidth;
+
+        $("#mainImage").removeData('sku');
+        $("#mainImage").removeData('width');
+        $("#mainImage").removeData('price');
+        $("#mainImage").removeData('desc');
+        $("#mainImage").attr('data-sku',newSku);
+        $("#mainImage").attr('data-width',newFrameWidth);
+        $("#mainImage").attr('data-price',price);
+        $("#mainImage").attr('data-desc',frameDesc);
+        //$("#mainImage").attr('src',newSrc);
+
+        generateNewImageFrame();
+        // show frame price at the left
+        $('#frameDetails').show();
+        // remove checkbox on No frame
+        $('#chkNoFrame').prop("checked", false);
+
+        var imageURL = document.getElementById("mainImage").getAttribute("src");
+        enlargedImageURL = imageURL.replace(RegExp("imgHI=4&imgWI=12&maxW=400&maxH=400", "g"), "imgHI=8&imgWI=24&maxW=800&maxH=800");
+
+        // $("#popUpImage").attr("href", enlargedImageURL);
+        $("#modalImage").attr("src", enlargedImageURL);
+    }
+
+
+  //UIkit.grid($("#gridFilter")).filter("AR13");
+       function searchFrame() {
+     //var searchSKU = $.trim("'"+$('#txtSKU').val()+"'");
+           var search =   $('#txtSKU').val();
+           //UIkit.grid($("#gridFilter")).filter($('#txtSKU').val());
+          displayLoader();
+            $.ajax({
+                  type: "GET",
+                  url: "{{ url('frames/search_sku/') }}/" +search ,
+                  cache: false,
+                  success: function(){
+                    $('#frameDisplay').load("{{ url('frames/search_sku/') }}/"+search, function() {
+                       frames_slider = UIkit.slideshow($('#frame_slider'), { height: '50' });
+                       $("#frameLoader").hide();
+                    });
+                 }
+            });
+       }
+      $('#frameDisplay').load("{{ url('frames/display') }}", function() {
+             frames_slider = UIkit.slideshow($('#frame_slider'), { height: '231' });
+             $("#frameLoader").hide();
+      });
+      function loadColors(color) {
+        //get the selected value of width, styles and material
+        var frameWidth = $('#frameWidth').val();
+        var frameStyle = $('#frameStyle').val();
+        var frameMaterial = $('#frameMaterial').val();
+        var sortBy = $('#sortby').val();
+        $('#txtSKU').val('');
+        displayLoader();
+        $.ajax({
+              type: "GET",
+              url: "{{ url('frames/attributes/') }}/" +color+"/"+frameWidth+"/"+frameStyle+"/"+frameMaterial+"/"+sortBy,
+              cache: false,
+              success: function(){
+                $('#frameDisplay').load("{{ url('frames/attributes/') }}/"+color+"/"+frameWidth+"/"+frameStyle+"/"+frameMaterial+"/"+sortBy, function() {
+                       frames_slider = UIkit.slideshow($('#frame_slider'), { height: '231' });
+                 });
+             }
+        });
+      }
+      function displayLoader() {
+         $('#frameDisplay').html('<div class="uk-alert uk-alert-warning uk-margin-top"><i class="uk-icon-spinner uk-icon-spin"></i> <strong>Please wait!</strong> Loading available frames.</div>');
+      }
+      function loadWidth(width) {
+        var frameColor = $('#frameColor').val();
+        var frameStyle = $('#frameStyle').val();
+        var frameMaterial = $('#frameMaterial').val();
+        var sortBy = $('#sortby').val();
+        $('#txtSKU').val('');
+        displayLoader();
+        $.ajax({
+              type: "GET",
+              url: "{{ url('frames/attributes/') }}/" +frameColor+"/"+width+"/"+frameStyle+"/"+frameMaterial+"/"+sortBy,
+              cache: false,
+              success: function(){
+                $('#frameDisplay').load("{{ url('frames/attributes/') }}/"+frameColor+"/"+width+"/"+frameStyle+"/"+frameMaterial+"/"+sortBy, function() {
+                       frames_slider = UIkit.slideshow($('#frame_slider'), { height: '231' });
+                 });
+             }
+        });
+      }
+      function loadStyle(style) {
+            var frameColor = $('#frameColor').val();
+            var frameWidth = $('#frameWidth').val();
+            var frameMaterial = $('#frameMaterial').val();
+             var sortBy = $('#sortby').val();
+            $('#txtSKU').val('');
+            displayLoader();
+            $.ajax({
+                  type: "GET",
+                  url: "{{ url('frames/attributes/') }}/" +frameColor+"/"+frameWidth+"/"+style+"/"+frameMaterial+"/"+sortBy,
+                  cache: false,
+                  success: function(){
+                    $('#frameDisplay').load("{{ url('frames/attributes/') }}/"+frameColor+"/"+frameWidth+"/"+style+"/"+frameMaterial+"/"+sortBy, function() {
+                       frames_slider = UIkit.slideshow($('#frame_slider'), { height: '231' });
+                    });
+                 }
+            });
+      }
+      function loadMaterial(material) {
+            var frameColor = $('#frameColor').val();
+            var frameWidth = $('#frameWidth').val();
+            var frameStyle = $('#frameStyle').val();
+             var sortBy = $('#sortby').val();
+            $('#txtSKU').val('');
+             displayLoader();
+            $.ajax({
+                  type: "GET",
+                  url: "{{ url('frames/attributes/') }}/" +frameColor+"/"+frameWidth+"/"+frameStyle+"/"+material+"/"+sortBy,
+                  cache: false,
+                  success: function(){
+                    $('#frameDisplay').load("{{ url('frames/attributes/') }}/"+frameColor+"/"+frameWidth+"/"+frameStyle+"/"+material+"/"+sortBy, function() {
+                       frames_slider = UIkit.slideshow($('#frame_slider'), { height: '231' });
+                     });
+                 }
+            });
+      }
+      function loadSort(sortBy) {
+          var frameColor = $('#frameColor').val();
+          var frameWidth = $('#frameWidth').val();
+          var frameStyle = $('#frameStyle').val();
+          var frameMaterial = $('#frameMaterial').val();
+        $('#txtSKU').val('');
+        displayLoader();
+            $.ajax({
+                  type: "GET",
+                  url: "{{ url('frames/attributes/') }}/" +frameColor+"/"+frameWidth+"/"+frameStyle+"/"+frameMaterial+"/"+sortBy,
+                  cache: false,
+                  success: function(){
+                    $('#frameDisplay').load("{{ url('frames/attributes/') }}/"+frameColor+"/"+frameWidth+"/"+frameStyle+"/"+frameMaterial+"/"+sortBy, function() {
+                       frames_slider = UIkit.slideshow($('#frame_slider'), { height: '231' });
+                    });
+                 }
+            });
+      }
+      function confirm_print_on_canvas() {
+          UIkit.modal.confirm('Your selection is not compatible with parts currently in your package. <br/>Click OK to continue.', function(event){
+          }, function(){
+            cancel_confirm_print_on_canvas();
+          });
+      }
+      function cancel_confirm_print_on_canvas(){
+       <?php $printOn = Input::old('print_on'); ?>
+        @if($printOn == "paper") 
+          $('input#print_on_canvas').removeAttr('checked');
+          $('input#print_on_paper').prop( "checked", true);
+        @elseif($printOn == "canvas")   
+           $('input#print_on_paper').removeAttr('checked');
+           $('input#print_on_canvas').prop( "checked", true);
+        @else
+           $('input#print_on_canvas').removeAttr('checked');
+          $('input#print_on_paper').prop( "checked", true);
+        @endif
+            $('.toggle-me').each(function(){
+
+               @if($printOn == "paper" || $printOn == "") 
+                  if($(this).hasClass('print_on_paper_toggler')){
+                      $(this).addClass('uk-active-toggle'); $(this).removeClass('uk-hidden');
+                  }else{
+                       $(this).addClass('uk-hidden');
+                  }
+                @else
+                  if($(this).hasClass('print_on_canvas_toggler')){
+                      $(this).addClass('uk-active-toggle'); $(this).removeClass('uk-hidden');
+                  }else{
+                       $(this).addClass('uk-hidden');
+                  }
+                @endif  
+              });
+       }
+       /**
+        * get package price in api
+        * @return {[type]} [description]
+        */
+       function getPackagePrice() {
+          paperSku  = $('#paperSKU').html();
+          paperType = $("input[name='print_on']:checked").val();
+          canvasStyle = $("input[name='wrap_options']:checked").val();
+          borderStyle = getBorderStyle();
+          frameSku  = $('#frame_info').val();
+          productId = $('#product_id').val();
+          image_width = $('#descImageWidth').text();
+          image_height = $('#descImageHeight').text();
+          if(image_width  == "") {
+             image_width = {{$product->fldProductImageWidth}};
+             image_height = {{$product->fldProductImageHeight}};
+          }
+          mats_width = $( "#matborder_whole" ).val() + $( "#matborder_fractions" ).val();
+          finishkitSku = $('#hdn-finishkit').val();
+          mats = [];
+          mat_options = [];
+          if($('input[name="mat_type"]').is(':checked')){
+              no_of_mats =  $('input[name="mat_type"]:checked').val();
+              no = 1;
+              error = false;
+              for(no=1; no <= no_of_mats; no++){
+                  if($('#mat'+no+"_info").val()){
+                      m = $('#mat'+no+"_info").val();
+                      selected = m.split(";");
+                      mats.push(selected[0]);
+                      mat_options[no] = [];
+                      if(no > 1){
+                        mat_options[no].push($('select[name="offset'+no+'"]').val());
+                      }
+                      $.each($('input[name="option'+no+'[]"]:checked'), function(){
+                          mat_options[no].push($(this).val());
+                      });
+                  }
+              }
+          }
+          console.log('mats_width');
+          console.log(mats_width);
+          console.log('finishkitSku');
+          console.log(finishkitSku);
+          $.ajax({
+                  type: "POST",
+                  url: "{{ action('GraphikDimensionController@getPackagePricing') }}",
+                  cache: false,
+                  headers: {
+                      'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                  },
+                  data: {
+                      'mats[]'       : mats,
+                      'mat_options[]': mat_options,
+                      'mats_width'   : mats_width,
+                      'image_width'  : image_width,
+                      'image_height' : image_height,
+                      'paperSku' : paperSku,
+                      'paperType' : paperType,
+                      'frameSku' : frameSku,
+                      'finishkitSku' : finishkitSku,
+                      'productId': productId,
+                      'canvasStyle': canvasStyle,
+                      'borderStyle': borderStyle
+                    },
+                  success: function(response){
+                    console.log("response");
+                    console.log(response);
+                    updatePaperData(response);
+                    updateFrameData(response.frame);  // update frame on left side
+                    updateMatsPrices(response);       // update frame on left side
+                    updateFinishkitData(response.finishKit); // update finish kit on left side
+                    updateComputations(response.packagePriceData); // update computations
+                 }
+            });
+       }
+      function updateFrameData(frame){
+        if(frame != null){
+          $('#frame_info').val(frame.sku);
+          $('#framePrice').text(parseFloat(frame.priceData.markUpPrice).toFixed(2));
+        }
+      }
+      function updateComputations(packagePriceData){
+          //var image_price = $('#image_price').val();
+          var image_price = ($("#imageSize").children('option:selected').data('price')) ? $("#imageSize").children('option:selected').data('price') : 0;
+          $("#descImagePrice").html(parseFloat(image_price).toFixed(2));
+          if(packagePriceData != null){
+              var merchTotal = parseFloat(packagePriceData.merchandiseTotal) + parseFloat(image_price);
+              var grandTotal = parseFloat(packagePriceData.discountTotal) + parseFloat(image_price);
+              $("#text-qty").val(1);
+              $('#merchandiseTotal').text(parseFloat(merchTotal).toFixed(2));
+              $('#feeTotal').text(parseFloat(packagePriceData.feeTotal).toFixed(2));
+              $('#promotionTotal').text(parseFloat(packagePriceData.promotionTotal).toFixed(2));
+              $('#grandTotalL').text(parseFloat(grandTotal).toFixed(2));
+              $('#totalPrice').text(grandTotal.toFixed(2));
+          }
+      }
+      function updateMatsPrices(response){
+          var a = 1;
+          if(response.mats != null) {
+              no_of_mats = $('input[name="mat_type"]:checked').val();
+              if(no_of_mats == 1){
+                response.mats = [];
+                response.mats[0] = response.mat1;
+              }
+              $.each(response.mats, function(i, mat){
+                  $("#matDetails"+a+"_Price").html(parseFloat(mat.priceData.wholesalePrice).toFixed(2));
+                    if(mat.VGrooved == "true"){
+                      $('#VGroove1').text(parseFloat(response.VGroove.priceData.wholesalePrice).toFixed(2));
+                    }
+                    if(mat.raised == "true"){
+                      switch(a){
+                        case 1:
+                          $('#raisedMat1').text(parseFloat(response.raisedMat1.priceData.wholesalePrice).toFixed(2));
+                        break;
+                        case 2:
+                          $('#raisedMat2').text(parseFloat(response.raisedMat2.priceData.wholesalePrice).toFixed(2));
+                        break;
+                        case 3:
+                          $('#raisedMat3').text(parseFloat(response.raisedMat3.priceData.wholesalePrice).toFixed(2));
+                        break;
+                        default:
+                        break;
+                      }
+                    }
+                    if(mat.reverseBevelCut == "true"){
+                      switch(a){
+                        case 1:
+                          $('#reverseBevelCut1').text(parseFloat(response.reverseBevelCut1.priceData.wholesalePrice).toFixed(2));
+                        break;
+                        case 2:
+                          $('#reverseBevelCut2').text(parseFloat(response.reverseBevelCut2.priceData.wholesalePrice).toFixed(2));
+                        break;
+                        case 3:
+                          $('#reverseBevelCut3').text(parseFloat(response.reverseBevelCut3.priceData.wholesalePrice).toFixed(2));
+                        break;
+                        default:
+                        break;
+                      }
+                    }
+                  a++;
+              });
+          }
+      }
+      function updateFinishkitData(finishkit){
+          if(finishkit != null){
+              $('#FKName').text(finishkit.shortDescription);
+              $('#FKPrice').text(parseFloat(finishkit.priceData.markUpPrice).toFixed(2));
+              //$('#FKPrice').text(parseFloat(finishkit.priceData.staticPrice).toFixed(2));
+          }
+      }
+      function getBorderStyle() {
+          paperType = $("input[name='print_on']:checked").val();
+          canvasStyle = $("input[name='wrap_options']:checked").val();
+          if(paperType != 'canvas')
+            return null;
+          switch(canvasStyle){
+            case 'GW':
+              return $('select[name="gw_options"]').val();
+            break;
+            case 'MW':
+              return $('select[name="mw_options"]').val();
+            break;
+            default:
+              return null;
+            break;
+          }
+      }
+      function updatePaperData(response) {
+         console.log(response);
+         if(response.substrate != null){
+           $('#paperSKU').text(response.substrate.sku);
+            $('#paperPrice').text(parseFloat(response.substrate.priceData.wholesalePrice).toFixed(2));
+        }
+          if(response.stretcherBar != null){
+              $('.canvasStretcher').show();
+              $('#stretcherSKU').text(response.stretcherBar.sku);
+              $('#stretcherPrice').text(parseFloat(response.stretcherBar.priceData.wholesalePrice).toFixed(2));
+          }else{
+              $('.canvasStretcher').hide();
+              $('#stretcherSKU').text("");
+              $('#stretcherPrice').text("");
+          }
+      }
+      $('[data-uk-switcher]').on('show.uk.switcher', function(event, area){
+          load_javascripts();
+      });
+      // update quantities
+      $('#text-qty').change(function () {
+          var qty = $(this).val();
+          var total = parseFloat($('#grandTotalL').text());
+          totalQty = total * qty;
+          $('#totalPrice').text(totalQty.toFixed(2));
+      });
+      $('.btn-update-qty').click(function() {
+          var dir = $(this).data('spin');
+          var qty = parseInt($('#text-qty').val());
+          if(dir == "up"){
+            qty++;
+          }
+          else{
+            qty--;
+            if(qty < 1)
+              qty = 1;
+          }
+          var total = parseFloat($('#grandTotalL').text());
+          totalQty = total * qty;
+          $('#totalPrice').text(totalQty.toFixed(2));
+      });
+      $('#chkNoFrame').click(function() {
+            var originalAmount = <?=($packagePrice['packagePriceData']['discountTotal'] + $product->fldProductImagePrice)?>;
+            // alert('no-frame! Price reset to -> '+originalAmount);
+            $('#frameDetails').hide();
+            $('#frame_info').val('');
+            $('#frame_price').val('');
+            $('#frame_desc').val('');
+            // remove mats
+            // $('#chkNoMats').click();
+            // removed the image
+            $("#mainImage").removeAttr('data-sku');
+            $("#mainImage").removeAttr('data-width');
+            $("#mainImage").removeAttr('data-price');
+            $("#mainImage").removeAttr('data-desc');
+            $('#mainImage').attr('src', image_src);
+
+            // $("#popUpImage").removeAttr('data-sku');
+            // $("#popUpImage").removeAttr('data-width');
+            // $("#popUpImage").removeAttr('data-price');
+            // $("#popUpImage").removeAttr('data-desc');
+            // $('#popUpImage').attr('src', image_src);
+
+            $('#totalPrice').text(originalAmount.toFixed(2));
+            // getPackagePrice();
+      });
+      $('#chkNoMats').click(function() {
+          $('#mat1_info').val('');
+          $('#mat2_info').val('');
+          $('#mat3_info').val('');
+          $('#mat1_options').val('');
+          $('#mat2_options').val('');
+          $('#mat3_options').val('');
+          $('#matDetails1').hide();
+          $('#matDetails2').hide();
+          $('#matDetails3').hide();
+          $("input[name='mat_type']").prop('checked', false);
+          $("input[name='option1[]']").prop('checked', false);
+          $("input[name='option2[]']").prop('checked', false);
+          $("input[name='option3[]']").prop('checked', false);
+          $('#mat1').data('sku', '').attr('src', "{{url('_front/assets/images/nomat.jpg')}}");
+          $('#mat2').data('sku', '').attr('src', "{{url('_front/assets/images/nomat.jpg')}}");
+          $('#mat3').data('sku', '').attr('src', "{{url('_front/assets/images/nomat.jpg')}}");
+          // removed the image src
+          generateNewImageFrame();
+          getPackagePrice();
+      });
+  </script>
+  @if(Input::old('frame_desc'))
+  <?php 
+    $frameInfo = explode(';', Input::old('frame_desc'));
+    $frame = Input::old('frame_info');
+    if($frame != "") {
+  ?>
+    <script>
+        changeFrame('{{$frame}}','{{$frameInfo[0]}}','0','{{$frameInfo[1]}}');
+        generateNewImageFrame();
+    </script>    
+    <?php } ?>
+@endif
+<div class="full-width uk-margin">
+<? /* <a href="#" data-uk-toggle="{target:'#toggle-pice-details'}" data-change-text="<i class='uk-icon-eye uk-icon-justify'></i> Hide Price Details"><i class='uk-icon-eye uk-icon-justify'></i> View Price Details</a> */ ?>
+  @include('home.product_details.price_details')
+</div>
+@stop

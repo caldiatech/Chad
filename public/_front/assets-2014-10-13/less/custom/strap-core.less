@@ -1,0 +1,23 @@
+html, body { height: @maxHeight; }
+#container { .clearfix; .position(); width: @maxWidth; height: @maxHeight; z-index: 1;
+
+  #wrap { min-height: 100%; height: auto !important; height: 100%; margin: 0 auto -60px; padding: 0 0 60px; }
+  
+  header, footer, article { .position(); }
+
+  header { .clearfix; .box-shadow(0 0 5px 1px rgba(0,0,0,0.50)); z-index: 1;
+    .navbar { margin-bottom: 0; }
+  }  
+  
+  footer { background: #F5F5F5; line-height: 60px; }
+
+  // Common Rules & Fixes
+  div[class="tooltip-inner"] { width: 125px; }
+  
+}
+
+.jumbotron { background: #428bca; color: #FFF; text-shadow: 1px 1px 1px #555; }
+
+
+
+

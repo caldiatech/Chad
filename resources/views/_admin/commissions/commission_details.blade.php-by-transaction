@@ -1,0 +1,227 @@
+@extends('layouts._admin.base')
+
+@section('content')
+   <article>
+    <div id="page_control">
+      <div class="col2">
+         {!! Html::link('/dnradmin/commissions',COMMISSIONS) !!} <i class="pe-7s-angle-right"></i> <strong>{{ $data->order_code }}</strong>
+        </div>    
+    </div>
+
+    <div style="clear:both"></div>
+    <div class="uk-margin-large-top uk-container-center uk-width-medium-1-2">
+        <table class="uk-table">
+             <tr style="background:#000">
+                <td colspan="2" align="center">
+                    <a href="{{ url('/') }}"> 
+                        <img src="{{ url('_front/assets/images/logo.png')}} " width="170" height="110" alt="Clarkin">
+                    </a>
+                </td>  
+             </tr> 
+             <tr>
+                  <td class="uk-text-bold">Order No : {{ $data->order_code }}</td>
+                  <td class="uk-text-right uk-text-bold">Order Date : {{ date('F d, Y',strtotime($data->order_date)) }}</td>
+             </tr> 
+
+            <? /*
+             <tr>
+                <td>
+                    <div class="uk-grid">
+                        <div class="uk-width-large-1-1 uk-text-bold">
+                            BILLING INFORMATION
+                        </div>
+                    </div>
+                    <div class="uk-grid">
+                        <div class="uk-width-large-1-1">
+                            <span class="uk-text-left">
+                            {{ $data->bFirstname . ' ' . $data->bLastname }} <br>
+                            {{ $data->bAddress . ' ' . $data->bAddress1 . ' ' . $data->bCity . ' ' . $data->bSTate . ' ' . $data->bCountry . ' ' . $data->bZip }} <br>
+                            <a href="mailto:{{ $data->bEmail }}" style="color:#666;text-decoration:none;border-bottom:dotted 1px #333;"> {{ $data->bEmail }}</a> <br>
+                            {{ $data->bPhone }}
+                          </span>
+                        </div>  
+                    </div>  
+                </td>
+                
+                <td>
+                    <div class="uk-grid">
+                        <div class="uk-width-large-1-1 uk-text-bold">
+                            SHIPPING INFORMATION
+                        </div>  
+                    </div>
+                    <div class="uk-grid">
+                        <div class="uk-width-large-1-1 uk-text-left">
+                             {{ $data->sFirstname . ' ' . $data->sLastname }} <br>
+                              {{ str_replace(";", " ", $data->fldCartShippingAddress) }} <br>
+                              <a href="mailto: {{ $data->sEmail }}" style="color:#666;text-decoration:none;border-bottom:dotted 1px #333;"> {{  $data->sEmail }}</a> <br>
+                             {{ $data->sPhone }}
+                        </div>  
+                    </div>
+                </td>
+             </tr>             
+            */ ?>
+        </table>
+        
+         <table class="uk-table">
+            <? /*
+            <tr>
+                <td class="uk-text-bold">PRODUCT NAME</td>
+                <td class="uk-text-bold">OPTIONS</td>
+                <td class="uk-text-bold">AMOUNT</td>
+                <td class="uk-text-bold">QTY</td>
+                <td class="uk-text-bold">TOTAL</td>
+            </tr>  
+            @foreach($cart as $carts)
+                <tr>
+                    <td>
+                      <img src="{{ App\Models\Cart::getReturnFrameImage($data->order_code ,$carts->fldProductSlug,$carts->image) }}">
+                      {{ $carts->product_name }} <br />
+                      <strong>Graphik Shipping Status: </strong>{{$carts->gd_status}}<br />
+                      <strong>Graphik Shipping ID: </strong>{{$carts->gd_orderId }}<br />
+
+                    </td>
+                    <td>
+
+                      @if($carts->fldCartPaperInfo)
+                        <?php $paperinfo = explode(';', $carts->fldCartPaperInfo) ?>
+
+                        @if(count($paperinfo) >=1)
+                          @if(isset($paperinfo[3]))
+                            <strong>PAPER:</strong> {{ $paperinfo[3] }} <br/>                       
+                          @endif  
+                          <strong>PAPER SKU:</strong> {{ $paperinfo[0] }} <br/>
+                        @endif  
+                      @endif
+
+                      @if($carts->fldCartFrameInfo)
+                        <strong>FRAME SKU:</strong> {{$carts->fldCartFrameInfo}} <br/>
+                      @endif
+
+                      @if($carts->fldCartMat1Info)
+                          <?php $mat1 = explode(';', $carts->fldCartMat1Info) ?>
+                          <strong>MAT1 SKU:</strong> {{ $mat1[0] }} <br/>
+
+                          @if($carts->fldCartMat1Options)
+                              <?php $mat1Opts = json_decode($carts->fldCartMat1Options, false) ?>
+                              <strong>MAT1 OPTIONS:</strong> {{ implode(', ', $mat1Opts) }} <br/>
+                          @endif
+
+                      @endif
+
+                      @if($carts->fldCartMat2Info)
+                          <?php $mat2 = explode(';', $carts->fldCartMat2Info) ?>
+                          <strong>MAT2 SKU:</strong> {{ $mat2[0] }} <br/>
+
+                          @if($carts->fldCartMat2Options)
+                              <?php $mat2Opts = json_decode($carts->fldCartMat2Options, false) ?>
+                              <strong>MAT2 OPTIONS:</strong> {{ implode(', ', $mat2Opts) }} <br/>
+                          @endif
+
+                      @endif
+
+                      @if($carts->fldCartMat3Info)
+                          <?php $mat3 = explode(';', $carts->fldCartMat3Info) ?>
+                          <strong>MAT3 SKU:</strong> {{ $mat3[0] }} <br/>
+
+                          @if($carts->fldCartMat3Options)
+                              <?php $mat3Opts = json_decode($carts->fldCartMat3Options, false) ?>
+                              <strong>MAT3 OPTIONS:</strong> {{ implode(', ', $mat3Opts) }} <br/>
+                          @endif
+
+                      @endif
+
+                      @if($carts->fldCartFinishkitInfo)
+                        <strong>GLAZING:</strong>  <br/>
+                        <strong>GLAZING SKU:</strong>  <br/>
+                      @endif
+
+                    </td>
+                    <td>$ {{ number_format($carts->product_price,2) }}</td>
+                    <td>{{ $carts->quantity }}</td>
+                    <td>$ {{ number_format($carts->total,2) }}</td>
+                </tr>                  
+            @endforeach
+            */ ?>
+
+                <tr>
+                   <td colspan="2" class="uk-text-right">SUB-TOTAL : </td>
+                   <td colspan="2">$ {{ number_format($cart[0]->subtotal,2) }}</td>                  
+                   <td colspan="1">&nbsp;</td> 
+                </tr> 
+                {{-- */$total = $cart[0]->subtotal + $data->fldCartTax;/* --}} 
+                <tr>
+                   <td colspan="2" class="uk-text-right">TAX : </td>
+                   <td colspan="2">$ {{ number_format($data->fldCartTax,2) }}</td>                  
+                   <td colspan="1">&nbsp;</td> 
+                </tr> 
+                 @if($data->fldCartShippingRateShippingAmount != "")
+                 {{-- */$total = $total + $data->fldCartShippingRateShippingAmount;/* --}} 
+                 <tr>
+                   <td colspan="2" class="uk-text-right">Shipping (  {{ $data->fldCartShippingRateShippingName }}  ) : </td>
+                   <td colspan="2">$ {{ number_format($data->fldCartShippingRateShippingAmount,2) }}</td>                  
+                   <td colspan="1">&nbsp;</td> 
+                </tr> 
+                @endif
+                @if($data->fldCartCouponCodeCouponCode != "")
+                      {{-- */$total = $total - $data->fldCartCouponCodeCouponPrice;/* --}} 
+                      <tr>
+                         <td colspan="2" class="uk-text-right uk-text-bold">DISCOUNT CODE ( {{ $data->fldCartCouponCodeCouponCode }} ) : </td>
+                         <td colspan="2">$ ( - {{ number_format($data->fldCartCouponCodeCouponPrice,2) }} )</td>                  
+                         <td colspan="1">&nbsp;</td> 
+                      </tr>
+                @endif      
+
+                 <tr>
+                   <td colspan="2" class="uk-text-right uk-text-bold">GRAND TOTAL: </td>
+                   <td colspan="2" class="uk-text-bold">$ {{ number_format($total,2) }}</td>                  
+                   <td colspan="1">&nbsp;</td> 
+                </tr> 
+
+                <!-- Commissions -->
+                @if (isset($commission_mgr))
+                <tr>
+                   <td colspan="2" class="uk-text-right" bgcolor="#AAE5F4">Commission (Sales Manager)
+                    <br>ID: {{ $commission_mgr->fldManagerID }}
+                    <br>Name: {{ $commission_mgr->fldManagerFirstname .' '. $commission_mgr->fldManagerFirstname }} <br>
+                   </td>
+                   <td colspan="2" bgcolor="#7CCBE0" class="uk-text-bold">$ {{ (isset($commission_mgr))? number_format($commission_mgr->fldManagerCommissionAmount,2): '- - -' }}</td>                  
+                   <td colspan="1" bgcolor="#7CCBE0">&nbsp;</td> 
+                </tr> 
+                @endif
+
+                @if (isset($commission_shop))
+                <tr>
+                   <td colspan="2" class="uk-text-right" bgcolor="#ABF3C9">Commission (Shop Owner)
+                    <br>ID: {{ $commission_shop->fldShopOwnerID .'-'. $commission_shop->fldShopOwnerManagerID }}
+                    <br>Name: {{ $commission_shop->fldShopOwnerFirstname .' '. $commission_shop->fldShopOwnerLastname }} <br>
+                   </td>
+                   <td colspan="2" bgcolor="#75DDA1" class="uk-text-bold">$ {{ (isset($commission_shop))? number_format($commission_shop->fldShopOwnerCommissionAmount,2): '- - -' }}</td>                  
+                   <td colspan="1" bgcolor="#75DDA1">&nbsp;</td> 
+                </tr> 
+                @endif
+                
+                @if (empty($commission_shop) && empty($commission_mgr))
+                <tr>
+                   <td colspan="2" class="uk-text-right" bgcolor="#F6DDCC">No Commission/s found.</td>
+                   <td colspan="2" bgcolor="#E59866" class="uk-text-bold">$ 0.00</td>                  
+                   <td colspan="1" bgcolor="#E59866">&nbsp;</td> 
+                </tr> 
+                @endif
+
+         </table> 
+      
+    </div>  
+    <div class="clear"><!-- Clear Section --></div>   
+      
+  </article>
+  
+
+@stop
+
+@section('headercodes')    
+
+@stop
+
+@section('extracodes')
+    {!! Html::script('_admin/assets/js/jquery-latest.min.js','') !!}
+@stop

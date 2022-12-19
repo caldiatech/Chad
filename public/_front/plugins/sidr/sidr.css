@@ -1,0 +1,28 @@
+/*!
+ * CSS Modification by DNR Team - Dog and Rooster, Inc., 2013
+ * Copyright by Sidr - v1.1.1 - 2013-03-14, Alberto Varela; Licensed MIT
+ * https://github.com/artberri/sidr
+ *
+ * Sidr Custom CSS
+ */
+
+.sidr { position: absolute; position: fixed; top: 0; display: none; background: url(images/linen.jpg) repeat; font: 400 12px HelveticaNeue-Bold, sans-serif; color: #FFF; width: 260px; height: 100%; overflow-x: none; overflow-y: auto; z-index: 0; }
+
+.sidr .sidr-inner { padding: 0 0 15px; }
+.sidr.right { left: auto; right: -260px; }
+.sidr.left { left: -260px; right: auto; }
+
+.sidr ul { display: block; width: 100%; margin: 0; padding: 0; }
+.sidr ul li { display: block; text-shadow: 0 1px 3px #000; line-height: 32px; width: 100%; margin: 0; border-top: solid 1px #575C65; border-bottom: solid 1px #31343B; }
+.sidr a { display: block; color: #FFF; text-transform: capitalize; width: 100%; height: 100%; padding-left: 15px; }
+.sidr a:hover { background: #3875D7; }
+.sidr a { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+/* END OF MAIN STYLING */
+
+.sidr ul li.device-menu { position: relative; background: rgba(53,57,65,0.60) url(svg/list-white.svg) no-repeat 10px center; background-size: 24px; text-indent: 35px; border-top: solid 1px #696C73; border-bottom: solid 1px #31343B; z-index: 1; }
+.sidr ul li.device-menu { box-shadow: 0 1px 5px 0 rgba(0,0,0,0.50); }
+.sidr ul li.device-menu:before { content: "Menu"; }
+.sidr ul li:nth-child(2) { border-top: 0; }
+.sidr ul li:last-child { box-shadow: 0 1px 0 0 #575c65; }
+
+#container-fluid { box-shadow: 0 0 10px 1px rgba(0,0,0,0.75); }

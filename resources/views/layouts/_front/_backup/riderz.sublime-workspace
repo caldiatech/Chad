@@ -1,0 +1,377 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"fare",
+				"fare_total"
+			],
+			[
+				"mil",
+				"milesFare"
+			],
+			[
+				"rider",
+				"riderLogs"
+			],
+			[
+				"miles",
+				"miles_ride"
+			],
+			[
+				"inva",
+				"invalidEmail"
+			],
+			[
+				"join",
+				"joinSave"
+			],
+			[
+				"driver",
+				"driverRequest"
+			],
+			[
+				"far",
+				"fareLogs"
+			],
+			[
+				"reserva",
+				"reservationDelete"
+			],
+			[
+				"current",
+				"currentDate"
+			],
+			[
+				"main",
+				"mainrider"
+			],
+			[
+				"Rider",
+				"RidersRequestManagement"
+			],
+			[
+				"Driver",
+				"DriverManagement"
+			],
+			[
+				"rideRe",
+				"rideRequests"
+			],
+			[
+				"reser",
+				"reservationDelete"
+			],
+			[
+				"get",
+				"getReservation"
+			],
+			[
+				"check",
+				"checkReservation"
+			],
+			[
+				"chec",
+				"checkReservation"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"selected_items":
+		[
+			[
+				"packa",
+				"Package Control: Install Package"
+			],
+			[
+				"PACKAGE INS",
+				"Package Control: Install Package"
+			],
+			[
+				"PACKAGE",
+				"Package Control: Install Package"
+			],
+			[
+				"package i",
+				"Package Control: Install Package"
+			],
+			[
+				"package is",
+				"Package Control: Install Package"
+			],
+			[
+				"pcakge",
+				"Package Control: Install Package"
+			],
+			[
+				"package con",
+				"Package Control: Install Package"
+			],
+			[
+				"package",
+				"Package Control: Install Package"
+			],
+			[
+				"pac",
+				"Package Control: Install Package"
+			],
+			[
+				"package control in",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 512.0
+	},
+	"console":
+	{
+		"height": 160.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/Windows/System32/drivers/etc/hosts",
+		"/D/Xampp/htdocs/riderz/app/controllers/DriverController.php",
+		"/D/Xampp/htdocs/riderz/app/views/_dashboard/business/index.blade.php",
+		"/D/Xampp/htdocs/riderz/app/routes.php",
+		"/D/Xampp/htdocs/riderz/app/controllers/SalesBusinessController.php",
+		"/D/Xampp/htdocs/riderz/app/models/SalesBusinessCommissionManagement.php",
+		"/D/Xampp/htdocs/riderz/app/controllers/RidersRequestAPIController.php",
+		"/D/Xampp/htdocs/riderz/app/controllers/RidersRequestAPIControllerV3.php",
+		"/D/Xampp/htdocs/riderz/app/controllers/PagesController.php",
+		"/D/Xampp/htdocs/riderz/app/models/DriverCommissionManagement.php",
+		"/D/Xampp/htdocs/riderz/app/views/home/emails/receipt.blade.php",
+		"/D/Xampp/htdocs/riderz/.htaccess",
+		"/D/Xampp/htdocs/riderz/app/controllers/DriverAPIControllerV3.php",
+		"/D/Xampp/htdocs/riderz/app/controllers/v4/DriverAPIControllerV4.php",
+		"/D/Xampp/htdocs/riderz/app/controllers/v4/RidersAPIControllerV4.php",
+		"/D/Xampp/htdocs/riderz/app/controllers/v4/RidersRequestAPIControllerV4.php",
+		"/D/Xampp/htdocs/riderz/app/models/DriverManagement.php",
+		"/D/Xampp/htdocs/riderz/app/models/DriverManagementV4.php",
+		"/D/Xampp/htdocs/riderz/app/controllers/v4/RidersRequestAPIController.php",
+		"/D/Xampp/htdocs/riderz/app/controllers/DriverAPIControllerV4.php",
+		"/D/Xampp/htdocs/riderz/app/controllers/v4/RidersAPIController.php",
+		"/D/Xampp/htdocs/riderz/app/views/home/emails/v1/share_receipt.blade.php",
+		"/C/test1/test1.php",
+		"/D/Xampp/htdocs/riderz/app/controllers/RidersRequestAPIControllerV2.php-20151105",
+		"/C/Users/pc05/Desktop/riderz/receipt/v2/Riderz-Invoice-v2.html",
+		"/C/Users/pc05/Desktop/riderz/receipt/Riderz-Invoice-v1.html",
+		"/D/Xampp/htdocs/riderz/app/views/home/emails/share_receipt.blade.php",
+		"/D/Xampp/htdocs/riderz/app/models/ClientShippingManagement.php",
+		"/D/Xampp/htdocs/riderz/app/views/home/emails/email_refer.blade.php",
+		"/D/Xampp/htdocs/riderz/app/views/home/email_refer.blade.php",
+		"/D/Xampp/htdocs/riderz/app/controllers/AdminController.php",
+		"/D/Xampp/htdocs/riderz/app/controllers/RidersAPIControllerV3.php",
+		"/D/Xampp/htdocs/riderz/app/controllers/RidersController.php",
+		"/D/Xampp/htdocs/riderz/app/models/DriverRateManagement.php",
+		"/C/Users/pc05/Desktop/riderz/test.html",
+		"/D/Xampp/htdocs/riderz/app/models/FooterManagement.php",
+		"/D/Xampp/htdocs/riderz/app/models/SalesManagerManagement.php",
+		"/D/Xampp/htdocs/riderz/app/controllers/ContactController.php",
+		"/D/Xampp/htdocs/riderz/app/views/home/emails/manager_registration.blade.php",
+		"/D/Xampp/htdocs/riderz/app/models/Administrator.php",
+		"/D/Xampp/htdocs/riderz/app/models/AdministratoManagement.php",
+		"/D/Xampp/htdocs/riderz/app/models/AdminDriver.php",
+		"/D/Xampp/htdocs/riderz/app/controllers/CategoryController.php",
+		"/D/Xampp/htdocs/riderz/app/controllers/DriverAPIController.php",
+		"/D/Xampp/htdocs/riderz/app/controllers/RidersAPIControllerV2.php",
+		"/D/Xampp/htdocs/riderz/app/models/RidersRequestManagement.php",
+		"/D/Xampp/htdocs/riderz/app/controllers/NewsCategoryController.php",
+		"/D/Xampp/htdocs/riderz/app/models/RidersManagement.php"
+	],
+	"find":
+	{
+		"height": 52.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+			"D:\\Xampp\\htdocs\\riderz\\app"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"transactionComplete",
+			"'PushType'=>\"22\",",
+			"driver_start_ride",
+			"driverAcceptReservation",
+			"transactionCompleteMultipleShareAride",
+			"transactionCompleteMultipleShareAride(",
+			"cancelRide",
+			"cancelRide(",
+			"cancelRide",
+			"transactionComplete(",
+			"dashboard(",
+			"		\n",
+			"->delete()",
+			"$administrator->delete()",
+			"$driver->delete()",
+			"delete()",
+			"getEdit",
+			"style=\"color: red;\"",
+			"<p >&nbsp;</p>",
+			"class=\"MsoNormal\"",
+			"sendReferaFriend(",
+			"sendReferaFriend",
+			"transactionComplete(",
+			"sendReferaFriend",
+			"fldRiderInviteCode",
+			"fldRiderPromoCode",
+			"startRide(",
+			"transactionComplete(",
+			"login()",
+			"$riderLogs->totalFare",
+			"fareshare",
+			"checkingPushStatus",
+			"driverAcceptReservation",
+			"getLocation",
+			"transactionCompleteMultipleShareAride(",
+			"rideComplete",
+			"fldRidersRequestRiderDeleteReservation",
+			"driver_delete_ride",
+			"RidersAPIController",
+			"'PushType'",
+			"'PushType'=>\"1\",",
+			"'PushType'=>'1',",
+			"'PushType'=>1,",
+			"'PushType'=>,",
+			"'PushType'=>\"1\",",
+			"cancelRide(",
+			"cancelRide",
+			"transactionCompleteMultipleShareAride(",
+			"rideComplete",
+			"current",
+			"update_push",
+			"cancelReservation",
+			"\"24\"",
+			"\"PushType\"=>\"24\"",
+			"driver_noshow_reservation",
+			"show",
+			"start",
+			"driver_start_reservation",
+			"driver_start_ride",
+			"driver_start_reservation",
+			"joinReservation",
+			"displayDistanceReservation",
+			"driver_cancel_reservation",
+			"updateDriverPosition",
+			"checkingPushStatus",
+			"check_push",
+			"PushType",
+			"'PushType'=>\"2\"",
+			"joinReservation",
+			"riderOldRequest",
+			"joinReservation(",
+			"Driver",
+			"</span>",
+			"<p >&nbsp;</span></p>",
+			"<span style=\"color: #0070c0;\">",
+			"<a name=\"_GoBack\"></a>",
+			"<w:LsdException Locked=\"false\" SemiHidden=\"true\" UnhideWhenUsed=\"true\"\n   Name=\"Table Contemporary\"/>",
+			"class=\"MsoNormal\"",
+			"<p class=\"MsoNormal\">&nbsp;</p>"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			""
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"replace":
+	{
+		"height": 66.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+			[
+				"",
+				"/C/Users/pc05/Desktop/SublimeProject/RentWizard.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 420.0,
+	"status_bar_visible": true
+}

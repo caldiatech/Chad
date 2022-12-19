@@ -1,0 +1,544 @@
+<?php
+ 
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model as Eloquent;
+
+use View;
+use Input;
+use Hash;
+use Redirect;
+use Session;
+use Validator, Log;
+use SoapClient;
+use App\SoapXmlBuilder;
+
+
+class GraphikDimension extends Eloquent
+{
+     
+	public $userId = "1000506996﻿";
+	public static $client_frame_array = array('BWL2', 'GO4', 'GO6', 'PEC6', 'RSP3', 'SA9', 'WVL2', 'WVL3', 'WVL4', 'WVL5', 'WVL2', 'WVL3');
+
+	public static function displayAll($type=1) //display all records
+    {       
+			
+		// $wsdl = "https://ifs.graphikservices.com/services/catalogService?wsdl";
+		// $options = array(
+		//   "userId" => "1000506996﻿",
+		//   "detailLevel" => 1,
+		//   "trace"=>true
+		// );
+		
+		// $wsdl = "https://ifs.graphikservices.com/services/catalogService?wsdl";
+                $wsdl = "http://ifs.graphikservices.com/build_1_9_0/services/catalogService?wsdl";
+		$options = array(
+			"userId" => "1000506996﻿",
+			"detailLevel" => 1,
+			"trace"=>false,		
+			'exceptions' => false
+		);
+
+		
+
+
+		$client = new SoapClient($wsdl, $options);
+
+		if($type==0):
+			$options['detailLevel'] = 0;
+			$options['startingRow'] = 0;
+			$options['numberRows'] = 0;
+			$response = $client->__soapCall("getAllProducts", array($options));
+		elseif ($type==1): //display all frames
+			$options['detailLevel'] = 2;
+			$response = $client->__soapCall("getAllFrames", array($options));
+		elseif ($type==2): //display all mats
+			$response = $client->__soapCall("getAllMats", array($options));		
+		elseif ($type==3): //display all glazing
+			$response = $client->__soapCall("getAllFinishes", array($options));
+        elseif ($type==4):
+			$response = $client->__soapCall("getAllPapers", array($options));
+		elseif ($type==5):
+			$response = $client->__soapCall("getAllCanvases", array($options));
+		elseif ($type==6):
+			$options['detailLevel'] = 0;
+			$options['startingRow'] = 0;
+			$response = $client->__soapCall("getAllFrames", array($options));	
+		elseif ($type==7):
+			$options['detailLevel'] = 0;
+			$options['startingRow'] = 0;
+			$options['numberRows'] = 0;
+			$response = $client->__soapCall("getProducts", array($options));	
+		elseif ($type==8):
+			$options['detailLevel'] = 1;
+			$response = $client->__soapCall("getAllLiners", array($options));	
+		elseif ($type==8.1):
+			$options['detailLevel'] = 0;
+			$options['startingRow'] = 0;
+			$options['numberRows'] = 0;
+			$response = $client->__soapCall("getLiners", array($options));							
+		endif;	
+		
+		return $response;
+    }
+
+	
+	public static function getFramePricing($imageName, $imageURL,$height,$width,$paper,$frame,$finishKit,$mat1,$topBorder,$bottomBorder,$rightBorder,$leftBorder,$mat2,$offset) {
+
+    	$height = $height == 0 ? 25.62 : $height;
+    	$width = $width == 0 ? 15.62 : $width;
+    	$paper = $paper == "" ? "PAPER7" : $paper;
+    	$frame = $frame == "" ? "HP4" : $frame;
+    	$finishKit = $finishKit == "" ? "CAHF" : $finishKit;
+    	$mat1 = $mat1 == "" ? "PM918" : $mat1;
+    	$topBorder = $topBorder == 0 ? 2 : $topBorder;
+    	$bottomBorder = $bottomBorder == 0 ? 2 : $bottomBorder;
+    	$rightBorder = $rightBorder == 0 ? 2 : $rightBorder;
+    	$leftBorder = $leftBorder == 0 ? 2 : $leftBorder;
+    	$mat2 = $mat2 == 0 ? 2 : $mat2;
+    	$offset = $offset == 0 ? 2 : $offset;
+
+    	$wsdl = "https://ifs.graphikservices.com/services/pricingService?wsdl";
+		$options = array(
+		  "userId" => "1000506996﻿",
+		  "userAccess" => "0FC64D717788C2310626F5D6A199EA54754DB71051E9D578",
+		  "pricingGroupRequest xsi:type='ns1:printAndFramePackage'" =>array( //printAndFramePackage or canvasWrapPackage
+				  "image"=> array(
+				  	"height"=>25.62,
+				  	"width"=>15.62,
+				  	"imageName"=>$imageName,
+				  	"imageUrl"=>$imageURL		  	
+				  ),
+				  "substrate xsi:type='ns1:paper'"=>array(
+				  	"sku"=>"PAPER7"
+				  ),
+
+				  "frame"=>array(
+				  	"sku"=>'HP4'
+				  ),
+
+				  "finishKit"=>array(
+				  	"sku"=>"CAHF"
+				  ),
+				  "mat1"=>array(
+				  	"sku"=>"PM918",
+				  	"topBorder"=>2,
+				  	"bottomBorder"=>2,
+				  	"rightBorder"=>2,
+				  	"leftBorder"=>2
+				  ),
+				  "mat2"=>array(
+				  	"sku"=>"PM989",
+				  	"offset"=>2.5
+				  )
+		  )
+		  
+		);
+    			
+		// $wsdl = "https://ifs.graphikservices.com/services/pricingService?wsdl";
+		// $options = array(
+		//   "userId" => "1000506996﻿",
+		//   "userAccess" => "0FC64D717788C2310626F5D6A199EA54754DB71051E9D578",
+		//   "pricingGroupRequest xsi:type='ns1:printAndFramePackage'" =>array( //printAndFramePackage or canvasWrapPackage
+		// 		  "image"=> array(
+		// 		  	"height"=>$height,
+		// 		  	"width"=>$width,
+		// 		  	"imageName"=>$imageName,
+		// 		  	"imageUrl"=>$imageURL		  	
+		// 		  ),
+		// 		  "substrate xsi:type='ns1:paper'"=>array(
+		// 		  	"sku"=>"PAPER7"
+		// 		  ),
+
+		// 		  "frame"=>array(
+		// 		  	"sku"=>$frame
+		// 		  )
+
+		// 		  // "finishKit"=>array(
+		// 		  // 	"sku"=>"CAHF"
+		// 		  // ),
+		// 		  // "mat1"=>array(
+		// 		  // 	"sku"=>"PM918",
+		// 		  // 	"topBorder"=>2,
+		// 		  // 	"bottomBorder"=>2,
+		// 		  // 	"rightBorder"=>2,
+		// 		  // 	"leftBorder"=>2
+		// 		  // ),
+		// 		  // "mat2"=>array(
+		// 		  // 	"sku"=>"PM989",
+		// 		  // 	"offset"=>2.5
+		// 		  // )
+		//   )
+		  
+		// );
+		
+		$client = new SoapClient($wsdl);
+		$response = $client->__soapCall("getProductGroupPrice", array($options));
+		try {
+ 			
+			 echo $client->__getLastResponse();
+		}
+		catch (Exception $e) {
+			  $error_xml =  $client->__getLastRequest();
+			  echo $error_xml;
+			  echo "\n\n".$e->getMessage();
+		}
+		var_dump($response);die();
+		
+		
+		return $response;
+    }
+
+   public static function displayAllSearchBySKU($graphikAPI,$sku) {
+    	$notFound = 1;
+		//echo $sku;
+	    	 foreach($graphikAPI as $index=>$graphikAPIs) {	
+	    		if($graphikAPIs->sku == $sku) {
+	    	 		$notFound=0;
+	    	 	} 
+	    	 	if($notFound == 1) {				
+					unset($graphikAPI[$index]);  
+				} 
+	    	 	$notFound=1;
+	    	 } 	
+		return $graphikAPI;
+    }
+	
+
+   public static function displayAllSearch($graphikAPI,$color,$width,$style,$material,$orderBy) {
+    	$frameWidth = "";
+		$notFound = $color == "0" ? 0 : 1;
+		$colorFound = $color == 0 ? 0 : 1;
+
+		$frames = $graphikAPI;
+		// if filtering with colors
+		if($color != "0") {
+			$frameColors = [];
+			foreach($frames as $c => $frame) {
+
+				if(isset($frame->colors)) {
+		           if(is_array($frame->colors)) {
+		           		foreach($frame->colors as $colors) {
+							if($color==$colors->value) {
+			    				$frameColors[] = $frame;
+							}
+		           		}
+		           } else {
+						if($frame->colors->value == $color) {
+							$frameColors[] = $frame;
+						}
+		           }
+			    }
+			}
+			$frames = $frameColors;
+		}
+
+		// if filtering with styles
+		if($style != "0") {
+			$frameStyles = [];
+			foreach($frames as $s => $frame) {
+				//search for styles
+			    if(isset($frame->styles)) {
+					if($frame->styles->value== $style) {
+					   	$frameStyles[] = $frame;
+					}
+			    }
+			}
+			$frames = $frameStyles;
+		}
+
+		// if filtering with width range
+		if($width != "0") {
+			$frameWidths = [];
+			foreach($frames as $w => $frame) {
+				 //search for width
+			    if(isset($frame->mouldingWidth)) {
+		    		$range = explode('-', $width);
+		    		if($frame->mouldingWidth > $range[0] && $frame->mouldingWidth <= $range[1]){
+		    			$frameWidths[] = $frame;
+	    			}
+		    	}
+			}
+			$frames = $frameWidths;
+		}
+
+		// if filtering with materials
+		if($material != "0") {
+			$frameMaterial = [];
+			foreach($frames as $m => $frame) {
+				//search for materials
+			    if(isset($frame->material)) {
+					if($frame->material == $material) {
+					   	$frameMaterial[] = $frame;
+					}
+			    }
+			}
+			$frames = $frameMaterial;
+		}
+
+		//sort results code here
+		if($orderBy == "name") {
+	        $graphikAPI= array_sort($frames, function($value) {
+   				return sprintf('%s', $value->sku);
+			});
+		} else if($orderBy == "price") {
+			 $graphikAPI= array_sort($frames, function($value) {
+	   			 return sprintf('%s', $value->priceData->markUpPrice);
+			});
+		}
+		
+		return $graphikAPI;
+    }
+
+    public static function get_client_frame_array(){
+    	$this_client_frame_array = self::$client_frame_array;
+    	return $this_client_frame_array;
+    }
+
+    public static function getGraphikAttribute($graphikAPI) {	 
+
+		$colorValue = array();
+		$styleValue = array();
+		$widthValue = array();
+		$materialValue = array();
+		$sku = "";
+		$frameWidth = "";
+		$framePrice = "";
+		$frameDesc = "";
+
+		//print_r($graphikAPI);die();
+
+		foreach($graphikAPI as $graphikAPIs) {
+		$filterValue = "";
+		if($sku=="" && $graphikAPIs->sku != "") {
+    	 		$sku = $graphikAPIs->sku;
+    	 	}
+
+    	 	if(in_array($sku, self::$client_frame_array)){
+
+    	 	}else{
+    	 		continue;
+    	 	}
+		//get the default framewidth
+    	 	if($frameWidth=="") {
+    	 		foreach($graphikAPIs->externalProductAttributes as $attributes) {
+    	 			if($attributes->type == "MOLD_WDTH") {
+    	 				$frameWidth = $attributes->value;
+    	 			}
+    	 		}	
+    	 		
+    	 	}
+
+            if($framePrice =="") {
+    	 		$framePrice = $graphikAPIs->priceData->markUpPrice;
+    	 	}
+
+		if($frameDesc =="") {
+    	 		$frameDesc = $graphikAPIs->shortDescription;
+    	 	}
+
+
+
+
+
+    	   if(isset($graphikAPIs->colors)) {	
+		           if(is_array($graphikAPIs->colors)) {
+		           		//print_r($graphikAPIs->colors);
+		           		foreach($graphikAPIs->colors as $colors) {
+						if(!in_array($colors->value,$colorValue)) {
+			           			$colorValue[] = $colors->value;
+							$filterValue .= $colors->value . ",";
+						} else {
+							$filterValue .= $colors->value . ",";
+
+						}
+		           		}
+
+		           } else {
+					if(!in_array($graphikAPIs->colors->value,$colorValue)) {
+			           		$colorValue[] = $graphikAPIs->colors->value;
+						$filterValue .= $graphikAPIs->colors->value . ",";
+					} else {
+						$filterValue .= $graphikAPIs->colors->value . ",";
+					}
+		           }
+		    }  
+
+		    //echo $filterValue;
+
+	    //for styles
+		    if(isset($graphikAPIs->styles)) {	
+		    	if(!in_array($graphikAPIs->styles->value,$styleValue)) {
+						if($graphikAPIs->styles->value!= "") {
+				           		$styleValue[] = $graphikAPIs->styles->value;
+							$filterValue .= $graphikAPIs->styles->value . ",";
+						}
+					}
+		    }	
+	   //for width
+		    if(isset($graphikAPIs->mouldingWidth)) {	
+		    	if(!in_array($graphikAPIs->mouldingWidth,$widthValue)) {
+						if($graphikAPIs->mouldingWidth != "") {	
+				           		$widthValue[] = $graphikAPIs->mouldingWidth;
+							$filterValue .= $graphikAPIs->mouldingWidth . ",";
+						}
+					}
+		    }
+
+		    //for materials
+		    if(isset($graphikAPIs->material)) {	
+		    	//print_r($graphikAPIs->material);die();
+		    	if(!in_array($graphikAPIs->material,$materialValue)) {
+						if($graphikAPIs->material != "") {	
+				           		$materialValue[] = $graphikAPIs->material;
+							$filterValue .= $graphikAPIs->material . ",";
+						}
+					}
+		    }	  
+
+		 //get the frame width of each frame
+		 	foreach($graphikAPIs->externalProductAttributes as $attributes) {
+    	 			if($attributes->type == "MOLD_WDTH") {
+    	 				$frameWidthValue = $attributes->value;
+    	 			}
+    	 	}	
+		$graphikAPIs->frameWidthValue = $frameWidthValue;
+		$graphikAPIs->filterValue = substr($filterValue, 0,strlen($filterValue)-1);
+   
+         }
+
+		//sort color in asc order	  
+		$colorValue= array_sort($colorValue, function($value) {
+			return sprintf('%s', $value[0]);
+		});
+
+		$styleValue= array_sort($styleValue, function($value) {
+			return sprintf('%s', $value[0]);
+		});
+		$widthValue= array_sort($widthValue, function($value) {
+			return sprintf('%s', $value[0]);
+		});
+
+		if(count($materialValue)>1) {
+			$materialValue= array_sort($materialValue, function($value) {
+					 return sprintf('%s', $value[0]);
+			});
+		 }	
+		//print_r($styleValue);die();
+		return [$frameDesc,$frameWidth,$sku,$graphikAPI,$colorValue,$styleValue,$widthValue,$materialValue,$framePrice];
+    }
+
+
+    public static function searchBySku($sku) {
+
+		$wsdl = "https://ifs.graphikservices.com/services/catalogService?wsdl";
+		$options = array(
+			"userId" => "1000506996﻿",
+			"detailLevel" => 1,
+			"trace"=>false,
+			"sku"	=> $sku,
+			'exceptions' => false
+		);
+
+		$client = new SoapClient($wsdl, $options);
+		$response = $client->__soapCall("getProductBySku", array($options));
+		
+		if (is_soap_fault($response)) {
+			return false;
+		}
+
+		return $response;
+    }
+
+
+
+    public static function gd_create_order($data) {
+
+
+
+
+    }
+
+    public static function displayShippingMethod($data) {
+
+        // echo '<pre>';
+        // print_r($data); die();
+
+    	//get the client information
+    	$client = Client::find(Session::get('client_id'));
+    	if(count($client)==0) {
+    		// $firstname = "Guest";
+    		// $lastname = "Guest";
+    		// $contact = "Guest";
+            $firstname = "Guest";
+            $lastname = "Guest";
+            $contact = "(123) 456-7890";
+    	} else {
+    		$firstname = $client->fldClientFirstname;
+    		$lastname = $client->fldClientLastname;
+    		$contact = $client->fldClientContact;
+    	}
+    	
+    	$wsdl = "https://ifs.graphikservices.com/services/shippingService?wsdl";
+
+    	$options = array(
+    		// "userAccess"=>"79FE7017D6ACDEF082F845C766968E0A36DE84953739018C",
+    		"userAccess"=>"0FC64D717788C2310626F5D6A199EA54754DB71051E9D578",
+    		"externalOrder"=>array(
+    			"costData"=> array(
+    				"discountAmount" => 0,
+    				"feeCost" =>0,
+    				// "merchCost" => 0,
+    				"merchCost" => $data['total'],
+    				"oversizedShipFeeTotal" => 0,
+    				"promoAmount" => 0,
+    				"retailCost" => 0,
+    				"shippingCost" => 0,
+    				"taxCost" => 0,
+    				"totalCost" => $data['total']
+    			),
+    			"customer"=>array(
+    				"shippingAddress"=>array(
+    					"activeInd" => 1,
+    					"addressType" => "SHIPPING",
+    					"city"=>$data['city'],
+    					"company"=>"",
+    					"country"=>$data['country'],
+    					"firstName"=>$firstname,
+    					"homePhone"=>$lastname,
+    					"lastName"=>$contact,
+    					"prefix"=>"",
+    					"state"=>$data['state'],
+    					"street"=>$data['address'],
+    					"streetTwo"=>"",
+    					"zip"=>$data['zip']
+    				),
+    				"vendorID"=>1233444
+    			),
+    			"externalOrderId"=>9991404241,
+    			"insuranceFee"=>0.00,
+    			"shippingData"=>array(
+    				"discountAmount"=>0.00,
+    				"shippingService"=>"STANDARD"
+    			)
+    		)
+    	);
+		
+		
+		$client = new SoapClient($wsdl, $options);
+		$response = $client->__soapCall("getShippingAmoutsByMerchPrice", array($options));
+        echo '<pre>';
+        print_r($response);die();
+		if (is_soap_fault($response)) {
+			return false;
+		}
+
+		return $response;
+    
+    }
+    
+    
+}
+
+
+?>

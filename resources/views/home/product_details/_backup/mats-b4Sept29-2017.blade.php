@@ -1,0 +1,561 @@
+<div class="uk-grid uk-grid-small">
+  <div class="uk-width-1-1 uk-width-medium-1-2">
+    <h3 class="text-uppercase">Choose Your Mats <i class="uk-icon-question fsize-12 tooltip light-grey uk-icon-justify"  data-uk-tooltip title="Browse our extensive matting choices and find the perfect fit for your presentation"></i></h3>    
+  </div>
+  <div class="uk-width-1-1 uk-width-medium-1-2">
+    <button class="uk-button-primary uk-text-large lato uk-button-large uk-width-1-1" id="chkNoMats" type="button">Remove Mats</button>
+  </div>
+</div><!-- Choose your mats -->
+<div class="uk-width-divider-blank uk-margin-small"></div>
+<div class="uk-grid uk-grid-small">
+<div class="uk-width-1-1 uk-width-large-4-10 line-height-select uk-display-inline form-radio-buttons">
+    <label class=" light uk-margin-small-right" for="matborder_whole">Set Mat Border Width:</label>   
+</div>
+<div class="uk-width-1-1 uk-width-large-3-10 uk-display-inline form-radio-buttons">
+    <div class="select-wrapper wrapper-large input-append spinner">
+      <select id="matborder_whole" name="matborder_whole" onChange="generateNewImageFrame()">
+      @for($i=1;$i<=13;$i++)
+          <option value="{{$i}}" {{Input::old('matborder_whole') == $i ? "selected='selected'" : ""}} >{{$i}}</option>
+      @endfor    
+      </select>
+      <div class="add-on"> 
+        <a href="javascript:;" class="spin-up" data-spin="up"><i class="uk-icon-sort-up"></i></a>
+        <a href="javascript:;" class="spin-down" data-spin="down"><i class="uk-icon-sort-down"></i></a>
+      </div>
+    </div>
+</div>
+<div class="uk-width-1-1 uk-width-large-3-10 uk-display-inline form-radio-buttons"> 
+    <div class="select-wrapper wrapper-large input-append spinner">
+      <select id="matborder_fractions" name="matborder_fractions" onChange="generateNewImageFrame()">
+          <option value=".125" {{Input::old('matborder_fractions') == ".125" ? "selected='selected'" : ""}}>1/8</option>
+          <option value=".25" {{Input::old('matborder_fractions') == ".25" ? "selected='selected'" : ""}}>1/4</option>
+          <option value=".375" {{Input::old('matborder_fractions') == ".375" ? "selected='selected'" : ""}}>3/8</option>
+          <option value=".5" {{Input::old('matborder_fractions') == ".5" ? "selected='selected'" : ""}}>1/2</option>
+          <option value=".625" {{Input::old('matborder_fractions') == ".625" ? "selected='selected'" : ""}}>5/8</option>
+          <option value=".75" {{Input::old('matborder_fractions') == ".75" ? "selected='selected'" : ""}}>3/4</option>
+          <option value=".875" {{Input::old('matborder_fractions') == ".875" ? "selected='selected'" : ""}}>7/8</option>
+      </select> 
+      <div class="add-on"> 
+        <a href="javascript:;" class="spin-up" data-spin="up"><i class="uk-icon-sort-up"></i></a>
+        <a href="javascript:;" class="spin-down" data-spin="down"><i class="uk-icon-sort-down"></i></a>
+      </div>
+    </div>
+</div><!-- Set mat border width -->
+</div>
+<div class="uk-width-divider-blank uk-margin-small"></div>
+<div class="pricing-box">
+<ul class="uk-grid uk-grid-width-1-1 uk-grid-width-medium-1-3 uk-grid-small">
+  <li class="pricing-box-item tm-delayed-animations">
+  <div class="uk-panel uk-panel-box tm-panel-padding-vertical uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-scale-up " data-uk-scrollspy="{cls:'fade', delay:300, repeat: false}">
+  <?php
+               $VGroovedCheck = "";
+               $reverseBevelCutCheck = "";
+               $raisedCutCheck = "";
+              if(Input::old('mat1_options')) {
+                  $mat1_options = explode(";",Input::old('mat1_options'));
+                  if(in_array("V-Groove", $mat1_options)) {
+                      $VGroovedCheck = "checked='checked'";
+                  }
+                  if(in_array("Reverse Bevel Cut", $mat1_options)) {
+                      $reverseBevelCutCheck = "checked='checked'";
+                  }
+                  if(in_array("Raised Mat", $mat1_options)) {
+                      $raisedCutCheck = "checked='checked'";
+                  }
+              } 
+              $reverseBevelCutCheck2 = "";
+              $raisedCutCheck2 = "";
+              if(Input::old('mat2_options')) {
+                   $mat2_options = explode(";",Input::old('mat2_options'));
+                   if(in_array("Reverse Bevel Cut", $mat2_options)) {
+                      $reverseBevelCutCheck2 = "checked='checked'";
+                  }
+                  if(in_array("Raised Mat", $mat2_options)) {
+                      $raisedCutCheck2 = "checked='checked'";
+                  }
+              }
+              $reverseBevelCutCheck3 = "";
+              $raisedCutCheck3 = "";
+              if(Input::old('mat3_options')) {
+                   $mat3_options = explode(";",Input::old('mat3_options'));
+                   if(in_array("Reverse Bevel Cut", $mat3_options)) {
+                      $reverseBevelCutCheck3 = "checked='checked'";
+                  }
+                  if(in_array("Raised Mat", $mat3_options)) {
+                      $raisedCutCheck3 = "checked='checked'";
+                  }
+              }
+                  $mat1Checked = "";
+                  $mat2Checked = "";
+                  $mat3Checked = "";
+                  $image3 = "";$image1 = "";$image2 = "";
+                  $image3SKU = "";$image1SKU = "";$image2SKU = "";
+               if(Input::old('mat1_info') != "" || Input::old('mat1_options') != "") {
+                  $mat1Checked = "checked='checked'";
+                  if(Input::old('mat1_info') != "") {
+                      $mat1Info = explode(';', Input::old('mat1_info'));
+                      $image1 = "http://image.pictureframes.com/images/mats/".$mat1Info[0].".gif";
+                      $image1SKU = $mat1Info[0];
+                  }
+               }
+               if(Input::old('mat2_info') != "" || Input::old('mat2_options') != "") {
+                  $mat1Checked = "";
+                  $mat2Checked = "checked='checked'";
+                  if(Input::old('mat2_info') != "") {
+                      $mat2Info = explode(';', Input::old('mat2_info'));
+                      $image2 = "http://image.pictureframes.com/images/mats/".$mat2Info[0].".gif";
+                      $image2SKU = $mat2Info[0];
+                  }
+               }
+               if(Input::old('mat3_info') != "" || Input::old('mat3_options') != "") {
+                  $mat1Checked = "";
+                  $mat2Checked = "";
+                  $mat3Checked = "checked='checked'";
+                  if(Input::old('mat3_info') != "") {
+                    $mat3Info = explode(';', Input::old('mat3_info'));
+                    $image3 = "http://image.pictureframes.com/images/mats/".$mat3Info[0].".gif";
+                    $image3SKU = $mat3Info[0];
+                  } 
+               } 
+               if(Input::old('mat_type') == 1) {
+                 $mat1Checked = "checked='checked'";
+                 $mat2Checked = "";
+                 $mat3Checked = "";
+               } else if(Input::old('mat_type') == 2) {
+                 $mat1Checked = "";
+                 $mat2Checked = "checked='checked'";
+                 $mat3Checked = "";    
+               }  else if(Input::old('mat_type') == 3) {
+                 $mat1Checked = "";
+                 $mat2Checked = "";
+                 $mat3Checked = "checked='checked'"; 
+               }
+            ?>
+          <h5 class="text-uppercase">
+              <label class="uk-form-label light full-width" for="stm">
+                <input type="radio" class="uk-margin-medium-right" id="stm" name="mat_type" value="1" {{$mat1Checked}}>Single Top Mat
+                   <div class="uk-text uk-text-warning" id="single_top_mat">Make sure to select Mat Color and Frame</div>
+              </label>
+          </h5>
+            <a href="#matcolor" id="mat_choice" class="uk-text-small uk-text-center"  data-uk-modal data-mat="1">Select Mat Color</a>
+            <div class="uk-thumbnail uk-thumbnail-medium">
+                <a href="#matcolor" id="mat_image_choice" data-uk-modal data-mat="1"> 
+                @if($image1 != "")
+                  <img src="{{ url($image1) }}" data-sku="{{$image1SKU}}"  id="mat1" style="width:152px; height: 110px;"> 
+                @else
+                  <img src="{{ url('_front/assets/images/nomat.jpg') }}"  id="mat1" style="width:152px; height: 110px;"> 
+                @endif  
+                </a>
+            </div>
+              <ul class="uk-list uk-list-space fsize-12">
+                <li>
+                      <label class="uk-form-label light full-width" for="stm-1">
+                            <input type="checkbox" class="uk-margin-medium-right" id="stm-1" name="option1[]" {{$VGroovedCheck}} value="VGrooved" onClick="generateNewImageFrame()">V-Groove
+                        </label>
+                </li>
+                <li>
+                        <label class="uk-form-label light full-width" for="stm-2">
+                            <input type="checkbox" class="uk-margin-medium-right" id="stm-2" name="option1[]" value="reverseBevelCut" onClick="generateNewImageFrame()" {{$reverseBevelCutCheck}}>Reverse Bevel Cut
+                        </label>
+                </li>
+                <li>
+                        <label class="uk-form-label light full-width" for="stm-3">
+                            <input type="checkbox" class="uk-margin-medium-right" id="stm-3" name="option1[]" value="raised" onClick="generateNewImageFrame()" {{$raisedCutCheck}}>Raised Mat
+                        </label>
+                </li>
+              </ul>
+  </div>
+  </li>
+
+  <li class="pricing-box-item tm-delayed-animations disabled">
+  <div class="uk-panel uk-panel-box tm-panel-padding-vertical uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-scale-up " data-uk-scrollspy="{cls:'fade', delay:300, repeat: false}">
+  <h5 class="text-uppercase"><label class="uk-form-label light full-width" for="dm">
+              <input type="radio" class="uk-margin-medium-right" id="dm" name="mat_type" value="2" {{$mat2Checked}} >Double Mat
+              <div class="uk-text uk-text-warning" id="double_top_mat">Make sure to select Mat Color and Frame</div>
+          </label>
+        </h5>
+           <a href="#matcolor" id="mat_choice2" class="uk-text-small uk-text-center"  data-mat="2">Select Mat Color</a>
+            <div class="uk-thumbnail uk-thumbnail-medium">
+                 <a href="#matcolor" id="mat_image_choice2"  data-mat="2"> 
+                   @if($image2 != "")  
+                      <img src="{{ url($image2) }}" id="mat2" data-sku="{{$image2SKU}}" style="width:152px; height: 110px;"> </a>
+                   @else
+                      <img src="{{ url('_front/assets/images/nomat.jpg') }}" id="mat2" style="width:152px; height: 110px;"> </a>
+                   @endif   
+            </div>
+              <ul class="uk-list uk-list-space fsize-12">
+                <li>
+                      <label class="uk-form-label light full-width" for="stm-1">
+                            Set Offset 
+                            <select name="offset2" id="offset2"  onChange="generateNewImageFrame()">
+                                <option value=".25" {{Input::old("offset2") == ".25" ? "selected='selected'" : ""}} >1/4</option>
+                                <option value=".375" {{Input::old("offset2") == ".375" ? "selected='selected'" : ""}}>3/8</option>
+                                <option value=".5" {{Input::old("offset2") == ".5" ? "selected='selected'" : ""}}>1/2</option>
+                                <option value=".625"  {{Input::old("offset2") == ".625" ? "selected='selected'" : ""}}>5/8</option>
+                                <option value=".75" {{Input::old("offset2") == ".75" ? "selected='selected'" : ""}}>3/4</option>
+                                <option value=".875" {{Input::old("offset2") == ".875" ? "selected='selected'" : ""}}>7/8</option>
+                                <option value="1" {{Input::old("offset2") == "1" ? "selected='selected'" : ""}}>1"</option>
+                            </select> 
+                        </label>
+                </li>
+                <li>
+                        <label class="uk-form-label light full-width" for="stm-4">
+                            <input type="checkbox" class="uk-margin-medium-right option2" id="stm-4" name="option2[]" {{$reverseBevelCutCheck2}} value="reverseBevelCut" onClick="generateNewImageFrame()">Reverse Bevel Cut
+                        </label>
+                </li>
+                <li>
+                        <label class="uk-form-label light full-width" for="stm-5">
+                            <input type="checkbox" class="uk-margin-medium-right option2" id="stm-5" name="option2[]" value="raised" onClick="generateNewImageFrame()" {{$raisedCutCheck2}}>Raised Mat
+                        </label>
+                </li>
+              </ul>
+  </div>
+  </li>
+  <li class="pricing-box-item tm-delayed-animations">
+  <div class="uk-panel uk-panel-box tm-panel-padding-vertical uk-scrollspy-init-inview uk-scrollspy-inview uk-animation-scale-up " data-uk-scrollspy="{cls:'fade', delay:300, repeat: false}">
+  <h5 class="text-uppercase"><label class="uk-form-label light full-width" for="tm">
+              <input type="radio" class="uk-margin-medium-right" id="tm" name="mat_type" value="3" {{$mat3Checked}}>Triple Mat
+              <div class="uk-text uk-text-warning" id="triple_top_mat">Make sure to select Mat Color and Frame</div>
+          </label>
+        </h5>
+         <a href="#matcolor" id="mat_choice3" class="uk-text-small uk-text-center"  data-mat="3">Select Mat Color</a>
+            <div class="uk-thumbnail uk-thumbnail-medium">
+               <a href="#matcolor" id="mat_image_choice3"  data-mat="3"> 
+               @if($image3 != "")
+                   <img src="{{ url($image3) }}" id="mat3" data-sku="{{$image3SKU}}" style="width:152px; height: 110px;"> 
+               @else
+                  <img src="{{ url('_front/assets/images/nomat.jpg') }}" id="mat3" style="width:152px; height: 110px;"> 
+               @endif  
+               </a>
+            </div>
+              <ul class="uk-list uk-list-space fsize-12">
+                <li>
+                      <label class="uk-form-label light full-width" for="stm-1">
+                            Set Offset 
+                            <select name="offset3" id="offset3" onChange="generateNewImageFrame()">
+                               <option value=".25" {{Input::old("offset3") == ".25" ? "selected='selected'" : ""}}>1/4</option>
+                                <option value=".375" {{Input::old("offset3") == ".375" ? "selected='selected'" : ""}}>3/8</option>
+                                <option value=".5" {{Input::old("offset3") == ".5" ? "selected='selected'" : ""}}>1/2</option>
+                                <option value=".625" {{Input::old("offset3") == ".625" ? "selected='selected'" : ""}}>5/8</option>
+                                <option value=".75" {{Input::old("offset3") == ".75" ? "selected='selected'" : ""}}>3/4</option>
+                                <option value=".875" {{Input::old("offset3") == ".875" ? "selected='selected'" : ""}}>7/8</option>
+                                <option value="1" {{Input::old("offset3") == "1" ? "selected='selected'" : ""}}>1"</option>
+                            </select> 
+                        </label>
+                </li>
+                <li>
+                        <label class="uk-form-label light full-width" for="stm-6">
+                            <input type="checkbox" class="uk-margin-medium-right option3" id="stm-6" name="option3[]" value="reverseBevelCut" onClick="generateNewImageFrame()" {{$reverseBevelCutCheck3}}>Reverse Bevel Cut
+                        </label>
+                </li>
+                <li>
+                        <label class="uk-form-label light full-width" for="stm-7">
+                            <input type="checkbox" class="uk-margin-medium-right option3" id="stm-7" name="option3[]" value="raised" onClick="generateNewImageFrame()" {{$raisedCutCheck2}} >Raised Mat
+                        </label>
+                </li>
+              </ul>
+  </div>
+  </li>
+</ul>
+</div> <!-- <div class="pricing-box">  -->
+
+                  <div class="uk-modal" id="matcolor">
+                      <div class="uk-modal-dialog bg-white uk-modal-dialog-large">
+                          <div class="uk-modal-header"><h3>Select Mat Color</h3></div>
+                              <div class="uk-grid uk-container-center">
+                                @if(isset($graphikMatsAPI))
+                                 @foreach($graphikMatsAPI->mat as $graphikMatsAPIs)
+                                      <div class="uk-thumbnail uk-thumbnail-small uk-width-1-4 uk-container-center">
+                                          <a href="#selectedMats" class="full-width uk-text-center selectMat" onClick="selectedMat('{{ $graphikMatsAPIs->sku }}','{{ $graphikMatsAPIs->shortDescription }}',{{ $graphikMatsAPIs->priceData->markUpPrice }})"> <img src="http://image.pictureframes.com/images/mats/{{ $graphikMatsAPIs->sku }}.gif" style="width:100px; height: 100px;" > </a>
+                                          <div class="uk-thumbnail-caption"><a href="#" class="full-width uk-text-center" onClick="selectedMat('{{ $graphikMatsAPIs->sku }}','{{ $graphikMatsAPIs->shortDescription }}',{{ $graphikMatsAPIs->priceData->markUpPrice }})">{{ $graphikMatsAPIs->shortDescription }}</a></div>
+                                      </div>                                
+                                @endforeach 
+                                @endif
+                              </div>  
+                          <div class="uk-modal-footer">       
+                              <input type ="hidden" name="mat_value" id="mat_value">                       
+                              <a href="javascript:void(0)" class="uk-button uk-button-small uk-button-primary uk-modal-close" id="selectedMat">Select</a>
+                              <span class="uk-text-danger" id="matDesc"></span>
+                          </div>
+                      </div>
+                  </div>
+<script>
+  //hide the mat details in details price sections
+  $("#matDetails1").hide();  
+  $("#matDetails2").hide();
+  $("#matDetails3").hide();
+  $("input[name=mat_type]:radio").change(function () {
+      if(this.value == 1) {
+        $("#offset2").attr('disabled','disabled');
+        $(".option2").attr('disabled','disabled');
+        $("#offset3").attr('disabled','disabled');
+        $(".option3").attr('disabled','disabled');
+        $("#mat_choice2,#mat_choice3,#mat_image_choice2,#mat_image_choice3").removeAttr('data-uk-modal');
+        //display the mat1 in details price list
+        $("#matDetails1").show();
+        $("#matDetails2").hide();
+        $("#matDetails3").hide();
+      } else if(this.value == 2) {
+        $("#offset2").removeAttr('disabled');
+        $(".option2").removeAttr('disabled');
+        $("#mat_choice2,#mat_image_choice2").attr('data-uk-modal','data-uk-modal')
+        $("#offset3").attr('disabled','disabled');
+        $(".option3").attr('disabled','disabled');
+        $("#mat_choice3,#mat_image_choice3").removeAttr('data-uk-modal');
+        //display the mat1 and mat2 in details price list
+        $("#matDetails1").show();
+        $("#matDetails2").show();
+        $("#matDetails3").hide();  
+      } else if(this.value == 3) {
+          $("#offset3").removeAttr('disabled');
+          $(".option3").removeAttr('disabled');          
+          $("#mat_choice2,#mat_image_choice2,#mat_choice3,#mat_image_choice3").attr('data-uk-modal','data-uk-modal')
+          //display the mat1, mat2 and mat3 in details price list
+          $("#matDetails1").show();
+          $("#matDetails2").show();
+          $("#matDetails3").show();
+      }
+  });
+  function selectedMat(sku,name,price) {      
+    // $("#selectedMat").removeAttr('data-sku');  
+    // $("#selectedMat").removeAttr('data-name'); 
+    // $("#selectedMat").removeAttr('data-sku2');  
+    // $("#selectedMat").removeAttr('data-name2'); 
+    // $("#selectedMat").removeAttr('data-sku3');  
+    // $("#selectedMat").removeAttr('data-name3'); 
+    if(name != "") {
+        $("#selectedMat").removeData('sku'); 
+        $("#selectedMat").removeData('name'); 
+        $("#selectedMat").removeData('price'); 
+        $("#matDesc").html("  You select " + name);
+        //if($("#mat_value").val()==1) {
+          $("#selectedMat").attr('data-sku',sku);
+          $("#selectedMat").attr('data-name',name);
+          $("#selectedMat").attr('data-price',price);
+    }
+    // } else if($("#mat_value").val()==2) {
+    //   $("#selectedMat").attr('data-sku2',sku);
+    //   $("#selectedMat").attr('data-name2',name);
+    // } else if($("#mat_value").val()==3) {
+    //   $("#selectedMat").attr('data-sku3',sku);
+    //   $("#selectedMat").attr('data-name3',name);
+    // }
+  }
+  $('#selectedMat').click(function(evt) {
+        //evt.preventDefault();
+        console.log($('#selectedMat').data('sku'));
+      if($('#selectedMat').data('name')) {    
+         if($("#mat_value").val()==1) {               
+            if($('#mat1').data('sku')) { $("#mat1").removeData('sku'); } 
+            $("#mat1").attr('data-sku',$('#selectedMat').data('sku'));
+            $("#mat1").attr('src', 'http://image.pictureframes.com/images/mats/'+$('#selectedMat').data('sku')+'.gif')    
+            $("#matDetails1_Title").html($('#selectedMat').data('sku') + " - " + $('#selectedMat').data('name'));
+            $("#matDetails1_Borders").html("Border width: " + $( "#matborder_whole" ).val() + $( "#matborder_fractions" ).val());
+            $("#matDetails1_Price").html($('#selectedMat').data('price').toFixed(2)); 
+            $("#mat1_info").val($('#selectedMat').data('sku') + ";" + $('#selectedMat').data('name') + ";" + $('#selectedMat').data('price').toFixed(2));
+          } else if($("#mat_value").val()==2) {
+            if($('#mat2').data('sku')) { $("#mat2").removeData('sku'); } 
+            $("#mat2").attr('src', 'http://image.pictureframes.com/images/mats/'+$('#selectedMat').data('sku')+'.gif')
+            $("#mat2").attr('data-sku',$('#selectedMat').data('sku'));
+            $("#matDetails2_Title").html($('#selectedMat').data('sku') + " - " + $('#selectedMat').data('name'));
+            $("#matDetails2_Borders").html("Border width: " + $( "#matborder_whole" ).val() + $( "#matborder_fractions" ).val());
+            $("#matDetails2_Price").html($('#selectedMat').data('price').toFixed(2)); 
+            $("#mat2_info").val($('#selectedMat').data('sku') + ";" + $('#selectedMat').data('name') + ";" + $('#selectedMat').data('price').toFixed(2));
+          } else if($("#mat_value").val()==3) {
+            if($('#mat3').data('sku')) { $("#mat3").removeData('sku'); } 
+            $("#mat3").attr('src', 'http://image.pictureframes.com/images/mats/'+$('#selectedMat').data('sku')+'.gif')
+            $("#mat3").attr('data-sku',$('#selectedMat').data('sku'));
+            $("#matDetails3_Title").html($('#selectedMat').data('sku') + " - " + $('#selectedMat').data('name'));
+            $("#matDetails3_Borders").html("Border width: " + $( "#matborder_whole" ).val() + $( "#matborder_fractions" ).val());
+            $("#matDetails3_Price").html($('#selectedMat').data('price').toFixed(2)); 
+            $("#mat3_info").val($('#selectedMat').data('sku') + ";" + $('#selectedMat').data('name') + ";" + $('#selectedMat').data('price').toFixed(2));
+          } 
+          generateNewImageFrame();        
+       }  
+    });
+  function generateNewImageFrame() {
+      //mat selected dropdown
+       var matBorder =   $( "#matborder_whole option:selected" ).val();
+       console.log("matBorder : " + matBorder);
+       if(parseInt(matBorder)<2) {
+          if(parseFloat($("#matborder_fractions").val())<0.5||$("#matborder_fractions").val()==""){ 
+            $("#matborder_fractions").val(".5");
+          }
+           $.each($("#matborder_fractions option"),function(d,e) {
+              if(parseFloat($(e).val())<0.5||$(e).val()==""){
+                $(e).attr("disabled","disabled");
+               }
+            });
+       } else {
+         $("#matborder_fractions option").removeAttr("disabled");
+       }
+       var matParams=""
+       var mat1Options = "";
+       var mat2Options = "";
+       var mat3Options = "";
+       //for mat1
+       $("#matDetails1_Details").html("");
+       $("#matDetails2_Details").html("");
+       $("#matDetails3_Details").html("");
+       if($('#mat1').data('sku')) {
+          matParams = matParams + "&mat1="+$('#mat1').data('sku'); 
+          $("#matDetails1_Borders").html("Border width: " + $( "#matborder_whole" ).val() + $( "#matborder_fractions" ).val());
+       }
+       if($('#stm-1').is(":checked")) {
+          matParams = matParams + "&vgrooveOffset=.75";  
+          var details = $("#matDetails1_Details").html();          
+          $("#matDetails1_Details").html(details+'<span class="light ">V-Groove</span> <span class="uk-float-right" id="VGroove1"></span>');
+          mat1Options += "V-Groove;";
+       }
+       if($('#stm-2').is(":checked")) {
+          matParams = matParams + "&m1b=true";  
+          var details = $("#matDetails1_Details").html();                 
+          $("#matDetails1_Details").html(details+'<br><span class="light ">Reverse Bevel Cut</span> <span class="uk-float-right" id="reverseBevelCut1"></span>'); 
+          mat1Options += "Reverse Bevel Cut;";
+       }
+       if($('#stm-3').is(":checked")) {
+          matParams = matParams + "&mat1Raised=true";   
+          var details = $("#matDetails1_Details").html();          
+          $("#matDetails1_Details").html(details+'<br><span class="light ">Raised Mat</span> <span class="uk-float-right" id="raisedMat1"></span>');
+          mat1Options += "Raised Mat;";
+       }
+       $("#mat1_options").val(mat1Options);
+       //end mat1
+       //for mat2
+       if($('#mat2').data('sku')) {
+          matParams = matParams +  "&mat2="+$('#mat2').data('sku')+"&off="+$( "#offset2" ).val(); 
+          var details = $("#matDetails2_Details").html();          
+          $("#matDetails2_Details").html(details+'<span class="light ">Offset: '+$( "#offset2" ).val()+'</span>'); 
+          $("#matDetails2_Borders").html("Border width: " + $( "#matborder_whole" ).val() + $( "#matborder_fractions" ).val());
+          mat2Options += $( "#offset2" ).val()+";";
+       }
+       if($('#stm-4').is(":checked")) {
+          matParams = matParams + "&m2b=true";   
+          var details = $("#matDetails2_Details").html();          
+          $("#matDetails2_Details").html(details+'<br><span class="light ">Reverse Bevel Cut</span> <span class="uk-float-right" id="reverseBevelCut2"></span>'); 
+          mat2Options += "Reverse Bevel Cut;";
+       }
+       if($('#stm-5').is(":checked")) {
+          matParams = matParams + "&mat2Raised=true";   
+          var details = $("#matDetails2_Details").html();          
+          $("#matDetails2_Details").html(details+'<br><span class="light ">Raised Mat</span> <span class="uk-float-right" id="raisedMat2"></span>');
+          mat2Options += "Raised Mat;";
+       }
+       $("#mat2_options").val(mat2Options);
+       //end mat2
+       //for mat3
+        if($('#mat3').data('sku')) {
+          matParams = matParams +  "&mat3="+$('#mat3').data('sku')+"&off3="+$( "#offset3" ).val(); 
+           var details = $("#matDetails3_Details").html();          
+          $("#matDetails3_Details").html(details+'<span class="light">Offset: '+$( "#offset3" ).val()+'</span>'); 
+          $("#matDetails3_Borders").html("Border width: " + $( "#matborder_whole" ).val() + $( "#matborder_fractions" ).val());
+           mat3Options += $( "#offset3" ).val()+";";
+        }
+        if($('#stm-6').is(":checked")) {
+           matParams = matParams + "&m3b=true";   
+           var details = $("#matDetails3_Details").html();          
+          $("#matDetails3_Details").html(details+'<br><span class="light ">Reverse Bevel Cut</span> <span class="uk-float-right" id="reverseBevelCut3"></span>'); 
+           mat3Options += "Reverse Bevel Cut;";
+        }
+        if($('#stm-7').is(":checked")) {
+          matParams = matParams + "&mat3Raised=true";   
+          var details = $("#matDetails3_Details").html();          
+          $("#matDetails3_Details").html(details+'<br><span class="light ">Raised Mat</span> <span class="uk-float-right" id="raisedMat3"></span>');
+           mat3Options += "Raised Mat;";
+         }
+         $("#mat3_options").val(mat3Options);
+        //end for mat3
+        var matSize = $( "#matborder_whole" ).val() + $( "#matborder_fractions" ).val() 
+        var imageWidth = ($("#imageSize").children('option:selected').data('width')) ? $("#imageSize").children('option:selected').data('width') : 8;
+        var imageWidthFraction = ($("#imageSize").children('option:selected').data('widthfraction')) ? $("#imageSize").children('option:selected').data('widthfraction') : .0;
+        var newImageWidth = imageWidth + imageWidthFraction;
+        var imageHeight = ($("#imageSize").children('option:selected').data('height')) ? $("#imageSize").children('option:selected').data('height') : 11;
+        var imageHeightFraction = ($("#imageSize").children('option:selected').data('heightfraction')) ? $("#imageSize").children('option:selected').data('heightfraction') : 11;
+         var newImageHeight = imageHeight + imageHeightFraction;
+        // var imagePrice = ($("#imageSize").children('option:selected').data('price')) ? $("#imageSize").children('option:selected').data('price') : 0;
+        if(matParams=="") {
+            matSize = 1.5;
+            var newSrc = "https://pod.cloud.graphikservices.com/renderEMF/render?imgUrl={{ url(PRODUCT_IMAGE_PATH.$product->fldProductSlug.'/'.MEDIUM_IMAGE.$product->fldProductImage) }}&imgHI="+imageHeight+"&imgWI="+imageWidth+"&maxW=400&maxH=400&t="+matSize+"&r="+matSize+"&b="+matSize+"&l="+matSize+"&mat1=PM918&m1b=1&off=0.375&sku="+$("#mainImage").attr('data-sku')+"&frameW="+$("#mainImage").attr('data-width');
+            console.log(newSrc);
+        } else {
+         var newSrc = "https://pod.cloud.graphikservices.com/renderEMF/render?imgUrl={{ url(PRODUCT_IMAGE_PATH.$product->fldProductSlug.'/'.MEDIUM_IMAGE.$product->fldProductImage) }}&imgHI="+imageHeight+"&imgWI="+imageWidth+"&maxW=400&maxH=400&t="+matSize+"&r="+matSize+"&b="+matSize+"&l="+matSize+"&m1b=1&off=0.375&sku="+$("#mainImage").attr('data-sku')+"&frameW="+$("#mainImage").attr('data-width')+matParams;
+        } 
+          //change the frame information on product details page
+          $("#frameName").html($("#mainImage").data('desc'));
+          // $("#framePrice").html($("#mainImage").data('price').toFixed(2));
+          $("#frameSize").html(imageWidth + ' x ' + imageHeight);
+          //for add to cart functionality
+          // $("#frame_price").val($("#mainImage").data('price').toFixed(2));
+          $("#frame_info").val($("#mainImage").data('sku'));
+          //$("#frame_desc").val($("#mainImage").data('desc'));
+    $("#frame_desc").val($("#mainImage").attr('data-width')+';'+$("#mainImage").data('desc'));
+          $("#mainImage").attr('src',newSrc);
+          //change the price,width and height of image
+          $("#descImageWidth").html(imageWidth);
+          $("#descImageHeight").html(imageHeight);
+          // $("#descImagePrice").html(imagePrice.toFixed(2));
+          //compute the total price
+          paperPrice = Number($("#paperPrice").html() ? $("#paperPrice").html() : 0);
+          // framePrice = Number($("#mainImage").data('price'));
+          mat1Price = Number($("#matDetails1_Price").html() ? $("#matDetails1_Price").html() : 0);
+          mat2Price = Number($("#matDetails2_Price").html() ? $("#matDetails2_Price").html() : 0);
+          mat3Price = Number($("#matDetails3_Price").html() ? $("#matDetails3_Price").html() : 0);
+          //for add to cart functionality
+          // $("#image_price").val(imagePrice.toFixed(2));
+          $("#paper_info").val($("#paperSKU").html() + ";" + paperPrice + ";" + $("#paperDESC").html());
+          // totalPrice = Number(framePrice.toFixed(2)) + Number(imagePrice.toFixed(2)) + Number(paperPrice.toFixed(2)) + Number(mat1Price.toFixed(2)) + Number(mat2Price.toFixed(2)) + Number(mat3Price.toFixed(2));
+          // $("#totalPrice").html(totalPrice.toFixed(2));
+          //put the total price to hidden fields for add to cart functionality
+          // $("#total_price").val(totalPrice.toFixed(2));
+          //fetch package prices
+          getPackagePrice();
+  }
+  $('#mat_choice,#mat_image_choice').click(function(evt) {
+       evt.preventDefault();        
+       $("#mat_value").val($('#mat_choice').data('mat'));
+  });
+  $('#mat_choice2,#mat_image_choice2').click(function(evt) {      
+       evt.preventDefault();       
+       $("#mat_value").val($('#mat_choice2').data('mat'));
+  });
+  $('#mat_choice3,#mat_image_choice3').click(function(evt) {      
+       evt.preventDefault();       
+       $("#mat_value").val($('#mat_choice3').data('mat'));
+  });
+displayAlert(false,false,false);
+  $("#stm").click(function(){
+    var $this = $(this);
+    if(this.checked) {
+      displayAlert(true,false,false);
+    }
+});
+  $("#dm").click(function(){
+    var $this = $(this);
+    if(this.checked) {
+       displayAlert(false,true,false);
+    }
+});
+  $("#tm").click(function(){
+    var $this = $(this);
+    if(this.checked) {
+       displayAlert(false,false,true);
+    }
+});
+  function displayAlert(single,double,triple) {
+     if(single == true) {
+         $("#single_top_mat").show();
+     } else {
+        $("#single_top_mat").hide();
+     }
+      if(double == true) {
+         $("#double_top_mat").show();
+     } else {
+        $("#double_top_mat").hide();
+     }
+      if(triple == true) {
+         $("#triple_top_mat").show();
+     } else {
+        $("#triple_top_mat").hide();
+     }
+  }
+</script>

@@ -1,0 +1,21 @@
+<?php
+    // // SANDBOX
+    // d3veloperDNR // P@ssword1
+    define('AUTHNET_LOGIN', '6yhb96Lu29K8'); 
+    define('AUTHNET_TRANSKEY', '2b36NN8B7Tpx7Y6P');
+
+    // // // LIVE Client's
+    // // chad_clarkin@yahoo.com | Authorize4425!
+    // define('AUTHNET_LOGIN', '39QwR4uty'); 
+    // define('AUTHNET_TRANSKEY', '4w375D5p2ZA6ZXrQ');
+
+    if (!function_exists('curl_init'))
+    {
+        throw new Exception('CURL PHP extension not installed');
+    }
+
+    if (!function_exists('simplexml_load_file'))
+    {
+        throw new Exception('SimpleXML PHP extension not installed');
+    }
+?>

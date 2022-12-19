@@ -1,0 +1,56 @@
+@extends('layouts._front.full-width')
+
+@section('content')
+<div class="uk-margin-medium-bottom">
+	<article id="main" role="main">
+		<div class="uk-grid">
+			<div class="uk-width-1-1">
+
+				<?php $frames = array(
+							array('image'=>'447x397-sample-1.jpg', 'frame_color'=>'white'),
+							array('image'=>'447x397-sample-2.jpg', 'frame_color'=>'white'),
+							array('image'=>'447x397-sample-3.jpg', 'frame_color'=>'white'),
+							array('image'=>'447x397-sample-4.jpg', 'frame_color'=>'white'),
+							array('image'=>'447x397-sample-4.jpg', 'frame_color'=>'white'),
+							array('image'=>'447x397-sample-3.jpg', 'frame_color'=>'white'),
+							array('image'=>'447x397-sample-2.jpg', 'frame_color'=>'white'),
+							array('image'=>'447x397-sample-1.jpg', 'frame_color'=>'white')
+				)?>
+				<div class="uk-grid-width-1-1 uk-grid-width-small-1-2  uk-grid-width-medium-1-3   uk-grid-width-large-1-4 tm-grid-heights" data-uk-grid="{gutter:0}">
+					@foreach($frames as $frame)
+					<?php settype($frame, 'object'); ?>
+                    <div>
+                    	<div class="uk-panel-box">
+	                    	<figure class="uk-overlay uk-overlay-hover">
+							    <img class="uk-overlay-fade" src="{{url('uploads/photo-gallery/'.$frame->image)}}" width="500" class="w100 hauto mauto" alt="">
+							    <figcaption class="uk-overlay-panel uk-overlay-background">
+							    		<h3>Lorem ipsum dolor</h3>
+							    		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                        <a href="#" class="uk-button uk-button-trans fnone text-uppercase white">View Canvas</a>
+							    </figcaption>
+							</figure>
+						</div>
+					</div>
+					@endforeach
+                </div>
+
+
+			</div>
+
+		</div>
+	</article>
+</div><!--container -->
+@stop
+
+
+@section('headercodes')
+
+@stop
+
+@if($pageEditable==true)
+
+@endif
+@section('extracodes')
+ {{-- */ /* */ /* --}}
+
+@stop

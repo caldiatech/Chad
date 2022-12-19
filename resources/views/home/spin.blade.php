@@ -1,0 +1,1 @@
+{{ HTML::image('_front/assets/images/ajax-loader.gif') }}

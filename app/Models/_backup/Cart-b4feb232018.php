@@ -1,0 +1,429 @@
+<?php
+ 
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model as Eloquent;
+
+use App\SoapXmlBuilder;
+
+class Cart extends Eloquent
+{
+   
+    protected $table = 'tblCart';
+    protected $primaryKey = 'fldCartID';
+	public $timestamps = false;
+
+	static function displayCart($order_code) {
+
+		$cartDisplay = self::leftJoin('tblProduct','fldProductID','=','fldCartProductID')
+					->select('tblProduct.fldProductSlug as fldProductSlug','tblProduct.fldProductID as product_id','tblCart.fldCartID as cart_id','tblCart.fldCartQuantity as quantity','tblProduct.fldProductSubTitle as product_sub_title',
+							'tblCart.fldCartProductPrice as product_price','tblProduct.fldProductImage as image','tblProduct.fldProductWeight as weight',
+							'tblCart.fldCartProductName as product_name','tblCart.fldCartOrderDate as order_date','tblCart.fldCartOrderNo as order_no',
+							'tblCart.fldCartProductOptions as product_options',
+							'tblCart.fldCartImagePrice','tblCart.fldCartFrameInfo','tblCart.fldCartFramePrice',
+						    'tblCart.fldCartFrameDesc','tblCart.fldCartPaperInfo','tblCart.fldCartMat1Info',
+							'tblCart.fldCartMat2Info','tblCart.fldCartMat3Info','tblCart.fldCartMat1Options',
+							'tblCart.fldCartMat2Options','tblCart.fldCartMat3Options','tblCart.fldCartImageSize',
+							'tblCart.fldCartMatBorderSize', 'tblCart.gd_status', 'tblCart.gd_orderId', 'tblCart.fldCartFinishkitInfo')
+					->where('tblCart.fldCartOrderNo','=',$order_code)
+					->get();
+		
+		$total = 0;	$subtotal=0;$ctr=0;	
+
+		foreach($cartDisplay as $cartDisplays) {
+				if($cartDisplays->gd_orderId != "") {
+					$gd_update = SoapXmlBuilder::getOrderStatus($cartDisplays->gd_orderId);
+					$cartDisplays->gd_status = $gd_update->orderConfirmation->message;
+				    $cartDisplays->gd_orderId = $gd_update->orderConfirmation->orderId;
+				} else {
+					$cartDisplays->gd_status = "";
+					$cartDisplays->gd_orderId = "";
+				}	
+				
+				
+
+				//******for product options***********//
+				$productOption = explode("_",$cartDisplays->product_options);								
+				$octr=0;
+				$totalOptionPrice = 0;
+				$matParams = "";
+				if(!empty($productOption)) { 
+					$myOptions = array();
+					foreach($productOption as $productOptions) {
+						//check the price of the productOptions					
+						$productOptionsPrice = ProductOptions::leftJoin('tblOptionsAssets','tblOptionsAssets.fldOptionsAssetsID','=','fldProductOptionsOptionsID')
+															  ->leftJoin('tblOptions','fldOptionsID','=','fldOptionsAssetsOptionID')
+															  ->select('fldOptionsAssetsName as assets_name','fldOptionsName as option_name',
+															  		    'fldProductOptionsPrice as option_price')
+															  ->where('fldOptionsAssetsID','=',$productOptions)
+															  ->where('fldProductOptionsProductID','=',$cartDisplays->product_id)
+															  ->first();	
+						if(!empty($productOptionsPrice)) {									  	
+							$optionPrice = 	$productOptionsPrice->option_price != 0 ? " ( + ".number_format($productOptionsPrice->option_price,2).")": "";			
+							
+							
+							if($productOptionsPrice->option_name != "") { 
+								$myOptions[] = $productOptionsPrice->option_name . " : " . $productOptionsPrice->assets_name . $optionPrice;
+							}
+							//print_r($cartDisplay[$ctr]['cart_options']);
+							$totalOptionPrice = $productOptionsPrice->option_price + $totalOptionPrice;
+						}
+							$octr=$octr+1;
+					}
+					$cartDisplay[$ctr]['cart_options'] = $myOptions;
+				}
+				//******END for product options***********//
+				
+				
+				$total =  ($cartDisplays->quantity * $cartDisplays->product_price)+$totalOptionPrice;
+                $subtotal = $subtotal + $total;    					
+				$cartDisplay[$ctr]['total'] = $total;
+
+				//For frame options
+				if($cartDisplays->fldCartPaperInfo != "") {
+					$paperInfo = explode(';', $cartDisplays->fldCartPaperInfo);
+					$cartDisplay[$ctr]['paper_info'] = $paperInfo;
+				}
+
+				if($cartDisplays->fldCartMat1Info != "") {
+					$mat1 = explode(';', $cartDisplays->fldCartMat1Info);
+					$cartDisplay[$ctr]['mat1'] = $mat1;
+					$matParams .=  "&mat1=".$mat1[0]; 					
+				}
+
+				if($cartDisplays->fldCartMat2Info != "") {
+					$mat2 = explode(';', $cartDisplays->fldCartMat2Info);
+					$cartDisplay[$ctr]['mat2'] = $mat2;
+					$matParams .=  "&mat2=".$mat2[0]; 
+				}
+
+				if($cartDisplays->fldCartMat3Info != "") {
+					$mat3 = explode(';', $cartDisplays->fldCartMat3Info);
+					$cartDisplay[$ctr]['mat3'] = $mat3;
+					$matParams .=  "&mat3=".$mat3[0];
+				}
+
+				if($cartDisplays->fldCartMat1Options != "") {
+					$mat1Options = explode(';', $cartDisplays->fldCartMat1Options);
+					$cartDisplay[$ctr]['mat1_Options'] = $mat1Options;
+
+					foreach($mat1Options as $mat1Optionss) {
+						if($mat1Optionss=="V-Groove") {
+							$matParams .=  "&vgrooveOffset=.75";		
+						}
+						if($mat1Optionss=="Reverse Bevel Cut") {
+							$matParams .=  "&m1b=true";		
+						}
+						if($mat1Optionss=="Raised Mat") {
+							$matParams .=  "&mat1Raised=true";		
+						}
+					}
+
+
+					
+
+				}
+
+				if($cartDisplays->fldCartMat2Options != "") {
+					$mat2Options = explode(';', $cartDisplays->fldCartMat2Options);
+					$cartDisplay[$ctr]['mat2_Options'] = $mat2Options;
+					$matParams .=  "&off=".$mat2Options[0];
+					foreach($mat2Options as $mat2Optionss) {
+						if($mat2Optionss=="Reverse Bevel Cut") {
+							$matParams .=  "&m2b=true";		
+						}
+						if($mat2Optionss=="Raised Mat") {
+							$matParams .=  "&mat2Raised=true";		
+						}
+					}
+				}
+
+				if($cartDisplays->fldCartMat3Options != "") {
+					$mat3Options = explode(';', $cartDisplays->fldCartMat3Options);
+					$cartDisplay[$ctr]['mat3_Options'] = $mat3Options;
+					$matParams .=  "&off3=".$mat3Options[0];
+					foreach($mat3Options as $mat3Optionss) {
+						if($mat3Optionss=="Reverse Bevel Cut") {
+							$matParams .=  "&m3b=true";		
+						}
+						if($mat3Optionss=="Raised Mat") {
+							$matParams .=  "&mat3Raised=true";		
+						}
+					}
+				}
+
+				$imageSize = ProductOptions::join('tblOptionsAssets','tblOptionsAssets.fldOptionsAssetsID','=','tblProductOptions.fldProductOptionsAssetsID')
+								->where('fldProductOptionsID','=',$cartDisplays->fldCartImageSize)
+								->first();
+				if($cartDisplays->fldCartFrameDesc != "") {			
+					$frameDESC = explode(';', $cartDisplays->fldCartFrameDesc);
+					$cartDisplay[$ctr]['frame_size'] = $frameDESC[0];
+					if(count($frameDESC)==2) {
+						$cartDisplay[$ctr]['frame_desc'] = $frameDESC[1];
+					}
+				}
+				if($imageSize) {
+					$cartDisplay[$ctr]['image_height'] = $imageSize->fldOptionsAssetsHeight;
+					$cartDisplay[$ctr]['image_width'] = $imageSize->fldOptionsAssetsWidth;
+				}
+				$cartDisplay[$ctr]['matParams'] = $matParams;	
+
+				$ctr=$ctr+1;
+				
+		}
+		
+		
+		
+		$cartDisplay[0]['subtotal'] = $subtotal;	
+
+		return $cartDisplay;	
+		
+	}
+
+	
+	static function displayCheckout($order_code) {
+						
+		$cartDisplay = self::leftJoin('tblCartCouponCode','tblCart.fldCartOrderNo','=','tblCartCouponCode.fldCartCouponCodeOrderNo')
+							->leftJoin('tblCartShippingRate','tblCart.fldCartOrderNo','=','tblCartShippingRate.fldCartShippingRateOrderNo')
+							->leftJoin('tblCartTax','tblCart.fldCartOrderNo','=','tblCartTax.fldCartTaxOrderNo')
+							->leftJoin('tblClientsBilling','tblCart.fldCartClientID','=','tblClientsBilling.fldClientsBillingClientID')
+							->leftJoin('tblClientsShipping','tblCart.fldCartClientID','=','tblClientsShipping.fldClientsShippingClientID')
+							->where('tblCart.fldCartOrderNo','=',$order_code)
+							->select('tblCartCouponCode.*','tblCartShippingRate.*','tblCartTax.*',
+									'tblClientsBilling.fldClientsBillingFirstname as bFirstname','tblClientsBilling.fldClientsBillingLastname as bLastname','tblClientsBilling.fldClientsBillingAddress as bAddress','tblClientsBilling.fldClientsBillingAddress1 as bAddress1','tblClientsBilling.fldClientsBillingCity as bCity','tblClientsBilling.fldClientsBillingState as bSTate','tblClientsBilling.fldClientsBillingZip as bZip','tblClientsBilling.fldClientsBillingEmail as bEmail','tblClientsBilling.fldClientsBillingPhone as bPhone','tblClientsBilling.fldClientsBillingCountry as bCountry',
+									 'tblClientsShipping.fldClientsShippingFirstname as sFirstname','tblClientsShipping.fldClientsShippingLastname as sLastname','tblClientsShipping.fldClientsShippingAddress as sAddress','tblClientsShipping.fldClientsShippingAddress1 as sAddress1','tblClientsShipping.fldClientsShippingCity as sCity','tblClientsShipping.fldClientsShippingState as sState','tblClientsShipping.fldClientsShippingZip as sZip','tblClientsShipping.fldClientsShippingEmail as sEmail','tblClientsShipping.fldClientsShippingPhone as sPhone','tblClientsShipping.fldClientsShippingCountry as sCountry',
+									 	'tblCart.fldCartOrderDate as order_date',
+									 	 'tblCart.fldCartOrderNo as order_code',
+									 	 'tblCart.fldCartShippingAddress','tblCart.fldCartClientID')
+							->first();
+		//print_r($cartDisplay);die();
+		return $cartDisplay;	
+	}
+
+	static function displayOrderHistory($client_id) {
+		$status = "Paid";
+
+		$cartDisplay = Client::join('tblCart','tblCart.fldCartClientID','=','tblClient.fldClientID')
+							  ->join('tblProduct','fldProductID','=','fldCartProductID')
+							  ->join('tblClientsShipping','tblClientsShipping.fldClientsShippingClientID','=','tblClient.fldClientID')
+							  ->select('tblProduct.fldProductSlug as fldProductSlug','tblProduct.fldProductID as product_id','tblCart.fldCartID as cart_id','tblCart.fldCartQuantity as quantity','tblProduct.fldProductSubTitle as product_sub_title',
+									   'tblCart.fldCartProductPrice as product_price','tblProduct.fldProductImage as image','tblProduct.fldProductWeight as weight',
+									   'tblCart.fldCartProductName as product_name','tblCart.fldCartOrderDate as order_date','tblCart.fldCartOrderNo as order_no',
+									   'tblCart.fldCartProductOptions as product_options',
+									   'tblCart.fldCartImagePrice','tblCart.fldCartFrameInfo','tblCart.fldCartFramePrice',
+						    		   	   'tblCart.fldCartFrameDesc','tblCart.fldCartPaperInfo','tblCart.fldCartMat1Info',
+									   'tblCart.fldCartMat2Info','tblCart.fldCartMat3Info','tblCart.fldCartMat1Options',
+									   'tblCart.fldCartMat2Options','tblCart.fldCartMat3Options','tblCart.fldCartImageSize',
+									   'tblCart.fldCartMatBorderSize','tblClientsShipping.fldClientsShippingAddress','tblClientsShipping.fldClientsShippingAddress1',
+									   'tblClientsShipping.fldClientsShippingCity','tblClientsShipping.fldClientsShippingState','tblClientsShipping.fldClientsShippingZip',
+									   'tblCart.fldCartShippingAddress')
+							  ->where('tblClient.fldClientID','=',$client_id)
+							  ->where('tblCart.fldCartStatus','=',$status)
+							  ->orderBy('fldCartID','DESC')							  
+							  ->get();
+		return $cartDisplay;							  
+		
+	}
+
+	static function displayOrderHistoryDashboard($client_id) {
+		$status = "Paid";
+		$cartDisplay = Client::join('tblCart','tblCart.fldCartClientID','=','tblClient.fldClientID')
+							  ->join('tblProduct','fldProductID','=','fldCartProductID')
+							  ->join('tblClientsShipping','tblClientsShipping.fldClientsShippingClientID','=','tblClient.fldClientID')
+							  ->select('tblProduct.fldProductSlug as fldProductSlug','tblProduct.fldProductID as product_id','tblCart.fldCartID as cart_id','tblCart.fldCartQuantity as quantity','tblProduct.fldProductSubTitle as product_sub_title',
+									   'tblCart.fldCartProductPrice as product_price','tblProduct.fldProductImage as image','tblProduct.fldProductWeight as weight',
+									   'tblCart.fldCartProductName as product_name','tblCart.fldCartOrderDate as order_date','tblCart.fldCartOrderNo as order_no',
+									   'tblCart.fldCartProductOptions as product_options',
+									   'tblCart.fldCartImagePrice','tblCart.fldCartFrameInfo','tblCart.fldCartFramePrice',
+						    		   	   'tblCart.fldCartFrameDesc','tblCart.fldCartPaperInfo','tblCart.fldCartMat1Info',
+									   'tblCart.fldCartMat2Info','tblCart.fldCartMat3Info','tblCart.fldCartMat1Options',
+									   'tblCart.fldCartMat2Options','tblCart.fldCartMat3Options','tblCart.fldCartImageSize',
+									   'tblCart.fldCartMatBorderSize','tblClientsShipping.fldClientsShippingAddress','tblClientsShipping.fldClientsShippingAddress1',
+									   'tblClientsShipping.fldClientsShippingCity','tblClientsShipping.fldClientsShippingState','tblClientsShipping.fldClientsShippingZip',
+								           'tblCart.fldCartShippingAddress')
+							  ->where('tblClient.fldClientID','=',$client_id)
+							  ->where('tblCart.fldCartStatus','=',$status)
+							  ->orderBy('fldCartID','DESC')
+							  ->take(6)
+							  ->get();
+
+		return $cartDisplay;							  
+		
+	}
+	
+	static function getFrameAttributes($frame) {
+		if($frame != "") {
+			$frameInfo = explode(';', $frame);
+			return $frameInfo[1];
+		} else {
+			return "";
+		}
+	}
+	
+	static function getPaperInfo($paper) {
+		$paperInfo = explode(';', $paper);
+		if(isset($paperInfo[2])) {
+			return $paperInfo[0] . ' - ' . $paperInfo[2];
+		} else {
+			return $paperInfo[0];
+		}
+	}
+
+	static function getMatInfo($mat) {
+		$matInfo  = explode(';',$mat);
+
+		if(isset($paperInfo[1])) {
+			return $matInfo[0] . ' - ' . $matInfo[1];	
+		} else {
+			return $matInfo[0];	
+		}	
+	}
+
+	static function getMatOptions($options) {
+		$optionInfo = str_replace(';', ' ', $options);
+		return $optionInfo;
+	}
+
+	static function getMat($orderCode) {
+		$orderInfo = self::where('fldCartOrderNo','=',$orderCode)->first();
+		$matInfo = "";
+
+		
+		$mat1 = $orderInfo->fldCartMat1Info != "" ? self::getMatInfo($orderInfo->fldCartMat1Info) : "";
+		$mat1Option = $orderInfo->fldCartMat1Options != "" ? self::getMatOptions($orderInfo->fldCartMat1Options) : "";
+		$mat2 = $orderInfo->fldCartMat2Info != "" ? self::getMatInfo($orderInfo->fldCartMat2Info) : "";
+		$mat2Option = $orderInfo->fldCartMat2Options != "" ? self::getMatOptions($orderInfo->fldCartMat2Options) : "";
+		$mat3 = $orderInfo->fldCartMat3Info != "" ? self::getMatInfo($orderInfo->fldCartMat3Info) : "";
+		$mat3Option = $orderInfo->fldCartMat3Options != "" ? self::getMatOptions($orderInfo->fldCartMat3Options) : "";
+
+		if($mat1 != "") {
+			$matInfo = $mat1;
+		}
+
+		if($mat1Option != "") {
+			$matInfo .= ' - '.$mat1Option;
+		}
+
+		if($mat2 != "") {
+			$matInfo = ', '.$mat2;
+		}
+
+		if($mat1Option != "") {
+			$matInfo .= ' - '.$mat2Option;
+		}
+
+		if($mat3 != "") {
+			$matInfo = ', '.$mat3;
+		}
+
+		if($mat3Option != "") {
+			$matInfo .= ' - '.$mat3Option;
+		}
+
+
+
+
+
+		return $matInfo;
+
+	}
+
+	static function getImageSize($cartSize) {
+		$imageSize = ProductOptions::join('tblOptionsAssets','tblOptionsAssets.fldOptionsAssetsID','=','tblProductOptions.fldProductOptionsAssetsID')
+								->where('fldProductOptionsID','=',$cartSize)
+								->first();
+		if(empty($imageSize)) {
+			return true;
+		} else {							
+			return 	$imageSize->fldOptionsAssetsWidth . ' x ' . $imageSize->fldOptionsAssetsHeight;					
+		}
+									
+	}
+
+	static function getReturnFrameImage($orderCode,$slug,$image) {
+		$orderInfo = self::where('fldCartOrderNo','=',$orderCode)->first();
+
+		$matParams = "";
+		$frameparams = "";
+
+		if($orderInfo->fldCartMat1Info != "") {
+			$mat1 = explode(';', $orderInfo->fldCartMat1Info);		
+			$matParams .=  "&mat1=".$mat1[0]; 					
+		}
+
+		if($orderInfo->fldCartMat2Info != "") {
+			$mat2 = explode(';', $orderInfo->fldCartMat2Info);		
+			$matParams .=  "&mat2=".$mat2[0]; 
+		}
+
+		if($orderInfo->fldCartMat3Info != "") {
+			$mat3 = explode(';', $orderInfo->fldCartMat3Info);		
+			$matParams .=  "&mat3=".$mat3[0];
+		}
+
+		if($orderInfo->fldCartMat1Options != "") {
+			$mat1Options = explode(';', $orderInfo->fldCartMat1Options);
+			
+			foreach($mat1Options as $mat1Optionss) {
+				if($mat1Optionss=="V-Groove") {
+					$matParams .=  "&vgrooveOffset=.75";		
+				}
+				if($mat1Optionss=="Reverse Bevel Cut") {
+					$matParams .=  "&m1b=true";		
+				}
+				if($mat1Optionss=="Raised Mat") {
+					$matParams .=  "&mat1Raised=true";		
+				}
+			}
+
+			$matParams .= '&t='.$orderInfo->fldCartMatBorderSize.'&r='.$orderInfo->fldCartMatBorderSize.'&b='.$orderInfo->fldCartMatBorderSize.'&l='.$orderInfo->fldCartMatBorderSize;
+		}
+
+		if($orderInfo->fldCartMat2Options != "") {
+					$mat2Options = explode(';', $orderInfo->fldCartMat2Options);					
+					$matParams .=  "&off=".$mat2Options[0];
+					foreach($mat2Options as $mat2Optionss) {
+						if($mat2Optionss=="Reverse Bevel Cut") {
+							$matParams .=  "&m2b=true";		
+						}
+						if($mat2Optionss=="Raised Mat") {
+							$matParams .=  "&mat2Raised=true";		
+						}
+					}
+		}
+
+		if($orderInfo->fldCartMat3Options != "") {
+			$mat3Options = explode(';', $orderInfo->fldCartMat3Options);		
+			$matParams .=  "&off3=".$mat3Options[0];
+			foreach($mat3Options as $mat3Optionss) {
+				if($mat3Optionss=="Reverse Bevel Cut") {
+					$matParams .=  "&m3b=true";		
+				}
+				if($mat3Optionss=="Raised Mat") {
+					$matParams .=  "&mat3Raised=true";		
+				}
+			}
+		}
+
+		$imageSize = ProductOptions::join('tblOptionsAssets','tblOptionsAssets.fldOptionsAssetsID','=','tblProductOptions.fldProductOptionsAssetsID')
+								->where('fldProductOptionsID','=',$orderInfo->fldCartImageSize)
+								->first();
+				
+
+		if(empty($imageSize)) {
+			$imageSize = OptionsAssets::orderBy('fldOptionsAssetsPosition')->first();	
+		}
+		
+		if($orderInfo->fldCartFrameInfo){
+			$frameDESC = explode(';', $orderInfo->fldCartFrameDesc);
+			$frameparams = '&sku='.$orderInfo->fldCartFrameInfo.'&frameW='.$frameDESC[0];
+		}
+		
+		$imageLink = 'https://pod.cloud.graphikservices.com/renderEMF/render?imgUrl='.url(PRODUCT_IMAGE_PATH.$slug.'/'.SMALL_IMAGE.$image).'&imgHI='.$imageSize->fldOptionsAssetsHeight.'&imgWI='.$imageSize->fldOptionsAssetsWidth.'&maxW=225&maxH=225'.$frameparams.$matParams;
+
+		return $imageLink;
+	}
+}
+
+
+?>

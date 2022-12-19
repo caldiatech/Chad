@@ -1,0 +1,162 @@
+@extends('layouts._front.dashboard_manager')
+
+@section('content')
+ <section id="sale-commissions" class="section">
+    	<h2 class="section-header uk-h2"><i class="uk-icon-lock ion ion-ios-locked uk-icon-justify icon-stack-parent white "><i class="uk-icon-check-circle-o icon-small-append icon-bottom icon-right"></i></i> <span class="title-text">Year to Date Commissions <span class="total-commissions-text">${{ number_format($cart{1}['TotalCommission'],2) }}</span></span></h2>
+    	<div class="section-content uk-table uk-padding-remove" id="sale-commissions-panel">
+            <!-- Start First Quarter Sample -->
+                  <div class="full-width  uk-padding-v-small"></div>
+                  <div class="uk-grid uk-panel uk-panel-box normal uk-margin-remove uk-text-center uk-padding-remove uk-table-row">
+                        <div class="uk-width-small-2-10 uk-width-1-1 uk-padding-v-normal uk-th uk-visible-large">                              
+                              <label  class="table-text">Month</label>
+                        </div>
+                        <div class="uk-width-small-2-10 uk-width-1-1  uk-padding-v-normal uk-th uk-visible-large">                              
+                              <label  class="table-text">User Account</label>
+                        </div>
+                        <div class="uk-width-small-2-10 uk-width-1-1  uk-padding-v-normal uk-th uk-visible-large">                              
+                              <label  class="table-text">Items Sold</label>
+                        </div>
+                        <div class="uk-width-small-2-10 uk-width-1-1  uk-padding-v-normal uk-th uk-visible-large">                              
+                              <label  class="table-text">Sales</label>
+                        </div>
+                        <div class="uk-width-small-2-10 uk-width-1-1  uk-padding-v-normal uk-th uk-visible-large">                              
+                              <label  class="table-text">Commission</label>
+                        </div>
+                  </div>
+                 
+                  @foreach($cart as $carts)
+                  
+                  
+                  <div class="uk-grid uk-text-center uk-panel uk-panel-box normal uk-margin-remove uk-padding-remove uk-table-row cursor-pointer"  data-uk-toggle="{target:'#sale-commission-for-item-{{$carts['month']}}'}"  >
+                        <div class="uk-width-medium-2-10  uk-width-1-3 uk-width-smallest-1-2  uk-padding-v-normal uk-td">                              
+                              <label  class="table-text light"><span class="mobile-label uk-hidden-large">Q1</span>{{$carts['month']}}</label>
+                        </div>
+                        <div class="uk-width-medium-2-10  uk-width-1-3 uk-width-smallest-1-2 uk-padding-v-normal uk-td">                              
+                              <label  class="table-text light"><span class="mobile-label uk-hidden-large"><i class="uk-icon-user"></i> Account</span>{{$carts['userAccount']}}</label>
+                        </div>
+                        <div class="uk-width-medium-2-10  uk-width-1-3  uk-width-smallest-1-2  uk-padding-v-normal uk-td">                              
+                              <label  class="table-text light"><span class="mobile-label uk-hidden-large"><i class="uk-icon-shopping-bag"></i> Sold</span>{{$carts['iTemsSold']}}</label>
+                        </div>
+                        <div class="uk-width-medium-2-10  uk-width-1-3  uk-width-smallest-1-2  uk-padding-v-normal uk-td">                              
+                              <label  class="table-text light"><span class="mobile-label uk-hidden-large"><i class="uk-icon-money"></i> Sales</span>${{number_format($carts['Sales'], 2)}}</label>
+                        </div>
+                        <div class="uk-width-medium-2-10  uk-width-1-3  uk-padding-v-normal uk-td">                              
+                              <label  class="table-text light"><span class="mobile-label uk-hidden-large">Commission</span>${{number_format($carts['Commission'], 2)}}</label>
+                        </div>
+                  </div>
+
+
+
+                  <div class="bg-grey {{$carts['month']!=date('F') ? 'uk-hidden' : ''}} uk-container uk-container-center" id="sale-commission-for-item-{{$carts['month']}}">
+      			<div class="uk-grid uk-panel uk-panel-box normal uk-margin-remove uk-padding-remove">
+
+                              <div class="uk-width-large-1-10 uk-width-2-10 uk-padding-v-normal uk-th uk-visible-large">                              
+                                    <label  class="table-text">Date</label>
+                              </div>
+                              <div class="uk-width-large-2-10 uk-width-3-10 uk-padding-v-normal uk-th uk-visible-large">                              
+                                    <label  class="table-text">Transaction ID </label>
+                              </div>
+                              <div class="uk-width-large-1-10 uk-width-3-10 uk-padding-v-normal uk-th uk-visible-large">                              
+                                    <label  class="table-text">Cost</label>
+                              </div>
+                              <div class="uk-width-large-1-10 uk-width-3-10 uk-padding-v-normal uk-th uk-visible-large">                              
+                                    <label  class="table-text">Commission</label>
+                              </div>
+                              <div class="uk-width-large-1-10 uk-width-3-10 uk-padding-v-normal uk-th uk-visible-large">                              
+                                    <label  class="table-text">From</label>
+                              </div>
+                              <div class="uk-width-large-3-10 uk-width-3-10 uk-padding-v-normal uk-th uk-visible-large">                              
+                                    <label  class="table-text">Item Details</label>
+                              </div>
+                              <div class="uk-width-large-1-10 uk-width-3-10 uk-padding-v-normal uk-th uk-visible-large">                              
+                                    <label  class="table-text">Image</label>
+                              </div>
+                              <div class="full-width  uk-padding-v-small"></div>
+                              
+                                    <?php $order_num_previous = NULL; ?>
+                                    @foreach($carts['Transaction'] as $transactions)
+
+                                    <?
+                                    // echo '<pre>';
+                                    // print_r($transactions);
+                                    $shopownername = '';
+                                    if (isset($transactions->fldCartCouponCodeCouponCode)) {
+                                          $shop_owner = App\Models\ShopOwner::where('fldShopOwnerPromoCode','=',$transactions->fldCartCouponCodeCouponCode)->first();
+                                          // $shopownername = $shop_owner->fldShopOwnerFirstname.' '.$shop_owner->fldShopOwnerLastname;
+                                          dd( $shop_owner );
+                                          if ( !empty($shop_owner) ) {
+                                          $shopownername = $shop_owner->fldShopOwnerBusiness;
+                                          }
+                                    }
+
+                                    // $subtotal = $transactions->product_price * $transactions->quantity;
+                                    // $discount = $subtotal * 0.10;
+                                    // $subtotal = ($transactions->product_price * 0.90) * $transactions->quantity;
+                                    $subtotal = ($transactions->product_price * 0.80) * $transactions->quantity;
+
+                                    if ($order_num_previous == $transactions->order_no) {
+                                          $order_num_disp   = '';
+                                          $sales_commission = '';
+                                          $date_display     = '';
+                                          $hr               = '';
+                                    } else {
+                                          $order_num_disp   = $transactions->order_no;
+                                          $sales_commission = '<strong>$'.number_format($transactions->fldManagerCommissionAmount,2).'</strong>';
+                                          $date_display     = date('m/d/Y',strtotime($transactions->order_date));
+                                          $hr = '<hr>';
+                                    }
+                                    $order_num_previous = $transactions->order_no;
+                                    ?>
+                                          
+                                          <div class="uk-vertical-divider full-width ">{!! $hr !!}</div>
+                                          <div class="uk-width-large-1-10  uk-width-small-1-2  uk-width-1-1 uk-padding-v-normal uk-td">                           
+                                                <label  class="table-text light"><span class="mobile-label uk-hidden-large">Date</span>
+                                                      <small>{{ $date_display }}</small></label>
+                                          </div>
+                                          <div class="uk-width-large-2-10 uk-width-small-1-2 uk-width-1-1 uk-padding-v-normal uk-td">                          
+                                                <label  class="table-text light"><span class="mobile-label uk-hidden-large">Transaction ID</span><small>{{$order_num_disp}}</small></label>
+                                          </div>
+                                          <div class="uk-width-large-1-10 uk-width-small-1-2 uk-width-1-1 uk-padding-v-normal uk-td">                         
+                                                <label  class="table-text light"><span class="mobile-label uk-hidden-large">Cost</span>
+                                                      ${{$transactions->product_price != "" ? number_format(($subtotal),2) : 0.00}}</label>
+                                          </div>
+                                          <div class="uk-width-large-1-10 uk-width-small-1-2 uk-width-1-1 uk-padding-v-normal uk-td">                         
+                                                <label  class="table-text light"><span class="mobile-label uk-hidden-large">Commission</span>{!! $sales_commission !!}</label>
+                                          </div>
+                                          <div class="uk-width-large-1-10 uk-width-small-1-2 uk-width-1-1 uk-padding-v-normal uk-td">                         
+                                                <label  class="table-text light"><span class="mobile-label uk-hidden-large">From</span>{!! $shopownername !!}</label>
+                                          </div>
+                                          <div class="uk-width-large-3-10 uk-width-small-1-2 uk-width-1-1 uk-padding-v-normal uk-td">                         
+                                                <label  class="table-text light"><span class="mobile-label uk-hidden-large">Item Details</span>
+                                                {{-- $transactions->product_name . ' <br> ' . App\Models\Cart::getImageSize($transactions->fldCartImageSize) . ' <br> '.  App\Models\Cart::getFrameAttributes($transactions->fldCartFrameDesc) . ' <br> '.App\Models\Cart::getPaperInfo($transactions->fldCartPaperInfo) . ' <br> ' . App\Models\Cart::getMat($transactions->order_no) --}}
+                                                {!! '<strong>'.$transactions->product_name .'</strong> <br> '.  App\Models\Cart::getFrameAttributes($transactions->fldCartFrameDesc) . ' <br> '.App\Models\Cart::getPaperInfo($transactions->fldCartPaperInfo) !!}
+                                                </label>
+                                          </div>
+                                          <div class="uk-width-large-1-10 uk-width-small-1-2 uk-width-1-1 uk-padding-v-normal uk-td">                         
+                                                <span class="mobile-label uk-hidden-large">Image</span><img src="{!!url(PRODUCT_IMAGE_PATH.$transactions->fldProductSlug.'/'.SMALL_IMAGE.$transactions->image)!!}" alt="{{ $transactions->product_name }}" width="39" height="39" />
+                                          </div>
+                                     @endforeach
+
+                              </div>
+                        </div>
+          
+                        	
+                  @endforeach
+                  <!-- END First Quarter Sample -->
+	        </div>
+	</section>
+@stop
+
+
+@section('headercodes')
+ 
+@stop
+
+ 
+@section('extracodes')  
+ {{-- */ /* */ /* --}}
+	<script>
+		$(document).ready(function(){
+		});
+	</script>
+@stop
