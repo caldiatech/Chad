@@ -101,12 +101,17 @@
                        <div class="uk-grid">
                           <div class="uk-width-large-1-10 uk-width-small-1-1">URL</div>
                           <div class="uk-width-large-6-10 uk-width-small-1-1 ">
+
                             @if($page->fldPagesFilename != "")
                                 {!! Html::link($page->fldPagesFilename,url($page->fldPagesFilename),array('target'=>'_blank')) !!}
                             @else
+
                                 @if($page->fldPagesID  == 32)
-                                    {!! Html::link(url(),url(),array('target'=>'_blank')) !!}
+
+                                {!! Html::link(url("/"),url("/"),array('target'=>'_blank')) !!}
+
                                 @else
+
                                     {!! Html::link($page->fldPagesSlug,url("/".$page->fldPagesSlug),array('target'=>'_blank')) !!}
                                 @endif
                             @endif
@@ -114,7 +119,6 @@
                        </div>
                     @endif
 
-                        <? /* @if($page->fldPagesFilename == "" && $page->fldPagesID != 32) */ ?>
                         @if(in_array($page->fldPagesID, array(32,107)))
                             <!-- Do not display Image upload -->
                         @else
@@ -147,7 +151,6 @@
                         @endif
 
 
-                        <? /* @if($page->fldPagesID != 32) */ ?>
                         @if(in_array($page->fldPagesID, array(32,73,107)))
                             <!-- Do not display Filename -->
                         @else
@@ -197,7 +200,6 @@
     @if(in_array($page->fldPagesID, array(74, 32,73,102)))
         <!-- Do not display Page Content -->
     @else
-    <? /* @if($page->fldPagesID == 72) */ ?>
           <div class="uk-grid">
                 <div class="uk-width-large-1-1 uk-width-small-1-1">
                     <ul>
@@ -212,21 +214,7 @@
                 </div>
              </div>
 
-            <? /*
-             <div class="uk-grid">
-                <div class="uk-width-large-1-1 uk-width-small-1-1">
-                    <ul>
-                       <li>Page Content</li>
-                        @if($errors->first('description'))
-                            <li class="error">{!! $errors->first('description'); !!}</li>
-                        @endif
-                       <li class="boxfields">
-                            {!! Form::textarea('description2',$page->fldPagesDescription2,array('id'=>'mods3')) !!}
-                       </li>
-                    </ul>
-                </div>
-             </div>
-            */ ?>
+
     @endif
 
     @if(in_array($page->fldPagesID, array(74,85,88,102)))
@@ -243,24 +231,6 @@
          </div>
     @endif
 
-    <? /*
-      @if($page->fldPagesID != 32 && $page->fldPagesID != 72)
-          <div class="uk-grid">
-                <div class="uk-width-large-1-1 uk-width-small-1-1">
-                    <ul>
-                        <li>Page Content
-                        @if($errors->first('description'))
-                            <div class="error">* {!! $errors->first('description'); !!}</div>
-                        @endif
-                        </li>
-                        <li class="boxfields">
-                            {!! Form::textarea('description',$page->fldPagesDescription,array('id'=>'mods')) !!}
-                        </li>
-                    </ul>
-                </div>
-             </div>
-      @endif
-    */ ?>
 
 
         <div class=clear><!-- Clear Section --></div>
@@ -291,7 +261,6 @@
 
     @if(in_array($page->fldPagesID, array(74,85,88,102)))  {!! Html::script('_admin/manager/tinymce/styles/mods6.js') !!} @endif
 
-    <? /* @if($page->fldPagesID == 72)   {!! Html::script('_admin/manager/tinymce/styles/mods3.js') !!} @endif */ ?>
 
     {!! Html::script('_admin/assets/js/count_char.js') !!}
     {!! Html::script('_admin/plugins/jasny/js/jasny-bootstrap.min.js') !!}

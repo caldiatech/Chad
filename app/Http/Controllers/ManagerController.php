@@ -177,7 +177,7 @@ class ManagerController extends Controller
 	   $administrator = Settings::where('fldAdministratorID','=',Session::get('dnradmin_id'))->first();
 	   $managerClass = 'class=active';
 
-        require_once "public/payment/braintree/lib/Braintree.php";
+        require_once "../public/payment/braintree/lib/Braintree.php";
 		\Braintree_Configuration::environment(BRAINTREE_ENVIRONMENT);
 		\Braintree_Configuration::merchantId(BRAINTREE_MERCHANTID);
 		\Braintree_Configuration::publicKey(BRAINTREE_PUBLICKEY);
@@ -528,7 +528,7 @@ class ManagerController extends Controller
 
      		$shipping = ManagerShipping::where('fldManagerShippingClientID','=',$manager_id)->first();
 
-		require_once "public/payment/braintree/lib/Braintree.php";
+		require_once "../public/payment/braintree/lib/Braintree.php";
 		\Braintree_Configuration::environment(BRAINTREE_ENVIRONMENT);
 		\Braintree_Configuration::merchantId(BRAINTREE_MERCHANTID);
 		\Braintree_Configuration::publicKey(BRAINTREE_PUBLICKEY);
@@ -711,7 +711,7 @@ class ManagerController extends Controller
 
 		$birthDate = [$birthMonth,$birthDay,$birthYear];
 
-		require_once "public/payment/braintree/lib/Braintree.php";
+		require_once "../public/payment/braintree/lib/Braintree.php";
 		\Braintree_Configuration::environment(BRAINTREE_ENVIRONMENT);
 		\Braintree_Configuration::merchantId(BRAINTREE_MERCHANTID);
 		\Braintree_Configuration::publicKey(BRAINTREE_PUBLICKEY);

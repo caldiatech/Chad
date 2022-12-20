@@ -20,7 +20,7 @@ use App\Models\Prints;
 use App\Models\SizeListModel;
 
 use App\SoapXmlBuilder;
-
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 use View;
@@ -165,7 +165,7 @@ class ProductController extends Controller
 			   list($width, $height) = getimagesize($path);
 			}
 
-            if(count(Input::get('category')) == 0) {
+            if(!empty(Input::get('category'))) {
 				Session::flash('error',"Please select category");
 				return Redirect::to('dnradmin/products/new')->withInput();
 				exit();
@@ -173,13 +173,19 @@ class ProductController extends Controller
 
 
 	   		$categoryID = Input::get('category');
-	   		$catID = reset($categoryID);
-			$productPos = Product::join('tblProductCategory','tblProductCategory.fldProductCategoryProductID','=','fldProductID')
+            $newPosition = 1;
+               if(!empty($categoryID))
+            {
+                $catID = reset($categoryID);
+
+
+	   		$productPos = Product::join('tblProductCategory','tblProductCategory.fldProductCategoryProductID','=','fldProductID')
 										->where('fldProductCategoryCategoryID','=',$catID)
 										->orderBy('fldProductPosition','DESC')
 										->first();
 		  	$newPosition = count($productPos) == 1 ? $productPos->fldProductPosition + 1 : 1;
 
+            }
 
 			$onFeatured = Input::get('isOnFeatured');
 			if ($onFeatured == 0){
@@ -213,14 +219,14 @@ class ProductController extends Controller
 
 			//generate slug
 			$pageCount = Product::where('fldProductName','=',Input::get('name'))->count();
-			//$slug = $pageCount == 0 ? str_slug($products->fldPagesName,'-') : str_slug($products->fldPagesName."-".$pageCount,'-');
-			$slug = $pageCount == 0 ? str_slug(Input::get('name'),'-') : str_slug(Input::get('name')."-".$pageCount,'-');
+			//$slug = $pageCount == 0 ? Str::slug($products->fldPagesName,'-') : Str::slug($products->fldPagesName."-".$pageCount,'-');
+			$slug = $pageCount == 0 ? Str::slug(Input::get('name'),'-') : Str::slug(Input::get('name')."-".$pageCount,'-');
 
 			$products->fldProductSlug = $slug;
 			$products->save();
 			$fldProductID = $products->fldProductID;
 			//save multiple category
-			if(count(Input::get('category')) >=1 ) {
+			if(!empty(Input::get('category'))) {
 				foreach(Input::get('category') as $category) {
 					$categories = new ProductCategory;
 					$categories->fldProductCategoryProductID = $fldProductID;

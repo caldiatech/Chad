@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
+use Illuminate\Support\Str;
 use Validator;
 use File;
 use Image;
@@ -161,7 +162,7 @@ class Client extends Eloquent
 
 		if($file != "") {
 			$destinationPath = CUSTOMER_IMAGE_PATH.$id.'/';
-			$filename = str_slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.'.$file->getClientOriginalExtension();
+			$filename = Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.'.$file->getClientOriginalExtension();
 			$file->move($destinationPath, $filename);
 
 			if(!File::exists($destinationPath.THUMB_IMAGE)) {

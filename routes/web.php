@@ -34,9 +34,11 @@ Route::group(array('prefix' => '/dnradmin'), function()
     Route::get('/pages/edit/{id}', 'PagesController@getEdit');
     Route::post('/pages/edit/{id}', 'PagesController@postEdit');
     Route::get('/pages/delete/{id}', 'PagesController@getDelete');
+    Route::get('/pages/view/{id}', 'PagesController@getView');
 
     Route::get('/homeslides', 'HomeSlideController@getIndex');
     Route::get('/homeslides/new', 'HomeSlideController@getNew');
+    Route::post('/homeslides/new', 'HomeSlideController@postNew');
     Route::get('/homeslides/edit/{id}', 'HomeSlideController@getEdit');
     Route::post('/homeslides/edit/{id}', 'HomeSlideController@postEdit');
     Route::get('/homeslides/delete/{id}', 'HomeSlideController@getDelete');
@@ -84,7 +86,7 @@ Route::group(array('prefix' => '/dnradmin'), function()
 
     Route::get('/category', 'CategoryController@getIndex');
     Route::get('/category/new/{id}/{backid}/', 'CategoryController@getNew');
-    Route::post('/category/new/', 'CategoryController@postNew');
+    Route::post('/category/new/{id}/{backid}/', 'CategoryController@postNew');
     Route::get('/category/edit/{id}', 'CategoryController@getEdit');
     Route::post('/category/edit/{id}', 'CategoryController@postEdit');
     Route::get('/category/delete/{id}', 'CategoryController@getDelete');

@@ -1,9 +1,10 @@
 <?php
- 
+
 namespace App\Models;
 use App\Models\AdditionalProduct;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
+use Illuminate\Support\Str;
 use Image;
 use File;
 use Validator;
@@ -11,7 +12,7 @@ use Request;
 
 class Product extends Eloquent
 {
-   
+
     protected $table = 'tblProduct';
     protected $primaryKey = 'fldProductID';
     public $timestamps = false;
@@ -26,27 +27,27 @@ class Product extends Eloquent
             $image_height = $image_info[1];
             if($image_width >= $parameters[0] && $image_height >= $parameters[1]) {
             	return true;
-            } 
-            
+            }
+
             return false;
 	    });
 
 
 		if($id==0) {
 			$rules = [
-				'name'         => 'required|max:255',	       
+				'name'         => 'required|max:255',
 		        'weight'   	   => 'numeric',
 		        // 'image' 	   => 'required|img_min_size:'.PRODUCT_IMAGE_WIDTH.','.PRODUCT_IMAGE_HEIGHT.'|mimes:jpeg,gif,png'
 		        'image' 	   => 'required|mimes:jpeg,gif,png'
 			];
 		} else {
 			$rules = [
-				'name'         => 'required|max:255',       
+				'name'         => 'required|max:255',
 		        'weight'   	   => 'numeric',
 		        // 'image' 	   => 'img_min_size:'.PRODUCT_IMAGE_WIDTH.','.PRODUCT_IMAGE_HEIGHT.'|mimes:jpeg,gif,png'
 		        'image' 	   => '|mimes:jpeg,gif,png'
 			];
-		}	
+		}
 
 		return $rules;
 	}
@@ -55,13 +56,13 @@ class Product extends Eloquent
 
 	public static function generate_slug($name, $id = null){
 
-	
+
 		if($id == null) {
 			$slugCount = self::where("fldProductName", "like","%{$name}%")->count();
 		} else {
 			$slugCount = self::where("fldProductName", "like","%{$name}%")->where("fldProductID", "!=","{$id}")->count();
 		}
-		$slug = str_slug($name, '-');
+		$slug = Str::slug($name, '-');
 		if($slugCount > 1){$slugCount+1;}
 
 		return ($slugCount > 0) ? "{$slug}-{$slugCount}" : $slug;
@@ -72,23 +73,23 @@ class Product extends Eloquent
 		$notUploaded="";
 
 		foreach($files as $file) {
-			$destinationPath = PRODUCT_IMAGE_PATH.$slug.'/others/';	
+			$destinationPath = PRODUCT_IMAGE_PATH.$slug.'/others/';
 
 			 if($file != "") {
 					 $path = $file->getRealPath();
 				  	 list($width, $height) = getimagesize($path);
 				   	 if($width >= PRODUCT_IMAGE_WIDTH && $height >= PRODUCT_IMAGE_HEIGHT) {
-				   	 	$additional_filename = str_slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.'.$file->getClientOriginalExtension();	
+				   	 	$additional_filename = Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.'.$file->getClientOriginalExtension();
 						$file->move($destinationPath, $additional_filename);
 						$landscape = 'landscape/';
 						$folder_array = array(THUMB_IMAGE, MEDIUM_IMAGE, SMALL_IMAGE, $landscape);
 						foreach($folder_array as $folder_array_item){
-							if(!File::exists($destinationPath.$folder_array_item)) {												
-								File::makeDirectory($destinationPath.$folder_array_item, 0775);								
+							if(!File::exists($destinationPath.$folder_array_item)) {
+								File::makeDirectory($destinationPath.$folder_array_item, 0775);
 							}
 						}
 
-						//save the other images to database					
+						//save the other images to database
 						$img = Image::make($destinationPath.$filename)->resize(null, 376, function ($constraint) {
 						    $constraint->aspectRatio();
 						});
@@ -108,7 +109,7 @@ class Product extends Eloquent
 							$constraint->aspectRatio();
 						});
 						$img->save($destinationPath.THUMB_IMAGE.$additional_filename, 90);
-											   
+
 						$addProductsImages = new AdditionalProduct;
 							$addProductsImages->fldAdditionalProductProductID = $product_id;
 							$addProductsImages->fldAdditionalProductIDImage = $additional_filename;
@@ -117,7 +118,7 @@ class Product extends Eloquent
 				   	 } else {
 				   	 	$notUploaded .= $file->getClientOriginalName() ."<br>";
 				   	 } // if width and height
-			} //if file != ""	   	 
+			} //if file != ""
 
 		}
 
@@ -126,16 +127,16 @@ class Product extends Eloquent
 	}
 
 	static function uploadSingleImage($file,$slug) {
-		
+
 		if($file != "") {
-			$destinationPath = PRODUCT_IMAGE_PATH.$slug.'/';						   
-			$filename = str_slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.'.$file->getClientOriginalExtension();
-			$file->move($destinationPath, $filename);	
+			$destinationPath = PRODUCT_IMAGE_PATH.$slug.'/';
+			$filename = Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.'.$file->getClientOriginalExtension();
+			$file->move($destinationPath, $filename);
 			$landscape = 'landscape/';
 			$folder_array = array(THUMB_IMAGE, MEDIUM_IMAGE, SMALL_IMAGE, $landscape);
 			foreach($folder_array as $folder_array_item){
-				if(!File::exists($destinationPath.$folder_array_item)) {												
-					File::makeDirectory($destinationPath.$folder_array_item, 0775);								
+				if(!File::exists($destinationPath.$folder_array_item)) {
+					File::makeDirectory($destinationPath.$folder_array_item, 0775);
 				}
 			}
 
@@ -158,8 +159,8 @@ class Product extends Eloquent
 			$img = Image::make($destinationPath.$filename)->resize(75, null, function ($constraint) {
 				$constraint->aspectRatio();
 			});
-			$img->save($destinationPath.THUMB_IMAGE.$filename, 90);	
-			
+			$img->save($destinationPath.THUMB_IMAGE.$filename, 90);
+
 
 			$product = self::where('fldProductSlug','=',$slug)->first();
 			if (File::exists($destinationPath.$filename) && !empty($product)) {
@@ -178,22 +179,22 @@ class Product extends Eloquent
 		}
 
 		return $filename;
-	}	
+	}
 
 	static function generateLandscapeImages($new_size = 'landscape/') {
 		$get_products =  self::where('fldProductImage', '!=', '')->paginate(25);
 		foreach($get_products as $get_product_item){
 			$slug = $get_product_item->fldProductSlug;
-			$destinationPath = PRODUCT_IMAGE_PATH.$slug.'/';						   
-			$filename = $get_product_item->fldProductImage;	
+			$destinationPath = PRODUCT_IMAGE_PATH.$slug.'/';
+			$filename = $get_product_item->fldProductImage;
 			echo $destinationPath.$filename;
-			
+
 			if(File::exists($destinationPath.$filename)){
 
 				$folder_array = array('', THUMB_IMAGE, MEDIUM_IMAGE, SMALL_IMAGE, $new_size);
 				foreach($folder_array as $folder_array_item){
-					if(!File::exists($destinationPath.$folder_array_item)) {												
-						File::makeDirectory($destinationPath.$folder_array_item, 0775);								
+					if(!File::exists($destinationPath.$folder_array_item)) {
+						File::makeDirectory($destinationPath.$folder_array_item, 0775);
 					}
 				}
 
@@ -204,10 +205,10 @@ class Product extends Eloquent
 			}
 
 		}
-		
+
 
 	}
-		
+
 }
 
 
