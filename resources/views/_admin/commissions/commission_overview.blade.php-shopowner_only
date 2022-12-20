@@ -1,7 +1,7 @@
 @extends('layouts._admin.base')
 
-@section('content')	
-    
+@section('content')
+
 
 <style>
     #search_form {
@@ -71,15 +71,15 @@
 
     <form name="search_form" id="search_form" method="POST">
         <div>
-            <h4>By Name</h4> <input type="text" name="search_name" value="<?=(isset($_POST['search_name']))? trim($_POST['search_name']):'';?>" id="search_name"/> &nbsp; 
-            
-            <h4>By City</h4> <input type="text" name="search_city" value="<?=(isset($_POST['search_city']))? trim($_POST['search_city']):'';?>" id="search_city"/> &nbsp; 
+            <h4>By Name</h4> <input type="text" name="search_name" value="<?=(isset($_POST['search_name']))? trim($_POST['search_name']):'';?>" id="search_name"/> &nbsp;
 
-            <h4>By State</h4><input type="text" name="search_state" value="<?=(isset($_POST['search_state']))? trim($_POST['search_state']):'';?>" id="search_state"/> &nbsp; 
+            <h4>By City</h4> <input type="text" name="search_city" value="<?=(isset($_POST['search_city']))? trim($_POST['search_city']):'';?>" id="search_city"/> &nbsp;
+
+            <h4>By State</h4><input type="text" name="search_state" value="<?=(isset($_POST['search_state']))? trim($_POST['search_state']):'';?>" id="search_state"/> &nbsp;
         </div>
 
         <div>
-            <h4>Date From</h4> <input type="text" name="search_date_from" value="<?=(isset($_POST['search_date_from']))? trim($_POST['search_date_from']):'';?>" id="search_date_from" data-uk-datepicker="{format:'YYYY-MM-DD'}" /> &nbsp; 
+            <h4>Date From</h4> <input type="text" name="search_date_from" value="<?=(isset($_POST['search_date_from']))? trim($_POST['search_date_from']):'';?>" id="search_date_from" data-uk-datepicker="{format:'YYYY-MM-DD'}" /> &nbsp;
             <h4>Date To</h4> <input type="text" name="search_date_to" value="<?=(isset($_POST['search_date_to']))? trim($_POST['search_date_to']):'';?>" id="search_date_to" data-uk-datepicker="{format:'YYYY-MM-DD'}" /> &nbsp;
         </div>
 
@@ -96,39 +96,39 @@
       <div id=page_control>
       </div>
 
-    
+
     <br style="clear:both;" />
-    <input type='hidden' id='current_page' />  
-    <input type='hidden' id='show_per_page' />  
-    <input type='hidden' id='number_of_items' />   		
-   
+    <input type='hidden' id='current_page' />
+    <input type='hidden' id='show_per_page' />
+    <input type='hidden' id='number_of_items' />
+
     <table id="page_manager" class="parennt-table uk-table-hover">
       <thead>
         <tr class="headers nodrag uk-table">
-            <th width="70" data-sort="int"> <span class="id">Shop ID</span> <div class="sort"></div> </th>  
+            <th width="70" data-sort="int"> <span class="id">Shop ID</span> <div class="sort"></div> </th>
             <th width="150" data-sort="string"> <span class="id">Name</span> <div class="sort"></div> </th>
-            <th width="150" data-sort="string"> <span class="id">Email</span> <div class="sort"></div> </th>        
+            <th width="150" data-sort="string"> <span class="id">Email</span> <div class="sort"></div> </th>
             <th width="250" data-sort="string"> <span class="id">City</span> <div class="sort"></div> </th>
-            <th width="150" data-sort="string"> <span class="id">State</span> <div class="sort"></div> </th>            
+            <th width="150" data-sort="string"> <span class="id">State</span> <div class="sort"></div> </th>
             <th width="150" data-sort="float"> <span class="id">Commission $</span> <div class="sort"></div> </th>
             <th width="150" align="right">View Details</th>
         </tr>
       </thead>
-      
+
       <tbody id="Searchresult">
-        @if (count($commission_shop)==0)                    	
+        @if (count($commission_shop)==0)
             <tr>
                 <td class="error" colspan="7" align="center"> No Record Found</td>
             </tr>
-        @endif                     	
-        
+        @endif
+
         @foreach ($commission_shop as $shop)
             <tr>
                 <td>{!! $shop->fldShopOwnerCommissionID !!}</td>
                 <td>{!! $shop->fldShopOwnerFirstname.' '.$shop->fldShopOwnerLastname !!}</td>
                 <td>{!! $shop->fldShopOwnerEmail !!}</td>
                 <td>{!! $shop->fldShopOwnerCity !!}</td>
-                <td>{!! $shop->fldShopOwnerState !!}</td>  
+                <td>{!! $shop->fldShopOwnerState !!}</td>
                 <td>{!! number_format($shop->total_commission,2)!!}</td>
                 <td align="right">
                     @if (!empty($_POST['search_date_from']) && !empty($_POST['search_date_to']))
@@ -142,12 +142,12 @@
             <? /*
             @foreach ($shop->transactions as $transaction)
                 <tr>
-                    <td>&nbsp;</td>  
-                    <td>&nbsp;</td>  
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
                     <td>
                         {!! $transaction->fldClientFirstname .' '. $transaction->fldClientLastname !!}<br>
                         <small>{!! $transaction->fldClientEmail !!}</small>
-                    </td>  
+                    </td>
                     <td>{!! $transaction->fldShopOwnerCommissionOrderCode !!}</td>
                     <td>{!! $transaction->fldShopOwnerCommissionDate !!}</td>
                     <td>{!! number_format($transaction->fldShopOwnerCommissionAmount,2)!!}</td>
@@ -157,44 +157,44 @@
             */ ?>
 
         @endforeach
-     
+
       </tbody>
 
-        @if (count($commission_shop) > 20) 
+        @if (count($commission_shop) > 20)
         <tfoot>
             <th colspan="7" align="right" height="30">
-                <div id='page_navigation' class="pagination"></div>    
-            </th>      
+                <div id='page_navigation' class="pagination"></div>
+            </th>
         </tfoot>
-        @endif 
-       
+        @endif
+
     </table>
      {!! Form::close() !!}
   </article>
-  
+
 
 @stop
 
-@section('headercodes')    
-{!! Html::style('_admin/assets/css/pagination.css') !!}  
+@section('headercodes')
+{!! Html::style('_admin/assets/css/pagination.css') !!}
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 @stop
 
 @section('extracodes')
-    {!! Html::script('_admin/manager/tinymce/tiny_mce.js','') !!}
-    {!! Html::script('_admin/assets/js/cufon_avantgarde.js','') !!}
-    {!! Html::script('_admin/assets/js/jquery-latest.min.js','') !!}
-    {!! Html::script('_admin/assets/js/FilterPagination/filter.js','') !!}
-    {!! Html::script('_admin/manager/tinymce/styles/mods2.js','') !!}
-    {!! Html::script('_admin/assets/js/jquery.tablednd.js','') !!}
-    {!! Html::script('_admin/assets/js/stupidtable.min.js','') !!}
-    {!! Html::script('_admin/assets/js/sorted.js','') !!}
+    {!! Html::script('_admin/manager/tinymce/tiny_mce.!}
+    {!! Html::script('_admin/assets/js/cufon_avantgarde.!}
+    {!! Html::script('_admin/assets/js/jquery-latest.min.!}
+    {!! Html::script('_admin/assets/js/FilterPagination/filter.!}
+    {!! Html::script('_admin/manager/tinymce/styles/mods2.!}
+    {!! Html::script('_admin/assets/js/jquery.tablednd.!}
+    {!! Html::script('_admin/assets/js/stupidtable.min.!}
+    {!! Html::script('_admin/assets/js/sorted.!}
 
-    {!! Html::script('_front/plugins/uikit/js/components/datepicker.js','') !!}
+    {!! Html::script('_front/plugins/uikit/js/components/datepicker.!}
 
     <script>
-		 showPagination(20,$('#page_manager tbody>tr').size(),$('#page_manager tbody>tr'));					
-	</script>   
+		 showPagination(20,$('#page_manager tbody>tr').size(),$('#page_manager tbody>tr'));
+	</script>
 @stop

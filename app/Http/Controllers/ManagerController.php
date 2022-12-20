@@ -27,12 +27,12 @@ use Illuminate\Support\Str;
 class ManagerController extends Controller
 {
     public function getIndex()
-    {   
-		//if not login redirect to login page    	
+    {
+		//if not login redirect to login page
 		if(!Session::has('dnradmin_id')) { return Redirect::to('dnradmin/');}
-		    
+
 		$manager = Manager::where('fldManagerType','=',1)->orderBy('fldManagerID','DESC')->get();
-		$administrator = Settings::where('fldAdministratorID','=',Session::get('dnradmin_id'))->first();   
+		$administrator = Settings::where('fldAdministratorID','=',Session::get('dnradmin_id'))->first();
 		$managerClass = 'class=active';
 
 		foreach($manager as $managers) {
@@ -41,21 +41,21 @@ class ManagerController extends Controller
 			$managers->fldManagerCommission = $commission;
 			// echo 'comm: '.$commission.'<br>';
 		}
-		
+
 		// die('Ln45');
 
 		$pageTitle = SALESMANAGER_MANAGEMENT;
 
 	    return View::make('_admin.manager.manager', array('manager' => $manager,'administrator'=>$administrator,'managerClass'=>$managerClass,'pageTitle'=>$pageTitle));
     }
-	
+
 
 	public function getSales($manager_id) {
     	if(!Session::has('dnradmin_id')) { return Redirect::to('dnradmin/');}
 
 		$manager = Manager::find($manager_id);
-		$administrator = Settings::where('fldAdministratorID','=',Session::get('dnradmin_id'))->first();   
-		
+		$administrator = Settings::where('fldAdministratorID','=',Session::get('dnradmin_id'))->first();
+
 		$dateFrom = date('Y-1-1');
 		$dateTo = date('Y-12-31');
 
@@ -63,16 +63,16 @@ class ManagerController extends Controller
 		//print_r($cart);die();
 		$managerClass = 'class=active';
 		$pageTitle = SALESMANAGER_MANAGEMENT;
-		return View::make('_admin.manager.sales', compact('manager','administrator','managerClass','cart','pageTitle'));	 
+		return View::make('_admin.manager.sales', compact('manager','administrator','managerClass','cart','pageTitle'));
 	}
-  
- 	
+
+
 	public function getNew()
    {
-	   	//if not login redirect to login page    	
+	   	//if not login redirect to login page
 		if(!Session::has('dnradmin_id')) { return Redirect::to('dnradmin/');}
-			   	
-		$administrator = Settings::where('fldAdministratorID','=',Session::get('dnradmin_id'))->first();   
+
+		$administrator = Settings::where('fldAdministratorID','=',Session::get('dnradmin_id'))->first();
 		$managerClass = 'class=active';
 
 		$try = "N";
@@ -106,36 +106,36 @@ class ManagerController extends Controller
 		  //  }
 		  // }
 
-		$pageTitle = SALESMANAGER_MANAGEMENT;			  
+		$pageTitle = SALESMANAGER_MANAGEMENT;
    		return View::make('_admin.manager.manager_add',array('administrator'=>$administrator,
    															'promocode'=>$promocode,
    														   'managerClass'=>$managerClass,
    														   'pageTitle'=>$pageTitle));
    	}
-     
-   
+
+
    public function postNew() {
-	   
-		$rules   = Manager::rules(0);    
+
+		$rules   = Manager::rules(0);
 		$validator = Validator::make(Input::all(), $rules);
-    	
-	    if ($validator->fails()) {    			
-		    return Redirect::to('dnradmin/manager/new')->withInput()->withErrors($validator,'manager');	
-		} else {    
-	  	   $password = Hash::make(Input::get('password'));	   		
+
+	    if ($validator->fails()) {
+		    return Redirect::to('dnradmin/manager/new')->withInput()->withErrors($validator,'manager');
+		} else {
+	  	   $password = Hash::make(Input::get('password'));
 		   $manager = new Manager;
-		   $manager->fldManagerFirstname = Input::get('firstname');	 
-		   $manager->fldManagerLastname = Input::get('lastname');	 
-		   $manager->fldManagerEmail = Input::get('email');	 	   
-		   $manager->fldManagerPassword = $password;	   
-		   $manager->fldManagerPhoneNo = Input::get('phone');	 	   
-		   $manager->fldManagerGender = Input::get('gender');	 	   
-		   $manager->fldManagerBirthDate = Input::get('bday');	 	   
-		   $manager->fldManagerAddress = Input::get('address');	 	   
+		   $manager->fldManagerFirstname = Input::get('firstname');
+		   $manager->fldManagerLastname = Input::get('lastname');
+		   $manager->fldManagerEmail = Input::get('email');
+		   $manager->fldManagerPassword = $password;
+		   $manager->fldManagerPhoneNo = Input::get('phone');
+		   $manager->fldManagerGender = Input::get('gender');
+		   $manager->fldManagerBirthDate = Input::get('bday');
+		   $manager->fldManagerAddress = Input::get('address');
 		   $manager->fldManagerPromoCode = Input::get('promocode');
 		   $manager->fldManagerStatus = Input::get('status');
 		   $manager->fldManagerType = 1;
-		   $manager->save();	   	  
+		   $manager->save();
 
 			//send email to owner
 			$messageData = array(
@@ -146,8 +146,8 @@ class ManagerController extends Controller
 				'phone'=>Input::get('phone'),
 				'password' => Input::get('password')
 			);
-												
-			$settings = Settings::first();									
+
+			$settings = Settings::first();
 
 		 	// Email Manager and Cc Web Admin + DNR Admin
 	  		Mail::send('home.email_manager_registration', $messageData, function ($message) use($settings) {
@@ -161,63 +161,63 @@ class ManagerController extends Controller
 				$message->subject("Welcome to Clarkin!");
 			});
 
-		   Session::flash('success',"Manager was successfully saved."); 		   
+		   Session::flash('success',"Manager was successfully saved.");
 		   return Redirect::to('dnradmin/manager/new');
 		}
-	  
+
    }
 
-   
+
    public function getEdit($id) {
-	   //if not login redirect to login page    	
-   
+	   //if not login redirect to login page
+
 		if(!Session::has('dnradmin_id')) { return Redirect::to('dnradmin/');}
-				   
+
 	   $manager =  Manager::where('fldManagerID', '=', $id)->first();
-	   $administrator = Settings::where('fldAdministratorID','=',Session::get('dnradmin_id'))->first();   
+	   $administrator = Settings::where('fldAdministratorID','=',Session::get('dnradmin_id'))->first();
 	   $managerClass = 'class=active';
-		
-	        require_once "public/payment/braintree/lib/Braintree.php";
+
+        require_once "public/payment/braintree/lib/Braintree.php";
 		\Braintree_Configuration::environment(BRAINTREE_ENVIRONMENT);
 		\Braintree_Configuration::merchantId(BRAINTREE_MERCHANTID);
 		\Braintree_Configuration::publicKey(BRAINTREE_PUBLICKEY);
 		\Braintree_Configuration::privateKey(BRAINTREE_PRIVATEKEY);
-		
-	       if($manager->fldManagerBraintreeCustomerID != "") {	
+
+	       if($manager->fldManagerBraintreeCustomerID != "") {
 			$braintreeClient = BraintreeInformation::findClient($manager->fldManagerBraintreeCustomerID);
 		} else {
 			$braintreeClient = "";
 		}
-		if($manager->fldManagerBrainTreeMerchantID != "") {	
+		if($manager->fldManagerBrainTreeMerchantID != "") {
 			$braintreeMerchant = BraintreeInformation::findMerchant($manager->fldManagerBrainTreeMerchantID);
 		} else {
-			$braintreeMerchant = "";	
+			$braintreeMerchant = "";
 		}
-	
+
 	   	$pageTitle = SALESMANAGER_MANAGEMENT;
-	    return View::make('_admin.manager.manager_edit', array('manager' => $manager,'administrator'=>$administrator,'managerClass'=>$managerClass,'braintreeClient'=>$braintreeClient,'braintreeMerchant'=>$braintreeMerchant,'pageTitle'=>$pageTitle));		
+	    return View::make('_admin.manager.manager_edit', array('manager' => $manager,'administrator'=>$administrator,'managerClass'=>$managerClass,'braintreeClient'=>$braintreeClient,'braintreeMerchant'=>$braintreeMerchant,'pageTitle'=>$pageTitle));
    }
-   
-   public function postEdit($id) {	  
-   	$rules   = Manager::rules($id);    
+
+   public function postEdit($id) {
+   	$rules   = Manager::rules($id);
 	$validator = Validator::make(Input::all(), $rules);
-    	
-	 if ($validator->fails()) {  
-		return Redirect::to('dnradmin/manager/edit/'.$id)->withInput()->withErrors($validator,'manager');	
-	 } else {	
-		   $manager = Manager::find($id);		    	  	  
-		   $manager->fldManagerFirstname = Input::get('firstname');	 
-		   $manager->fldManagerLastname = Input::get('lastname');	 
-		   $manager->fldManagerEmail = Input::get('email');	 	   	   
-		   $manager->fldManagerPhoneNo = Input::get('phone');	 	   
-		   $manager->fldManagerGender = Input::get('gender');	 	   
-		   $manager->fldManagerBirthDate = Input::get('bday');	 	   
-		   $manager->fldManagerAddress = Input::get('address');	 	   
+
+	 if ($validator->fails()) {
+		return Redirect::to('dnradmin/manager/edit/'.$id)->withInput()->withErrors($validator,'manager');
+	 } else {
+		   $manager = Manager::find($id);
+		   $manager->fldManagerFirstname = Input::get('firstname');
+		   $manager->fldManagerLastname = Input::get('lastname');
+		   $manager->fldManagerEmail = Input::get('email');
+		   $manager->fldManagerPhoneNo = Input::get('phone');
+		   $manager->fldManagerGender = Input::get('gender');
+		   $manager->fldManagerBirthDate = Input::get('bday');
+		   $manager->fldManagerAddress = Input::get('address');
 
 		   $previousStatus = $manager->fldManagerStatus;
 		   $manager->fldManagerStatus = Input::get('status');
 
-		   if(Input::get('password') != "") { 
+		   if(Input::get('password') != "") {
 		   	   $password = Hash::make(Input::get('password'));
 			   $manager->fldManagerPassword = $password;
 		   }
@@ -230,7 +230,7 @@ class ManagerController extends Controller
 
 					// $ownerEmail = $settings->fldAdministratorEmail == "" ? "test1@dogandrooster.net" : $settings->fldAdministratorEmail;
 					// $ownerName = $settings->fldAdministratorSiteName == "" ? "Dog and Rooster" : $settings->fldAdministratorSiteName;
-											
+
 					$message->from(EmailFrom, EmailFromName);
 					$message->to($manager->fldManagerEmail, $manager->fldManagerFirstname . ' ' . $manager->fldManagerLastname);
 					$message->cc(EmailTo3, EmailToName3);
@@ -242,21 +242,21 @@ class ManagerController extends Controller
 				});
 
 		   }
-		  
-		   $manager->save();	   	  
-		   Session::flash('success',"Manager was successfully updated.");
-		   return Redirect::to('dnradmin/manager/edit/'.$id);	
-	 }   
 
-	 
+		   $manager->save();
+		   Session::flash('success',"Manager was successfully updated.");
+		   return Redirect::to('dnradmin/manager/edit/'.$id);
+	 }
+
+
    }
-   
+
     public function getDelete($id) {
-		//if not login redirect to login page    	
+		//if not login redirect to login page
 		if(!Session::has('dnradmin_id')) { return Redirect::to('dnradmin/');}
-		
+
 		$manager = Manager::find($id);
-		
+
 		if(empty($manager)) {
 			return Redirect::to('dnradmin/manager');
 			exit();
@@ -265,31 +265,31 @@ class ManagerController extends Controller
 		$manager->delete();
 
 		return Redirect::to('dnradmin/manager');
-		
-		
+
+
 	}
 
 	public function newSalesRegistration() {
-		$rules   = Manager::rulesRegistration();    
+		$rules   = Manager::rulesRegistration();
 		$validator = Validator::make(Input::all(), $rules);
-    	
-	    if ($validator->fails()) {    			
-		    return Redirect::to('sales-registration')->withInput()->withErrors($validator,'manager');	
-		} else {    
+
+	    if ($validator->fails()) {
+		    return Redirect::to('sales-registration')->withInput()->withErrors($validator,'manager');
+		} else {
 
 			$promocode = strtoupper('TR'.Str::random(4));
 
-			$password = Hash::make(Input::get('password'));	   		
+			$password = Hash::make(Input::get('password'));
 			$manager = new Manager;
-			$manager->fldManagerFirstname = Input::get('firstname');	 
-			$manager->fldManagerLastname = Input::get('lastname');	 
-			$manager->fldManagerEmail = Input::get('email');	 	   
-			$manager->fldManagerPassword = $password;	   
-			$manager->fldManagerPhoneNo = Input::get('phone');	 	   		   
-			$manager->fldManagerStatus = 1;	 	   
-			$manager->fldManagerPromoCode = $promocode;	 	   	   	   	 
-			$manager->fldManagerType = 1; 
-			$manager->save();	   	  
+			$manager->fldManagerFirstname = Input::get('firstname');
+			$manager->fldManagerLastname = Input::get('lastname');
+			$manager->fldManagerEmail = Input::get('email');
+			$manager->fldManagerPassword = $password;
+			$manager->fldManagerPhoneNo = Input::get('phone');
+			$manager->fldManagerStatus = 1;
+			$manager->fldManagerPromoCode = $promocode;
+			$manager->fldManagerType = 1;
+			$manager->save();
 
 			//send email to owner
 			$messageData = array(
@@ -300,12 +300,12 @@ class ManagerController extends Controller
 				'phone'=>Input::get('phone'),
 				'password' => Input::get('password')
 			);
-												
-			$settings = Settings::first();									
+
+			$settings = Settings::first();
 
 		 	// Email Manager and Cc Web Admin + DNR Admin
 	  		Mail::send('home.email_manager_registration', $messageData, function ($message) use($settings) {
-				
+
 				$message->from(EmailFrom, EmailFromName);
 				$message->to(Input::get('email'),Input::get('firstname') . ' ' . Input::get('lastname'));
 				$message->cc(EmailTo3, EmailToName3);
@@ -323,8 +323,8 @@ class ManagerController extends Controller
 			// 	$message->to($ownerEmail,$ownerName)->subject("Clarkin: New Sales Manager");
 			// });
 
-		   Session::flash('success',"You have been successfully registered. Our representative will contact you as soon as possible."); 		   
-		   return Redirect::to('sales-registration');		   
+		   Session::flash('success',"You have been successfully registered. Our representative will contact you as soon as possible.");
+		   return Redirect::to('sales-registration');
 		}
 	}
 
@@ -334,16 +334,16 @@ class ManagerController extends Controller
 		$email = Input::get('email');
 
 		$manager = Manager::where('fldManagerEmail','=',$email)->first();
-		
-		$menus = Pages::where('fldPagesMainID', '=', 0)->get();
-		$category = Category::where('fldCategoryMainID','=',0)->orderby('fldCategoryPosition')->get();				
-		
-        $rules   	= Manager::rulesLogin();    
-		$validator 	= Validator::make(Input::all(), $rules);
-    	
-		if ($validator->fails()) {    		
 
-			return Redirect::to('sales-login')->withInput()->withErrors($validator,'login');	 	
+		$menus = Pages::where('fldPagesMainID', '=', 0)->get();
+		$category = Category::where('fldCategoryMainID','=',0)->orderby('fldCategoryPosition')->get();
+
+        $rules   	= Manager::rulesLogin();
+		$validator 	= Validator::make(Input::all(), $rules);
+
+		if ($validator->fails()) {
+
+			return Redirect::to('sales-login')->withInput()->withErrors($validator,'login');
 
 		} else if(empty($manager)) {
 
@@ -362,9 +362,9 @@ class ManagerController extends Controller
 					Session::flash('error',"Account Pending Activation. Please contact administrator.");
 					return Redirect::to('sales-login');
 				}
-				 
+
 			} else { // Wrong Password
-				Session::flash('error',"Invalid username or password."); 		
+				Session::flash('error',"Invalid username or password.");
 				return Redirect::to('sales-login');
 			}
 		}
@@ -372,39 +372,39 @@ class ManagerController extends Controller
 
 
     public function forgotPassword() {
-		$email = Input::get('email');		
-						  
+		$email = Input::get('email');
+
 		$manager = Manager::where('fldManagerEmail','=',$email)
 							->where('fldManagerStatus','=',2)
 							->first();
-		
+
 		if(empty($manager)) {
-			Session::flash('error-forgot',"Email Address not found."); 		
-			return Redirect::to('sales-login');		
+			Session::flash('error-forgot',"Email Address not found.");
+			return Redirect::to('sales-login');
 		} else {
 			$manager->fldManagerHashSecurity = Session::getId();
 			$manager->save();
-			
+
 			//send email to client goes here for the email confirmation and include also the links of new password form
 			//send email code goes here
 			$messageData = array(
 				'security' => Session::getId(),
 				'name' => $manager->fldManagerFirstname
 			);
-			
-			$settings = Settings::first();	
-			
+
+			$settings = Settings::first();
+
 	  		Mail::send('home.emails.manager.forgot_password', $messageData, function ($message) use($settings) {
-				
+
 				$ownerEmail = $settings->fldAdministratorEmail == "" ? "test1@dogandrooster.net" : $settings->fldAdministratorEmail;
 				$ownerName = $settings->fldAdministratorSiteName == "" ? "Dog and Rooster" : $settings->fldAdministratorSiteName;
-										
+
 				$message->from(EmailFrom, EmailFromName);
-				$message->to(Input::get('email'))->subject("Forgot Password");									
+				$message->to(Input::get('email'))->subject("Forgot Password");
 			});
 
 		  	//end send mail
-			Session::flash('sales-forgot-success',"Success."); 		  
+			Session::flash('sales-forgot-success',"Success.");
 			return Redirect::to('sales-login');
 		}
 	}
@@ -415,58 +415,58 @@ class ManagerController extends Controller
 		$menus = Pages::where('fldPagesMainID', '=', 0)->get();
 		$category = Category::where('fldCategoryMainID','=',0)->orderby('fldCategoryPosition')->get();
 		$settings = Settings::first();
-		$google = Google::first();				  
+		$google = Google::first();
 		$cart_count = TempCart::countCart();
-		$pages = Pages::find(46);		
+		$pages = Pages::find(46);
 		return View::make('home.sales-reset-password', array('menus'=>$menus,
 												       'category'=>$category,
 												       'manager' => $manager,
 												       'settings'=>$settings,
 												       'google'=>$google,
 												       'pages'=>$pages,
-												       'cart_count'=>$cart_count));	
+												       'cart_count'=>$cart_count));
 
 	}
 
 	public function resetPassword() {
 		$password = Input::get('password');
 		$password1 = Input::get('password1');
-		$manager_id = Input::get('manager_id');	
-		$hash = Input::get('hash');	
-		
-		$rules   = Manager::rulesResetPassword();    
+		$manager_id = Input::get('manager_id');
+		$hash = Input::get('hash');
+
+		$rules   = Manager::rulesResetPassword();
 		$validator = Validator::make(Input::all(), $rules);
-    	
-		if ($validator->fails()) {    		
-			return Redirect::to('sales-new-password/'.$hash)->withInput()->withErrors($validator,'resetpassword');	
-		} else {	
+
+		if ($validator->fails()) {
+			return Redirect::to('sales-new-password/'.$hash)->withInput()->withErrors($validator,'resetpassword');
+		} else {
 				$manager = Manager::where('fldManagerID','=',$manager_id)->first();
-								
-					//reset password 			
+
+					//reset password
 					$manager->fldManagerPassword = Hash::make($password);
 					$manager->save();
-					
+
 					$messageData = array(
 							'firstname' => $manager->fldManagerFirstname,
 							'username' => $manager->fldManagerEmail,
 							'password' => $password
 						);
-						
-						
-						$settings = Settings::first();	
+
+
+						$settings = Settings::first();
 
 				  		Mail::send('home.emails.manager.success_reset', $messageData, function ($message) use($settings,$manager) {
-							
+
 							$ownerEmail = $settings->fldAdministratorEmail == "" ? "test1@dogandrooster.net" : $settings->fldAdministratorEmail;
 							$ownerName = $settings->fldAdministratorSiteName == "" ? "Dog and Rooster" : $settings->fldAdministratorSiteName;
-													
+
 							$message->from(EmailFrom, EmailFromName);
-							$message->to($manager->fldManagerEmail)->subject("Reset Password");									
+							$message->to($manager->fldManagerEmail)->subject("Reset Password");
 						});
 
 					Session::flash('sales-reset-success',"Success.");
-					return Redirect::to('sales-login');				
-		}	
+					return Redirect::to('sales-login');
+		}
 	}
 
 	 public function dashboard() {
@@ -483,14 +483,14 @@ class ManagerController extends Controller
 
 		//$cart = Cart::displayOrderHistoryDashboard($client_id);
 
-		$cart = ManagerCommission::displayOrdersCommission($manager_id);		
+		$cart = ManagerCommission::displayOrdersCommission($manager_id);
 		return View::make('dashboard.sales.index', array('manager_id'=>$manager_id,
-			 'manager' => $manager,													 
+			 'manager' => $manager,
 			 'pages'=>$pages,
 			 'settings'=>$settings,
-			 'cart'=>$cart 	
+			 'cart'=>$cart
 			));
-	 }	
+	 }
 
 	 public function profile() {
 	 	if(!Session::has('manager_id')) { return Redirect::to('/login');}
@@ -519,14 +519,14 @@ class ManagerController extends Controller
 		$pages->category = "sales";
 		$pages->slug = "edit-profile";
 		$settings = Settings::first();
-		
+
 		$birthMonth = date('n',strtotime($manager->fldManagerBirthDate));
 		$birthDay = date('j',strtotime($manager->fldManagerBirthDate));
 		$birthYear = date('Y',strtotime($manager->fldManagerBirthDate));
 
 		$birthDate = [$birthMonth,$birthDay,$birthYear];
 
-     		$shipping = ManagerShipping::where('fldManagerShippingClientID','=',$manager_id)->first(); 
+     		$shipping = ManagerShipping::where('fldManagerShippingClientID','=',$manager_id)->first();
 
 		require_once "public/payment/braintree/lib/Braintree.php";
 		\Braintree_Configuration::environment(BRAINTREE_ENVIRONMENT);
@@ -537,19 +537,19 @@ class ManagerController extends Controller
 		//$braintreeMerchant = BraintreeInformation::findMerchant($manager->fldManagerBrainTreeMerchantID);
 		//print_r($braintreeMerchant );die();
 
-		if($manager->fldManagerBraintreeCustomerID != "") {	
+		if($manager->fldManagerBraintreeCustomerID != "") {
 			$braintreeClient = BraintreeInformation::findClient($manager->fldManagerBraintreeCustomerID);
 		} else {
 			$braintreeClient = "";
 		}
 
-		if($manager->fldManagerBrainTreeMerchantID != "") {	
+		if($manager->fldManagerBrainTreeMerchantID != "") {
 			$braintreeMerchant = BraintreeInformation::findMerchant($manager->fldManagerBrainTreeMerchantID);
 		} else {
-			$braintreeMerchant = "";	
+			$braintreeMerchant = "";
 		}
 
-     		return View::make('dashboard.sales.edit-profile', compact('manager_id','manager','pages','settings','birthDate','shipping','braintreeClient','braintreeMerchant'));	 		
+     		return View::make('dashboard.sales.edit-profile', compact('manager_id','manager','pages','settings','birthDate','shipping','braintreeClient','braintreeMerchant'));
 	 }
 
 	public function updateProfile() {
@@ -558,14 +558,14 @@ class ManagerController extends Controller
 
 		$manager_id = Session::get('manager_id');
 
-		$rules   = Manager::rulesUpdateProfile($manager_id);    
+		$rules   = Manager::rulesUpdateProfile($manager_id);
 		$validator = Validator::make(Input::all(), $rules[0],$rules[1]);
-    	
+
 		if ($validator->fails()) {
-			Session::flash('error',"Error in saving. See info below.");  
-			return Redirect::to('dashboard/sales/edit-profile')->withInput()->withErrors($validator,'updateProfile');	
-		} else {	
-	
+			Session::flash('error',"Error in saving. See info below.");
+			return Redirect::to('dashboard/sales/edit-profile')->withInput()->withErrors($validator,'updateProfile');
+		} else {
+
 			$manager = Manager::find($manager_id);
 			$manager->fldManagerFirstname = Input::get('firstname');
 			$manager->fldManagerLastname = Input::get('lastname');
@@ -601,10 +601,10 @@ class ManagerController extends Controller
 			$manager->fldManagerBankState 			= Input::get('banking_state');
 			$manager->fldManagerBankZIP 			= Input::get('banking_zip');
 
-			$manager->save();	
+			$manager->save();
 
 			//for shipping address
-			//check if shipping client is already exist			
+			//check if shipping client is already exist
 			$shipping = ManagerShipping::where('fldManagerShippingClientID','=',$manager_id)->count();
 			if($shipping == 0) {
 				$shippingInfo = new ManagerShipping;
@@ -624,7 +624,7 @@ class ManagerController extends Controller
 			$shippingInfo->save();
 
 			/*
-			//created braintree submerchant				
+			//created braintree submerchant
            	require_once "public/payment/braintree/lib/Braintree.php";
 			\Braintree_Configuration::environment(BRAINTREE_ENVIRONMENT);
 			\Braintree_Configuration::merchantId(BRAINTREE_MERCHANTID);
@@ -646,12 +646,12 @@ class ManagerController extends Controller
 				$params = [Input::get('firstname'),Input::get('lastname'),Input::get('email'),Input::get('phone'),$banking_street,
 							$banking_zip,$banking_city,$banking_state,$dateOfBirth,$routing_no,$account_no];
 				$results= BraintreeInformation::createSubMerchant($params);
-				
+
 
 				if($results->success == "") {
 					$message = $results->message;
-					Session::flash('braintree-error',"Banking Information: ".$message);  
-					return Redirect::to('/dashboard/sales/edit-profile'); 
+					Session::flash('braintree-error',"Banking Information: ".$message);
+					return Redirect::to('/dashboard/sales/edit-profile');
 				} else {
 					$manager = Manager::find($manager_id);
 					$manager->fldManagerBankName = Input::get('bank_name');
@@ -671,26 +671,26 @@ class ManagerController extends Controller
 				$bcc_exp_yy = Input::get('bcc_exp_yy');
 
 				$params = [$cc_firstname,$cc_lastname,Input::get('email'),$cc_no,$cc_exp_mm,$bcc_exp_yy,$cvv];
-				
+
 				$results = BraintreeInformation::createClient($params);
 
 				if($results->success == "") {
 					$message = $results->message;
-					Session::flash('braintree-error',"Credit Card Information: ".$message);    
-					return Redirect::to('/dashboard/sales/edit-profile'); 
+					Session::flash('braintree-error',"Credit Card Information: ".$message);
+					return Redirect::to('/dashboard/sales/edit-profile');
 				} else {
 					$manager = Manager::find($manager_id);
 					$manager->fldManagerCVV = Input::get('cvv');
 					$manager->fldManagerBraintreeCustomerID = $results->customer->id;
-					$manager->save();	
+					$manager->save();
 				}
 
 			}
 			*/
 
-			Session::flash('success',"Profile was successfully saved.");  
-			return Redirect::to('/dashboard/sales/edit-profile'); 
-		}	
+			Session::flash('success',"Profile was successfully saved.");
+			return Redirect::to('/dashboard/sales/edit-profile');
+		}
 	 }
 
 
@@ -704,13 +704,13 @@ class ManagerController extends Controller
 		$pages->category = "sales";
 		$pages->slug = "accounts";
 		$settings = Settings::first();
-		
+
 		$birthMonth = date('n',strtotime($manager->fldManagerBirthDate));
 		$birthDay = date('j',strtotime($manager->fldManagerBirthDate));
 		$birthYear = date('Y',strtotime($manager->fldManagerBirthDate));
 
 		$birthDate = [$birthMonth,$birthDay,$birthYear];
-     	
+
 		require_once "public/payment/braintree/lib/Braintree.php";
 		\Braintree_Configuration::environment(BRAINTREE_ENVIRONMENT);
 		\Braintree_Configuration::merchantId(BRAINTREE_MERCHANTID);
@@ -718,38 +718,38 @@ class ManagerController extends Controller
 		\Braintree_Configuration::privateKey(BRAINTREE_PRIVATEKEY);
 		//$braintreeClient = BraintreeInformation::findClient($manager->fldManagerBraintreeCustomerID);
 		//$braintreeMerchant = BraintreeInformation::findMerchant($manager->fldManagerBrainTreeMerchantID);
-		if($manager->fldManagerBraintreeCustomerID != "") {	
+		if($manager->fldManagerBraintreeCustomerID != "") {
 			$braintreeClient = BraintreeInformation::findClient($manager->fldManagerBraintreeCustomerID);
 		} else {
 			$braintreeClient = "";
 		}
-		if($manager->fldManagerBrainTreeMerchantID != "") {	
+		if($manager->fldManagerBrainTreeMerchantID != "") {
 			$braintreeMerchant = BraintreeInformation::findMerchant($manager->fldManagerBrainTreeMerchantID);
 		} else {
-			$braintreeMerchant = "";	
+			$braintreeMerchant = "";
 		}
-		
-     		return View::make('dashboard.sales.accounts', compact('manager','pages','settings','birthDate','braintreeClient','braintreeMerchant'));	 		
+
+     		return View::make('dashboard.sales.accounts', compact('manager','pages','settings','birthDate','braintreeClient','braintreeMerchant'));
 	 }
 
 	public function updateAccounts() {
 	 	 $manager_id = Session::get('manager_id');
 
-		$rules   = Manager::rulesUpdateAccounts($manager_id);    
+		$rules   = Manager::rulesUpdateAccounts($manager_id);
 		$validator = Validator::make(Input::all(), $rules[0],$rules[1]);
-    	
-		if ($validator->fails()) {    		
-			return Redirect::to('dashboard/sales/accounts')->withInput()->withErrors($validator,'accounts');	
-		} else {	
-	
-			$manager = Manager::find($manager_id);				
+
+		if ($validator->fails()) {
+			return Redirect::to('dashboard/sales/accounts')->withInput()->withErrors($validator,'accounts');
+		} else {
+
+			$manager = Manager::find($manager_id);
 
 			$manager->fldManagerEmail = Input::get('email');
-			
+
 			if(Input::get('password') != "") {
 				$manager->fldManagerPassword = Hash::make(Input::get('password'));
 			}
-				
+
 			$manager->fldManagerBankName 			= Input::get('bank_name');
 			$manager->fldManagerTypeofAccount 		= Input::get('type_of_account');
 			$manager->fldManagerBankAccountNumber 	= Input::get('account_no');
@@ -759,7 +759,7 @@ class ManagerController extends Controller
 			$manager->fldManagerBankState 			= Input::get('banking_state');
 			$manager->fldManagerBankZIP 			= Input::get('banking_zip');
 
-			$manager->save();	
+			$manager->save();
 
 			// require_once "public/payment/braintree/lib/Braintree.php";
 			// \Braintree_Configuration::environment(BRAINTREE_ENVIRONMENT);
@@ -782,12 +782,12 @@ class ManagerController extends Controller
 			// 	$params = [$manager->fldManagerFirstname,$manager->fldManagerLastname,$manager->fldManagerEmail,$manager->fldManagerPhoneNo,$banking_street,
 			// 				$banking_zip,$banking_city,$banking_state,$dateOfBirth,$routing_no,$account_no];
 			// 	$results= BraintreeInformation::createSubMerchant($params);
-				
+
 
 			// 	if($results->success == "") {
 			// 		 $message = $results->message;
-			// 		 Session::flash('braintree-error',"Banking Information: ".$message);  
-			// 		 return Redirect::to('/dashboard/sales/accounts'); 
+			// 		 Session::flash('braintree-error',"Banking Information: ".$message);
+			// 		 return Redirect::to('/dashboard/sales/accounts');
 			// 	} else {
 			// 		$manager = Manager::find($manager_id);
 			// 		$manager->fldManagerBankName = Input::get('bank_name');
@@ -808,25 +808,25 @@ class ManagerController extends Controller
 			// 	$bcc_exp_yy = Input::get('bcc_exp_yy');
 
 			// 	$params = [$cc_firstname,$cc_lastname,$manager->fldManagerEmail,$cc_no,$cc_exp_mm,$bcc_exp_yy,$cvv];
-				
+
 			// 	$results = BraintreeInformation::createClient($params);
 
 			// 	if($results->success == "") {
 			// 		 $message = $results->message;
-			// 		  Session::flash('braintree-error',"Credit Card Information: ".$message);    
-			// 		 return Redirect::to('/dashboard/sales/accounts'); 
+			// 		  Session::flash('braintree-error',"Credit Card Information: ".$message);
+			// 		 return Redirect::to('/dashboard/sales/accounts');
 			// 	} else {
 			// 		$manager = Manager::find($manager_id);
 			// 			$manager->fldManagerCVV = Input::get('cvv');
 			// 			$manager->fldManagerBraintreeCustomerID = $results->customer->id;
-			// 		$manager->save();	
+			// 		$manager->save();
 			// 	}
 
 			// }
 
 
-			Session::flash('success',"Account was successfully saved.");  
-			return Redirect::to('/dashboard/sales/accounts'); 
+			Session::flash('success',"Account was successfully saved.");
+			return Redirect::to('/dashboard/sales/accounts');
 		}
 	 }
 
@@ -840,34 +840,34 @@ class ManagerController extends Controller
 		$pages->category = "sales";
 		$pages->slug = "settings";
 		$settings = Settings::first();
-					
-     		return View::make('dashboard.sales.settings', compact('manager','pages','settings'));	 		
+
+     		return View::make('dashboard.sales.settings', compact('manager','pages','settings'));
 	 }
 
 	public function settingsUpdate() {
 	 	if(!Session::has('manager_id')) { return Redirect::to('/sales-login');}
 		$manager_id = Session::get('manager_id');
-				
-		$rules   = Manager::rulesUpdateAccounts($manager_id);    
+
+		$rules   = Manager::rulesUpdateAccounts($manager_id);
 		$validator = Validator::make(Input::all(), $rules[0],$rules[1]);
-    	
-		if ($validator->fails()) {    				
-			return Redirect::to('dashboard/sales/settings')->withInput()->withErrors($validator,'settings');	
+
+		if ($validator->fails()) {
+			return Redirect::to('dashboard/sales/settings')->withInput()->withErrors($validator,'settings');
 		} else {
 			$manager = Manager::find($manager_id);
 			$manager->fldManagerEmail = Input::get('email');
-				
+
 				if(Input::get('password') != "") {
 					$manager->fldManagerPassword = Hash::make(Input::get('password'));
 				}
 
 			$manager->fldManagerMobileAlerts = Input::get('mobile_alerts_value');
-			$manager->fldManagerEmailAlerts = Input::get('email_alerts_value');	
-				
-			$manager->save();	
+			$manager->fldManagerEmailAlerts = Input::get('email_alerts_value');
 
-			Session::flash('success',"Settings was successfully saved.");  
-			return Redirect::to('/dashboard/sales/settings'); 		
+			$manager->save();
+
+			Session::flash('success',"Settings was successfully saved.");
+			return Redirect::to('/dashboard/sales/settings');
 		}
 	 }
 
@@ -883,7 +883,7 @@ class ManagerController extends Controller
 		$settings = Settings::first();
 
 		$registrationDate = $manager->fldManagerRegistrationDate;
-		
+
 		$todaysDate = date('Y-m-d', strtotime('+1 years'));
 		//echo $todaysDate;
 
@@ -894,7 +894,7 @@ class ManagerController extends Controller
 		$intervalDays = $interval->format('%a');
 	        $computeDaysLeft = 365 - (($intervalDays - 365));
 
-	     	return View::make('dashboard.sales.coupon-codes', compact('manager','pages','settings','computeDaysLeft'));	 	
+	     	return View::make('dashboard.sales.coupon-codes', compact('manager','pages','settings','computeDaysLeft'));
 	 }
 
 	public function salesActivities() {
@@ -910,7 +910,7 @@ class ManagerController extends Controller
 
 		$cart = ManagerCommission::salesActivities($manager_id);
 
-		return View::make('dashboard.sales.sales-activities', compact('manager','pages','settings','cart'));	 
+		return View::make('dashboard.sales.sales-activities', compact('manager','pages','settings','cart'));
 	 }
 
 	public function orderHistory() {
@@ -923,31 +923,31 @@ class ManagerController extends Controller
 		$pages->category = "sales";
 		$pages->slug = "order-history";
 		$settings = Settings::first();
-		
+
 		$dateFrom = date('Y-1-1');
 		$dateTo = date('Y-12-31');
 
 		$cart = ManagerCommission::displayOrdersCommissionByDateOrderHistory($manager_id,$dateFrom,$dateTo);
 
-		return View::make('dashboard.sales.order-history', compact('manager','pages','settings','cart'));	 
+		return View::make('dashboard.sales.order-history', compact('manager','pages','settings','cart'));
 	 }
 
 	public static function orderDetails($orderNo) {
 	 	$manager_id = Session::get('manager_id');
-		
+
 	 	$orderInfo = ManagerCommission::displayOrdersCommissionByOrderNo($manager_id,$orderNo);
 
-	 	$orderInfo->orderDetails =  $orderInfo->product_name . ' - ' . 
-	 							   Cart::getImageSize($orderInfo->fldCartImageSize) . ' - '. 								  
+	 	$orderInfo->orderDetails =  $orderInfo->product_name . ' - ' .
+	 							   Cart::getImageSize($orderInfo->fldCartImageSize) . ' - '.
 								   Cart::getFrameAttributes($orderInfo->fldCartFrameDesc) . ' - '.
-								   Cart::getPaperInfo($orderInfo->fldCartPaperInfo) . ' - ' . 
-								   Cart::getMat($orderNo);			
-		
-		$orderInfo->fldCartOrderDate = date('m/d/Y',strtotime($orderInfo->order_date));							   					 	
+								   Cart::getPaperInfo($orderInfo->fldCartPaperInfo) . ' - ' .
+								   Cart::getMat($orderNo);
+
+		$orderInfo->fldCartOrderDate = date('m/d/Y',strtotime($orderInfo->order_date));
 		$orderInfo->imageFrame = Cart::getReturnFrameImage($orderNo,$orderInfo->fldProductSlug,$orderInfo->image);
 
 	 	return $orderInfo;
-	 } 
+	 }
 
 	 public function logout() {
 		Session::flush();
@@ -968,8 +968,8 @@ class ManagerController extends Controller
 		$salesrep = Manager::where('fldManagerType','=',2)
 							->where('fldManagerMainID','=',$manager_id)
 							->get();
-				
-		return View::make('dashboard.sales.sales-rep', compact('manager','pages','settings','salesrep'));	 
+
+		return View::make('dashboard.sales.sales-rep', compact('manager','pages','settings','salesrep'));
 	}
 
 	public function salesRepNew() {
@@ -983,8 +983,8 @@ class ManagerController extends Controller
 		$pages->category = "sales";
 		$pages->slug = "sales-rep";
 		$settings = Settings::first();
-		
-		return View::make('dashboard.sales.sales-rep-new', compact('manager','pages','settings'));	
+
+		return View::make('dashboard.sales.sales-rep-new', compact('manager','pages','settings'));
 	}
 
 	public function salesRepSave() {
@@ -992,11 +992,11 @@ class ManagerController extends Controller
 		$manager_id = Session::get('manager_id');
 		$manager = Manager::find($manager_id);
 
-		$rules   = Manager::rulesSalesRep(0);    
+		$rules   = Manager::rulesSalesRep(0);
 		$validator = Validator::make(Input::all(), $rules[0],$rules[1]);
-    	
-		if ($validator->fails()) {    		
-			return Redirect::to('dashboard/sales/sales-rep/new')->withInput()->withErrors($validator,'salesrep');	
+
+		if ($validator->fails()) {
+			return Redirect::to('dashboard/sales/sales-rep/new')->withInput()->withErrors($validator,'salesrep');
 		} else {
 			$password = HASH::make(Input::get('password'));
 			$promocode = strtoupper('SR'.Str::random(4));
@@ -1011,7 +1011,7 @@ class ManagerController extends Controller
 				$salesRep->fldManagerType = 2;
 				$salesRep->fldManagerMainID = $manager_id;
 				$salesRep->fldManagerPromoCode = $promocode;
-				$salesRep->fldManagerStatus = 2;	
+				$salesRep->fldManagerStatus = 2;
 			$salesRep->save();
 
 			//send email to sales rep
@@ -1023,20 +1023,20 @@ class ManagerController extends Controller
 							'manager' =>$manager->fldManagerFirstname . ' ' . $manager->fldManagerLastname,
 							'password' => $password
 			);
-						
-						
-			$settings = Settings::first();	
+
+
+			$settings = Settings::first();
 
 			Mail::send('home.emails.sales_rep.welcome', $messageData, function ($message) use($settings,$salesRep) {
-							
+
 							$ownerEmail = $settings->fldAdministratorEmail == "" ? "test1@dogandrooster.net" : $settings->fldAdministratorEmail;
 							$ownerName = $settings->fldAdministratorSiteName == "" ? "Dog and Rooster" : $settings->fldAdministratorSiteName;
-													
+
 							$message->from(EmailFrom, EmailFromName);
 							$message->to($salesRep->fldManagerEmail,$salesRep->fldManagerFirstname . ' ' . $salesRep->fldManagerLastname)->subject("Welcome to Clarkin");
 			});
 
-			 Session::flash('success',"Sales Rep was successfully added."); 		   
+			 Session::flash('success',"Sales Rep was successfully added.");
 		   	return Redirect::to('dashboard/sales/sales-rep/new');
 
 
@@ -1053,7 +1053,7 @@ class ManagerController extends Controller
 								->where('fldManagerMainID','=',$manager_id)
 								->count();
 		if($salesRepManager == 0)	{
-			 Session::flash('error',"Invalid Sales Rep Access. This Sales Rep belongs to different Manager."); 		   
+			 Session::flash('error',"Invalid Sales Rep Access. This Sales Rep belongs to different Manager.");
 		   	 return Redirect::to('dashboard/sales/sales-rep');
 		} else {
 			$salesRep = Manager::find($id);
@@ -1062,9 +1062,9 @@ class ManagerController extends Controller
 			$pages->category = "sales";
 			$pages->slug = "sales-rep";
 			$settings = Settings::first();
-		
-			return View::make('dashboard.sales.sales-rep-edit', compact('manager','pages','settings','salesRep'));	
-		}										 
+
+			return View::make('dashboard.sales.sales-rep-edit', compact('manager','pages','settings','salesRep'));
+		}
 	}
 
 	public function salesRepUpdate($id) {
@@ -1072,11 +1072,11 @@ class ManagerController extends Controller
 		$manager_id = Session::get('manager_id');
 		$manager = Manager::find($manager_id);
 
-		$rules   = Manager::rulesSalesRep($id);    
+		$rules   = Manager::rulesSalesRep($id);
 		$validator = Validator::make(Input::all(), $rules[0],$rules[1]);
-    	
-		if ($validator->fails()) {    		
-			return Redirect::to('dashboard/sales/sales-rep/edit/'.$id)->withInput()->withErrors($validator,'salesrep');	
+
+		if ($validator->fails()) {
+			return Redirect::to('dashboard/sales/sales-rep/edit/'.$id)->withInput()->withErrors($validator,'salesrep');
 		} else {
 			$salesRep = Manager::find($id);
 				$salesRep->fldManagerFirstname = Input::get('firstname');
@@ -1086,10 +1086,10 @@ class ManagerController extends Controller
 				if(Input::get('password') != "") {
 					$password = HASH::make(Input::get('password'));
 					$salesRep->fldManagerPassword = $password;
-				}				
+				}
 			$salesRep->save();
 
-			 Session::flash('success',"Sales Rep was successfully updated."); 		   
+			 Session::flash('success',"Sales Rep was successfully updated.");
 		   	return Redirect::to('dashboard/sales/sales-rep/edit/'.$id);
 		}
 	}
@@ -1104,7 +1104,7 @@ class ManagerController extends Controller
 								->where('fldManagerMainID','=',$manager_id)
 								->count();
 		if($salesRepManager == 0)	{
-			 Session::flash('error',"Invalid Sales Rep Access. This Sales Rep belongs to different Manager."); 		   
+			 Session::flash('error',"Invalid Sales Rep Access. This Sales Rep belongs to different Manager.");
 		   	 return Redirect::to('dashboard/sales/sales-rep');
 		} else {
 			$salesRep = Manager::find($id);
@@ -1112,95 +1112,95 @@ class ManagerController extends Controller
 			return Redirect::to('dashboard/sales/sales-rep');
 		}
 	}
-	
+
 
 	// //For Registration page functionality
 	// public function newClient() {
-	   
-  	   
+
+
 	//    $emailCheck = Manager::where('fldManagerEmail','=',Input::get('email'))->first();
-	   
+
 	//    $menus = Pages::where('fldPagesMainID', '=', 0)->get();
-	//    $category = Category::where('fldCategoryMainID','=',0)->orderby('fldCategoryPosition')->get();		
-	   
+	//    $category = Category::where('fldCategoryMainID','=',0)->orderby('fldCategoryPosition')->get();
+
 	//    $data = Input::all();
-			
+
 	//    if($emailCheck) {
 	// 	   $error = 1;
-	// 	   return View::make('home.registration', array('menus'=>$menus,'category'=>$category,'email_error' => $error,'data'=>$data));	  
-	//    } else {		
+	// 	   return View::make('home.registration', array('menus'=>$menus,'category'=>$category,'email_error' => $error,'data'=>$data));
+	//    } else {
 	// 		   $manager = new Manager;
-	// 		   $manager->fldManagerFirstname = Input::get('firstname');	 
-	// 		   $manager->fldManagerLastname = Input::get('lastname');	 
-	// 		   $manager->fldManagerEmail = Input::get('email');	 			   
-	// 		   $manager->fldManagerPhoneNo = Input::get('phone');	 	   
-	// 		   $manager->fldManagerGender = Input::get('gender');	 	   
-	// 		   $manager->fldManagerBirthDate = Input::get('birthdate');	 	   
-	// 		   $manager->fldManagerAddress = Input::get('address');	 
+	// 		   $manager->fldManagerFirstname = Input::get('firstname');
+	// 		   $manager->fldManagerLastname = Input::get('lastname');
+	// 		   $manager->fldManagerEmail = Input::get('email');
+	// 		   $manager->fldManagerPhoneNo = Input::get('phone');
+	// 		   $manager->fldManagerGender = Input::get('gender');
+	// 		   $manager->fldManagerBirthDate = Input::get('birthdate');
+	// 		   $manager->fldManagerAddress = Input::get('address');
 	// 		   $password = Hash::make(Input::get('password'));
-	// 		   $manager->fldManagerPassword = $password;	   
-	// 		   $manager->save();	   	  
-			  						  
+	// 		   $manager->fldManagerPassword = $password;
+	// 		   $manager->save();
+
 	// 		  $client_id = Session::has('client_id') ? Session::has('client_id') : Session::getId();
 	// 		  $order_date = date('Y-m-d');
 	// 		  //check if temp cart have records based on session id
 	// 		  $cart = TempCart::where('fldTempCartClientID','=',$client_id)->where('fldTempCartOrderDate','=',$order_date)->get();
-			  			  
+
 	// 		  $messageData = array(
 	// 						'firstname' => Input::get('firstname'),
 	// 						'lastname' => Input::get('lastname'),
-	// 						'email' => Input::get('email'),							
-	// 						'password' => Input::get('password')							
+	// 						'email' => Input::get('email'),
+	// 						'password' => Input::get('password')
 	// 		   );
-												
-	// 			$settings = Settings::first();									
 
-	// 		 	 //send email code goes here			  							
+	// 			$settings = Settings::first();
+
+	// 		 	 //send email code goes here
 	// 			  		Mail::send('home.email_registration', $messageData, function ($message) use($settings) {
-							
+
 	// 						$ownerEmail = $settings->fldAdministratorEmail == "" ? "test1@dogandrooster.net" : $settings->fldAdministratorEmail;
 	// 						$ownerName = $settings->fldAdministratorSiteName == "" ? "Dog and Rooster" : $settings->fldAdministratorSiteName;
-				
+
 	// 						$message->from(Input::get('email'), Input::get('firstname') . ' ' . Input::get('lastname'));
-	// 						$message->to($ownerEmail,$ownerName)->subject("New Client");									
+	// 						$message->to($ownerEmail,$ownerName)->subject("New Client");
 	// 					});
-						
+
 	// 					//send emai to client
-	// 					Mail::send('home.email_registration', $messageData, function ($message) use($settings){							
+	// 					Mail::send('home.email_registration', $messageData, function ($message) use($settings){
 	// 						$ownerEmail = $settings->fldAdministratorEmail == "" ? "test1@dogandrooster.net" : $settings->fldAdministratorEmail;
 	// 						$ownerName = $settings->fldAdministratorSiteName == "" ? "Dog and Rooster" : $settings->fldAdministratorSiteName;
-				
+
 	// 						$message->from($ownerEmail, $ownerName);
-	// 						$message->to(Input::get('email'),Input::get('firstname') . ' ' . Input::get('lastname'))->subject("Your Access Information");									
+	// 						$message->to(Input::get('email'),Input::get('firstname') . ' ' . Input::get('lastname'))->subject("Your Access Information");
 	// 					});
 	// 			  //end send mail
-				  
-	// 		  if(empty($cart)) { 			        
+
+	// 		  if(empty($cart)) {
 	// 			  return Redirect::to('pages/thank-you');
 	// 		  } else {
 	// 			  //update the tempcart with the new clients id based on clients table
 	// 			  $cart = TempCart::where('fldTempCartClientID','=',$client_id)->where('fldTempCartOrderDate','=',$order_date)
 	// 			  			     ->update(array('fldTempCartClientID'=>$clients->id));
-	// 			  //create session client id	
+	// 			  //create session client id
 	// 			  Session::put('client_id', $clients->id);
 	// 			  //redirect to check out page
 	// 			  return Redirect::to('/checkout');
 	// 		  }
 	//    }
  //   }
-   
+
 	// //For login page functionality
  //    public function checkAccess() {
 	// 	$username = Input::get('username');
 
 	// 	$manager = Manager::where('fldManagerEmail','=',$username)->first();
 	// 	$menus = Pages::where('fldPagesMainID', '=', 0)->get();
-	// 	$category = Category::where('fldCategoryMainID','=',0)->orderby('fldCategoryPosition')->get();				
-			
-	// 	if(empty($manager)) {			
+	// 	$category = Category::where('fldCategoryMainID','=',0)->orderby('fldCategoryPosition')->get();
+
+	// 	if(empty($manager)) {
 	// 		$error = "1";
 	// 		$settings = Settings::first();
-	// 	   $google = Google::first();				  
+	// 	   $google = Google::first();
 	// 	   $cart_count = TempCart::countCart();
 	// 		return View::make('home.login', array('menus'=>$menus,
 	// 											  'category'=>$category,
@@ -1214,16 +1214,16 @@ class ManagerController extends Controller
 	// 			if (Hash::check(Input::get('password'), $manager->fldManagerPassword)) {
 
 	// 				  $client_id = Session::has('client_id') ? Session::has('client_id') : Session::getId();
-					
+
 	// 				  $order_date = date('Y-m-d');
 	// 				  //check if temp cart is empty
 	// 				  $cart = TempCart::where('fldTempCartClientID','=',$client_id)->where('fldTempCartOrderDate','=',$order_date)->get();
 	// 				  //print_r($cart);die();
 	// 				  Session::put('client_id', $clients->fldClientID);
 
-	// 				  if(count($cart)==0) {  	
+	// 				  if(count($cart)==0) {
 	// 				  	  //redirect to order list page
-						  
+
 	// 					  return Redirect::to('/user-orders');
 	// 				  } else {
 	// 					 //update the tempcart with the new clients id based on clients table
@@ -1233,17 +1233,17 @@ class ManagerController extends Controller
 	// 					  //Session::forget('client_id');
 	// 					  //create session client id
 	// 					  //echo $clients->id;	die();
-						  
-						  
+
+
 	// 					  return Redirect::to('/checkout');
 	// 				  }
-	// 			} else {					
+	// 			} else {
 	// 				$error = "1";
-									
+
 	// 			   $settings = Settings::first();
-	// 			   $google = Google::first();				  
+	// 			   $google = Google::first();
 	// 			   $cart_count = TempCart::countCart();
-				
+
 	// 				return View::make('home.login')->with(array('menus'=>$menus,
 	// 															'category'=>$category,
 	// 															'settings'=>$settings,
@@ -1252,91 +1252,91 @@ class ManagerController extends Controller
 	// 															'cart_count'=>$cart_count));
 	// 			}
 	// 	}
-		
-		
+
+
 	// }
-	
+
 	// public function logout() {
 	// 	Session::flush();
 	// 	return Redirect::to('/');
 	// }
-	
+
 	// //For forgot password functionality
 	// public function forgotPassword() {
-	// 	$email = Input::get('email');		
+	// 	$email = Input::get('email');
 	// 	$menus = Pages::where('fldPagesMainID', '=', 0)->get();
 	// 	$category = Category::where('fldCategoryMainID','=',0)->orderby('fldCategoryPosition')->get();
 	// 	$settings = Settings::first();
-	// 	$google = Google::first();				  
+	// 	$google = Google::first();
 	// 	$cart_count = TempCart::countCart();
-				   
+
 	// 	$manager = Manager::where('fldManagerEmail','=',$email)->first();
-		
+
 	// 	if(empty($manager)) {
 	// 		$error = "1";
 	// 		return View::make('home.forgot', array('menus'=>$menus,'category'=>$category,'error' => $error,'settings'=>$settings,'google'=>$google,'cart_count'=>$cart_count));
 	// 	} else {
 	// 		$manager->fldClientHashSecurity = Session::getId();
 	// 		$manager->save();
-			
+
 	// 		//send email to client goes here for the email confirmation and include also the links of new password form
 	// 			//send email code goes here
 	// 					 $messageData = array(
 	// 						'security' => Session::getId(),
 	// 						'name' => $manager->fldManagerFirstname
 	// 					);
-						
-						
-						
+
+
+
 	// 			  		Mail::send('home.email_forgot_password', $messageData, function ($message) use($settings) {
-							
+
 	// 						$ownerEmail = $settings->fldAdministratorEmail == "" ? "test1@dogandrooster.net" : $settings->fldAdministratorEmail;
 	// 						$ownerName = $settings->fldAdministratorSiteName == "" ? "Dog and Rooster" : $settings->fldAdministratorSiteName;
-													
+
 	// 						$message->from($ownerEmail, $ownerName);
-	// 						$message->to(Input::get('email'))->subject("Forgot Password");									
+	// 						$message->to(Input::get('email'))->subject("Forgot Password");
 	// 					});
 	// 			  //end send mail
-				  
+
 	// 		return Redirect::to('pages/forgot-password');
 	// 	}
-		
+
 	// }
-	
-	// //for new password 
+
+	// //for new password
 	// public function newPassword($hash) {
 	// 	$manager = Manager::where('fldManagerHashSecurity','=',$hash)->first();
 	// 	$menus = Pages::where('fldPagesMainID', '=', 0)->get();
 	// 	$category = Category::where('fldCategoryMainID','=',0)->orderby('fldCategoryPosition')->get();
 	// 	$settings = Settings::first();
-	// 	$google = Google::first();				  
+	// 	$google = Google::first();
 	// 	$cart_count = TempCart::countCart();
-				
+
 	// 	return View::make('home.reset-password', array('menus'=>$menus,'category'=>$category,'manager' => $manager,'settings'=>$settings,'google'=>$google,'cart_count'=>$cart_count));
 	// }
-	
+
 	// //for reset password
 	// public function resetPassword() {
 	// 	$password = Input::get('password');
 	// 	$password1 = Input::get('password1');
-	// 	$manager_id = Input::get('client_id');	
-		
+	// 	$manager_id = Input::get('client_id');
+
 	// 	$manager = Manager::where('fldManagerID','=',$manager_id)->first();
 	// 	$menus = Pages::where('fldPagesMainID', '=', 0)->get();
 	// 	$category = Category::where('fldCategoryMainID','=',0)->orderby('fldCategoryPosition')->get();
-		
+
 	// 	if($password != $password1) {
 	// 		$error = 1;
 	// 		return View::make('home.reset-password', array('menus'=>$menus,'category'=>$category,'clients' => $clients,'error'=>$error));
-			
+
 	// 	} else {
-	// 		//reset password 			
+	// 		//reset password
 	// 		$manager->fldManagerPassword = Hash::make($password);
 	// 		$manager->save();
-			
+
 	// 		return Redirect::to('pages/reset-password');
 	// 	}
 	// }
-	
-	
+
+
 }

@@ -1,11 +1,11 @@
 @extends('layouts._front.dashboard')
 
-@section('content')	
+@section('content')
 
    {!! Form::open(array('url' => '/dashboard/customer/settings', 'method' => 'post',  'class' => '','id'=>'profile_edit_form ')) !!}
     <div class="button-container button-container-top">
-    	{!! Form::button(' <i class="uk-icon-save uk-icon-justify"></i> Save ',array('class'=>'uk-button  uk-form-help-inline text-uppercase uk-text-bold uk-button-primary ','type'=>'submit','name'=>'submit'))!!} 
-    </div>    
+    	{!! Form::button(' <i class="uk-icon-save uk-icon-justify"></i> Save ',array('class'=>'uk-button  uk-form-help-inline text-uppercase uk-text-bold uk-button-primary ','type'=>'submit','name'=>'submit'))!!}
+    </div>
 
     @if (Session::has('success'))
        		<div class="uk-alert uk-alert-success uk-margin-large-top">{!!Session::get('success')!!}</div>
@@ -16,24 +16,24 @@
 			<div class="uk-grid" >
 	            <div class="uk-width-small-1-1 ">
 	                <div class="uk-grid uk-panel uk-panel-box normal">
-	                	<div class="uk-width-large-1-4 uk-width-small-1-2 uk-width-1-1 uk-padding-v-normal">	                		
+	                	<div class="uk-width-large-1-4 uk-width-small-1-2 uk-width-1-1 uk-padding-v-normal">
 	                		<label  class="table-text">Mobile Alerts</label>
 	                	</div>
-	                	<div class="uk-width-large-1-4 uk-width-small-1-2 uk-width-1-1 uk-padding-v-normal" data-uk-button-checkbox>	     
-	                		<input type="hidden" name="mobile_alerts_value" id="mobile_alerts_value" value={{ $client->fldClientMobileAlerts }}>           		
-	                		<button class="uk-button uk-button-primary uk-button-small uk-button-toggle {{ $client->fldClientMobileAlerts == 1 ? 'uk-active' : '' }}" name="mobile_alerts" id="mobile_alerts" onClick="mobileAlerts()" type="button"> 
-	                			
-	                			<span class="uk-button-toggle-text text-off">Off</span> <i class="uk-icon-circle">  </i> 
+	                	<div class="uk-width-large-1-4 uk-width-small-1-2 uk-width-1-1 uk-padding-v-normal" data-uk-button-checkbox>
+	                		<input type="hidden" name="mobile_alerts_value" id="mobile_alerts_value" value={{ $client->fldClientMobileAlerts }}>
+	                		<button class="uk-button uk-button-primary uk-button-small uk-button-toggle {{ $client->fldClientMobileAlerts == 1 ? 'uk-active' : '' }}" name="mobile_alerts" id="mobile_alerts" onClick="mobileAlerts()" type="button">
+
+	                			<span class="uk-button-toggle-text text-off">Off</span> <i class="uk-icon-circle">  </i>
 	                			<span class="uk-button-toggle-text text-on">On</span>
 	                		</button>
 	                	</div>
-	                	<div class="uk-width-large-1-4 uk-width-small-1-2 uk-width-1-1 uk-padding-v-normal">	                		
+	                	<div class="uk-width-large-1-4 uk-width-small-1-2 uk-width-1-1 uk-padding-v-normal">
 	                		<label for=""  class="table-text">Email Alerts</label>
 	                	</div>
-	                	<div class="uk-width-large-1-4 uk-width-small-1-2 uk-width-1-1 uk-padding-v-normal" data-uk-button-checkbox>	    
-	                		<input type="hidden" name="email_alerts_value" id="email_alerts_value" value="{{ $client->fldClientEmailAlerts }}">	            		
-	                		<button class="uk-button uk-button-primary uk-button-small uk-button-toggle {{ $client->fldClientEmailAlerts == 1 ? 'uk-active' : '' }}" onClick="emailAlerts()" type="button" name="email_alerts" id="email_alerts" > 
-	                				<span class="uk-button-toggle-text text-off">Off</span> <i class="uk-icon-circle">  </i> 
+	                	<div class="uk-width-large-1-4 uk-width-small-1-2 uk-width-1-1 uk-padding-v-normal" data-uk-button-checkbox>
+	                		<input type="hidden" name="email_alerts_value" id="email_alerts_value" value="{{ $client->fldClientEmailAlerts }}">
+	                		<button class="uk-button uk-button-primary uk-button-small uk-button-toggle {{ $client->fldClientEmailAlerts == 1 ? 'uk-active' : '' }}" onClick="emailAlerts()" type="button" name="email_alerts" id="email_alerts" >
+	                				<span class="uk-button-toggle-text text-off">Off</span> <i class="uk-icon-circle">  </i>
 	                				<span class="uk-button-toggle-text text-on">On</span>
 	                		</button>
 	                	</div>
@@ -55,47 +55,47 @@
 		                                            <td style="padding-right:5px;" class="uk-text-small"> <i class="uk-icon uk-icon-check-circle icon-color" id="passweak"></i> an uppercase</td>
 		                                            <td style="padding-right:5px;" class="uk-text-small"> <i class="uk-icon uk-icon-check-circle icon-color" id="passmedium"></i> a number</td>
 		                                            <td style="padding-right:5px;" class="uk-text-small"> <i class="uk-icon uk-icon-check-circle icon-color" id="passstrong"></i> special char</td>
-		                                        </tr>  
+		                                        </tr>
 		                                    </table>
-								
+
 								@if($errors->settings->first('password'))
                                         <div class="uk-text-danger">{!!$errors->settings->first('password')!!}</div>
-                             @endif	
-	                    	
+                             @endif
+
 	                	</div>
 	                	<div class="uk-width-small-1-2 uk-width-1-1 uk-padding-v-normal">
 	                		{!! Form::label('promo_code', 'Promo Code',array('class'=>'lbl table-text light' )); !!}
 	                    	{!! Form::text('promo_code',$client->fldClientPromoCode,array('id'=>'promo_code','class'=>'text','disabled'=>'disabled')) !!}
 	                	</div>
-	                    
+
 	                </div>
 	            </div>
 	        </div>
 	    </div>
 	</section>
 
- 
+
 
 	    <div class="button-container button-container-bottom">
-	    	{!! Form::button(' <i class="uk-icon-save uk-icon-justify"></i> Save ',array('class'=>'uk-button  uk-form-help-inline text-uppercase uk-text-bold uk-button-primary ','type'=>'submit','name'=>'submit'))!!} 
-	    </div> 
+	    	{!! Form::button(' <i class="uk-icon-save uk-icon-justify"></i> Save ',array('class'=>'uk-button  uk-form-help-inline text-uppercase uk-text-bold uk-button-primary ','type'=>'submit','name'=>'submit'))!!}
+	    </div>
 
-	  {!! Form::close() !!} 
+	  {!! Form::close() !!}
 @stop
 
 
 @section('headercodes')
-   {!! Html::style('_front/plugins/password/strength.css') !!} 
+   {!! Html::style('_front/plugins/password/strength.css') !!}
 @stop
 
- 
-@section('extracodes')  
+
+@section('extracodes')
  {{-- */ /* */ /* --}}
- {!! Html::script('_front/plugins/password/strength.js','') !!}
-    
+ {!! Html::script('_front/plugins/password/strength.!}
+
     <script>
       $(document).ready(function($) {
-  
+
           $('#password').strength({
               strengthClass: 'strength',
               strengthMeterClass: 'strength_meter',
@@ -103,10 +103,10 @@
               strengthButtonText: 'Show Password',
               strengthButtonTextToggle: 'Hide Password'
           });
-         
+
 
       });
-     </script> 
+     </script>
 	<script>
 		function mobileAlerts() {
 			var mobileValue;
@@ -127,10 +127,10 @@
 				emailValue = 1;
 			}
 
-			$("#email_alerts_value").val(emailValue);	
+			$("#email_alerts_value").val(emailValue);
 		}
 	</script>
 
-	{!! Html::script('_front/assets/js/jquery.min.js','') !!}    
-    
+	{!! Html::script('_front/assets/js/jquery.min.!}
+
 @stop

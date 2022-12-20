@@ -4,8 +4,8 @@
    <article>
     <div id="page_control">
       <div class="col2">
-         {!! Html::link('/dnradmin/orders',ORDERS) !!} <i class="pe-7s-angle-right"></i> {{ $data->bFirstname . ' ' . $data->bLastname }}    
-        </div>    
+         {!! Html::link('/dnradmin/orders',ORDERS) !!} <i class="pe-7s-angle-right"></i> {{ $data->bFirstname . ' ' . $data->bLastname }}
+        </div>
     </div>
 
     <div style="clear:both"></div>
@@ -13,15 +13,15 @@
         <table class="uk-table">
              <tr style="background:#000">
                 <td colspan="2" align="center">
-                    <a href="{{ url('/') }}"> 
+                    <a href="{{ url('/') }}">
                         <img src="{{ url('_front/assets/images/logo.png')}} " width="170" height="110" alt="Clarkin">
                     </a>
-                </td>  
-             </tr> 
+                </td>
+             </tr>
              <tr>
                   <td class="uk-text-bold">Order No : {{ $data->order_code }}</td>
                   <td class="uk-text-right uk-text-bold">Order Date : {{ date('F d, Y',strtotime($data->order_date)) }}</td>
-             </tr> 
+             </tr>
              <tr>
                 <td>
                     <div class="uk-grid">
@@ -37,15 +37,15 @@
                             <a href="mailto:{{ $data->bEmail }}" style="color:#666;text-decoration:none;border-bottom:dotted 1px #333;"> {{ $data->bEmail }}</a> <br>
                             {{ $data->bPhone }}
                           </span>
-                        </div>  
-                    </div>  
+                        </div>
+                    </div>
                 </td>
-                
+
                 <td>
                     <div class="uk-grid">
                         <div class="uk-width-large-1-1 uk-text-bold">
                             SHIPPING INFORMATION
-                        </div>  
+                        </div>
                     </div>
                     <div class="uk-grid">
                         <div class="uk-width-large-1-1 uk-text-left">
@@ -53,13 +53,13 @@
                               {{ str_replace(";", " ", $data->fldCartShippingAddress) }} <br>
                               <a href="mailto: {{ $data->sEmail }}" style="color:#666;text-decoration:none;border-bottom:dotted 1px #333;"> {{  $data->sEmail }}</a> <br>
                              {{ $data->sPhone }}
-                        </div>  
+                        </div>
                     </div>
                 </td>
-                
-             </tr>             
+
+             </tr>
         </table>
-        
+
          <table class="uk-table">
             <tr>
                 <td class="uk-text-bold">PRODUCT NAME</td>
@@ -67,7 +67,7 @@
                 <td class="uk-text-bold">AMOUNT</td>
                 <td class="uk-text-bold">QTY</td>
                 <td class="uk-text-bold">TOTAL</td>
-            </tr>  
+            </tr>
             @foreach($cart as $carts)
                 <tr>
                     <td>
@@ -84,10 +84,10 @@
 
                         @if(count($paperinfo) >=1)
                           @if(isset($paperinfo[3]))
-                            <strong>PAPER:</strong> {{ $paperinfo[3] }} <br/>                       
-                          @endif  
+                            <strong>PAPER:</strong> {{ $paperinfo[3] }} <br/>
+                          @endif
                           <strong>PAPER SKU:</strong> {{ $paperinfo[0] }} <br/>
-                        @endif  
+                        @endif
                       @endif
 
                       @if($carts->fldCartFrameInfo)
@@ -136,56 +136,56 @@
                     <td>$ {{ number_format($carts->product_price,2) }}</td>
                     <td>{{ $carts->quantity }}</td>
                     <td>$ {{ number_format($carts->total,2) }}</td>
-                </tr>                  
+                </tr>
             @endforeach
                 <tr>
-                   <td colspan="3">&nbsp;</td> 
+                   <td colspan="3">&nbsp;</td>
                    <td class="uk-text-right uk-text-bold">SUB-TOTAL : </td>
-                   <td>$ {{ number_format($cart[0]->subtotal,2) }}</td>                  
-                </tr> 
-                {{-- */$total = $cart[0]->subtotal + $data->fldCartTax;/* --}} 
+                   <td>$ {{ number_format($cart[0]->subtotal,2) }}</td>
+                </tr>
+                {{-- */$total = $cart[0]->subtotal + $data->fldCartTax;/* --}}
                 <tr>
-                   <td colspan="3">&nbsp;</td> 
+                   <td colspan="3">&nbsp;</td>
                    <td class="uk-text-right uk-text-bold">TAX : </td>
-                   <td>$ {{ number_format($data->fldCartTax,2) }}</td>                  
-                </tr> 
+                   <td>$ {{ number_format($data->fldCartTax,2) }}</td>
+                </tr>
                  @if($data->fldCartShippingRateShippingAmount != "")
-                 {{-- */$total = $total + $data->fldCartShippingRateShippingAmount;/* --}} 
+                 {{-- */$total = $total + $data->fldCartShippingRateShippingAmount;/* --}}
                  <tr>
-                   <td colspan="3">&nbsp;</td> 
+                   <td colspan="3">&nbsp;</td>
                    <td class="uk-text-right uk-text-bold">Shipping (  {{ $data->fldCartShippingRateShippingName }}  ) : </td>
-                   <td>$ {{ number_format($data->fldCartShippingRateShippingAmount,2) }}</td>                  
-                </tr> 
+                   <td>$ {{ number_format($data->fldCartShippingRateShippingAmount,2) }}</td>
+                </tr>
                 @endif
                 @if($data->fldCartCouponCodeCouponCode != "")
-                      {{-- */$total = $total - $data->fldCartCouponCodeCouponPrice;/* --}} 
+                      {{-- */$total = $total - $data->fldCartCouponCodeCouponPrice;/* --}}
                       <tr>
-                         <td colspan="3">&nbsp;</td> 
+                         <td colspan="3">&nbsp;</td>
                          <td class="uk-text-right uk-text-bold">DISCOUNT CODE ( {{ $data->fldCartCouponCodeCouponCode }} ) : </td>
-                         <td>$ ( - {{ number_format($data->fldCartCouponCodeCouponPrice,2) }} )</td>                  
+                         <td>$ ( - {{ number_format($data->fldCartCouponCodeCouponPrice,2) }} )</td>
                       </tr>
-                @endif      
+                @endif
 
                  <tr>
-                   <td colspan="3">&nbsp;</td> 
+                   <td colspan="3">&nbsp;</td>
                    <td class="uk-text-right uk-text-bold">GRAND TOTAL: </td>
-                   <td>$ {{ number_format($total,2) }}</td>                  
-                </tr> 
+                   <td>$ {{ number_format($total,2) }}</td>
+                </tr>
 
-         </table> 
-      
-    </div>  
-    <div class="clear"><!-- Clear Section --></div>   
-      
+         </table>
+
+    </div>
+    <div class="clear"><!-- Clear Section --></div>
+
   </article>
-  
+
 
 @stop
 
-@section('headercodes')    
+@section('headercodes')
 
 @stop
 
 @section('extracodes')
-    {!! Html::script('_admin/assets/js/jquery-latest.min.js','') !!}
+    {!! Html::script('_admin/assets/js/jquery-latest.min.js') !!}
 @stop

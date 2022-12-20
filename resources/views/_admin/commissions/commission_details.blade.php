@@ -67,10 +67,10 @@
 @stop
 
 @section('extracodes')
-    {!! Html::script('_admin/assets/js/FilterPagination/filter.js','') !!}
-    {!! Html::script('_admin/assets/js/jquery.tablednd.js','') !!}
-    {!! Html::script('_admin/assets/js/stupidtable.min.js','') !!}
-    {!! Html::script('_admin/assets/js/sorted.js','') !!}
+    {!! Html::script('_admin/assets/js/FilterPagination/filter.js') !!}
+    {!! Html::script('_admin/assets/js/jquery.tablednd.js') !!}
+    {!! Html::script('_admin/assets/js/stupidtable.min.js') !!}
+    {!! Html::script('_admin/assets/js/sorted.js') !!}
 
     <script>
          showPagination(30,$('#page_manager tbody>tr').size(),$('#page_manager tbody>tr'));                 

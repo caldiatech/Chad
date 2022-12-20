@@ -18,7 +18,7 @@
                          </div>
                    
                    
-          {!! Html::script('_admin/assets/js/jquery.tablednd.js','') !!}
+          {!! Html::script('_admin/assets/js/jquery.tablednd.js') !!}
           <script>
 		  	 $('#page_manager').tableDnD({
 					onDrop: function(table, row) {						

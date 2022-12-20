@@ -11,8 +11,8 @@
  
  {{ HTML::style('_admin/assets/css/core.css') }}  
  {{ HTML::script('//cufon.shoqolate.com/js/cufon-yui.js?v=1.09i','') }}
- {{ HTML::script('//ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js','') }}
- {{ HTML::script('_admin/assets/js/modernizr.js','') }}
+ {{ HTML::script('//ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js') }}
+ {{ HTML::script('_admin/assets/js/modernizr.js') }}
 
  @section('headercodes')
  @show 

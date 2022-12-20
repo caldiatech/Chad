@@ -115,14 +115,14 @@
 
 @section('extracodes')
 
-    {!! Html::script('_admin/manager/tinymce/tiny_mce.js','') !!}
-    {!! Html::script('_admin/assets/js/cufon_avantgarde.js','') !!}
-    {!! Html::script('_admin/assets/js/jquery-latest.min.js','') !!}
-    {!! Html::script('_admin/assets/js/FilterPagination/filter.js','') !!}
-    {!! Html::script('_admin/manager/tinymce/styles/mods2.js','') !!}
-    {!! Html::script('_admin/assets/js/jquery.tablednd.js','') !!}
-    {!! Html::script('_admin/assets/js/stupidtable.min.js','') !!}
-     {!! Html::script('_admin/assets/js/sorted.js','') !!}
+    {!! Html::script('_admin/manager/tinymce/tiny_mce.js') !!}
+    {!! Html::script('_admin/assets/js/cufon_avantgarde.js') !!}
+    {!! Html::script('_admin/assets/js/jquery-latest.min.js') !!}
+    {!! Html::script('_admin/assets/js/FilterPagination/filter.js') !!}
+    {!! Html::script('_admin/manager/tinymce/styles/mods2.js') !!}
+    {!! Html::script('_admin/assets/js/jquery.tablednd.js') !!}
+    {!! Html::script('_admin/assets/js/stupidtable.min.js') !!}
+     {!! Html::script('_admin/assets/js/sorted.js') !!}
     
  
     <script>

@@ -25,44 +25,144 @@ Route::group(array('prefix' => '/dnradmin'), function()
  	Route::get('/sub-category/{category}/{product_id}', 'CategoryController@displaySubCategory');
  	Route::get('/', 'SettingsController@displayLogin');
  	Route::post('/', 'SettingsController@login');
- 	// Route::controller('/settings', 'SettingsController');
+ 	Route::get('/settings', 'SettingsController@getNew');
  	Route::get('/pages/remove_image/{id}','PagesController@removeImage');
- 	// Route::controller('/pages', 'PagesController');
-	Route::get('/manager/sales/{id}','ManagerController@getSales');
-	// Route::controller('/manager', 'ManagerController');
+
+    Route::get('/pages', 'PagesController@getIndex');
+    Route::get('/pages/new', 'PagesController@getNew');
+    Route::post('/pages/new', 'PagesController@postNew');
+    Route::get('/pages/edit/{id}', 'PagesController@getEdit');
+    Route::post('/pages/edit/{id}', 'PagesController@postEdit');
+    Route::get('/pages/delete/{id}', 'PagesController@getDelete');
+
+    Route::get('/homeslides', 'HomeSlideController@getIndex');
+    Route::get('/homeslides/new', 'HomeSlideController@getNew');
+    Route::get('/homeslides/edit/{id}', 'HomeSlideController@getEdit');
+    Route::post('/homeslides/edit/{id}', 'HomeSlideController@postEdit');
+    Route::get('/homeslides/delete/{id}', 'HomeSlideController@getDelete');
+
+
+    Route::get('/contact', 'ContactController@getIndex');
+    Route::get('/contact/new', 'ContactController@getNew');
+    Route::post('/contact/new', 'ContactController@postNew');
+    Route::get('/contact/edit/{id}', 'ContactController@getEdit');
+    Route::post('/contact/edit/{id}', 'ContactController@postEdit');
+    Route::get('/contact/delete/{id}', 'ContactController@getDelete');
+
+
+
+    Route::get('/manager', 'ManagerController@getIndex');
+    Route::get('/manager/new', 'ManagerController@getNew');
+    Route::post('/manager/new', 'ManagerController@postNew');
+    Route::get('/manager/edit/{id}', 'ManagerController@getEdit');
+    Route::post('/manager/edit/{id}', 'ManagerController@postEdit');
+    Route::get('/manager/delete/{id}', 'ManagerController@getDelete');
+
+
+    Route::get('/shop-owner', 'ShopOwnerController@getIndex');
+    Route::get('/shop-owner/new', 'ShopOwnerController@getNew');
+    Route::post('/shop-owner/new', 'ShopOwnerController@postNew');
+    Route::get('/shop-owner/edit/{id}', 'ShopOwnerController@getEdit');
+    Route::post('/shop-owner/edit/{id}', 'ShopOwnerController@postEdit');
+    Route::get('/shop-owner/delete/{id}', 'ShopOwnerController@getDelete');
+
+
+    Route::get('/client', 'ClientController@getIndex');
+    Route::get('/client/new', 'ClientController@getNew');
+    Route::post('/client/new', 'ClientController@postNew');
+    Route::get('/client/edit/{id}', 'ClientController@getEdit');
+    Route::post('/client/edit/{id}', 'ClientController@postEdit');
+    Route::get('/client/delete/{id}', 'ClientController@getDelete');
+
+    Route::get('/products', 'ProductController@getIndex');
+    Route::get('/products/new', 'ProductController@getNew');
+    Route::post('/products/new', 'ProductController@postNew');
+    Route::get('/products/edit/{id}', 'ProductController@getEdit');
+    Route::post('/products/edit/{id}', 'ProductController@postEdit');
+    Route::get('/products/delete/{id}', 'ProductController@getDelete');
+    Route::get('/products/view/{id}', 'ProductController@getView');
+
+    Route::get('/category', 'CategoryController@getIndex');
+    Route::get('/category/new/{id}/{backid}/', 'CategoryController@getNew');
+    Route::post('/category/new/', 'CategoryController@postNew');
+    Route::get('/category/edit/{id}', 'CategoryController@getEdit');
+    Route::post('/category/edit/{id}', 'CategoryController@postEdit');
+    Route::get('/category/delete/{id}', 'CategoryController@getDelete');
+    Route::get('/category/view/{id}', 'CategoryController@getView');
+
+
+    Route::get('/coupon_code', 'CouponCodeController@getIndex');
+    Route::get('/coupon_code/new', 'CouponCodeController@getNew');
+    Route::post('/coupon_code/new', 'CouponCodeController@postNew');
+    Route::get('/coupon_code/edit/{id}', 'CouponCodeController@getEdit');
+    Route::post('/coupon_code/edit/{id}', 'CouponCodeController@postEdit');
+    Route::get('/coupon_code/delete/{id}', 'CouponCodeController@getDelete');
+
+
+    Route::get('/state', 'StateController@getIndex');
+    Route::get('/state/new', 'StateController@getNew');
+    Route::post('/state/new', 'StateController@postNew');
+    Route::get('/state/edit/{id}', 'StateController@getEdit');
+    Route::post('/state/edit/{id}', 'StateController@postEdit');
+    Route::get('/state/delete/{id}', 'StateController@getDelete');
+
+
+    Route::get('/manager/sales/{id}','ManagerController@getSales');
+	Route::controller('/manager', 'ManagerController');
 	Route::get('/manager/sales-rep/{id}','SalesRepController@getSales');
-	// Route::controller('/sales-rep', 'SalesRepController');
+	Route::controller('/sales-rep', 'SalesRepController');
 	Route::get('/shop-owner/sales/{id}','ShopOwnerController@getSales');
-   //  Route::controller('/shop-owner', 'ShopOwnerController');
- 	// Route::controller('/client', 'ClientController');
- 	// Route::controller('/homeslides', 'HomeSlideController');
-   //  Route::controller('/slider', 'SliderController');
- 	// Route::controller('/photos', 'PhotoGalleryController');
- 	// Route::controller('/staff', 'StaffController');
- 	// Route::controller('/contact', 'ContactController');
- 	// Route::controller('/coupon_code', 'CouponCodeController');
- 	// Route::controller('/category', 'CategoryController');
- 	// Route::controller('/products', 'ProductController');
- 	// Route::controller('/product_options', 'OptionsController');
-   //  Route::controller('/product_options_assets', 'OptionsAssetsController');
+    Route::controller('/shop-owner', 'ShopOwnerController');
+ 	Route::controller('/client', 'ClientController');
+
+
+    Route::get('/orders', 'CartController@getIndex');
+    Route::get('/orders/new', 'CartController@getNew');
+    Route::post('/orders/new', 'CartController@postNew');
+    Route::get('/orders/edit/{id}', 'CartController@getEdit');
+    Route::post('/orders/edit/{id}', 'CartController@postEdit');
+    Route::get('/orders/delete/{id}', 'CartController@getDelete');
+    Route::get('/orders/display/{order_code}', 'CartController@getDisplay');
+
+
+    Route::get('/commissions', 'CommissionController@getIndex');
+    Route::get('/commissions/new', 'CommissionController@getNew');
+    Route::post('/commissions/new', 'CommissionController@postNew');
+    Route::get('/commissions/edit/{id}', 'CommissionController@getEdit');
+    Route::post('/commissions/edit/{id}', 'CommissionController@postEdit');
+    Route::get('/commissions/delete/{id}', 'CommissionController@getDelete');
+    Route::get('/commissions/display/{manager}/{id}', 'CommissionController@getDisplay');
+    Route::get('/commissions/display/{shop}/{id}', 'CommissionController@getDisplay');
+
+
+
+    Route::controller('/slider', 'SliderController');
+ 	Route::controller('/photos', 'PhotoGalleryController');
+ 	Route::controller('/staff', 'StaffController');
+ 	Route::controller('/coupon_code', 'CouponCodeController');
+ 	Route::controller('/category', 'CategoryController');
+ 	Route::controller('/products', 'ProductController');
+ 	Route::controller('/product_options', 'OptionsController');
+    Route::controller('/product_options_assets', 'OptionsAssetsController');
     Route::get('/dnradmin/news-category', 'NewsCategoryController@displayCategory');
-   //  Route::controller('/news', 'NewsController');
-   //  Route::controller('/news-category', 'NewsCategoryController');
-   //  Route::controller('/payment', 'PaymentController');
-   //  Route::controller('/authorize', 'AuthorizeController');
-   //  Route::controller('/paypal', 'PaypalController');
-    // Max 12/01: 3. Remove Shipping moduel from admin
+    Route::controller('/news', 'NewsController');
+    Route::controller('/news-category', 'NewsCategoryController');
+    Route::controller('/payment', 'PaymentController');
+    Route::controller('/authorize', 'AuthorizeController');
+    Route::controller('/paypal', 'PaypalController');
+ //   Max 12/01: 3. Remove Shipping moduel from admin
     // Route::controller('/shipping', 'ShippingController');
     // Route::controller('/shipping_ups', 'UPSController');
     // Route::controller('/shipping_fedex', 'FedexController');
     // Route::controller('/shipping_usps', 'USPSController');
- 	// Route::controller('/orders', 'CartController');
+
+ 	 Route::controller('/orders', 'CartController');
 
     Route::get('/commissions/details/{type}/{id}/{datefrom}-{dateto}', 'CommissionController@displayTransactionByDates');
-   //  Route::controller('/commissions', 'CommissionController');
+    Route::controller('/commissions', 'CommissionController');
     Route::post('/commissions', 'CommissionController@searchOverview');
 
-   //  Route::controller('/state', 'StateController');
+    Route::controller('/state', 'StateController');
     Route::get('/logout', 'SettingsController@logout');
     Route::get('/not-found', 'PagesController@notFound');
     Route::get('/graphik/display_all/{type}', 'GraphikDimensionController@displayAll');

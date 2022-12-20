@@ -181,14 +181,14 @@
 	<script>
 		var mypath = "{!! url('/') !!}";
 	</script>
-    {!! Html::script('_admin/manager/tinymce/tiny_mce.js','') !!}
-    {!! Html::script('_admin/assets/js/cufon_avantgarde.js','') !!}
-    {!! Html::script('_admin/assets/js/customValidation.js','') !!}
+    {!! Html::script('_admin/manager/tinymce/tiny_mce.js') !!}
+    {!! Html::script('_admin/assets/js/cufon_avantgarde.js') !!}
+    {!! Html::script('_admin/assets/js/customValidation.js') !!}
     
-    {!! Html::script('_admin/manager/tinymce/styles/mods5.js','') !!}
-    {!! Html::script('_admin/assets/js/jquery-ui.js','') !!}
-    {!! Html::script('_admin/plugins/password/strength.js','') !!}
-    {!! Html::script('_front/assets/js/mask.js','') !!}
+    {!! Html::script('_admin/manager/tinymce/styles/mods5.js') !!}
+    {!! Html::script('_admin/assets/js/jquery-ui.js') !!}
+    {!! Html::script('_admin/plugins/password/strength.js') !!}
+    {!! Html::script('_front/assets/js/mask.js') !!}
     
 	<script>     
     $(document).ready(function($) {
@@ -218,10 +218,10 @@
 
 
    
-   {!! Html::script('_admin/assets/js/jquery-latest.min.js','') !!}
-  {!! Html::script('_front/plugins/uikit/js/uikit.js','') !!}
-  {!! Html::script('_front/plugins/uikit/js/components/form-select.js','') !!}
-  {!! Html::script('_front/plugins/uikit/js/components/datepicker.js','') !!}
-  {!! Html::script('_front/plugins/uikit/js/components/autocomplete.min.js','') !!} 
+   {!! Html::script('_admin/assets/js/jquery-latest.min.js') !!}
+  {!! Html::script('_front/plugins/uikit/js/uikit.js') !!}
+  {!! Html::script('_front/plugins/uikit/js/components/form-select.js') !!}
+  {!! Html::script('_front/plugins/uikit/js/components/datepicker.js') !!}
+  {!! Html::script('_front/plugins/uikit/js/components/autocomplete.min.js') !!} 
    
 @stop

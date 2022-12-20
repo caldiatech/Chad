@@ -3,18 +3,18 @@
 @section('content')
    <article>
   	<div id=page_control>
-      
+
         <div  class=col2>
           {!! Html::link('/dnradmin/pages',PAGE_MANAGEMENT) !!}  <i class="pe-7s-angle-right"></i> Add new page
     </div>
     </div>
-    
-  	 
-    
+
+
+
    {!! Form::open(array('url' => '/dnradmin/pages/new', 'method' => 'post', 'id' => 'pageform', 'files' => true,'class'=>'uk-form')); !!}
-    
+
     {!! Html::flash_msg_admin() !!}
-    
+
     <div class="uk-grid">
         <div class="uk-width-large-1-1 uk-width-small-1-1">
             <ul>
@@ -109,46 +109,46 @@
                <li class="boxfields">
                     {!! Form::textarea('description','',array('id'=>'mods2')) !!}
                     @if($errors->first('description'))
-                        <li class="error">{!! $errors->first('description'); !!}</li>           
+                        <li class="error">{!! $errors->first('description'); !!}</li>
                     @endif
                </li>
             </ul>
         </div>
      </div>
-      
-     
 
-     <div class=clear><!-- Clear Section --></div>   
-        {!! Form::submit('Save Record',array('name'=>'saveinfo','class'=>'uk-button uk-button-success'))!!} &nbsp; {!! Form::reset('Reset',array('name'=>'reset','class'=>'uk-button uk-button-danger'))!!}         
+
+
+     <div class=clear><!-- Clear Section --></div>
+        {!! Form::submit('Save Record',array('name'=>'saveinfo','class'=>'uk-button uk-button-success'))!!} &nbsp; {!! Form::reset('Reset',array('name'=>'reset','class'=>'uk-button uk-button-danger'))!!}
     {!! Form::close() !!}
-    
-    
+
+
   </article>
-  
+
 
 @stop
 
-@section('headercodes')    
+@section('headercodes')
   {!! Html::style('_admin/assets/css/pagination.css') !!}
-  {!! Html::style('_admin/plugins/jasny/css/jasny-bootstrap.min.css') !!}  
+  {!! Html::style('_admin/plugins/jasny/css/jasny-bootstrap.min.css') !!}
 @stop
 
 @section('extracodes')
 	<script>
 		var mypath = "{!! url('/') !!}";
 	</script>
-    {!! Html::script('_admin/manager/tinymce/tiny_mce.js','') !!}
-    {!! Html::script('_admin/assets/js/cufon_avantgarde.js','') !!}
-    {!! Html::script('_admin/assets/js/jquery-latest.min.js','') !!}
-    {!! Html::script('_admin/assets/js/customValidation.js','') !!}
-    {!! Html::script('_admin/manager/tinymce/styles/mods2.js','') !!}
-    {!! Html::script('_admin/assets/js/count_char.js','') !!}
-    {!! Html::script('_admin/plugins/jasny/js/jasny-bootstrap.min.js','') !!}
+    {!! Html::script('_admin/manager/tinymce/tiny_mce.js') !!}
+    {!! Html::script('_admin/assets/js/cufon_avantgarde.js') !!}
+    {!! Html::script('_admin/assets/js/jquery-latest.min.js') !!}
+    {!! Html::script('_admin/assets/js/customValidation.js') !!}
+    {!! Html::script('_admin/manager/tinymce/styles/mods2.js') !!}
+    {!! Html::script('_admin/assets/js/count_char.js') !!}
+    {!! Html::script('_admin/plugins/jasny/js/jasny-bootstrap.min.js') !!}
 
-   <script>   			
+   <script>
 		var elem1 = $("#name_text");
 		$("#name").limiter(50, elem1);
 		var elem1 = $("#title_text");
 		$("#page_title").limiter(22, elem1);
-   </script>    
+   </script>
 @stop

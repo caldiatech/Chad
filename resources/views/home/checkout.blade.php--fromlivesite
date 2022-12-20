@@ -1214,7 +1214,7 @@
 
 @section('extracodes')
   {!! Html::script('_front/uikit/js/components/accordion.min.js') !!}
-  {!! Html::script('_front/assets/js/mask.js','') !!}
+  {!! Html::script('_front/assets/js/mask.js') !!}
 
   <script>
     $(document).ready(function($) {

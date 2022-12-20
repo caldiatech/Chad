@@ -110,16 +110,16 @@
 
 @section('extracodes')
    {!! Html::style('_front/plugins/uikit/css/uikit.css') !!}
-   {!! Html::script('_front/uikit/plugins/js/uikit.js','') !!}
+   {!! Html::script('_front/uikit/plugins/js/uikit.js') !!}
 	<script>
 		var mypath = "{!! url('/') !!}";
 	</script>
-    {!! Html::script('_admin/manager/tinymce/tiny_mce.js','') !!}
-    {!! Html::script('_admin/assets/js/cufon_avantgarde.js','') !!}
-    {!! Html::script('_admin/assets/js/jquery-latest.min.js','') !!}
-    {!! Html::script('_admin/assets/js/customValidation.js','') !!}
-    {!! Html::script('_admin/manager/tinymce/styles/mods2.js','') !!}
-    {!! Html::script('_admin/plugins/password/strength.js','') !!}
+    {!! Html::script('_admin/manager/tinymce/tiny_mce.js') !!}
+    {!! Html::script('_admin/assets/js/cufon_avantgarde.js') !!}
+    {!! Html::script('_admin/assets/js/jquery-latest.min.js') !!}
+    {!! Html::script('_admin/assets/js/customValidation.js') !!}
+    {!! Html::script('_admin/manager/tinymce/styles/mods2.js') !!}
+    {!! Html::script('_admin/plugins/password/strength.js') !!}
     
     <script>
       $(document).ready(function($) {

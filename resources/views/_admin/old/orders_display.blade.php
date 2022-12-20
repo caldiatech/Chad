@@ -4,13 +4,13 @@
    <article>
   	<div id=page_control>
     	<div class="col1">
-	       {{ HTML::link('/dnradmin/orders','Orders') }} &raquo; {{ $data->bFirstname . ' ' . $data->bLastname }}    
-        </div>   
+	       {{ HTML::link('/dnradmin/orders','Orders') }} &raquo; {{ $data->bFirstname . ' ' . $data->bLastname }}
+        </div>
     </div>
-    
-  	
-       
-      
+
+
+
+
       <table border="0" cellpadding="0" cellspacing="0" width="100%" style="font-family:sans-serif;text-shadow:1px 1px 1px rgba(0,0,0,0.15);margin:0;">
       <tr>
         <td >
@@ -44,11 +44,11 @@
                   {{ $data->sFirstname . ' ' . $data->sLastname }} <br>
                   {{ $data->sAddress . ' ' . $data->sAddress1 . ' ' . $data->sCity . ' ' . $data->sState . ' ' . $data->sZip }} <br>
                   <a href="mailto: {{ $data->sEmail }}" style="color:#666;text-decoration:none;border-bottom:dotted 1px #333;"> {{  $data->sEmail }}</a> <br>
-                 {{ $data->sPhone }} <br /><br />				 
+                 {{ $data->sPhone }} <br /><br />
                 </td>
               </tr>
-              
-            </table> 
+
+            </table>
             </div>
             <div align='center' style='width:650px;margin:auto;padding:10px 0;'>
            			<table border='0' cellpadding='2' cellspacing='2' width='650' style='background:rgba(0,0,0,0.10);'>
@@ -58,78 +58,78 @@
                             <th widht='10%' style='background:rgba(0,0,0,0.10);font:600 13px sans-serif;color:#555;text-align:left;text-transform:uppercase;text-shadow:none;padding:10px;'> QTY </th>
                             <th width='20%' style='background:rgba(0,0,0,0.10);font:600 13px sans-serif;color:#555;text-align:left;text-transform:uppercase;text-shadow:none;padding:10px;'> Total </th>
                         </tr>
-                                                
-                              @foreach($cart as $carts)                               
+
+                              @foreach($cart as $carts)
                                     <tr>
                                         <td style='font:400 13px sans-serif;color:#555;text-align:left;text-transform:uppercase;text-shadow:none;padding:10px;'>
-                                         {{ HTML::image('upload/products/'.$carts->product_id.'/_75_'.$carts->image) }}<br /><br />{{ $carts->product_name }} 
+                                         {{ HTML::image('upload/products/'.$carts->product_id.'/_75_'.$carts->image) }}<br /><br />{{ $carts->product_name }}
                                          </td>
-                                          
+
                                           <td style='font:400 13px sans-serif;color:#555;text-align:left;text-transform:uppercase;text-shadow:none;padding:10px;'>$ {{ number_format($carts->product_price,2) }}</td>
                                           <td style='font:400 13px sans-serif;color:#555;text-align:left;text-transform:uppercase;text-shadow:none;padding:10px;'>
                                           {{ $carts->quantity }} </td>
                                           <td style='font:400 13px sans-serif;color:#555;text-align:left;text-transform:uppercase;text-shadow:none;padding:10px;'>$ {{ number_format($carts->total,2) }}</td>
                                      </tr>
 						 @endforeach
-                         
+
 						<tr>
                         	<td colspan='4'><hr></td></tr><tr><td colspan='3' style='font:600 13px sans-serif;color:#555;text-align:right;text-transform:uppercase;text-shadow:none;padding:5px 10px;'>Sub-Total:</td>
                             <td style='font:400 12px sans-serif;color:#555;text-align:left;text-transform:uppercase;text-shadow:none;padding:5px 10px;'>$ {{ number_format($cart[0]->subtotal,2) }}</td>
                       </tr>
-			  		{{-- */$total = $cart[0]->subtotal + $data->tax;/* --}} 
+			  		{{-- */$total = $cart[0]->subtotal + $data->tax;/* --}}
 			  		<tr>
                     		<td colspan='3' style='font:600 13px sans-serif;color:#555;text-align:right;text-transform:uppercase;text-shadow:none;padding:5px 10px;'>TAX:</td>
                             <td style='font:400 12px sans-serif;color:#555;text-align:left;text-transform:uppercase;text-shadow:none;padding:5px 10px;'>$ {{ number_format($data->tax,2) }}</td>
                  	</tr>
-                    {{-- */$total = $total + $data->shipping_amount;/* --}} 
+                    {{-- */$total = $total + $data->shipping_amount;/* --}}
 			  		<tr>
                     	<td colspan='3' style='font:600 13px sans-serif;color:#555;text-align:right;text-transform:uppercase;text-shadow:none;padding:5px 10px;'>Shipping (  {{ $data->shipping_name }}  ) :</td>
                         <td style='font:400 12px sans-serif;color:#555;text-align:left;text-transform:uppercase;text-shadow:none;padding:5px 10px;'>$ {{ number_format($data->shipping_amount,2) }} </td>
                    </tr>
 					@if($data->coupon_code != "")
-                    	{{-- */$total = $total - $data->coupon_price;/* --}} 
+                    	{{-- */$total = $total - $data->coupon_price;/* --}}
 					<tr>
                     	<td colspan='3' style='font:600 13px sans-serif;color:#555;text-align:right;text-transform:uppercase;text-shadow:none;padding:5px 10px;'>DISCOUNT CODE ( {{ $data->coupon_code }} ) :</td>
-                        <td style='font:400 12px sans-serif;color:#555;text-align:left;text-transform:uppercase;text-shadow:none;padding:5px 10px;'>$ ( {{ number_format($data->coupon_price,2) }} ) 
+                        <td style='font:400 12px sans-serif;color:#555;text-align:left;text-transform:uppercase;text-shadow:none;padding:5px 10px;'>$ ( {{ number_format($data->coupon_price,2) }} )
                     	</td>
                     </tr>
                     @endif
-                   
-                   
+
+
 					<tr>
                     	<td colspan='3' style='background:rgba(0,0,0,0.10);font:600 16px sans-serif;color:#555;text-align:right;text-transform:uppercase;text-shadow:none;padding:15px 10px;'>GRAND TOTAL:</td>
                         <td style='background:rgba(0,0,0,0.10);font:400 14px sans-serif;color:#555;text-align:left;text-transform:uppercase;text-shadow:none;padding:15px 10px;'>$ {{ number_format($total,2) }}</td>
                     </tr>
              </table>
-             </div>	
+             </div>
           <!-- ORDERS PANEL -->
         </td>
       </tr>
     </table>
-      
-            
-      
-      
-     
-            
 
-      <div class=clear><!-- Clear Section --></div>   
-      
+
+
+
+
+
+
+      <div class=clear><!-- Clear Section --></div>
+
   </article>
-  
+
 
 @stop
 
-@section('headercodes')    
-  {{ HTML::style('_admin/assets/css/pagination.css') }}  
+@section('headercodes')
+  {{ HTML::style('_admin/assets/css/pagination.css') }}
 @stop
 
 @section('extracodes')
 
-    {{ HTML::script('_admin/manager/tinymce/tiny_mce.js','') }}
-    {{ HTML::script('_admin/assets/js/cufon_avantgarde.js','') }}
-    {{ HTML::script('_admin/assets/js/jquery-latest.min.js','') }}
-    {{ HTML::script('_admin/assets/js/customValidation.js','') }}
-    {{ HTML::script('_admin/manager/tinymce/styles/mods2.js','') }}
- 
+    {{ HTML::script('_admin/manager/tinymce/tiny_mce.js') }}
+    {{ HTML::script('_admin/assets/js/cufon_avantgarde.js') }}
+    {{ HTML::script('_admin/assets/js/jquery-latest.min.js') }}
+    {{ HTML::script('_admin/assets/js/customValidation.js') }}
+    {{ HTML::script('_admin/manager/tinymce/styles/mods2.js') }}
+
 @stop

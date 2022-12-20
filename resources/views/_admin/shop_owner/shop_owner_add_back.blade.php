@@ -204,17 +204,17 @@
 	<script>
 		var mypath = "{{ $pageURL }}";
 	</script>
-    {{ HTML::script('_admin/manager/tinymce/tiny_mce.js','') }}
-    {{ HTML::script('_admin/assets/js/cufon_avantgarde.js','') }}
-    {{ HTML::script('_admin/assets/js/customValidation.js','') }}
+    {{ HTML::script('_admin/manager/tinymce/tiny_mce.js') }}
+    {{ HTML::script('_admin/assets/js/cufon_avantgarde.js') }}
+    {{ HTML::script('_admin/assets/js/customValidation.js') }}
     
-    {{ HTML::script('_admin/manager/tinymce/styles/mods5.js','') }}
-    {{ HTML::script('_admin/assets/js/jquery-ui.js','') }}
+    {{ HTML::script('_admin/manager/tinymce/styles/mods5.js') }}
+    {{ HTML::script('_admin/assets/js/jquery-ui.js') }}
     <script>
 		var mypath = "{{ $pageURL }}";
 		var category_id = "0";
 	</script>
-    {{ HTML::script('_admin/assets/js/news.js','') }} 
+    {{ HTML::script('_admin/assets/js/news.js') }} 
     
 	<script>			
 	  $(function() {

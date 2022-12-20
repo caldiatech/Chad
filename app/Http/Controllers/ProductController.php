@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller;
@@ -39,33 +39,33 @@ class ProductController extends Controller
 
     public function getIndex()
     {
-			
+
     }
-	
-  
+
+
    public function postIndex()
-    {       
-		//if not login redirect to login page    
+    {
+		//if not login redirect to login page
 		if(!Session::has('dnradmin_id')) { return Redirect::to('dnradmin/');}
-		
-		$products = Product::orderby('fldProductPosition')->get();       
-		$administrator = Settings::where('fldAdministratorID','=',Session::get('dnradmin_id'))->first();          
+
+		$products = Product::orderby('fldProductPosition')->get();
+		$administrator = Settings::where('fldAdministratorID','=',Session::get('dnradmin_id'))->first();
 		$productClass = 'class=active';
 		$pageTitle = PRODUCT_MANAGEMENT;
         return View::make('_admin.product.products', array('products' => $products,
         												   'administrator'=>$administrator,
         												   'productClass'=>$productClass,
         												   'pageTitle'=>$pageTitle));
-        
-    }	
-	
+
+    }
+
 	 public function getView($id)
-    {       
-		//if not login redirect to login page    
+    {
+		//if not login redirect to login page
 		if(!Session::has('dnradmin_id')) { return Redirect::to('dnradmin/');}
-		
+
 		//$products = ProductsManagement::orderby('position')->where('category_id', '=', $id)->leftjoin('category','category.id','=','products.category_id')->get(array('products.*', 'category.main_id'));
-		
+
 		// $products = ProductCategory::join('tblProduct','tblProduct.fldProductID','=','tblProductCategory.fldProductCategoryProductID')
 		// 							->join('tblProductOptions','tblProduct.fldProductID','=','tblProductOptions.fldProductOptionsProductID')
 		// 					->where('tblProductCategory.fldProductCategoryCategoryID','=',$id)
@@ -87,10 +87,10 @@ class ProductController extends Controller
 		// echo '<pre>';
 		// print_r($products);
 		// die('Ln');
-		
+
 		$mainid = Category::where('fldCategoryID','=',$id)->first();
 		//print_r($products);die();
-		$administrator = Settings::where('fldAdministratorID','=',Session::get('dnradmin_id'))->first();          		
+		$administrator = Settings::where('fldAdministratorID','=',Session::get('dnradmin_id'))->first();
 		$productClass = 'class=active';
 		$pageTitle = PRODUCT_MANAGEMENT;
         return View::make('_admin.product.products', array('product' => $products,
@@ -100,7 +100,7 @@ class ProductController extends Controller
         												   'productClass'=>$productClass,
         												   'pageTitle'=>$pageTitle));
     }
-	
+
 	public function getNew()
    {
 
@@ -109,54 +109,54 @@ class ProductController extends Controller
    			Product::generateLandscapeImages();
    			exit();
    		}
-	   //if not login redirect to login page    
+	   //if not login redirect to login page
 		if(!Session::has('dnradmin_id')) { return Redirect::to('dnradmin/');}
-		
-	   	//$success = "";		
+
+	   	//$success = "";
 		$category = Category::where('fldCategoryMainID','=','0')->orderby("fldCategoryPosition")->get();
-		$administrator = Settings::where('fldAdministratorID','=',Session::get('dnradmin_id'))->first();          		
-		$options =  Options::orderby('fldOptionsPosition')->get();    
+		$administrator = Settings::where('fldAdministratorID','=',Session::get('dnradmin_id'))->first();
+		$options =  Options::orderby('fldOptionsPosition')->get();
 		$productClass = 'class=active';
 		$pageTitle = PRODUCT_MANAGEMENT;
-   		return View::make('_admin.product.products_add',array('category'=>$category,   															  
+   		return View::make('_admin.product.products_add',array('category'=>$category,
    															  'administrator'=>$administrator,
    															  'options'=>$options,
    															  'productClass'=>$productClass,
    															  'pageTitle'=>$pageTitle));
-   															  
-   } 
-   
-   
-   
+
+   }
+
+
+
    public function getUpdatePosition() {
 	   $pctr=1;
-	  
-		foreach(Input::get('page_manager') as $pageManager) {						
-			$positionTR =  explode("_",$pageManager);			
-			$position_id = $positionTR[0];			
-								
-			 $products = Product::find($position_id);	
-			 if($products) {			 
-				 $products->fldProductPosition = $pctr;	
-				 $products->save();	
-				 $pctr=$pctr+1;				
+
+		foreach(Input::get('page_manager') as $pageManager) {
+			$positionTR =  explode("_",$pageManager);
+			$position_id = $positionTR[0];
+
+			 $products = Product::find($position_id);
+			 if($products) {
+				 $products->fldProductPosition = $pctr;
+				 $products->save();
+				 $pctr=$pctr+1;
 			 }
-				
-				 
-			
+
+
+
 		}
-	   
-		
+
+
    }
-   
-   
+
+
    	public function postNew() {
 
-		$rules   = Product::rules(0);     	 
+		$rules   = Product::rules(0);
 		$validator = Validator::make(Input::all(), $rules);
-	    	
-		if ($validator->fails()) {   	  
-			return Redirect::to('dnradmin/products/new')->withInput()->withErrors($validator,'product');		                
+
+		if ($validator->fails()) {
+			return Redirect::to('dnradmin/products/new')->withInput()->withErrors($validator,'product');
 		} else {
 
 		   	$file = Input::file('image');
@@ -168,12 +168,12 @@ class ProductController extends Controller
             if(count(Input::get('category')) == 0) {
 				Session::flash('error',"Please select category");
 				return Redirect::to('dnradmin/products/new')->withInput();
-				exit();		 
+				exit();
 			}
 
-	   
+
 	   		$categoryID = Input::get('category');
-	   		$catID = reset($categoryID);	   	
+	   		$catID = reset($categoryID);
 			$productPos = Product::join('tblProductCategory','tblProductCategory.fldProductCategoryProductID','=','fldProductID')
 										->where('fldProductCategoryCategoryID','=',$catID)
 										->orderBy('fldProductPosition','DESC')
@@ -189,12 +189,12 @@ class ProductController extends Controller
 				$count_featured = Product::where('fldProductFeaturedPage','!=', 0)->max('fldProductFeaturedPage');
 				$counter_featured = $count_featured + $onFeatured;
 			}
-				
+
 			$products = new Product;
-			$products->fldProductName 			= Input::get('name');	 
-			$products->fldProductSubTitle 		= Input::get('sub_title');		
-			$products->fldProductPrice 			= Input::get('price');	 
-			$products->fldProductOldPrice 		= Input::get('old_price');	 
+			$products->fldProductName 			= Input::get('name');
+			$products->fldProductSubTitle 		= Input::get('sub_title');
+			$products->fldProductPrice 			= Input::get('price');
+			$products->fldProductOldPrice 		= Input::get('old_price');
 			$products->fldProductWeight 		= Input::get('weight');
 			$products->fldProductDescription 	= Input::get('description');
 			$products->fldProductIsNew 			= Input::get('isNew');
@@ -210,14 +210,14 @@ class ProductController extends Controller
 			// if (Input::get('shipping_cost6') > 0) { $products->shipping_proc_fee6 		= Input::get('shipping_cost6'); }
 			// if (Input::get('shipping_cost7') > 0) { $products->shipping_proc_fee7 		= Input::get('shipping_cost7'); }
 			// if (Input::get('shipping_cost8') > 0) { $products->shipping_proc_fee8 		= Input::get('shipping_cost8'); }
-			   
+
 			//generate slug
 			$pageCount = Product::where('fldProductName','=',Input::get('name'))->count();
 			//$slug = $pageCount == 0 ? str_slug($products->fldPagesName,'-') : str_slug($products->fldPagesName."-".$pageCount,'-');
-			$slug = $pageCount == 0 ? str_slug(Input::get('name'),'-') : str_slug(Input::get('name')."-".$pageCount,'-');	
+			$slug = $pageCount == 0 ? str_slug(Input::get('name'),'-') : str_slug(Input::get('name')."-".$pageCount,'-');
 
-			$products->fldProductSlug = $slug;		
-			$products->save();	   	  
+			$products->fldProductSlug = $slug;
+			$products->save();
 			$fldProductID = $products->fldProductID;
 			//save multiple category
 			if(count(Input::get('category')) >=1 ) {
@@ -231,43 +231,43 @@ class ProductController extends Controller
 
 		    /* CODE FOR OPTIONS ASSIGN TO PRODUCTS */
 			if(Input::get('options_assets')) {
-			   $asset_price = Input::get('assets_price');	
-			   $asset_price_print = Input::get('assets_price_print');   	   	   
-			   foreach(Input::get('options_assets') as $key=>$option_assets) {	
+			   $asset_price = Input::get('assets_price');
+			   $asset_price_print = Input::get('assets_price_print');
+			   foreach(Input::get('options_assets') as $key=>$option_assets) {
 					$option_price = isset($asset_price[$option_assets])  ? $asset_price[$option_assets] : 0;
-					$option_price_print = isset($asset_price_print[$option_assets])  ? $asset_price_print[$option_assets] : 0;	
+					$option_price_print = isset($asset_price_print[$option_assets])  ? $asset_price_print[$option_assets] : 0;
 					$optionsInfo = OptionsAssets::find($option_assets);
-				  			 
+
 				  	$productOptions = new ProductOptions;
 					$productOptions->fldProductOptionsProductID = $fldProductID;
 					$productOptions->fldProductOptionsAssetsID = $option_assets;
 					$productOptions->fldProductOptionsOptionsID = $optionsInfo->fldOptionsAssetsOptionID;
 					$productOptions->fldProductOptionsPrice = $option_price;
-					$productOptions->fldProductOptionsPricePrint = $option_price_print;
+					// $productOptions->fldProductOptionsPricePrint = $option_price_print;
 				   	$productOptions->save();
-			   }			
+			   }
 			}
 		    /* END CODE FOR OPTIONS ASSIGN TO PRODUCTS */
-				
-				   
+
+
 			$products = Product::find($fldProductID);
 			//$category_id = Input::get('category_id');
 
 			//Upload Single Image
-			$products->fldProductImage = Product::uploadSingleImage(Input::file('image'),$slug);		   	
+			$products->fldProductImage = Product::uploadSingleImage(Input::file('image'),$slug);
 
-			$products->save();		  	   
-			   
+			$products->save();
+
 			//CODE FOR MULTIPLE IMAGES
-			//$notUploaded = Product::multipleUpload(Input::file('images'),$slug,$products->fldProductID);	
-			$notUploaded = "";	
+			//$notUploaded = Product::multipleUpload(Input::file('images'),$slug,$products->fldProductID);
+			$notUploaded = "";
 
 
 			if($notUploaded != "") {
-				Session::flash('upload_error',$notUploaded); 
+				Session::flash('upload_error',$notUploaded);
 			}
 
-   			for ($i=1; $i < 9; $i++) { 
+   			for ($i=1; $i < 9; $i++) {
    				echo 'sequence '.$i;
 
    				$add = 0;
@@ -293,18 +293,18 @@ class ProductController extends Controller
    			}
 
    			// die('Ln277');
-			Session::flash('success',"Product was successfully saved."); 
+			Session::flash('success',"Product was successfully saved.");
 			return Redirect::to('dnradmin/products/edit/'.$fldProductID.'?new=1');
 		}
    	}
 
-   
-   public function getEdit($id) {	 
-	   //if not login redirect to login page    
+
+   public function getEdit($id) {
+	   //if not login redirect to login page
 		if(!Session::has('dnradmin_id')) { return Redirect::to('dnradmin/');}
-		  	
+
 		$products =  Product::where('fldProductID', '=', $id)->first();
-	    $additional_image =  AdditionalProduct::where('fldAdditionalProductProductID', '=', $id)->get();	   
+	    $additional_image =  AdditionalProduct::where('fldAdditionalProductProductID', '=', $id)->get();
 		$category = Category::where('fldCategoryMainID','=','0')->orderby("fldCategoryPosition")->get();
 		$productsCategory = ProductCategory::where('fldProductCategoryProductID','=',$id)->get();
 		$cat = ProductCategory::where('fldProductCategoryProductID','=',$id)->first();
@@ -313,9 +313,9 @@ class ProductController extends Controller
 			$pCategories[] = $productsCategories->fldProductCategoryCategoryID;
 		}
 		$defaultcosts = ProductCost::where('product_id','=',$id)->orderBy('sequence','ASC')->get();
-		
-		$administrator = Settings::where('fldAdministratorID','=',Session::get('dnradmin_id'))->first(); 
-		$options =  Options::orderby('fldOptionsPosition')->get();    
+
+		$administrator = Settings::where('fldAdministratorID','=',Session::get('dnradmin_id'))->first();
+		$options =  Options::orderby('fldOptionsPosition')->get();
 		$product_options = ProductOptions::where('fldProductOptionsProductID','=',$id)->get();
 		$productClass = 'class=active';
 		$pageTitle = PRODUCT_MANAGEMENT;
@@ -327,14 +327,14 @@ class ProductController extends Controller
 	    // 													    'additional_image' => $additional_image,
 	    // 													    'category'=>$category,
 	    // 													    'maincat'=>$maincat,
-	    // 													    'pCategories'=>$pCategories,	    													   
+	    // 													    'pCategories'=>$pCategories,
 	    // 													    'administrator'=>$administrator,
 	    // 													    'options'=>$options,
 	    // 													    'product_options'=>$product_options,
 	    // 													    'productClass'=>$productClass,
-	    // 													    'pageTitle'=>$pageTitle));		
+	    // 													    'pageTitle'=>$pageTitle));
    }
-   
+
 
    	public function postEdit($id) {
 
@@ -376,7 +376,7 @@ class ProductController extends Controller
    				$i++;
    			}
    		} else {
-   			for ($i=1; $i < 9; $i++) { 
+   			for ($i=1; $i < 9; $i++) {
    				// echo 'sequence '.$i;
    				// echo Input::get('framelow_'.$i).'<br>';
    				// echo Input::get('framehigh_'.$i).'<br>';
@@ -402,16 +402,16 @@ class ProductController extends Controller
    			}
    		}
 
-		$rules   = Product::rules($id);     	 
+		$rules   = Product::rules($id);
 		$validator = Validator::make(Input::all(), $rules);
 
-		if ($validator->fails()) {   	  
-			return Redirect::to('dnradmin/products/edit/'.$id)->withInput()->withErrors($validator,'product');		                
-		} else { 
+		if ($validator->fails()) {
+			return Redirect::to('dnradmin/products/edit/'.$id)->withInput()->withErrors($validator,'product');
+		} else {
 
 		    if(count(Input::get('category')) == 0) {
 				Session::flash('error',"Please select category");
-				return Redirect::to('dnradmin/products/edit/'.$id);	  
+				return Redirect::to('dnradmin/products/edit/'.$id);
 				exit();
 			}
 
@@ -419,11 +419,11 @@ class ProductController extends Controller
 		  	// if name is different from the old one
 
 			$product_class = new Product;
-			$products = Product::find($id);	   
+			$products = Product::find($id);
 
 			$old_name = $products->fldProductName;
 			$old_slug = $products->fldProductSlug;
-					 
+
 			$file = Input::file('image');
 
 			if ($old_name != Input::get('name')) {
@@ -431,10 +431,10 @@ class ProductController extends Controller
 			} else {
 				$slug = $products->fldProductSlug;
 			}
-				
-				
+
+
 			if($file != "") {
-			  	
+
 				$path = Input::file('image')->getRealPath();
 				list($width, $height) = getimagesize($path);
 
@@ -442,7 +442,7 @@ class ProductController extends Controller
 					$products->fldProductImage = Product::uploadSingleImage(Input::file('image'),$slug);
 				} else {
 					Session::flash('error',"Alert: your image does not fit the proper file format and could not be uploaded, please check the image requirements again!");
-					return Redirect::to('dnradmin/products/edit/'.$id)->withInput();	
+					return Redirect::to('dnradmin/products/edit/'.$id)->withInput();
 					//Upload single Image
 				}
 			}
@@ -453,16 +453,16 @@ class ProductController extends Controller
 				$path = PRODUCT_IMAGE_PATH.$old_slug.'/';
 				$target = PRODUCT_IMAGE_PATH.$slug.'/';
 
-				if(!File::exists($target)) {												
-					File::makeDirectory($target, 0775);								
-					File::makeDirectory($target.MEDIUM_IMAGE, 0775);	
-					File::makeDirectory($target.SMALL_IMAGE, 0775);		
-					File::makeDirectory($target.THUMB_IMAGE, 0775);							
+				if(!File::exists($target)) {
+					File::makeDirectory($target, 0775);
+					File::makeDirectory($target.MEDIUM_IMAGE, 0775);
+					File::makeDirectory($target.SMALL_IMAGE, 0775);
+					File::makeDirectory($target.THUMB_IMAGE, 0775);
 				}
 
 				//File::move($path, $target);
 				File::copyDirectory($path,$target);
-				File::deleteDirectory($path);	
+				File::deleteDirectory($path);
 			}
 
 			$onFeatured = Input::get('isOnFeatured');
@@ -478,10 +478,10 @@ class ProductController extends Controller
 				}
 			}
 
-			$products->fldProductName 			= Input::get('name');	
-			$products->fldProductSubTitle 		= Input::get('sub_title'); 
-			$products->fldProductPrice 			= Input::get('price');	
-			$products->fldProductOldPrice 		= Input::get('old_price'); 
+			$products->fldProductName 			= Input::get('name');
+			$products->fldProductSubTitle 		= Input::get('sub_title');
+			$products->fldProductPrice 			= Input::get('price');
+			$products->fldProductOldPrice 		= Input::get('old_price');
 			$products->fldProductWeight 		= Input::get('weight');
 			$products->fldProductDescription	= Input::get('description');
 			$products->fldProductIsNew 			= Input::get('isNew');
@@ -500,16 +500,16 @@ class ProductController extends Controller
 			if (Input::get('shipping_cost6') > 0) { $products->shipping_proc_fee6 		= Input::get('shipping_cost6'); }
 			if (Input::get('shipping_cost7') > 0) { $products->shipping_proc_fee7 		= Input::get('shipping_cost7'); }
 			if (Input::get('shipping_cost8') > 0) { $products->shipping_proc_fee8 		= Input::get('shipping_cost8'); }
-					   
+
 			//CODE FOR MULTIPLE IMAGES
 			//$notUploaded = Product::multipleUpload(Input::file('images'),$slug,$id);
 			$notUploaded = "";
 			//generate slug
-						
+
 			$products->fldProductSlug = $slug;
 
 			$products->save();
-				   
+
 			//delete all category
 			if(count(Input::get('category')) >=1 ) {
 
@@ -518,7 +518,7 @@ class ProductController extends Controller
 					$delete = ProductCategory::find($pCategories->fldProductCategoryID);
 					$delete->delete();
 				}
-			   
+
 			   	//add new category
 			    foreach(Input::get('category') as $category) {
 						   $categories = new ProductCategory;
@@ -537,12 +537,12 @@ class ProductController extends Controller
 			// 	$delete = ProductOptions::find($pOptionss->fldProductOptionsID);
 			// 	$delete->delete();
 			// }
-			 
+
 			if(Input::get('options_assets')) {
 			   $asset_price = Input::get('assets_price');
 			   $asset_price_print = Input::get('assets_price_print');
 			  //  if (count(Input::get('options_assets')) > 4) {
-					// Session::flash('error',"Please select Four (4) Size Options only."); 
+					// Session::flash('error',"Please select Four (4) Size Options only.");
 					// return Redirect::to('dnradmin/products/edit/'.$id);
 			  //  }
 
@@ -553,104 +553,104 @@ class ProductController extends Controller
 					$delete->delete();
 				}
 
-			   foreach(Input::get('options_assets') as $key=>$option_assets) {	
+			   foreach(Input::get('options_assets') as $key=>$option_assets) {
 
 					$option_price = isset($asset_price[$option_assets])  ? $asset_price[$option_assets] : 0;
-					$option_price_print = isset($asset_price_print[$option_assets])  ? $asset_price_print[$option_assets] : 0;		
+					$option_price_print = isset($asset_price_print[$option_assets])  ? $asset_price_print[$option_assets] : 0;
 
 			   		if ($option_price < 1 && $option_price_print < 1) {
-						Session::flash('error',"Please enter correct Size Option information below."); 
+						Session::flash('error',"Please enter correct Size Option information below.");
 						return Redirect::to('dnradmin/products/edit/'.$id);
 			   		}
 
 					$optionsInfo = OptionsAssets::find($option_assets);
 			   		echo 'key: '.$key.' | option_assets: '.$option_assets.' | option_price: '.$option_price.'<br>';
-				  			 
+
 					$productOptions = new ProductOptions;
 					$productOptions->fldProductOptionsProductID = $id;
 					$productOptions->fldProductOptionsAssetsID = $option_assets;
 					$productOptions->fldProductOptionsOptionsID = $optionsInfo->fldOptionsAssetsOptionID;
 					$productOptions->fldProductOptionsPrice = $option_price;
-					$productOptions->fldProductOptionsPricePrint = $option_price_print;
+					// $productOptions->fldProductOptionsPricePrint = $option_price_print;
 					$productOptions->save();
-				 
-			   }			
+
+			   }
 			}
 
 			// die('Ln405');
 		    /* END CODE FOR OPTIONS ASSIGN TO PRODUCTS */
-		   
-			//$categories = ProductsManagement::orderby('position')->get(); 
+
+			//$categories = ProductsManagement::orderby('position')->get();
 			//return View::make('_admin.products_view', array('products' => $categories,'products_id'=>$main_id));
 
 			if($notUploaded != "") {
-				Session::flash('upload_error',$notUploaded); 
+				Session::flash('upload_error',$notUploaded);
 			}
 
-			Session::flash('success',"Product was successfully saved."); 
+			Session::flash('success',"Product was successfully saved.");
 			return Redirect::to('dnradmin/products/edit/'.$id);
 		}
 
 	}
 
-   
+
     public function getDelete($id,$category_id) {
-		//if not login redirect to login page    
+		//if not login redirect to login page
 		if(!Session::has('dnradmin_id')) { return Redirect::to('dnradmin/');}
-		
+
 		 $products = Product::find($id);
 		 $image1 = 'upload/products/'.$products->fldProductID.'/'.$products->fldProductImage;
 		 $image2 = 'upload/products/'.$products->fldProductID.'/_75_'.$products->fldProductImage;
 		 $image3 = 'upload/products/'.$products->fldProductID.'/_140_'.$products->fldProductImage;
 		 $image4 = 'upload/products/'.$products->fldProductID.'/_400_'.$products->fldProductImage;
-		 
-	
-				
+
+
+
 				 	//copy all files to old slug to new slug
 				 	$path = PRODUCT_IMAGE_PATH.$products->fldProductSlug.'/';
 				 	$target = PRODUCT_IMAGE_PATH.$products->fldProductSlug.'/';
 
-				 	if(File::exists($target)) {												
+				 	if(File::exists($target)) {
 
-							File::deleteDirectory($path);			
+							File::deleteDirectory($path);
 					}
 
 
 
-				
-				 
-	
-		
+
+
+
+
 		$products->delete();
-		
+
 		//delete all category under this products
 		$pCategory = ProductCategory::where('fldProductCategoryProductID','=',$id)->delete();
 		// foreach($pCategory as $pCategories) {
 		// 	$delete = ProductCategory::find($pCategories->id);
 		//  	$delete->delete();
 		// }
-		
-		
+
+
 		//$products = StaffManagement::paginate(20);
 	    //return View::make('_admin.staff', array('products' => $products));
 		return Redirect::to('dnradmin/products/view/'.$category_id);
 	}
-	
+
 	public function getDelete1($id,$delete) {
-		//if not login redirect to login page    
+		//if not login redirect to login page
 		if(!Session::has('dnradmin_id')) { return Redirect::to('dnradmin/');}
-		
+
 		$addProductsImages = AdditionalProduct::where('fldAdditionalProductID','=',$delete)->first();
 		 $image1 = 'upload/products/'.$id.'/others/'.$addProductsImages->fldAdditionalProductIDImage;
 		 $image2 = 'upload/products/'.$id.'/others/_75_'.$addProductsImages->fldAdditionalProductIDImage;
 		 $image3 = 'upload/products/'.$id.'/others/_140_'.$addProductsImages->fldAdditionalProductIDImage;
 		 $image4 = 'upload/products/'.$id.'/others/_400_'.$addProductsImages->fldAdditionalProductIDImage;
-		 
+
 		 File::delete($image1);
 		File::delete($image2);
 		File::delete($image3);
 		File::delete($image4);
-		 
+
 		$addProductsImages->delete();
 		return Redirect::to('dnradmin/products/edit/'.$id);
 	}
@@ -660,33 +660,33 @@ class ProductController extends Controller
 
 		$menus = Pages::where('fldPagesMainID', '=', 0)->get();
 		$pages = Pages::where('fldPagesSlug', '=', 'collection')->first();
-		$category = Category::orderby('fldCategoryPosition')->get();	
-		
+		$category = Category::orderby('fldCategoryPosition')->get();
+
 		settype($category_details, 'object');
-			
-		if($slug == "") {	
+
+		if($slug == "") {
 			/*$product_vertical = Product::join('tblProductCategory','tblProductCategory.fldProductCategoryProductID','=','tblProduct.fldProductID')
-					   ->join('tblCategory','tblCategory.fldCategoryID','=','tblProductCategory.fldProductCategoryCategoryID')	
+					   ->join('tblCategory','tblCategory.fldCategoryID','=','tblProductCategory.fldProductCategoryCategoryID')
 					   ->orderBY('fldProductName')
 					   ->where('fldProductIsVertical',1)
 					   ->paginate(2);*/
 			$product_vertical = array();
-			
+
 			$product = Product::join('tblProductCategory','tblProductCategory.fldProductCategoryProductID','=','tblProduct.fldProductID')
-					   ->join('tblCategory','tblCategory.fldCategoryID','=','tblProductCategory.fldProductCategoryCategoryID')	
+					   ->join('tblCategory','tblCategory.fldCategoryID','=','tblProductCategory.fldProductCategoryCategoryID')
 					   ->orderBY('fldProductName')
 					   ->paginate(12);
 
-			$category_details->fldCategoryName = "Products";	
-															
+			$category_details->fldCategoryName = "Products";
+
 		} else {
 			$category_details= Category::where('fldCategorySlug','=',$slug)->first();
-			
+
 			$product = Product::leftJoin('tblProductCategory','tblProductCategory.fldProductCategoryProductID','=','tblProduct.fldProductID')
 								->where('tblProductCategory.fldProductCategoryCategoryID','=',$category_details->fldCategoryID)
 								->orderBY('fldProductName')
 								->paginate(12);
-		}				
+		}
 
 		/* get prices */
 		$product_array_id = $product_array_prices = $product_array_highest_prices = $product_array_lowest_prices = array();
@@ -694,7 +694,7 @@ class ProductController extends Controller
 			$product_array_id[] = $get_product_item->fldProductID;
 		}
 		$product_option_class = new ProductOptions;
-		
+
 		$get_product_options = $product_option_class->whereIn('fldProductOptionsProductID', $product_array_id)->orderBy('fldProductOptionsPrice','DESC')->get();
 
 		foreach($get_product_options as $get_product_option){
@@ -717,17 +717,17 @@ class ProductController extends Controller
 
 		}
 
-								
+
 		$google = Google::first();
-		$cart_count = TempCart::countCart();	
+		$cart_count = TempCart::countCart();
 		$settings = Settings::first();
 		$footer = Footer::first();
 
-	
+
    		return View::make('home.products')->with(array('pages'=> $pages,
-   													   'menus' => $menus, 
-   													   'category' => $category, 
-   													   'category_details' => $category_details, 
+   													   'menus' => $menus,
+   													   'category' => $category,
+   													   'category_details' => $category_details,
    													   'product' => $product,
    													   'product_vertical' => $product_vertical,
    													   'google' => $google,
@@ -745,18 +745,18 @@ class ProductController extends Controller
 
 		$menus = Pages::where('fldPagesMainID', '=', 0)->get();
 		$pages = Pages::where('fldPagesSlug', '=', 'collection')->first();
-		$category = Category::orderby('fldCategoryPosition')->get();	
+		$category = Category::orderby('fldCategoryPosition')->get();
 		$google = Google::first();
-		$cart_count = TempCart::countCart();	
+		$cart_count = TempCart::countCart();
 		$settings = Settings::first();
 		$footer = Footer::first();
 		// $pages = "";
 		$slug = "";
 
 		settype($category_details, 'object');
-			
+
 		$product_vertical = array();
-		
+
 		// $product = Product::join('tblProductCategory','tblProductCategory.fldProductCategoryProductID','=','tblProduct.fldProductID')
 		// 		   ->where('tblProduct.fldProductFeaturedPage','=','1')
 		// 		   ->join('tblCategory','tblCategory.fldCategoryID','=','tblProductCategory.fldProductCategoryCategoryID')
@@ -767,7 +767,7 @@ class ProductController extends Controller
 				   ->orderBY('fldProductFeaturedPage')
 				   ->paginate(12);
 
-		$category_details->fldCategoryName = "Featured Images";	
+		$category_details->fldCategoryName = "Featured Images";
 		$pages->fldPagesTitle = "Featured Images";
 		$pages->fldPagesSlug = "featured-images";
 
@@ -777,7 +777,7 @@ class ProductController extends Controller
 			$product_array_id[] = $get_product_item->fldProductID;
 		}
 		$product_option_class = new ProductOptions;
-		
+
 		$get_product_options = $product_option_class->whereIn('fldProductOptionsProductID', $product_array_id)->orderBy('fldProductOptionsPrice','DESC')->get();
 
 		foreach($get_product_options as $get_product_option){
@@ -813,25 +813,25 @@ class ProductController extends Controller
 
 		$menus = Pages::where('fldPagesMainID', '=', 0)->get();
 		$pages = Pages::where('fldPagesSlug', '=', 'collection')->first();
-		$category = Category::orderby('fldCategoryPosition')->get();	
-		
+		$category = Category::orderby('fldCategoryPosition')->get();
+
 		// settype($category_details, 'object');
 		$product_vertical = array();
 
 		if ($slug=='za') { // sort Z to A
 			settype($category_details, 'object');
-			
+
 			$product = Product::join('tblProductCategory','tblProductCategory.fldProductCategoryProductID','=','tblProduct.fldProductID')
-					   ->join('tblCategory','tblCategory.fldCategoryID','=','tblProductCategory.fldProductCategoryCategoryID')	
+					   ->join('tblCategory','tblCategory.fldCategoryID','=','tblProductCategory.fldProductCategoryCategoryID')
 					   ->orderBY('fldProductName', 'DESC')
 					   ->paginate(12);
 
-			$category_details->fldCategoryName = "Products";	
+			$category_details->fldCategoryName = "Products";
 		} else {
 			$category_details= Category::where('fldCategorySlug','=',$slug)->first();
-			
+
 			/*$product_vertical = Product::join('tblProductCategory','tblProductCategory.fldProductCategoryProductID','=','tblProduct.fldProductID')
-						   ->join('tblCategory','tblCategory.fldCategoryID','=','tblProductCategory.fldProductCategoryCategoryID')	
+						   ->join('tblCategory','tblCategory.fldCategoryID','=','tblProductCategory.fldProductCategoryCategoryID')
 						   // ->orderBY('fldProductName')
 						   ->where('fldProductIsVertical',1)
 						   ->paginate(2);*/
@@ -847,7 +847,7 @@ class ProductController extends Controller
 			$product_array_id[] = $get_product_item->fldProductID;
 		}
 		$product_option_class = new ProductOptions;
-		
+
 		$get_product_options = $product_option_class->whereIn('fldProductOptionsProductID', $product_array_id)->orderBy('fldProductOptionsPrice','DESC')->get();
 
 		foreach($get_product_options as $get_product_option){
@@ -889,7 +889,7 @@ class ProductController extends Controller
 				$get_response = $this->getGraphikFramesAPI();
 				# code...
 				break;
-			
+
 			default:
 				# code...
 				break;
@@ -897,13 +897,13 @@ class ProductController extends Controller
 		return json_encode($get_response);
 
 		/*$graphikAPI = GraphikDimension::displayAll(1); // for all frames
-		
-		
+
+
 		list($frameDesc,$frameWidth,$sku,$graphikAPI,$color, $styleValue,$widthValue,$materialValue,$framePrice) = \App\Models\GraphikDimension::getGraphikAttribute($graphikAPI->frame);
 	    $graphikAPICount = count($graphikAPI);
 	    $slideCount = floor($graphikAPICount / 6);
 	    $slideFinalCount = fmod($graphikAPICount,6) > 0 ? $slideCount+1 : $slideCount;
-	    
+
 	    $graphikPaperAPI = \App\Models\GraphikDimension::displayAll(4); // for paper api
 	    $graphikCanvassAPI = \App\Models\GraphikDimension::displayAll(5); // for canvas api
 	    $graphikMatsAPI = \App\Models\GraphikDimension::displayAll(2); //for mats
@@ -916,7 +916,7 @@ class ProductController extends Controller
 	    // $xmlbld->setFrameElem($sku);
 	    $packagePrice = $xmlbld->curlExec('getProductGroupPrice', 'pricingGroupRequest');
 	    $packagePrice = $packagePrice['PricedProductPackage'];*/
-	 
+
 	}
 
 	public function getGraphikMatsAPI(){
@@ -932,9 +932,9 @@ class ProductController extends Controller
                         <div class="uk-thumbnail-caption"><a href="#" class="full-width uk-text-center" onClick="selectedMat(\''.$sku.'\',\''.$graphikMatsAPIs->shortDescription.'\','.$graphikMatsAPIs->priceData->markUpPrice.')">'.$graphikMatsAPIs->shortDescription.'</a></div>
                     </div>';
 				}
-				
+
 			}
-			 
+
 		}
 		return $graphikMatsAPI_html;
 	}
@@ -942,14 +942,14 @@ class ProductController extends Controller
 		$GraphikPapersAPI = GraphikDimension::displayAll(4); //for mats
 		/*$default_paper = array();
 		foreach($GraphikPapersAPI->paper as $GraphikPapersAPIs){
-			
+
 		}*/
 		return $GraphikPapersAPI;
 	}
 	public function getGraphikFramesAPI(){
 		$graphikAPI = GraphikDimension::displayAll(6); //for mats
 		/*$default_paper = array();
-		foreach($GraphikPapersAPI->paper as $GraphikPapersAPIs){			
+		foreach($GraphikPapersAPI->paper as $GraphikPapersAPIs){
 		}*/
 		/*dd($graphikAPI); exit();
 		$graphikAPI_param = GraphikDimension::getGraphikAttribute($graphikAPI->frame);
@@ -957,26 +957,26 @@ class ProductController extends Controller
 		list($frameDesc,$frameWidth,$sku,$graphikAPI_param,$colorValue, $styleValue,$widthValue,$materialValue,$framePrice) = GraphikDimension::getGraphikAttribute($graphikAPI->frame);
 
 		Log::debug('getGraphikFramesAPI graphikAPI');
-		
+
 		return array('frameDesc'=>$frameDesc,'frameWidth'=>$frameWidth,'sku'=>$sku,'graphikAPI'=>$graphikAPI_param,'colorValue'=>$colorValue, 'styleValue'=>$styleValue,'widthValue'=>$widthValue,'materialValue'=>$materialValue,'framePrice'=>$framePrice);
 
-		
+
 	}
 
 	public function searchProduct() {
 		$search = Input::get('search');
 		$slug = "";
-		
+
 		$menus = Pages::where('fldPagesMainID', '=', 0)->get();
 		$pages = Pages::where('fldPagesSlug', '=', 'collection')->first();
-		$category = Category::orderby('fldCategoryPosition')->get();	
-		
+		$category = Category::orderby('fldCategoryPosition')->get();
+
 		settype($category_details, 'object');
 
 		/*$product_vertical = Product::join('tblProductCategory','tblProductCategory.fldProductCategoryProductID','=','tblProduct.fldProductID')
-					   ->join('tblCategory','tblCategory.fldCategoryID','=','tblProductCategory.fldProductCategoryCategoryID')	
+					   ->join('tblCategory','tblCategory.fldCategoryID','=','tblProductCategory.fldProductCategoryCategoryID')
 					    ->orderBY('fldProductName')
-						->where(function($query) use ($search) {                
+						->where(function($query) use ($search) {
         						          return $query->where('fldProductName', 'LIKE', '%'.$search.'%')
             								 ->orWhere('fldProductSubTitle', 'LIKE', '%'.$search.'%')
             								 ->orWhere('fldProductPrice', 'LIKE', '%'.$search.'%');
@@ -989,7 +989,7 @@ class ProductController extends Controller
 		$product = Product::join('tblProductCategory','tblProductCategory.fldProductCategoryProductID','=','tblProduct.fldProductID')
 								->join('tblCategory','tblCategory.fldCategoryID','=','tblProductCategory.fldProductCategoryCategoryID')
 								->orderBY('fldProductName')
-								->where(function($query) use ($search) {                
+								->where(function($query) use ($search) {
                 						          return $query->where('fldProductName', 'LIKE', '%'.$search.'%')
                     								 ->orWhere('fldProductSubTitle', 'LIKE', '%'.$search.'%')
                     								 ->orWhere('fldProductPrice', 'LIKE', '%'.$search.'%');
@@ -999,78 +999,87 @@ class ProductController extends Controller
 		$category_details->fldCategoryName = "Products";
 
 		$google = Google::first();
-		$cart_count = TempCart::countCart();	
+		$cart_count = TempCart::countCart();
 		$settings = Settings::first();
 		$footer = Footer::first();
-	
+
    		return View::make('home.products')->with(array('pages'=> $pages,
-   													   'menus' => $menus, 
-   													   'category' => $category, 
-   													   'category_details' => $category_details, 
+   													   'menus' => $menus,
+   													   'category' => $category,
+   													   'category_details' => $category_details,
    													   'product' => $product,
    													   'product_vertical' => $product_vertical,
    													   'google' => $google,
    													   'settings'=>$settings,
    													   'footer'=>$footer,
                                                         'slug'=>$slug,
-   													   'cart_count'=>$cart_count));								
+   													   'cart_count'=>$cart_count));
 	}
-	
+
 	public function display($slug) {
 		$menus = Pages::where('fldPagesMainID', '=', 0)->get();
-		$category = Category::where('fldCategoryMainID','=',0)->orderby('fldCategoryPosition')->get();	
+		$category = Category::where('fldCategoryMainID','=',0)->orderby('fldCategoryPosition')->get();
 		$category_details = Category::where('fldCategorySlug','=',$slug)->first();
 
-		//$product = ProductsManagement::where('category_id','=',$category_details->id)->get();		
+		//$product = ProductsManagement::where('category_id','=',$category_details->id)->get();
 		//echo $category_details->id;
 		$product = Product::leftJoin('tblProductCategory','tblProductCategory.fldProductCategoryProductID','=','tblProduct.fldProductID')
 								->where('tblProductCategory.fldProductCategoryCategoryID','=',$category_details->fldCategoryID)
 								->get();
 		$google = Google::first();
-		$cart_count = TempCart::countCart();	
+		$cart_count = TempCart::countCart();
 		$settings = Settings::first();
 		$footer = Footer::first();
 
-   		return View::make('home.products')->with(array('menus' => $menus, 
-   													   'category' => $category, 
-   													   'category_details' => $category_details, 
+   		return View::make('home.products')->with(array('menus' => $menus,
+   													   'category' => $category,
+   													   'category_details' => $category_details,
    													   'product' => $product,
    													   'google' => $google,
    													   'settings'=>$settings,
    													   'footer'=>$footer,
    													   'cart_count'=>$cart_count));
 	}
-	
+
 	public function details($slug) {
 
 		$menus = Pages::where('fldPagesMainID', '=', 0)->get();
-		$category = Category::where('fldCategoryMainID','=',0)->orderby('fldCategoryPosition')->get();	
+		$category = Category::where('fldCategoryMainID','=',0)->orderby('fldCategoryPosition')->get();
 		$product = Product::where('fldProductSlug','=',$slug)->first();
-		
-					
+
+
 		$category_details = Category::leftJoin('tblProductCategory','tblProductCategory.fldProductCategoryCategoryID','=','tblCategory.fldCategoryID')
 									->where('tblProductCategory.fldProductCategoryProductID','=',$product->fldProductID)
-									->first();	
-		
+									->first();
+
 		$productImage = AdditionalProduct::where('fldAdditionalProductProductID','=',$product->fldProductID)->get();
 		$google = Google::first();
-		$cart_count = TempCart::countCart();		
+		$cart_count = TempCart::countCart();
 		//$productOptions = ProductOptions::displayOptions($product->fldProductID);
 		$settings = Settings::first();
 		$footer = Footer::first();
-		
+
 		// $productOption = ProductOptions::leftJoin('tblOptionsAssets','tblOptionsAssets.fldOptionsAssetsID','=','tblProductOptions.fldProductOptionsAssetsID')
 		// 						->where('fldProductOptionsProductID','=',$product->fldProductID)
 		// 						->select('fldProductOptionsPrice','fldProductOptionsID','fldOptionsAssetsWidth','fldOptionsAssetsHeight','fldOptionsAssetsWidthFraction','fldOptionsAssetsHeightFraction')
 		// 						->get();
-	
-		$productOption = ProductOptions::leftJoin('tblOptionsAssets','tblOptionsAssets.fldOptionsAssetsID','=','tblProductOptions.fldProductOptionsAssetsID')
-								->where('fldProductOptionsProductID','=',$product->fldProductID)
-								->select('fldProductOptionsAssetsID','fldProductOptionsPrice','fldProductOptionsPricePrint','fldProductOptionsID','fldOptionsAssetsWidth','fldOptionsAssetsHeight','fldOptionsAssetsWidthFraction','fldOptionsAssetsHeightFraction')
-								// ->orderBy('fldOptionsAssetsWidth','ASC')
-								->orderBy('tblOptionsAssets.fldOptionsAssetsPosition','ASC')
-								->get();
-								
+
+        //old
+		// $productOption = ProductOptions::leftJoin('tblOptionsAssets','tblOptionsAssets.fldOptionsAssetsID','=','tblProductOptions.fldProductOptionsAssetsID')
+		// 						->where('fldProductOptionsProductID','=',$product->fldProductID)
+		// 						->select('fldProductOptionsAssetsID','fldProductOptionsPrice','fldProductOptionsPricePrint','fldProductOptionsID','fldOptionsAssetsWidth','fldOptionsAssetsHeight','fldOptionsAssetsWidthFraction','fldOptionsAssetsHeightFraction')
+		// 						// ->orderBy('fldOptionsAssetsWidth','ASC')
+		// 						->orderBy('tblOptionsAssets.fldOptionsAssetsPosition','ASC')
+		// 						->get();
+
+        //new
+        $productOption = ProductOptions::leftJoin('tblOptionsAssets','tblOptionsAssets.fldOptionsAssetsID','=','tblProductOptions.fldProductOptionsAssetsID')
+        ->where('fldProductOptionsProductID','=',$product->fldProductID)
+        ->select('fldProductOptionsAssetsID','fldProductOptionsPrice','fldProductOptionsID','fldOptionsAssetsWidth','fldOptionsAssetsHeight','fldOptionsAssetsWidthFraction','fldOptionsAssetsHeightFraction')
+        // ->orderBy('fldOptionsAssetsWidth','ASC')
+        ->orderBy('tblOptionsAssets.fldOptionsAssetsPosition','ASC')
+        ->get();
+
 		$defaultcosts = ProductCost::where('product_id','=',$product->fldProductID)->orderBy('sequence','ASC')->get();
 
 		// echo count($productOption).'<br>';
@@ -1094,10 +1103,10 @@ class ProductController extends Controller
 		}
 
 		$itemID = $product->fldProductID;
-   		return View::make('home.products-details')->with(array('menus' => $menus, 
-															   'category' => $category, 
-															   'category_details' => $category_details, 
-															   'product' => $product, 
+   		return View::make('home.products-details')->with(array('menus' => $menus,
+															   'category' => $category,
+															   'category_details' => $category_details,
+															   'product' => $product,
 															   'productImage' => $productImage,
 															   'google'=>$google,
 															   'cart_count'=>$cart_count,
@@ -1112,26 +1121,26 @@ class ProductController extends Controller
 	public function get_details($slug) {
 
 		$menus = Pages::where('fldPagesMainID', '=', 0)->get();
-		$category = Category::where('fldCategoryMainID','=',0)->orderby('fldCategoryPosition')->get();	
+		$category = Category::where('fldCategoryMainID','=',0)->orderby('fldCategoryPosition')->get();
 		$product = Product::where('fldProductSlug','=',$slug)->first();
-		
-					
+
+
 		$category_details = Category::leftJoin('tblProductCategory','tblProductCategory.fldProductCategoryCategoryID','=','tblCategory.fldCategoryID')
 									->where('tblProductCategory.fldProductCategoryProductID','=',$product->fldProductID)
-									->first();	
-		
+									->first();
+
 		$productImage = AdditionalProduct::where('fldAdditionalProductProductID','=',$product->fldProductID)->get();
 		$google = Google::first();
-		$cart_count = TempCart::countCart();		
+		$cart_count = TempCart::countCart();
 		//$productOptions = ProductOptions::displayOptions($product->fldProductID);
 		$settings = Settings::first();
 		$footer = Footer::first();
-		
+
 		// $productOption = ProductOptions::leftJoin('tblOptionsAssets','tblOptionsAssets.fldOptionsAssetsID','=','tblProductOptions.fldProductOptionsAssetsID')
 		// 						->where('fldProductOptionsProductID','=',$product->fldProductID)
 		// 						->select('fldProductOptionsPrice','fldProductOptionsID','fldOptionsAssetsWidth','fldOptionsAssetsHeight','fldOptionsAssetsWidthFraction','fldOptionsAssetsHeightFraction')
 		// 						->get();
-	
+
 		$productOption = ProductOptions::leftJoin('tblOptionsAssets','tblOptionsAssets.fldOptionsAssetsID','=','tblProductOptions.fldProductOptionsAssetsID')
 								->where('fldProductOptionsProductID','=',$product->fldProductID)
 								->select('fldProductOptionsAssetsID','fldProductOptionsPrice','fldProductOptionsID','fldOptionsAssetsWidth','fldOptionsAssetsHeight','fldOptionsAssetsWidthFraction','fldOptionsAssetsHeightFraction')
@@ -1153,10 +1162,10 @@ class ProductController extends Controller
 			$product->fldProductImageWidth = 11;
 			$product->fldProductImageID = 0;
 		}
-   		return View::make('home.products-details-test')->with(array('menus' => $menus, 
-															   'category' => $category, 
-															   'category_details' => $category_details, 
-															   'product' => $product, 
+   		return View::make('home.products-details-test')->with(array('menus' => $menus,
+															   'category' => $category,
+															   'category_details' => $category_details,
+															   'product' => $product,
 															   'productImage' => $productImage,
 															   'google'=>$google,
 															   'cart_count'=>$cart_count,
@@ -1178,7 +1187,7 @@ class ProductController extends Controller
 		dd($graphikAPI);
 		$graphikAPICount = count($graphikAPI->frame);
 
-		
+
 
 	   	$slideCount = floor($graphikAPICount / 6);
 		$slideFinalCount = fmod($graphikAPICount,6) > 0 ? $slideCount+1 : $slideCount;
@@ -1257,7 +1266,7 @@ class ProductController extends Controller
 				}
 				$s_attributes_array .= $mouldingWidth;
 			}
-				
+
 			$attributes_array = array($s_attributes_array);
 			$graphikAPI_frame_array[] = array(
 				'title' => $graphikAPI_item->shortDescription,
@@ -1284,10 +1293,10 @@ class ProductController extends Controller
 
 	public function displayFrameSearch($color,$width,$style,$material,$sortby) {
 		$graphikAPI = GraphikDimension::displayAll(1);
-		
+
 		/*
 		list($frameWidth,$sku,$graphikAPI,$colorValue, $styleValue,$widthValue,$materialValue) = GraphikDimension::getGraphikAttribute($graphikAPI->frame);
-		
+
 		print_r($graphikAPI);die();
 		print_r(array_search($color, $graphikAPI));die();
 		*/
@@ -1307,7 +1316,7 @@ class ProductController extends Controller
 
 		// $graphikAPI = GraphikDimension::displayAll(1);
 		// $frameDisplay = GraphikDimension::displayAllSearchBySKU($graphikAPI->frame,$sku);
-		// 
+		//
     	$frameDisplay = [];
 		$searchBySku = GraphikDimension::searchBySku($sku);
 
@@ -1322,7 +1331,7 @@ class ProductController extends Controller
 		$graphikAPICount = count($frameDisplay);
 	 	$slideCount = floor($graphikAPICount / 6);
 		$slideFinalCount = fmod($graphikAPICount,6) > 0 ? $slideCount+1 : $slideCount;
-		
+
 		list($frameDesc,$frameWidth,$sku,$graphikAPI,$colorValue, $styleValue,$widthValue,$materialValue,$framePrice) = GraphikDimension::getGraphikAttribute($frameDisplay);
 
 		return View::make('home.frame_display')->with(array('graphikAPI'=>$frameDisplay,'slideFinalCount'=>$slideFinalCount));
@@ -1335,7 +1344,7 @@ class ProductController extends Controller
 		 //printAndFramePackage or canvasWrapPackage
 		$previous_encoding = mb_internal_encoding();
 		print_r($previous_encoding);
-   		//Set the encoding to UTF-8, so when reading files it ignores the BOM       
+   		//Set the encoding to UTF-8, so when reading files it ignores the BOM
    		mb_internal_encoding('UTF-8');
 		$options = array(
 		  // "detailLevel" => "4",
@@ -1374,19 +1383,19 @@ class ProductController extends Controller
 				  	"offset"=>2.5
 				  )
 		 	)
-		  
+
 		);
 		echo "<pre>";
 		var_dump($options);
 		echo "</pre>";
-		
+
 		$client = new SoapClient($wsdl);
 		// dd($client->__getFunctions());
 
 		$response = $client->__soapCall("getProductGroupPrice", array($options));
 		dd($client->__getLastRequest());
 		try {
- 			
+
 			echo $client->__getLastResponse();
 		}
 		catch (Exception $e) {
@@ -1441,8 +1450,8 @@ class ProductController extends Controller
 
         return $print;
 	}
-		
-	
+
+
 
 	public function get_prints () {
 
@@ -1463,13 +1472,13 @@ class ProductController extends Controller
 		$size->fractionHeight = $request->size_fraction_height;
 		$size->width = $request->size_width;
 		$size->fractionWidth = $request->size_fraction_width;
-		
+
 		$size->price = $request->price;
 		$size->print_id = $request->print_size_id;
 		$size->save();
 
 		return $size;
-		
+
 	}
 
 

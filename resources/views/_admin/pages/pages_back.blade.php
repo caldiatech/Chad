@@ -134,12 +134,12 @@
 
 @section('extracodes')
 
-    {{ HTML::script('_admin/manager/tinymce/tiny_mce.js','') }}
-    {{ HTML::script('_admin/assets/js/cufon_avantgarde.js','') }}
-    {{ HTML::script('_admin/assets/js/jquery-latest.min.js','') }}
-    {{ HTML::script('_admin/assets/js/FilterPagination/filter.js','') }}
-    {{ HTML::script('_admin/manager/tinymce/styles/mods2.js','') }}
-    {{ HTML::script('_admin/assets/js/jquery.tablednd.js','') }}
+    {{ HTML::script('_admin/manager/tinymce/tiny_mce.js') }}
+    {{ HTML::script('_admin/assets/js/cufon_avantgarde.js') }}
+    {{ HTML::script('_admin/assets/js/jquery-latest.min.js') }}
+    {{ HTML::script('_admin/assets/js/FilterPagination/filter.js') }}
+    {{ HTML::script('_admin/manager/tinymce/styles/mods2.js') }}
+    {{ HTML::script('_admin/assets/js/jquery.tablednd.js') }}
     
  
     <script>

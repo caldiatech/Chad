@@ -24,10 +24,10 @@ class CartController extends Controller
 {
   public function getIndex()
 	{
-		//if not login redirect to login page    	
+		//if not login redirect to login page
 		if(!Session::has('dnradmin_id')) { return Redirect::to('dnradmin/');}
-		
-		$status = "Paid";	
+
+		$status = "Paid";
 		$cart = Cart::where('fldCartStatus','=',$status)->orderby('fldCartOrderDate','DESC')->select('fldCartOrderNo','fldCartClientID')->distinct()->get();
 
 
@@ -35,7 +35,7 @@ class CartController extends Controller
 		$orderData = array();
 		foreach($cart as $carts) {
 			$cartInfo = Cart::displayCheckout($carts->fldCartOrderNo);
-			
+
 			$sum = Cart::leftJoin('tblClient','tblClient.fldClientID','=','fldCartClientID')
 						->where('fldCartOrderNo','=',$carts->fldCartOrderNo)
 						// ->select(DB::raw('sum(fldCartProductPrice * fldCartQuantity + fldCartShippingPrice) as total',"fldCartClientID"))->first();
@@ -46,35 +46,35 @@ class CartController extends Controller
 			// if ( $loop->first ) {
 			// 	dd($get_shipping_sequence_cost);
 			// }
-						
+
 
 			$total = ($sum->total - $cartInfo->fldCartCouponCodeCouponPrice) + $cartInfo->fldCartTax + $get_shipping_sequence_cost->fldCartShippingPrice;
 			$name = $cartInfo->bFirstname. ' ' . $cartInfo->bLastname;
 
 			//echo "Client ID " .  $carts->fldCartClientID;
 			$client = Client::find($carts->fldCartClientID);
-			if(count($client) == 1) {
+			if(!empty($client)) {
 				$client_type = $client->fldClientCheckoutType != "" ? $client->fldClientCheckoutType : "Client" ;
 			} else {
 				$client_type = "";
 			}
-			$orderData[]= array('order_no' => $carts->fldCartOrderNo,'order_date' => $cartInfo->order_date, 'client_name' => $name, 'client_email' => $cartInfo->bEmail, 'total'=>$total,'client_type'=>$client_type);			
-			
+			$orderData[]= array('order_no' => $carts->fldCartOrderNo,'order_date' => $cartInfo->order_date, 'client_name' => $name, 'client_email' => $cartInfo->bEmail, 'total'=>$total,'client_type'=>$client_type);
+
 		}
-		
-		$administrator = Settings::where('fldAdministratorID','=',Session::get('dnradmin_id'))->first();				
-		$orderClass = 'class=active'; 
+
+		$administrator = Settings::where('fldAdministratorID','=',Session::get('dnradmin_id'))->first();
+		$orderClass = 'class=active';
 		$pageTitle = ORDERS;
 		return View::make('_admin.orders.orders', array('orderData' => $orderData,
 													    'administrator'=>$administrator,
 													    'orderClass'=>$orderClass,
-													    'pageTitle'=>$pageTitle));	
+													    'pageTitle'=>$pageTitle));
 	}
-	
+
 	public function getDisplay($order_code) {
-		//if not login redirect to login page    
+		//if not login redirect to login page
 		if(!Session::has('dnradmin_id')) { return Redirect::to('dnradmin/');}
-		
+
 		$cart = Cart::displayCart($order_code);
 
 		if(count($cart) == 0){
@@ -84,8 +84,8 @@ class CartController extends Controller
 		$cartInfo = Cart::displayCheckout($order_code);
 		// dd($cart);
 
-		$administrator = Settings::where('fldAdministratorID','=',Session::get('dnradmin_id'))->first();		
-		$orderClass = 'class=active'; 
+		$administrator = Settings::where('fldAdministratorID','=',Session::get('dnradmin_id'))->first();
+		$orderClass = 'class=active';
 		$pageTitle = ORDERS;
 
 		return View::make('_admin.orders.orders_display', array('cart' => $cart,
@@ -94,11 +94,11 @@ class CartController extends Controller
 														        'orderClass'=>$orderClass,
 														        'pageTitle'=>$pageTitle));
 	}
-	
+
 	public function userOrderHistory() {
 		$client_id = Session::get('client_id');
-		
-		$status = "Paid";	
+
+		$status = "Paid";
 		$cart = Cart::where('fldCartStatus','=',$status)
 						->where('fldCartClientID','=',$client_id)
 						->orderby('fldCartOrderDate','DESC')
@@ -107,21 +107,21 @@ class CartController extends Controller
 		$orderData = array();
 		foreach($cart as $carts) {
 			$cartInfo = Cart::displayCheckout($carts->fldCartOrderNo);
-			
+
 			$sum = Cart::leftJoin('tblClient','tblClient.fldClientID','=','tblcart.fldCartClientID')
 						->where('fldCartOrderNo','=',$carts->fldCartOrderNo)
 						->select(DB::raw('sum(fldCartProductPrice * fldCartQuantity) as total',"fldCartClientID"))
 						->first();
 
-			$total = ($sum->total - $cartInfo->coupon_price) + $cartInfo->shipping_amount + $cartInfo->tax;		
-							
+			$total = ($sum->total - $cartInfo->coupon_price) + $cartInfo->shipping_amount + $cartInfo->tax;
+
 			$name = $cartInfo->bFirstname. ' ' . $cartInfo->bLastname;
-			$orderData[]= array('order_no' => $carts->fldCartOrderNo,'order_date' => $cartInfo->order_date, 'client_name' => $name, 'total'=>$total);			
-			
+			$orderData[]= array('order_no' => $carts->fldCartOrderNo,'order_date' => $cartInfo->order_date, 'client_name' => $name, 'total'=>$total);
+
 		}
-		
+
 		$settings = Settings::first();
-		$google = Google::first();	
+		$google = Google::first();
 		$settings->site_name= "Order History";
 		$administrator = Settings::where('fldAdministratorID','=',Session::get('dnradmin_id'))->first();
 		$cart_count = TempCart::countCart();
@@ -131,7 +131,7 @@ class CartController extends Controller
 												    'google'=>$google,
 												    'cart_count'=>$cart_count,
 												    'administrator'=>$administrator,
-												    'pageTitle'=>$pageTitle));	
-		
+												    'pageTitle'=>$pageTitle));
+
 	}
 }

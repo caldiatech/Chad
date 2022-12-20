@@ -211,13 +211,13 @@
 		var category_id = "{!! $maincat->fldCategoryMainID !!}";
 		var product_id = "{!! $products->fldProductID !!}";
 	</script>
-    {!! Html::script('_admin/manager/tinymce/tiny_mce.js','') !!}
-    {!! Html::script('_admin/assets/js/jquery-latest.min.js','') !!}
-    {!! Html::script('_admin/assets/js/customValidation.js','') !!}
-    {!! Html::script('_admin/manager/tinymce/styles/mods5.js','') !!}
-    {!! Html::script('_admin/assets/js/count_char.js','') !!}
-    {!! Html::script('_admin/assets/js/category.js','') !!}   
-    {!! Html::script('_admin/plugins/jasny/js/jasny-bootstrap.min.js','') !!} 	      
+    {!! Html::script('_admin/manager/tinymce/tiny_mce.js') !!}
+    {!! Html::script('_admin/assets/js/jquery-latest.min.js') !!}
+    {!! Html::script('_admin/assets/js/customValidation.js') !!}
+    {!! Html::script('_admin/manager/tinymce/styles/mods5.js') !!}
+    {!! Html::script('_admin/assets/js/count_char.js') !!}
+    {!! Html::script('_admin/assets/js/category.js') !!}   
+    {!! Html::script('_admin/plugins/jasny/js/jasny-bootstrap.min.js') !!} 	      
     
     @foreach($options as $option)
 				{!! $countOptions = DB::table('tblProductOptions')->where('fldProductOptionsOptionsID','=',$option->fldOptionsID)->where('fldProductOptionsProductID','=',$products->fldProductID)->count();!!}

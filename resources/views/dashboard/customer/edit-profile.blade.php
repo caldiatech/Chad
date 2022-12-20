@@ -443,7 +443,7 @@
 
 @section('headercodes')
  <script>
- var url ="{{url('')}}";
+ var url ="{{url('/')}}";
 	</script>
 	{!! Html::style('_front/plugins/jasny/css/jasny-bootstrap.min.css') !!}
 	{!! Html::style('_front/plugins/password/strength.css') !!}

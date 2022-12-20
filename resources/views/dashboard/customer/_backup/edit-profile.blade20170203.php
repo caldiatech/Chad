@@ -423,8 +423,8 @@
  
 @section('extracodes')  
  {{-- */ /* */ /* --}}
- 	{!! Html::script('_front/assets/js/mask.js','') !!}
-    {!! Html::script('_front/plugins/password/strength.js','') !!}
+ 	{!! Html::script('_front/assets/js/mask.js') !!}
+    {!! Html::script('_front/plugins/password/strength.js') !!}
     
     <script>
       $(document).ready(function($) {
@@ -440,7 +440,7 @@
 
       });
      </script> 
-    {!! Html::script('_front/plugins/jasny/js/jasny-bootstrap.min.js','') !!}
+    {!! Html::script('_front/plugins/jasny/js/jasny-bootstrap.min.js') !!}
 
 	<script>
 		$(document).ready(function(){

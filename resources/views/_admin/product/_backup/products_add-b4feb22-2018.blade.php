@@ -165,14 +165,14 @@
 		var mypath = "{!! url('/') !!}";
 		var product_id = "0";
 	</script>
-    {!! Html::script('_admin/manager/tinymce/tiny_mce.js','') !!}
-    {!! Html::script('_admin/assets/js/jquery-latest.min.js','') !!}
-    {!! Html::script('_admin/assets/js/customValidation.js','') !!}
-    {!! Html::script('_admin/manager/tinymce/styles/mods5.js','') !!}
-    {!! Html::script('_admin/assets/js/count_char.js','') !!}
-	  {!! Html::script('_admin/assets/js/category.js','') !!} 	  
+    {!! Html::script('_admin/manager/tinymce/tiny_mce.js') !!}
+    {!! Html::script('_admin/assets/js/jquery-latest.min.js') !!}
+    {!! Html::script('_admin/assets/js/customValidation.js') !!}
+    {!! Html::script('_admin/manager/tinymce/styles/mods5.js') !!}
+    {!! Html::script('_admin/assets/js/count_char.js') !!}
+	  {!! Html::script('_admin/assets/js/category.js') !!} 	  
 
-    {!! Html::script('_admin/plugins/jasny/js/jasny-bootstrap.min.js','') !!}    
+    {!! Html::script('_admin/plugins/jasny/js/jasny-bootstrap.min.js') !!}    
 		<script language="javascript">				    						
 			var elem1 = $("#name_text");
       var elem2 = $("#sub_title_text");

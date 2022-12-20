@@ -69,4 +69,4 @@
                   </table>
                {!! Form::close() !!}
 
-               {!! Html::script('_admin/assets/js/height.js','') !!}
+               {!! Html::script('_admin/assets/js/height.js') !!}

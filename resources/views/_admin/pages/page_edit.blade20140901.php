@@ -103,12 +103,12 @@
 	<script>
 		var mypath = "{{ $pageURL }}";
 	</script>
-    {{ HTML::script('_admin/manager/tinymce/tiny_mce.js','') }}
-    {{ HTML::script('_admin/assets/js/cufon_avantgarde.js','') }}
-    {{ HTML::script('_admin/assets/js/jquery-latest.min.js','') }}
-    {{ HTML::script('_admin/assets/js/assets/js/jquery.pagination.js','') }}
-    {{ HTML::script('_admin/manager/tinymce/styles/mods2.js','') }}
-    {{ HTML::script('_admin/assets/js/count_char.js','') }}
+    {{ HTML::script('_admin/manager/tinymce/tiny_mce.js') }}
+    {{ HTML::script('_admin/assets/js/cufon_avantgarde.js') }}
+    {{ HTML::script('_admin/assets/js/jquery-latest.min.js') }}
+    {{ HTML::script('_admin/assets/js/assets/js/jquery.pagination.js') }}
+    {{ HTML::script('_admin/manager/tinymce/styles/mods2.js') }}
+    {{ HTML::script('_admin/assets/js/count_char.js') }}
 
    <script>   			
 		var elem1 = $("#name_text");

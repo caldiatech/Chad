@@ -128,14 +128,14 @@
 @section('headercodes')    
   {!! Html::style('_admin/assets/js/jq-ui/jquery-ui.css') !!}  
   {!! Html::style('_admin/assets/plugins/password/strength.css') !!}  
-  {!! Html::script('_admin/assets/js/jquery-ui.js','') !!}
+  {!! Html::script('_admin/assets/js/jquery-ui.js') !!}
 @stop
 
 @section('extracodes')
     {!! Html::style('_front/plugins/uikit/css/uikit.css') !!}
-    {!! Html::script('_front/plugins/uikit/js/uikit.js','') !!}
-    {!! Html::script('_admin/assets/js/customValidation.js','') !!}
-    {!! Html::script('_admin/plugins/password/strength.js','') !!}
+    {!! Html::script('_front/plugins/uikit/js/uikit.js') !!}
+    {!! Html::script('_admin/assets/js/customValidation.js') !!}
+    {!! Html::script('_admin/plugins/password/strength.js') !!}
 
     <script>
       $(document).ready(function($) {
