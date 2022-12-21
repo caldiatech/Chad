@@ -1,8 +1,8 @@
 @extends('layouts._front.products')
 @section('content')
 
-<?php 
-  
+<?php
+
   $product_option_class = new \App\Models\ProductOptions;
   function fractionized($first_fraction){
 	$first_fraction_explode = explode('/', $first_fraction);
@@ -68,7 +68,7 @@
 ?>
 
 <div class="uk-container uk-container-center uk-margin-medium-bottom  uk-padding-remove product-detail-wrapper product-type-{{$fldProductIsVertical}}">
-			
+
 	<div id="div_prod_loading" style="pointer-events: none;opacity: 0.5;background: #CCC;">
 		<h1 style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%) translateY(-50%); background-color: #fff; opacity: 100;" id="h2_prod_loading">Please wait..</h1>
   <article id="main" role="main">
@@ -76,7 +76,8 @@
 	<div class="uk-breadcrumb-wrapper  uk-margin-bottom  uk-width-1-1" >
 	  <ul class="uk-breadcrumb">
 		<li class="product-main-category"><a href="{{url('collection')}}">Collection</a></li>
-		@if(count($category_details) > 0)<li class="product-parent-category"><a href="{{url('collection/'.$category_details->fldCategorySlug)}}">{!!$category_details->fldCategoryName!!}</a></li>@endif
+
+		@if(!empty($category_details))<li class="product-parent-category"><a href="{{url('collection/'.$category_details->fldCategorySlug)}}">{!!$category_details->fldCategoryName!!}</a></li>@endif
 		<li class="uk-active"><span>{!!$product->fldProductName!!}</span></li>
 	  </ul>
 	</div>
@@ -98,7 +99,7 @@
 				</a>
 			</div>
 
-			<?php            
+			<?php
 			// $graphikAPI = \App\Models\GraphikDimension::displayAll(6); // for all frames
 			// print_r($graphikAPI);
 
@@ -147,7 +148,7 @@
 			</div>
 		</div>
 		<a href="#toggle-pice-details2" class="floatingPrice uk-hidden" data-uk-offcanvas="{mode:'slide'}">
-		  <img src="{{ url('_front/assets/images/detail.ico')}}"> 
+		  <img src="{{ url('_front/assets/images/detail.ico')}}">
 		  <span>Details</span>
 		</a>
 	  </div>
@@ -196,9 +197,9 @@
 
 
 			@else
-				NO AVAILABLE SIZES - NO DATA FOUND 
-				<script type="text/javascript">                      
-					$("#frame-selection").hide();                   
+				NO AVAILABLE SIZES - NO DATA FOUND
+				<script type="text/javascript">
+					$("#frame-selection").hide();
 					$("#add-to-cart").hide();
 					$("#totalPrice").hide();
 					$("#original_price").text('{{number_format($fldProductPrice,2)}}');
@@ -232,7 +233,7 @@
 @stop
 @section('headercodes')
 <meta name="csrf-token" content="{{ csrf_token() }}">
-{!! Html::style('_front/plugins/swiper-4.1.6/dist/css/swiper.min.css') !!} 
+{!! Html::style('_front/plugins/swiper-4.1.6/dist/css/swiper.min.css') !!}
 <style>
 @media screen and (max-width: 767px){
   .wrap.content{ padding-top: 0; }
@@ -252,7 +253,7 @@ function on_render_finish(){
 <script>
 var load_only_once = 0, load_mats_only_once = 0;
 var photo_size_counter_clicked = 0, get_all_photo_sizes_counter = 0, linerw = 2;
-var v_frame_desc = '', 
+var v_frame_desc = '',
   v_frame_desc = '',
   v_frame_sku = '',
   v_frame_liner = '',
@@ -262,12 +263,12 @@ var v_frame_desc = '',
   v_frame_is_cheap = '';
 var image_src = "{{ url(PRODUCT_IMAGE_PATH.$product->fldProductSlug.'/'.$product->fldProductImage) }}";
 function load_javascripts(){
-  
+
 }
 	var client_frame_array = new Array('BWL2', 'GO4', 'GO6', 'PEC6', 'RSP3', 'SA9', 'WVL2', 'WVL3', 'WVL4', 'WVL5');
 	$(document).ready(function(){
 	  //frames_slider = UIkit.slideshow($('#frame_slider'), { });
-	  
+
 	 clicked_photo_option();
 	 if($('#count_product_option').val() > 0){
 	  loadFrameSlider(2);
@@ -275,9 +276,9 @@ function load_javascripts(){
 
 	  //getGraphikFrames();
 	  function getFrameWidthSelectionValues(this_value){
-		if(this_value != undefined){          
+		if(this_value != undefined){
 		  $('#frameWidth option').each(function(){
-			var myString = $(this).val(); 
+			var myString = $(this).val();
 			var myArray = myString.split('-'); //explode
 			if(myArray.length > 0){
 
@@ -292,7 +293,7 @@ function load_javascripts(){
 	  }
 	  function getFrameWidthEquivValues(this_value){
 		var equiv_number = '';
-		if(this_value != undefined){          
+		if(this_value != undefined){
 		  if(this_value <= 1){
 			equiv_number = '0-1';
 		  }else if(this_value <= 2){
@@ -309,7 +310,7 @@ function load_javascripts(){
 		if(this_option_value != undefined){
 			var myArray = this_option_value.split('-'); //explode
 			if(myArray.length > 0){
-			  return myArray;              
+			  return myArray;
 			}
 		}
 	  }
@@ -332,7 +333,7 @@ function load_javascripts(){
 			// console.log('#frame_slider .uk-slideshow set height '+get_image_h);
 			$('#frame_slider .uk-slideshow').css('height',get_image_h+'px !important');
 			//$('#frame_slider .uk-slideshow .frame-slider-item').css('height',get_image_h+'px !important');
-		  }else{            
+		  }else{
 			// console.log('#frame_slider .uk-slideshow set height '+get_image_h);
 		  }
 	  }
@@ -350,26 +351,26 @@ function load_javascripts(){
 			filter_array_values[this_id] = this_val;
 		  }
 		});
-		// console.log(filter_array_values);        
+		// console.log(filter_array_values);
 
 		var slideshow_html_array = new Array();
-		var frame_ss_page = 0, frame_ss_column = 0, slideshowhtml = '', include_me = false, something_was_included = false; 
+		var frame_ss_page = 0, frame_ss_column = 0, slideshowhtml = '', include_me = false, something_was_included = false;
 
 
-		 $.each(frames_array, function(obj_index, obj_value ){            
-			
-			include_me = false; 
+		 $.each(frames_array, function(obj_index, obj_value ){
+
+			include_me = false;
 			var this_short_desc = obj_value.shortDescription;
 			var this_material = obj_value.material;
 			var this_filterValue = obj_value.filterValue;
 			var vargetFrameWidthSelectionValuesVV = '';
-			if(obj_value.frameWidthValue != undefined){          
-			  vargetFrameWidthSelectionValuesVV = getFrameWidthEquivValues(obj_value.frameWidthValue);         
+			if(obj_value.frameWidthValue != undefined){
+			  vargetFrameWidthSelectionValuesVV = getFrameWidthEquivValues(obj_value.frameWidthValue);
 			}
 
 
-			if(vargetFrameWidthSelectionValuesVV == filter_array_values['frameWidth']){              
-			  include_me = true;             
+			if(vargetFrameWidthSelectionValuesVV == filter_array_values['frameWidth']){
+			  include_me = true;
 			}
 
 			if(this_filterValue.indexOf(filter_array_values['frameColor']) !== -1){
@@ -388,13 +389,13 @@ function load_javascripts(){
 			  }
 			}
 
-			if(include_me){    
+			if(include_me){
 			  something_was_included = true
-						
+
 			  if(frame_ss_column > 6){
 				slideshow_html_array[frame_ss_page] = slideshowhtml;
 				frame_ss_page++, frame_ss_column = 0; slideshowhtml = '';
-			  }      
+			  }
 			  if(obj_value.sku != undefined){
 				slideshowhtml += '<div class="uk-width-1-3 frame-slider-subitem">';
 				this_short_desc = this_short_desc.replace(/^"|"$/g, '');
@@ -405,7 +406,7 @@ function load_javascripts(){
 				}
 				slideshowhtml += '</div>';
 
-			  
+
 
 				frame_ss_column++;
 			  }
@@ -427,7 +428,7 @@ function load_javascripts(){
 
 
 	  function loadFrameSlider(frame_ss_page){
-	   
+
 		  var swiper = new Swiper('.swiper-container', {
 			slidesPerView: 3,
 			spaceBetween: 6,
@@ -474,7 +475,7 @@ function load_javascripts(){
 
 			$('#frame-selection').css('opacity', '1');
 			$('#frameDisplay').css('opacity', '1');
-			
+
 		  }
 	  });
 
@@ -509,7 +510,7 @@ function load_javascripts(){
 	   displayLoader();
 	   setTimeout(function(){
 		 /* $('#frameDisplay').load("{{ url('frames/display') }}", function() {
-			  
+
 		  });*/
 		  //getGraphikFrames();
 		},1000);
@@ -524,7 +525,7 @@ function load_javascripts(){
 		success: function(data){
 			// console.log(data);
 			$('#frameDisplay').html(data);
-		   
+
 		  }
 	  }).done(function(data){
 		  // console.log('done');
@@ -534,18 +535,18 @@ function load_javascripts(){
 	 }
 
 	function changeFrame(newSku,newFrameWidth,price,frameDesc) {
-		
+
 		$('#frame_selection').val(newSku);
 		//$('#frame_selection').trigger('change');
 		$('#toggle-frame-details').removeClass('uk-hidden');
 
 		generateNewImageFrame();
 		// console.log('#toggle-frame-detail removeClass ukhidden');
-		
+
 	}
 	var clicked_photo_option = function(){
 		var photo_size_counter_clicked_temp = window.photo_size_counter_clicked;
-		var get_all_photo_sizes = document.querySelectorAll('.photo-size-selection-option');  
+		var get_all_photo_sizes = document.querySelectorAll('.photo-size-selection-option');
 		var get_all_photo_sizes_counter_temp = get_all_photo_sizes.length;
 		window.get_all_photo_sizes_counter  = get_all_photo_sizes_counter_temp;
 		var photo_size_counter_clicked_temp_ = photo_size_counter_clicked_temp;
@@ -555,7 +556,7 @@ function load_javascripts(){
 		photo_size_counter_clicked_temp++;
 		window.photo_size_counter_clicked = photo_size_counter_clicked_temp;
 		$(get_all_photo_sizes[photo_size_counter_clicked_temp_]).trigger('click');
-	  
+
 		/*$('.photo-size-selection-option').each(function(){
 
 		  var this_radio_option = $(this);
@@ -593,7 +594,7 @@ function load_javascripts(){
 	  },1000);
 
 	}
-	
+
 	  function loadColors(color) {
 		//get the selected value of width, styles and material
 		var frameWidth = $('#frameWidth').val();
@@ -674,7 +675,7 @@ function load_javascripts(){
 			});*/
 	  }
 	  function loadSort(sortByField) {
-		  
+
 		$('#txtSKU').val('');
 		displayLoader();
 
@@ -690,10 +691,10 @@ function load_javascripts(){
 	  }
 	  function cancel_confirm_print_on_canvas(){
 	   <?php $printOn = Input::old('print_on'); ?>
-		@if($printOn == "paper") 
+		@if($printOn == "paper")
 		  $('input#print_on_canvas').removeAttr('checked');
 		  $('input#print_on_paper').prop( "checked", true);
-		@elseif($printOn == "canvas")   
+		@elseif($printOn == "canvas")
 		   $('input#print_on_paper').removeAttr('checked');
 		   $('input#print_on_canvas').prop( "checked", true);
 		@else
@@ -702,7 +703,7 @@ function load_javascripts(){
 		@endif
 			$('.toggle-me').each(function(){
 
-			   @if($printOn == "paper" || $printOn == "") 
+			   @if($printOn == "paper" || $printOn == "")
 				  if($(this).hasClass('print_on_paper_toggler')){
 					  $(this).addClass('uk-active-toggle'); $(this).removeClass('uk-hidden');
 				  }else{
@@ -714,7 +715,7 @@ function load_javascripts(){
 				  }else{
 					   $(this).addClass('uk-hidden');
 				  }
-				@endif  
+				@endif
 			  });
 	   }
 	   /**
@@ -732,7 +733,7 @@ function load_javascripts(){
 		  productId = $('#product_id').val();
 		  image_width = $('#descImageWidth').text();
 		  image_height = $('#descImageHeight').text();
-		  
+
 		  mats_width = $( "#matborder_whole" ).val() + $( "#matborder_fractions" ).val();
 		  finishkitSku = $('#hdn-finishkit').val();
 		  mats = [];
@@ -767,7 +768,7 @@ function load_javascripts(){
 		  var current_frame_size_price = $('input.photo-size-selection-option-'+current_frame_size_val).attr('data-frame_cost');
 		  // console.log('current_frame_size_price');
 		  // console.log(current_frame_size_price);
-		  
+
 		  // console.log("(typeof current_frame_size_val != 'undefined')");
 		  // console.log((typeof current_frame_size_val != 'undefined'));
 		  if(typeof current_frame_size_val != 'undefined'){
@@ -775,7 +776,7 @@ function load_javascripts(){
 			updateFrameData(frame)
 			updateComputations(current_frame_size_val, current_frame_size_price);
 		  }
-		  
+
 	   }
 
 	  function updateFrameData(frame){
@@ -807,7 +808,7 @@ function load_javascripts(){
 
 		var image_price_tofixed = image_price.toFixed(2);
 
-	  $("#descImagePrice").html(image_price_tofixed);   
+	  $("#descImagePrice").html(image_price_tofixed);
 	  $("#image_price").val(image_price_tofixed);
 
 	  $('#grandTotalL').text(grand_t);
@@ -817,10 +818,10 @@ function load_javascripts(){
 	  // $('#totalPrice').text(807);
 	  $('#merchandiseTotal').text(0.00);
 	  $('#feeTotal').text(0.00);
-	  $('#promotionTotal').text(0.00);      
+	  $('#promotionTotal').text(0.00);
 	  /*bry*/
 	  //$('.price-start-'+current_frame_size_val).text(image_price_tofixed);
-	  
+
 	  //$('.price-start-'+photo_size_selected_val).text(grandTotal.toFixed(2));
 
 	  // console.log(window.photo_size_counter_clicked + ' < = '+ window.get_all_photo_sizes_counter);
@@ -829,7 +830,7 @@ function load_javascripts(){
 	// 	clicked_photo_option();
 	//   }
 	}
-	
+
 	function updateMatsPrices(response){
 		  var a = 1;
 		  if(response.mats != null) {
@@ -921,9 +922,9 @@ function load_javascripts(){
 	  $('.frame_selection').on('change', function(){
 		var this_frame_selection_val = $(this).val();
 		var this_frame_selection_option = $('#option_'+this_frame_selection_val);
-		var newSku = this_frame_selection_val, 
-		frameWidth = this_frame_selection_option.data('width'), 
-		price = this_frame_selection_option.data('price'), 
+		var newSku = this_frame_selection_val,
+		frameWidth = this_frame_selection_option.data('width'),
+		price = this_frame_selection_option.data('price'),
 		frameDesc = this_frame_selection_option.data('title');
 
 		changeFrame(newSku, frameWidth, price, frameDesc);
@@ -974,7 +975,7 @@ function load_javascripts(){
 		  var total = parseFloat($('#grandTotalL').text());
 
 		  var print_price = $('.prints_selection').find(':selected').data('price');
-		  
+
           //ROI CHANGES
 		  if(print_price){
               totalQty = (total + print_price) * qty;
@@ -983,7 +984,7 @@ function load_javascripts(){
 		  }
           //ROI CHANGES
 
-		  
+
 		  $('#totalPrice').text(totalQty.toFixed(2));
 		  // $('#totalPrice').text(975);
 
@@ -994,7 +995,7 @@ function load_javascripts(){
 
 	  //MARK CHANGES
 	  $('#text-qty').blur(function() {
-		$(this).trigger('change');		
+		$(this).trigger('change');
 	  });
 
 	  function updateTotalPrice() {
@@ -1036,7 +1037,7 @@ function load_javascripts(){
 
 		  //MARK CHANGES
 		  $('#text-qty').val(qty);
-		  
+
 		  updateTotalPrice();
 
 		  return false;
@@ -1052,7 +1053,7 @@ function load_javascripts(){
           }else{
               totalQty = total * qty;
           }
-          //ROI CHANGES 
+          //ROI CHANGES
 
 		  $('#totalPrice').text(totalQty.toFixed(2));
 		  // $('#totalPrice').text(1033);
@@ -1063,8 +1064,8 @@ function load_javascripts(){
 
 			// alert('no-frame! Price reset to -> ');
 
-			// if( image_price < 1){ 
-			//     image_price = 0; 
+			// if( image_price < 1){
+			//     image_price = 0;
 			// }
 
 			// var originalAmount = (package_price_discount_total + image_price);
@@ -1205,7 +1206,7 @@ window.sortMeBy = (function(){
 }());
 
 
-	
+
   function generateNewImageFrame() {
 
 	// alert('width: '+ $("#imageSize").children('option:selected').data('width'));
@@ -1252,7 +1253,7 @@ window.sortMeBy = (function(){
 	}
 	console.log('aft: '+data_liner);
 	$('#liner').val(data_liner);
-	
+
 
 	linerw = 1;
 	if(imageWidth >= 40 && imageWidth <= 59){
@@ -1323,7 +1324,7 @@ window.sortMeBy = (function(){
 	// var newSrc = "https://pod.cloud.graphikservices.com/renderEMF/render?imgUrl={{ 'http://www.clarkincollection.com/'.PRODUCT_IMAGE_PATH.$product->fldProductSlug.'/'.$product->fldProductImage }}&"+replace_width+"&m1b=1&off=0.375&sku="+v_frame_sku+"&sku2=LN3BK&frameW="+v_frame_width+"&frame2W="+linerw;
 
 	// var newSrc = "https://pod.cloud.graphikservices.com/renderEMF/render?imgUrl={{ 'http://www.clarkincollection.com/'.PRODUCT_IMAGE_PATH.$product->fldProductSlug.'/'.$product->fldProductImage }}&"+replace_width+"&m1b=1&off=0.375&sku="+v_frame_sku+"&sku2="+data_liner+"&frameW="+v_frame_width+"&frame2W="+linerw;
-	
+
 
 //var newSrc = "https://pod.cloud.graphikservices.com/renderEMF/render?imgUrl={{'http://54.68.88.28/clarkin123/'.PRODUCT_IMAGE_PATH.$product->fldProductSlug.'/'.$product->fldProductImage }}&"+replace_width+"&m1b=1&off=0.375&sku="+v_frame_sku+"&sku2="+data_liner+"&frameW="+v_frame_width+"&frame2W="+linerw;
 
@@ -1333,7 +1334,7 @@ var newSrc = "https://pod.cloud.graphikservices.com/renderEMF/render?imgUrl={{'h
 
 
 	console.log(newSrc);
-	
+
 	update_all_size_option_prices(v_frame_is_cheap);
 
 
@@ -1362,7 +1363,7 @@ var newSrc = "https://pod.cloud.graphikservices.com/renderEMF/render?imgUrl={{'h
 	}
 	$('.frame-width-text').html(v_frame_width);
 
-		
+
 	getPackagePrice();
   }
 
@@ -1416,7 +1417,7 @@ var newSrc = "https://pod.cloud.graphikservices.com/renderEMF/render?imgUrl={{'h
 	}
 	console.log('aft: '+data_liner);
 	$('#liner').val(data_liner);
-	
+
 
 	linerw = 1;
 	if(imageWidth >= 40 && imageWidth <= 59){
@@ -1494,7 +1495,7 @@ var newSrc = "https://pod.cloud.graphikservices.com/renderEMF/render?imgUrl={{'h
 
 
 	console.log(newSrc);
-	
+
 	update_all_size_option_prices(v_frame_is_cheap);
 
 
@@ -1523,7 +1524,7 @@ var newSrc = "https://pod.cloud.graphikservices.com/renderEMF/render?imgUrl={{'h
 	}
 	$('.frame-width-text').html(v_frame_width);
 
-		
+
 	getPackagePrice();
   }
 
@@ -1559,7 +1560,7 @@ var newSrc = "https://pod.cloud.graphikservices.com/renderEMF/render?imgUrl={{'h
 		var datacode = obj.options[obj.selectedIndex].getAttribute("data-code");
 		// alert(datatext);
 		$('.frame-liner-text').text(datatext);
-	
+
 		var oldSrc = $("#mainImage").attr('src');
 		// alert($("#mainImage").attr('src'));
 
@@ -1583,7 +1584,7 @@ var newSrc = "https://pod.cloud.graphikservices.com/renderEMF/render?imgUrl={{'h
   </script>
 
   @if(Input::old('frame_desc'))
-  <?php 
+  <?php
 	$frameInfo = explode(';', Input::old('frame_desc'));
 	$frame = Input::old('frame_info');
 	if($frame != "") {
@@ -1591,7 +1592,7 @@ var newSrc = "https://pod.cloud.graphikservices.com/renderEMF/render?imgUrl={{'h
 	<script>
 		changeFrame('{{$frame}}','{{$frameInfo[0]}}','0','{{$frameInfo[1]}}');
 		generateNewImageFrame();
-	</script>    
+	</script>
 	<?php } ?>
 	@endif
 

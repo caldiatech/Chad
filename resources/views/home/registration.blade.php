@@ -76,9 +76,9 @@
                                     @endif --}}
 
                                 </div >
-                                
-                                 
-                                
+
+
+
                                 <div class = "uk-width-1-1 uk-margin-large-top">
                                   <div class="uk-text-success pos-rel uk-width-1-1 full-width please-wait uk-hidden ">Please Wait...</div>
 
@@ -90,8 +90,8 @@
                         </div><!--uk 6 -10 -->
 
                         <div class=" uk-width-large-3-10 uk-width-medium-1-2 uk-width-small-1-1 uk-margin-large-top">
-                            <div class="box-bordered padding-medium"> 
-                                <h4>Registered {!!$login_type_text!!}</h4>     
+                            <div class="box-bordered padding-medium">
+                                <h4>Registered {!!$login_type_text!!}</h4>
                                 {!!$pages->fldPagesDescription!!}
                                  {!! Html::link('login', "Login",array('class'=>'uk-button float-none uk-button-primary')) !!}
                             </div>
@@ -114,7 +114,6 @@
     {!! Html::script('_front/assets/js/mask.js') !!}
 
     {!! Html::script('_front/plugins/password/strength.js') !!}
-    
     <script>
 
     var form_id = 'registration_form'; var isphone_valid = 0;
@@ -176,7 +175,7 @@
         requireds_flds_empty = 1;
     }
 
-  
+
     if(isphone_valid == 0){
         requireds_flds_empty = 1;
          $('form#'+form_id+' .mask-error').html("Phone Invalid");
@@ -188,7 +187,7 @@
          $('form#'+form_id+' .mask-error').addClass('uk-hidden');
                 $('.phone_us').css({'border':'1px solid green'});
     }
- 
+
     if(requireds_flds_empty){
         return false;
     }else{

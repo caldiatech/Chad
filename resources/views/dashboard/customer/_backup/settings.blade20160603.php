@@ -102,6 +102,6 @@
 		}
 	</script>
 
-	{!! Html::script('_front/assets/js/jquery.min.js','') !!}    
+	{!! Html::script('_front/assets/js/jquery.min.js') !!}    
     
 @stop

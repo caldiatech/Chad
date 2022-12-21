@@ -2,86 +2,86 @@
 
 @section('content')
     <article>
-    <div id="page_control" class="col1">                    
+    <div id="page_control" class="col1">
        {{ HTML::image_link('/dnradmin/news/new','_admin/assets/images/icons/icon_add.png',' Add News') }}
     </div>
-    
+
     <h2 class="line">News Management</h2>
-    
+
     <br style="clear:both;" />
-       
-       <input type='hidden' id='current_page' />  
-	  <input type='hidden' id='show_per_page' />  
-      <input type='hidden' id='number_of_items' />   		
-	  <label for="search">Search:</label> <input type="text" id="search" value="" style="height:20px;"/>	
-        
+
+       <input type='hidden' id='current_page' />
+	  <input type='hidden' id='show_per_page' />
+      <input type='hidden' id='number_of_items' />
+	  <label for="search">Search:</label> <input type="text" id="search" value="" style="height:20px;"/>
+
     {{ Form::open(array('url' => '/dnradmin/news/', 'method' => 'post', 'id' => 'pageform', 'files' => true)); }}
-         
+
     <table id="page_manager">
       <thead>
         <tr class="headers">
-          <td width="70"> ID </td>  
-          <td width="150">Name</td>            
+          <td width="70"> ID </td>
+          <td width="150">Name</td>
           <td width="450">Date</td>
-        
+
           <td width="150" align="center">Action</td>
         </tr>
       </thead>
-      
-      <tbody id="Searchresult">     
-					@if (empty($news)) 
+
+      <tbody id="Searchresult">
+					@if (empty($news))
                     	<tr>
                         	<td class="error" colspan="5" align="center"> No Record Found</td>
                         </tr>
-                    @endif    
+                    @endif
 
-                    
+
           			@foreach ($news as $newss)
-                      
+
                     <tr>
-                       <td>{{ $newss->id }}</td>  
+                       <td>{{ $newss->id }}</td>
                        <td>{{ $newss->title }} </td>
                        <td>{{ date('F d, Y',strtotime($newss->news_date)) }} </td>
-                       
-                                 
-                       <td align="center">                                                                            
-                         {{ HTML::image_link('/dnradmin/news/edit/'.$newss->id,'_admin/assets/images/icons/page_modify.png','',' Modify News') }}                         
-                         {{ HTML::image_link_delete('/dnradmin/news/delete/'.$newss->id,'_admin/assets/images/icons/page_delete.png') }}                                                                      
+
+
+                       <td align="center">
+                         {{ HTML::image_link('/dnradmin/news/edit/'.$newss->id,'_admin/assets/images/icons/page_modify.png','',' Modify News') }}
+                         {{ HTML::image_link_delete('/dnradmin/news/delete/'.$newss->id,'_admin/assets/images/icons/page_delete.png') }}
                        </td>
                     </tr>
-                      
+
                     @endforeach
-                    
-                  
+
+
       </tbody>
-      
+
       <tfoot>
         <th colspan="4" align="right" height="30">
 
-          	 <div id='page_navigation' class="pagination"></div>    
+          	 <div id='page_navigation' class="pagination"></div>
         </th>
       </tfoot>
     </table>
      {{ Form::close() }}
   </article>
-  
+
 
 @stop
 
-@section('headercodes')    
-  {{ HTML::style('_admin/assets/css/pagination.css') }}  
+@section('headercodes')
+  {{ HTML::style('_admin/assets/css/pagination.css') }}
 @stop
 
 @section('extracodes')
 
-    {{ HTML::script('_admin/manager/tinymce/tiny_mce.js','') }}
-    {{ HTML::script('_admin/assets/js/cufon_avantgarde.js','') }}
-    {{ HTML::script('_admin/assets/js/jquery-latest.min.js','') }}
-    {{ HTML::script('_admin/assets/js/FilterPagination/filter.js','') }}
-    {{ HTML::script('_admin/manager/tinymce/styles/mods2.js','') }}
+    {{ HTML::script('_admin/manager/tinymce/tiny_mce.js') }}
+    {{ HTML::script('_admin/assets/js/cufon_avantgarde.js') }}
+    {{ HTML::script('_admin/assets/js/jquery-latest.min.js') }}
+    {{ HTML::script('_admin/assets/js/FilterPagination/filter.js') }}
+    {{ HTML::script('_admin/manager/tinymce/styles/mods2.js') }}
 
     <script>
-		showPagination(20,$('#page_manager tbody>tr').size(),$('#page_manager tbody>tr'));				
-	</script>   
-    
+		showPagination(20,$('#page_manager tbody>tr').size(),$('#page_manager tbody>tr'));
+	</script>
+
 @stop

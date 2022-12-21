@@ -107,15 +107,15 @@
 	<script>
 		var mypath = "{!! url('/') !!}";
 	</script>
-    {!! Html::script('_admin/manager/tinymce/tiny_mce.js','') !!}
-    {!! Html::script('_admin/assets/js/cufon_avantgarde.js','') !!}
-    {!! Html::script('_admin/assets/js/jquery-latest.min.js','') !!}
-    {!! Html::script('_admin/assets/js/customValidation.js','') !!}
-    {!! Html::script('_admin/manager/tinymce/styles/mods2.js','') !!}
+    {!! Html::script('_admin/manager/tinymce/tiny_mce.js') !!}
+    {!! Html::script('_admin/assets/js/cufon_avantgarde.js') !!}
+    {!! Html::script('_admin/assets/js/jquery-latest.min.js') !!}
+    {!! Html::script('_admin/assets/js/customValidation.js') !!}
+    {!! Html::script('_admin/manager/tinymce/styles/mods2.js') !!}
 
-    {!! Html::script('_front/plugins/uikit/js/uikit.min.js','') !!}
-    {!! Html::script('_front/plugins/uikit/js/components/datepicker.js','') !!}
-    {!! Html::script('_front/plugins/uikit/js/components/autocomplete.min.js','') !!}
+    {!! Html::script('_front/plugins/uikit/js/uikit.min.js') !!}
+    {!! Html::script('_front/plugins/uikit/js/components/datepicker.js') !!}
+    {!! Html::script('_front/plugins/uikit/js/components/autocomplete.min.js') !!}
        
     
 @stop

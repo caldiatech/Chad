@@ -113,12 +113,12 @@
 	<script>
 		var mypath = "{!! url('/') !!}";
 	</script>
-    {!! Html::script('_admin/manager/tinymce/tiny_mce.js','') !!}
-    {!! Html::script('_admin/assets/js/cufon_avantgarde.js','') !!}
-    {!! Html::script('_admin/assets/js/jquery-latest.min.js','') !!}
-    {!! Html::script('_admin/manager/tinymce/styles/mods2.js','') !!}
-    {!! Html::script('_admin/assets/js/count_char.js','') !!}
-    {!! Html::script('_admin/plugins/jasny/js/jasny-bootstrap.min.js','') !!}
+    {!! Html::script('_admin/manager/tinymce/tiny_mce.js') !!}
+    {!! Html::script('_admin/assets/js/cufon_avantgarde.js') !!}
+    {!! Html::script('_admin/assets/js/jquery-latest.min.js') !!}
+    {!! Html::script('_admin/manager/tinymce/styles/mods2.js') !!}
+    {!! Html::script('_admin/assets/js/count_char.js') !!}
+    {!! Html::script('_admin/plugins/jasny/js/jasny-bootstrap.min.js') !!}
     <script>				
 		var elem1 = $("#name_text");
 		$("#name").limiter(50, elem1);

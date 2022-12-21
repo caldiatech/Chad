@@ -74,8 +74,8 @@
 @stop
 @section('extracodes')
 
-    {!! Html::script('_front/assets/js/jquery.min.js','') !!}
-    {!! Html::script('_front/plugins/password/strength.js','') !!}
+    {!! Html::script('_front/assets/js/jquery.min.js') !!}
+    {!! Html::script('_front/plugins/password/strength.js') !!}
 
     <script>
       $(document).ready(function($) {

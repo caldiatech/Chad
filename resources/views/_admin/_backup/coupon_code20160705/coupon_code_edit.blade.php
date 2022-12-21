@@ -7,19 +7,19 @@
 	       {!! Html::link('/dnradmin/coupon_code','Coupon Code') !!} &raquo; Update coupon code
         </div>
     </div>
-    
-  	  
-    
+
+
+
    {!! Form::open(array('url' => '/dnradmin/coupon_code/edit/'.$coupon->fldCouponCodeID, 'method' => 'post', 'id' => 'pageform', 'files' => true)); !!}
     @if (Session::has('success'))
            <div class="success">{!!Session::get('success')!!}</div>
     @endif
-    @if(Session::has('coupon_error')) 
+    @if(Session::has('coupon_error'))
       <div class="error_text">{!!Session::get('coupon_error')!!}</div>
     @endif
       <ul>
         <li>Coupon Code Information</li>
-        
+
         <li class=boxfields>
           <dl>
             <dt>Coupon Code Name</dt>
@@ -28,7 +28,7 @@
                     <div class="error">{!!$errors->couponcode->first('name')!!}</div>
                  @endif
             </dd>
-          </dl> 
+          </dl>
           <dl>
             <dt>Coupon Code</dt>
             <dd>{!! Form::text('code',$coupon->fldCouponCode,array('size'=>'50','class'=>'required')) !!}
@@ -36,7 +36,7 @@
                     <div class="error">{!!$errors->couponcode->first('code')!!}</div>
                  @endif
             </dd>
-          </dl>   
+          </dl>
            <dl>
             <dt>Discount Price $</dt>
             <dd>{!! Form::text('amount',$coupon->fldCouponCodeAmount,array('size'=>'50')) !!}
@@ -44,7 +44,7 @@
                     <div class="error">{!!$errors->couponcode->first('amount')!!}</div>
                  @endif
             </dd>
-          </dl>  
+          </dl>
            <dl>
             <dt>Discount Percentage </dt>
             <dd>{!! Form::text('percentage',$coupon->fldCouponCodePercentage,array('size'=>'50')) !!} %
@@ -52,11 +52,11 @@
                     <div class="error">{!!$errors->couponcode->first('percentage')!!}</div>
                  @endif
             </dd>
-          </dl>                     
+          </dl>
           <dl>
             <dt>Free Shipping</dt>
             <dd>{!! Form::checkbox('isFreeShipping',1,$coupon->fldCouponCodeIsFreeShipping == 1 ? true : false) !!}</dd>
-          </dl>      
+          </dl>
           <dl>
             <dt>Expiration Date</dt>
             <dd>
@@ -65,42 +65,42 @@
                     <div class="error">{!!$errors->couponcode->first('expiration_date')!!}</div>
                  @endif
             </dd>
-          </dl>                      
+          </dl>
         </li>
-        
-      </ul>
-           
 
-      <div class=clear><!-- Clear Section --></div>   
-      	{!! Form::submit('',array('name'=>'saveinfo'))!!} 
-        
+      </ul>
+
+
+      <div class=clear><!-- Clear Section --></div>
+      	{!! Form::submit('',array('name'=>'saveinfo'))!!}
+
     {!! Form::close() !!}
-    
+
   </article>
-  
+
 
 @stop
 
-@section('headercodes')    
+@section('headercodes')
   {!! Html::style('_admin/assets/css/pagination.css') !!}
   {!! Html::style('_front/plugins/uikit/css/uikit.min.css') !!}
   {!! Html::style('_front/plugins/uikit/css/components/datepicker.css') !!}
-  {!! Html::style('_front/plugins/uikit/css/components/autocomplete.min.css') !!}  
+  {!! Html::style('_front/plugins/uikit/css/components/autocomplete.min.css') !!}
 @stop
 
 @section('extracodes')
 	<script>
 		var mypath = "{!! url('/') !!}";
 	</script>
-    {!! Html::script('_admin/manager/tinymce/tiny_mce.js','') !!}
-    {!! Html::script('_admin/assets/js/cufon_avantgarde.js','') !!}
-    {!! Html::script('_admin/assets/js/jquery-latest.min.js','') !!}
-    {!! Html::script('_admin/assets/js/customValidation.js','') !!}
-    {!! Html::script('_admin/manager/tinymce/styles/mods2.js','') !!}
+    {!! Html::script('_admin/manager/tinymce/tiny_mce.js') !!}
+    {!! Html::script('_admin/assets/js/cufon_avantgarde.js') !!}
+    {!! Html::script('_admin/assets/js/jquery-latest.min.js') !!}
+    {!! Html::script('_admin/assets/js/customValidation.js') !!}
+    {!! Html::script('_admin/manager/tinymce/styles/mods2.js') !!}
 
-    {!! Html::script('_front/plugins/uikit/js/uikit.min.js','') !!}
-    {!! Html::script('_front/plugins/uikit/js/components/datepicker.js','') !!}
-    {!! Html::script('_front/plugins/uikit/js/components/autocomplete.min.js','') !!}
-       
-    
+    {!! Html::script('_front/plugins/uikit/js/uikit.min.js') !!}
+    {!! Html::script('_front/plugins/uikit/js/components/datepicker.js') !!}
+    {!! Html::script('_front/plugins/uikit/js/components/autocomplete.min.js') !!}
+
+
 @stop

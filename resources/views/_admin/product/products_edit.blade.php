@@ -3,30 +3,30 @@
 @section('content')
    <article>
   	<div id=page_control>
-    	<div class="col2">          
+    	<div class="col2">
 
           <a href="{!!url('dnradmin/products/view/'.$maincat->fldCategoryID)!!}"> {{ PRODUCT_MANAGEMENT }}</a> &raquo; Update {{ PRODUCT_MANAGEMENT }}
 
           </div>
     </div>
-    
 
-    
+
+
   {!! Form::open(array('url' => '/dnradmin/products/edit/'.$products->fldProductID, 'method' => 'post', 'id' => 'pageform', 'files' => true,'class'=>'uk-form')); !!}
-   @if(Session::has('success')) 
+   @if(Session::has('success'))
            <div class="uk-alert uk-alert-success">{!!Session::get('success')!!}</div>
     @endif
-     @if(Session::has('error')) 
+     @if(Session::has('error'))
            <div class="uk-alert uk-alert-danger">{!!Session::get('error')!!}</div>
     @endif
      @if($errors->product->first('image') && $errors->product->first('image')=="validation.img_min_size")
       <div class="uk-alert uk-alert-danger">{!!IMAGES_DIMENSION_ERROR!!}</div>
     @endif
-    @if(Session::has('upload_error')) 
+    @if(Session::has('upload_error'))
            <div class="uk-alert uk-alert-danger"><strong>Alert:</strong> The following image does not fit the proper file dimensions and could not be uploaded, please check the image requirements again. <br><br> {!!Session::get('upload_error')!!}</div>
     @endif
 
-    <?php 
+    <?php
     $image_width = $image_height = 0; $image_path = '';
     $c_size_class = 'horizontal';
     if($products->fldProductImage != ""){
@@ -51,7 +51,7 @@
                               {!! Form::text('name',$products->fldProductName,array('size'=>'50','class'=>'required','id'=>'name')) !!}
                               @if($errors->product->first('name'))
                                    <div class="error">{!!$errors->product->first('name')!!}</div>
-                              @endif  
+                              @endif
                               <br />
                                <span id="name_text" style="font-weight:bold; color:#F00"></span> Remaining characters
                       </div>
@@ -63,19 +63,19 @@
                               {!! Form::text('sub_title',$products->fldProductSubTitle,array('size'=>'50','id'=>'sub_title')) !!}
                               @if($errors->product->first('sub_title'))
                                    <div class="error">{!!$errors->product->first('sub_title')!!}</div>
-                              @endif  
+                              @endif
                               <br />
                                <span id="sub_title_text" style="font-weight:bold; color:#F00"></span> Remaining characters
                       </div>
                    </div>
-                  
+
                    <div class="uk-grid">
                       <div class="uk-width-large-1-10 uk-width-small-1-1">Weight</div>
                       <div class="uk-width-large-6-10 uk-width-small-1-1 ">
                              {!! Form::text('weight',$products->fldProductWeight,array('size'=>'50','class'=>'')) !!}
                                  @if($errors->product->first('weight'))
                                      <div class="error">{!!$errors->product->first('weight')!!}</div>
-                                 @endif  
+                                 @endif
                       </div>
                    </div>
 
@@ -102,22 +102,22 @@
                                         <div class="fileinput-new thumbnail">
                                             @if($products->fldProductImage != "")
                                                 <img src="{{url(PRODUCT_IMAGE_PATH.$products->fldProductSlug.'/medium/'.$products->fldProductImage)}}" width="{{$image_width}}" height="{{$image_height}}" id="uploadedImage" class="{{$c_size_class}}">
-                                            @endif  
+                                            @endif
                                         </div>
                                         <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>
                                         <div>
                                           <span class="btn btn-default btn-file">
                                             <span class="fileinput-new">Select image</span>
                                             <span class="fileinput-exists">Change</span>
-                                            <input type="file" name="image" onchange="image_changed()"></span>                     
+                                            <input type="file" name="image" onchange="image_changed()"></span>
                                         </div>
-                                      </div>        
+                                      </div>
 
                                     <br>
-                                    <strong>Formats</strong>: png, gif, jpg &bull; 
-                                    <strong>Max Size</strong>: 2MB &bull; 
+                                    <strong>Formats</strong>: png, gif, jpg &bull;
+                                    <strong>Max Size</strong>: 2MB &bull;
                                     <strong>Recommended Min Dimension</strong>: <span id="dimension">{{ PRODUCT_IMAGE_WIDTH }}px x {{ PRODUCT_IMAGE_HEIGHT }}px</span>
-                                    
+
                                       @if($errors->product->first('image') && $errors->product->first('image')!="validation.img_min_size")
                                           <div class="error">{!!$errors->product->first('image')!!}</div>
                                       @endif
@@ -129,44 +129,44 @@
                           @if($products->fldProductImage != "")
                            <div class="uk-grid option-section-wrapper option-{{$c_size_class}}">
                             <div class="uk-width-small-1-1 product-options-section ">
-                                
+
                                 <ul id="required_options">
                                    <li>Options</li>
                                    <li class="boxfields"><div class="required-notification uk-display-block"></div><div id="product_options"></div></li>
-                                </ul> 
+                                </ul>
 
-                                 
-                            </div> 
+
+                            </div>
                             <div class="uk-width-small-1-1 product-options-section ">
                                @foreach($options as $option)
                                   <ul id="required_option_assets">
                                    <li>Size Options &nbsp; &nbsp; &nbsp; <small>WIDTH x HEIGHT</small></li>
                                    <li class="boxfields">
                                       <div class="required-notification uk-display-block"></div>
-                                      <div id="options{!!$option->fldOptionsID!!}" 
+                                      <div id="options{!!$option->fldOptionsID!!}"
                                         {!! DB::table('tblProductOptions')->where('fldProductOptionsOptionsID','=',$option->fldOptionsID)->where('fldProductOptionsProductID','=',$products->fldProductID)->count()>=1 ? "" : "display:none;" !!}" id="options{!!$option->fldOptionsID!!}
-                                      ></div> 
+                                      ></div>
                                       <p style="padding:5px 5px; background:#666; color:#fff">
                                            {{--  <strong>{!!$option->fldOptionsName!!}</strong>  --}}
                                         </p>
                                       <span id="product_options_assets{!!$option->fldOptionsID!!}"></span>
                                    </li>
-                                  </ul>   
+                                  </ul>
                                   @endforeach
-                               
+
                             </div>
                            </div>
                           @else
                             <div class="uk-width-large-3-10 uk-width-small-1-1 product-options uk-hidden">
                                 <ul id="required_category">
-                                   <li>Please Upload image to set size</li>                           
+                                   <li>Please Upload image to set size</li>
                                 </ul>
-                            </div> 
+                            </div>
                           @endif
                         </div>
 
                      </div>
-                    
+
 
                     <div class="uk-grid uk-hidden">
                         <div class="uk-width-large-1-1 uk-width-small-1-1">
@@ -176,7 +176,7 @@
                                    {!! Form::textarea('description',$products->fldProductDescription,array('id'=>'mods2')) !!}
                                    @if($errors->product->first('description'))
                                            <div class="error">{!!$errors->product->first('description')!!}</div>
-                                   @endif 
+                                   @endif
                                </li>
                             </ul>
                         </div>
@@ -246,57 +246,57 @@
                 </li>
             </ul> --}}
 
-            <div class=clear><!-- Clear Section --></div>   
+            <div class=clear><!-- Clear Section --></div>
             <ul>
                <li>Shipping Cost</li>
-               <li class="boxfields">Shipping Cost 1: 
+               <li class="boxfields">Shipping Cost 1:
                 <input type="text" name="shipping_cost1" value="{{number_format($products->shipping_proc_fee1,2)}}"> <br> &nbsp;
                </li>
-               <li class="boxfields">Shipping Cost 2: 
+               <li class="boxfields">Shipping Cost 2:
                 <input type="text" name="shipping_cost2" value="{{number_format($products->shipping_proc_fee2,2)}}"> <br> &nbsp;
                </li>
-               <li class="boxfields">Shipping Cost 3: 
+               <li class="boxfields">Shipping Cost 3:
                 <input type="text" name="shipping_cost3" value="{{number_format($products->shipping_proc_fee3,2)}}"> <br> &nbsp;
                </li>
-               <li class="boxfields">Shipping Cost 4: 
+               <li class="boxfields">Shipping Cost 4:
                 <input type="text" name="shipping_cost4" value="{{number_format($products->shipping_proc_fee4,2)}}"> <br> &nbsp;
                </li>
-               <li class="boxfields">Shipping Cost 5: 
+               <li class="boxfields">Shipping Cost 5:
                 <input type="text" name="shipping_cost5" value="{{number_format($products->shipping_proc_fee5,2)}}"> <br> &nbsp;
                </li>
-               <li class="boxfields">Shipping Cost 6: 
+               <li class="boxfields">Shipping Cost 6:
                 <input type="text" name="shipping_cost6" value="{{number_format($products->shipping_proc_fee6,2)}}"> <br> &nbsp;
                </li>
-               <li class="boxfields">Shipping Cost 7: 
+               <li class="boxfields">Shipping Cost 7:
                 <input type="text" name="shipping_cost7" value="{{number_format($products->shipping_proc_fee7,2)}}"> <br> &nbsp;
                </li>
-               <li class="boxfields">Shipping Cost 8: 
+               <li class="boxfields">Shipping Cost 8:
                 <input type="text" name="shipping_cost8" value="{{number_format($products->shipping_proc_fee8,2)}}"> <br> &nbsp;
                </li>
-            </ul> 
+            </ul>
 
             <ul style="display:none;">
                <li>Shipping Cost Global</li>
-                <?php 
+                <?php
                 $shippingFee = \App\Models\ShippingFee::all();
                 // print_r($shippingFee);
                 foreach ($shippingFee as $shipfee) {
                     ?>
-                   <li class="boxfields">Shipping Cost {{$shipfee->fldShippingSequence}}: 
+                   <li class="boxfields">Shipping Cost {{$shipfee->fldShippingSequence}}:
                     <input type="text" name="shipfee{{$shipfee->fldShippingSequence}}" value="{{number_format($shipfee->fldShippingFee,2)}}"> <br> &nbsp;
                    </li>
-                    <?
+                    <?php
                     // echo $shipfee->fldShippingFee;
                 }
                 ?>
             </ul>
 
-            <div class=clear><!-- Clear Section --></div>   
+            <div class=clear><!-- Clear Section --></div>
             <ul>
                <li>Low End Frame - Graphik Cost</li>
 
                 @if(count($defaultcosts) > 0)
-                
+
                     <?php $i = 1; ?>
                     @foreach ($defaultcosts as $cost)
                        <li class="boxfields">
@@ -337,7 +337,7 @@
             </ul>
 
             <?php /*
-            <div class=clear><!-- Clear Section --></div>   
+            <div class=clear><!-- Clear Section --></div>
             <ul>
                <li>High End Frame - Graphik Cost</li>
 
@@ -380,28 +380,28 @@
                 @endif
             </ul>
             */ ?>
-            
-        </div> 
 
-    </div>            
+        </div>
 
-      
-   <div class=clear><!-- Clear Section --></div>   
-    @if(isset($category_id)) 
+    </div>
+
+
+   <div class=clear><!-- Clear Section --></div>
+    @if(isset($category_id))
       {!! Form::hidden('category_id', $category_id)!!}
-    @endif  
-    {!! Form::button('Save Record',array('name'=>'saveinfo','class'=>'uk-button uk-button-success','id'=> "saveinfo_product"))!!}      
+    @endif
+    {!! Form::button('Save Record',array('name'=>'saveinfo','class'=>'uk-button uk-button-success','id'=> "saveinfo_product"))!!}
     {!! Form::close() !!}
-    
+
   </article>
-  
+
 
 @stop
 
-@section('headercodes')    
-  {!! Html::style('_admin/plugins/jasny/css/jasny-bootstrap.min.css') !!}    
-  <style type="text/css">   
-  </style>    
+@section('headercodes')
+  {!! Html::style('_admin/plugins/jasny/css/jasny-bootstrap.min.css') !!}
+  <style type="text/css">
+  </style>
 @stop
 
 @section('extracodes')
@@ -415,28 +415,28 @@
     {!! Html::script('_admin/assets/js/customValidation.js','') !!}
     {!! Html::script('_admin/manager/tinymce/styles/mods5.js','') !!}
     {!! Html::script('_admin/assets/js/count_char.js','') !!}
-    {!! Html::script('_admin/assets/js/category.js','') !!}   
-    {!! Html::script('_admin/plugins/jasny/js/jasny-bootstrap.min.js','') !!} 	      
-    
+    {!! Html::script('_admin/assets/js/category.js','') !!}
+    {!! Html::script('_admin/plugins/jasny/js/jasny-bootstrap.min.js','') !!}
+
     @foreach($options as $option)
 				{!! $countOptions = DB::table('tblProductOptions')->where('fldProductOptionsOptionsID','=',$option->fldOptionsID)->where('fldProductOptionsProductID','=',$products->fldProductID)->count();!!}
 				@if($countOptions >=1)
           <script>
 						displayOptionsAssets({!! $option->fldOptionsID !!},true,product_id);
-					</script>	
-				@endif	
+					</script>
+				@endif
 	@endforeach
-            				
-		<script language="javascript">		
-			
+
+		<script language="javascript">
+
 			$('#subcategory').load(mypath+'/dnradmin/sub-category/{!! $maincat->fldCategoryMainID !!}/{!! $products->fldProductID !!}');
-			
+
 			var elem1 = $("#name_text");
                         var elem2 = $("#sub_title_text");
 			$("#name").limiter(50, elem1);
 			$("#sub_title").limiter(50, elem2);
 
-		</script>   
+		</script>
     @if(Input::get('new') != null)
      <script >
       $(document).ready(function(){
@@ -487,5 +487,5 @@
 
         });
     </script>
-    
+
 @stop

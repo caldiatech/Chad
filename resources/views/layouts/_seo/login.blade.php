@@ -11,8 +11,8 @@
  <link rel="shortcut icon" href="favicon.ico" />
  {{ HTML::style('_admin/assets/css/core.css') }}  
  {{ HTML::script('http://cufon.shoqolate.com/js/cufon-yui.js?v=1.09i','') }}
- {{ HTML::script('http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js','') }}
- {{ HTML::script('_admin/assets/js/modernizr.js','') }}
+ {{ HTML::script('http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js') }}
+ {{ HTML::script('_admin/assets/js/modernizr.js') }}
 
 @section('headercodes')
 @show 

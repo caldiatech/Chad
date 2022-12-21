@@ -12,6 +12,8 @@ use App\Models\TempCart;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Slider;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 
 use View;
 use Input;
@@ -128,14 +130,14 @@ class PagesController extends Controller
 
 				//generate slug
 				$pageCount = Pages::where('fldPagesName','=',Input::get('name'))->count();
-				$slug = $pageCount == 0 ? str_slug($pages->fldPagesName,'-') : str_slug($pages->fldPagesName."-".$pageCount,'-');
+				$slug = $pageCount == 0 ? Str::slug($pages->fldPagesName,'-') : Str::slug($pages->fldPagesName."-".$pageCount,'-');
 
 				$pages->fldPagesSlug = $slug;
 
 			   $file = Input::file('image');
 			   if($file != "") {
 				   $destinationPath = PAGES_IMAGE_PATH;
-				   $filename = str_slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.'.$file->getClientOriginalExtension();
+				   $filename = Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.'.$file->getClientOriginalExtension();
 				   Input::file('image')->move($destinationPath, $filename);
 
 				   $pages->fldPagesImage = $filename;
@@ -228,7 +230,7 @@ class PagesController extends Controller
 		$pageClass = 'class=active';
 		$pagelist = Pages::pageList();
 		$pageTitle = PAGE_MANAGEMENT;
-		
+
    		return View::make('_admin.error', array('page' => $pages,
 	    												  'administrator'=>$administrator,
 	    												  'pageClass'=>$pageClass,
@@ -250,7 +252,7 @@ class PagesController extends Controller
 			Session::flash('flash',['alert' => 'danger', 'msg' => "Please see below errors:"]);
 			return Redirect::to('dnradmin/pages/edit/'.$id)->withInput()->withErrors($validator,'pages');
 		} else {
-			
+
 			$file = Input::file('image');
 
 			if(Input::get('isLive')=== '1' || Input::get('filename')!= "") {
@@ -267,7 +269,7 @@ class PagesController extends Controller
 			if($file != "") {
 
 				$destinationPath = PAGES_IMAGE_PATH;
-				$filename = str_slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.'.$file->getClientOriginalExtension();
+				$filename = Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.'.$file->getClientOriginalExtension();
 				Input::file('image')->move($destinationPath, $filename);
 
 				$pages->fldPagesImage = $filename;
@@ -338,7 +340,7 @@ class PagesController extends Controller
 
 			//generate slug
 		   $pageCount = Pages::where('fldPagesName','=',Input::get('name'))->where('fldPagesID','!=',$id)->count();
-		   $slug = $pageCount == 0 ? str_slug($pages->fldPagesName,'-') : str_slug($pages->fldPagesName."-".$pageCount,'-');
+		   $slug = $pageCount == 0 ? Str::slug($pages->fldPagesName,'-') : Str::slug($pages->fldPagesName."-".$pageCount,'-');
 
 			$pages->fldPagesSlug = $slug;
 			if(Input::has('filename')){
@@ -468,7 +470,7 @@ class PagesController extends Controller
 			$product_array_id[] = $get_product_item->fldProductID;
 		}
 		$product_option_class = new \App\Models\ProductOptions;
-		
+
 		$get_product_options = $product_option_class->whereIn('fldProductOptionsProductID', $product_array_id)->orderBy('fldProductOptionsPrice','DESC')->get();
 
 		foreach($get_product_options as $get_product_option){
@@ -841,19 +843,19 @@ class PagesController extends Controller
    	/*
    	public function FAQ() {
 
-	    $pages = Pages::find(88);	
-		$menus = Pages::where('fldPagesMainID', '=', 0)->get();		
+	    $pages = Pages::find(88);
+		$menus = Pages::where('fldPagesMainID', '=', 0)->get();
 		$settings = Settings::first();
 		$google = Google::first();
 		$cart_count = TempCart::countCart();
 		$footer = Footer::first();
 
    		return View::make('home.faq')->with(array('pages' => $pages,
-   													'menus' => $menus,   													
+   													'menus' => $menus,
    													'settings'=>$settings,
    													'google'=>$google,
    													'cart_count'=>$cart_count,
-   													'footer'=>$footer));   			
+   													'footer'=>$footer));
    	}
 	*/
 
@@ -861,26 +863,26 @@ class PagesController extends Controller
 		$email = Input::get('email');
 		$question = Input::get('question');
 
-		$rules   = Pages::FAQRules();     	 
+		$rules   = Pages::FAQRules();
 		$validator = Validator::make(Input::all(), $rules);
 
-		if ($validator->fails()) {   	  
-			return Redirect::to('/faq')->withInput()->withErrors($validator,'faq');		                
+		if ($validator->fails()) {
+			return Redirect::to('/faq')->withInput()->withErrors($validator,'faq');
 		} else {
 
 	  		$contacts = array("questions"=>$question,"email"=>$email);
 
-	  		Mail::send('home.emails.faq', $contacts, function ($message) {									
+	  		Mail::send('home.emails.faq', $contacts, function ($message) {
 		 		$message->from(EmailFrom,EmailFromName);
 		 		$message->to(EmailTo3,EmailToName3);
 		 		$message->bcc('buumber@gmail.com', 'Valuecom Dev');
 		 		$message->subject("Clarkin: FAQ Questions");
 			});
 
-	  		Session::flash('success',"Question successfully sent.");	
+	  		Session::flash('success',"Question successfully sent.");
 			return Redirect::to("/faq");
 	  	}
-   		
+
    	}
 
 

@@ -9,10 +9,10 @@
 <link href="{{ asset('_front/assets/icons/Icon.png') }}" rel="apple-touch-icon">
 <link href="{{ asset('_front/assets/icons/favicon.png') }}" type="image/png" rel="shortcut icon">
 
- {{ HTML::style('_front/assets/css/bootstrap.min.css') }}  
- {{ HTML::style('_front/assets/css/strap.css') }}  
- {{ HTML::style('_front/assets/css/core.css') }}  
- {{ HTML::style('_front/plugins/flexslider/flexslider.css') }}  
+ {{ HTML::style('_front/assets/css/bootstrap.min.css') }}
+ {{ HTML::style('_front/assets/css/strap.css') }}
+ {{ HTML::style('_front/assets/css/core.css') }}
+ {{ HTML::style('_front/plugins/flexslider/flexslider.css') }}
  {{ HTML::script('_front/assets/js/jquery-1.10.2.min.js') }}
  {{ HTML::script('_front/assets/js/modernizr.js') }}
 
@@ -21,14 +21,14 @@
 <![endif]-->
 
  @section('headercodes')
- @show 
- 
+ @show
+
 </head>
 <body>
 <div id="sidr" class="device">
 	<ul class="unstyled">
 		<li class="device-menu">&nbsp;</li>
-		<li><a href="#">Home</a></li>		
+		<li><a href="#">Home</a></li>
 		<li><a href="#">About us</a></li>
         <li><a href="#">Products</a></li>
 		<li><a href="#">Contact Us</a></li>
@@ -39,39 +39,39 @@
         	<li><a href="#">My Orders</a></li>
             <li><a href="#">Logout</a></li>
         @endif
-	</ul>	
+	</ul>
 </div>
 <div id="container">
 <div class="wrap header">
 		<header>
 			<a href="#sidr" id="sider" class="responsive-menu device">&nbsp;</a>
 			<!-- PRE-ACTIVATED FOR RESPONSIVE LAYOUT -->
-			
+
 			<div class="topnav">
 				<a href="#" class="shopping-link"><i class="icon  icon-shopping-cart"></i> <span>Shopping Cart</span></a>
-                
+
 				<div class="social">
-				@if(isset($_SESSION['client_id']))  
+				@if(isset($_SESSION['client_id']))
 					<span>{{ HTML::link('#','My Orders') }}</span>
 					<span>{{ HTML::link('#','Logout') }}</span>
 				@else
-                    <span style="margin-right:15px;"> <i class="icon icon-lock"></i> <a href="#"> Login</a></span>  
+                    <span style="margin-right:15px;"> <i class="icon icon-lock"></i> <a href="#"> Login</a></span>
                     <span>Follow Us</span>
-                    
-                    {{ HTML::image_link('#','_front/assets/images/facebook_16.png','') }} 
-                    {{ HTML::image_link('#','_front/assets/images/twitter_16.png','') }}                 
+
+                    {{ HTML::image_link('#','_front/assets/images/facebook_16.png','') }}
+                    {{ HTML::image_link('#','_front/assets/images/twitter_16.png','') }}
 				@endif
 				</div>
-			</div>            
+			</div>
            <div id="hdr-logo"><a href=""></a></div>
-           
+
            <div id="menunav">
            		<ul>
-                	@foreach($menus as $menuss)                     	
+                	@foreach($menus as $menuss)
 	                	<li>{{ HTML::link($menuss->isCMS == 1 ? "/pages/".$menuss->slug : $menuss->filename,$menuss->name) }}</li>
                     @endforeach
                 </ul>
-                
+
                 <ul class="nav nav-pills">
                   <li class="active"><a href="#">Home</a></li>
 				  <li><a href="#">Profile</a></li>
@@ -86,28 +86,28 @@
                 </ul>
 
            </div>
-            	
-                    
 
-            
-            
+
+
+
+
 		</header>
 	</div>
     <div class="wrap content">
 		<div class="slide-panel">
 			<div id="slider" class="flexslider">
 			  <ul class="slides">
-              	@foreach($homeslide as $homeslides) 
+              	@foreach($homeslide as $homeslides)
 				    <li>{{ HTML::image_link('/'.$homeslides->links,'uploads/home-sliders/_990_'.$homeslides->image,'') }}</li>
-                @endforeach    
+                @endforeach
 			    <!-- SLIDE PANEL -->
 			  </ul>
 			</div>
-			
+
 		</div>
-    
+
   <article id="main" role="main">
-    @yield('content') 
+    @yield('content')
   </article>
 </div>
 <!-- #Wrap -->
@@ -117,7 +117,7 @@
 			<ul class="unstyled clearfix">
 				<li class="pull-left">
 					Copyright <?=date('Y');?>. Dogandrooster. All Rights Reserved
-					<small>San Diego Website Design by Dog and Rooster</small>                     
+					<small>San Diego Website Design by Dog and Rooster</small>
 				</li>
 				<li class="pull-right">
 					<div>
@@ -137,13 +137,13 @@
 
 
 <!-- INT/EXT JAVASCRIPT -->
-{{ HTML::script('_front/plugins/sidr/sidr.min.js','') }}
-{{ HTML::script('_front/assets/js/bootstrap.min.js','') }}
-{{ HTML::script('_front/assets/js/plugins.js','') }}
+{{ HTML::script('_front/plugins/sidr/sidr.min.js') }}
+{{ HTML::script('_front/assets/js/bootstrap.min.js') }}
+{{ HTML::script('_front/assets/js/plugins.js') }}
 
-{{ HTML::script('_front/plugins/flexslider/flexslider-min.js','') }}
-{{ HTML::script('_front/plugins/flexslider/jquery.easing.js','') }}
-{{ HTML::script('_front/plugins/flexslider/jquery.mousewheel.js','') }}
+{{ HTML::script('_front/plugins/flexslider/flexslider-min.js') }}
+{{ HTML::script('_front/plugins/flexslider/jquery.easing.js') }}
+{{ HTML::script('_front/plugins/flexslider/jquery.mousewheel.js') }}
 
 <script>
 $(document).ready(function() {
@@ -157,9 +157,9 @@ $(window).resize(function(){
 	var sp = $('#carousel'),
 			winWidth = $('.slide-panel').width() / 2 - sp.width() / 2;
 	console.log(winWidth);
-	sp.css('left', winWidth);	
+	sp.css('left', winWidth);
 });
-$(window).load(function() {  
+$(window).load(function() {
   $('#slider').flexslider({
     animation: "slide",
     controlNav: false,
@@ -175,11 +175,11 @@ $(window).load(function() {
     itemWidth: 210,
     itemMargin: 5,
     asNavFor: '#slider'
-  }); 
+  });
 });
 </script>
 @section('extracodes')
-@show 
+@show
 </body>
 </html>
 

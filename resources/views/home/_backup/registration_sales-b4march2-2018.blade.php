@@ -101,8 +101,8 @@
 @stop
 @section('extracodes')
 
-    {!! Html::script('_front/assets/js/mask.js','') !!}
-    {!! Html::script('_front/plugins/password/strength.js','') !!}
+    {!! Html::script('_front/assets/js/mask.js') !!}
+    {!! Html::script('_front/plugins/password/strength.js') !!}
 
 <script>
 

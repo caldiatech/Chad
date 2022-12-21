@@ -201,9 +201,9 @@ if(Input::get('review') != NULL){
 
 @section('extracodes')
 
-    {!! Html::script('_admin/assets/js/jquery.tablednd.js','') !!}
-    {!! Html::script('_admin/assets/js/stupidtable.min.js','') !!}
-    {!! Html::script('_admin/assets/js/sorted.js','') !!}
+    {!! Html::script('_admin/assets/js/jquery.tablednd.js') !!}
+    {!! Html::script('_admin/assets/js/stupidtable.min.js') !!}
+    {!! Html::script('_admin/assets/js/sorted.js') !!}
 
     <script>
 

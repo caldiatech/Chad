@@ -77,9 +77,9 @@
 @section('extracodes')
 
 
-    {!! Html::script('_admin/assets/js/cufon_avantgarde.js','') !!}
-    {!! Html::script('_admin/assets/js/jquery-latest.min.js','') !!}
-    {!! Html::script('_admin/assets/js/FilterPagination/filter.js','') !!}
+    {!! Html::script('_admin/assets/js/cufon_avantgarde.js') !!}
+    {!! Html::script('_admin/assets/js/jquery-latest.min.js') !!}
+    {!! Html::script('_admin/assets/js/FilterPagination/filter.js') !!}
 
     <script>
 		 showPagination(20,$('#page_manager tbody>tr').size(),$('#page_manager tbody>tr'));

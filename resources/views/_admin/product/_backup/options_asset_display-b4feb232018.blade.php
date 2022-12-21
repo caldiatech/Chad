@@ -48,7 +48,7 @@
                  </div>
                    
                    
-          {!! Html::script('_admin/assets/js/jquery.tablednd.js','') !!}
+          {!! Html::script('_admin/assets/js/jquery.tablednd.js') !!}
           <script>
 		  	
 			

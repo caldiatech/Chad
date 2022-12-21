@@ -5,12 +5,12 @@
 
 <article>
     <div class="welcomeAdmin">
-          
+
         <nav class="uk-navbar clsboth dashboardfirstrow">
 
             <ul class="uk-navbar-nav">
                 <li class="navtitle">
-                    <i class="pe-7s-info ntitle-icon"></i> Welcome Administrator 
+                    <i class="pe-7s-info ntitle-icon"></i> Welcome Administrator
                     <small class="smallText">Version 1.0</small>
                 </li>
             </ul>
@@ -41,10 +41,10 @@
 
             <div id="xcommerce" data-grid-prepared="true" style="position: absolute; box-sizing: border-box; padding-left: 20px; padding-bottom: 20px; top: 0px; left: 0px; opacity: 1;">
 
-                <div class="uk-panel-box dashbox"> 
+                <div class="uk-panel-box dashbox">
                     <div class="utypes">
                         <h3><i class="ntitle-icon pe-7s-less" data-uk-toggle="{target:'.utypes'}"></i> User Types <small class="smallText">Recently Updated</small></h3>
-                        
+
                         <div class="uk-grid uk-margin-box" data-uk-grid-margin="">
                             <div class="uk-width-medium-1-4">
                                 <a class="uk-thumbnail th-box uk-text-center uk-width-1-1" href="{{url('/dnradmin/manager')}}">
@@ -52,7 +52,7 @@
                                     <div class="uk-thumbnail-caption">Sales Manager</div>
                                 </a>
                             </div>
-                            
+
                             <div class="uk-width-medium-1-4">
                                 <a class="uk-thumbnail th-box uk-text-center uk-width-1-1" href="{{url('/dnradmin/shop-owner')}}">
                                     <i class="pe-7s-users iconsizelarge"></i>
@@ -67,7 +67,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="utypes uk-hidden">
                         <h3><i class="ntitle-icon pe-7s-plus" data-uk-toggle="{target:'.utypes'}"></i> User Types <small class="smallText">Recently Updated</small></h3>
                     </div>
@@ -76,11 +76,11 @@
             </div>
 
             <div id="commerce" data-grid-prepared="true" style="position: absolute; box-sizing: border-box; padding-left: 20px; padding-bottom: 20px; top: 0px; left: 0px; opacity: 1;">
-                
-                <div class="uk-panel-box dashbox"> 
+
+                <div class="uk-panel-box dashbox">
                     <div class="ecommerce">
                         <h3><i class="ntitle-icon pe-7s-less" data-uk-toggle="{target:'.ecommerce'}"></i> E-Commerce <small class="smallText">Recently Updated</small></h3>
-                        
+
                         <div class="uk-grid uk-margin-box" data-uk-grid-margin="">
                             <div class="uk-width-medium-1-4">
                                 <a class="uk-thumbnail th-box uk-text-center uk-width-1-1" href="{{url('/dnradmin/category')}}">
@@ -94,14 +94,7 @@
                                     <div class="uk-thumbnail-caption">Coupon Code</div>
                                 </a>
                             </div>
-                            <? /*
-                            <div class="uk-width-medium-1-4">
-                                <a class="uk-thumbnail th-box uk-text-center uk-width-1-1" href="{{url('/dnradmin/shipping')}}">
-                                    <i class="pe-7s-plane iconsizelarge"></i>
-                                    <div class="uk-thumbnail-caption">Shipping</div>
-                                </a>
-                            </div>
-                            */ ?>
+
                             <div class="uk-width-medium-1-4">
                                 <a class="uk-thumbnail th-box uk-text-center uk-width-1-1" href="{{url('/dnradmin/orders')}}">
                                     <i class="pe-7s-cart iconsizelarge"></i>
@@ -110,23 +103,23 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="ecommerce uk-hidden">
                         <h3><i class="ntitle-icon pe-7s-plus" data-uk-toggle="{target:'.ecommerce'}"></i> E-Commerce <small class="smallText">Recently Updated</small></h3>
                     </div>
                 </div>
             </div>
 
-                    
+
             <div class="dashpastconfe uk-hidden">
                 <h3><i class="ntitle-icon pe-7s-plus" data-uk-toggle="{target:'.dashpastconfe'}"></i> Past Conferences <span class="uk-position-top-right viewall"><a href="{{ url('dnradmin/past-conferences') }}"><i class="custom-right-arrow ntitle-icon"></i>View All Past Conferences</a></span></h3>
             </div>
-            
-        </div> 
+
+        </div>
     </div>
 </article>
 
-    
+
 
 
 
@@ -138,9 +131,9 @@
 @stop
 
 @section('extracodes')
-    {!! Html::script('_admin/assets/js/jquery-latest.min.js','') !!}
+    {!! Html::script('_admin/assets/js/jquery-latest.min.js') !!}
     <script>
 
-	</script>   
-    
+	</script>
+
 @stop

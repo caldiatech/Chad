@@ -79,17 +79,17 @@
 	<script>
 		var mypath = "{!! url('/') !!}";
 	</script>
-    {!! Html::script('_admin/manager/tinymce/tiny_mce.js','') !!}
-    {!! Html::script('_admin/assets/js/cufon_avantgarde.js','') !!}
-    {!! Html::script('_admin/assets/js/customValidation.js','') !!}
+    {!! Html::script('_admin/manager/tinymce/tiny_mce.js') !!}
+    {!! Html::script('_admin/assets/js/cufon_avantgarde.js') !!}
+    {!! Html::script('_admin/assets/js/customValidation.js') !!}
     
-    {!! Html::script('_admin/manager/tinymce/styles/mods5.js','') !!}
-    {!! Html::script('_admin/assets/js/jquery-ui.js','') !!}
+    {!! Html::script('_admin/manager/tinymce/styles/mods5.js') !!}
+    {!! Html::script('_admin/assets/js/jquery-ui.js') !!}
     <script>
 		var mypath = "{!! url('/') !!}";
 		var category_id = "0";
 	</script>
-    {!! Html::script('_admin/assets/js/news.js','') !!} 
+    {!! Html::script('_admin/assets/js/news.js') !!} 
     
 	<script>			
 	 $(function() {
