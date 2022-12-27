@@ -155,7 +155,7 @@ class ProductController extends Controller
 		$validator = Validator::make(Input::all(), $rules);
 
 		if ($validator->fails()) {
-			return Redirect::to('dnradmin/products/new')->withInput()->withErrors($validator,'product');
+			return Redirect::to('dnradmin/products/new/'.Input::get('category'))->withInput()->withErrors($validator,'product');
 		} else {
 
 		   	$file = Input::file('image');
