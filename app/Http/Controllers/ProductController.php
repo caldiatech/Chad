@@ -189,7 +189,12 @@ class ProductController extends Controller
 		  	if ($productPosCount == 1) {
 				$newPosition = 1;
 			} else {
-				$newPosition = $productPos->fldProductPosition + 1 ;
+				if ($productPos->fldProductPosition == null) {
+					$newPosition = 1;
+				} else {
+					$newPosition = $productPos->fldProductPosition + 1 ;
+				}
+				
 			}
 
             }
