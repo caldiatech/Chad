@@ -305,8 +305,8 @@ class ProductController extends Controller
    				$graphik->sequence 			= $i;
    				// $graphik->framelow_cost 	= Input::get('framelow_'.$i);
    				// $graphik->framehigh_cost 	= Input::get('framehigh_'.$i);
-   				$graphik->framelow_cost 	= $lowcost;
-   				$graphik->framehigh_cost 	= $hicost;
+   				$graphik->framelow_cost 	= empty($lowcost) ? 0 : $lowcost;
+   				$graphik->framehigh_cost 	= empty($hicost) ? 0 : $hicost;
    				$graphik->save();
    			}
 
