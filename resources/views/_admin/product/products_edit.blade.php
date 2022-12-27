@@ -299,12 +299,12 @@
 
                     <?php $i = 1; ?>
                     @foreach ($defaultcosts as $cost)
+                    
                        <li class="boxfields">
-                            Frame Size {{$i}}: <input type="text" name="framelow_{{$i}}" value="{{number_format($cost->framelow_cost,2)}}"> <br> &nbsp;
+                            Frame Size {{$i}}: <input type="text" name="framelow_{{$i}}" value="{{number_format($cost['framelow_cost'],2)}}"> <br> &nbsp;
                        </li>
                        <?php $i++; ?>
                     @endforeach
-
                 @else
 
                    <li class="boxfields">
@@ -335,7 +335,7 @@
                 @endif
 
             </ul>
-
+          
             <?php /*
             <div class=clear><!-- Clear Section --></div>
             <ul>
@@ -385,19 +385,15 @@
 
     </div>
 
-
    <div class=clear><!-- Clear Section --></div>
     @if(isset($category_id))
       {!! Form::hidden('category_id', $category_id)!!}
     @endif
     {!! Form::button('Save Record',array('name'=>'saveinfo','class'=>'uk-button uk-button-success','id'=> "saveinfo_product"))!!}
     {!! Form::close() !!}
-
   </article>
 
-
 @stop
-
 @section('headercodes')
   {!! Html::style('_admin/plugins/jasny/css/jasny-bootstrap.min.css') !!}
   <style type="text/css">
@@ -405,19 +401,22 @@
 @stop
 
 @section('extracodes')
+
 	<script>
 		var mypath = "{!! url('/') !!}";
 		var category_id = "{!! $maincat->fldCategoryMainID !!}";
 		var product_id = "{!! $products->fldProductID !!}";
 	</script>
-    {!! Html::script('_admin/manager/tinymce/tiny_mce.js','') !!}
-    {!! Html::script('_admin/assets/js/jquery-latest.min.js','') !!}
-    {!! Html::script('_admin/assets/js/customValidation.js','') !!}
-    {!! Html::script('_admin/manager/tinymce/styles/mods5.js','') !!}
-    {!! Html::script('_admin/assets/js/count_char.js','') !!}
-    {!! Html::script('_admin/assets/js/category.js','') !!}
-    {!! Html::script('_admin/plugins/jasny/js/jasny-bootstrap.min.js','') !!}
+   
 
+    {!! Html::script('_admin/manager/tinymce/tiny_mce.js') !!}
+    {!! Html::script('_admin/assets/js/jquery-latest.min.js') !!}
+    {!! Html::script('_admin/assets/js/customValidation.js') !!}
+    {!! Html::script('_admin/manager/tinymce/styles/mods5.js') !!}
+    {!! Html::script('_admin/assets/js/count_char.js') !!}
+    {!! Html::script('_admin/assets/js/category.js') !!}
+    {!! Html::script('_admin/plugins/jasny/js/jasny-bootstrap.min.js') !!}
+   
     @foreach($options as $option)
 				{!! $countOptions = DB::table('tblProductOptions')->where('fldProductOptionsOptionsID','=',$option->fldOptionsID)->where('fldProductOptionsProductID','=',$products->fldProductID)->count();!!}
 				@if($countOptions >=1)

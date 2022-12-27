@@ -101,9 +101,8 @@ class ProductController extends Controller
         												   'pageTitle'=>$pageTitle));
     }
 
-	public function getNew()
+	public function getNew($id)
    {
-
 
    		if(Input::get('new_size')){
    			Product::generateLandscapeImages();
@@ -122,7 +121,8 @@ class ProductController extends Controller
    															  'administrator'=>$administrator,
    															  'options'=>$options,
    															  'productClass'=>$productClass,
-   															  'pageTitle'=>$pageTitle));
+   															  'pageTitle'=>$pageTitle,
+																 'category_id'=>$id));
 
    }
 
@@ -151,7 +151,6 @@ class ProductController extends Controller
 
 
    	public function postNew() {
-
 		$rules   = Product::rules(0);
 		$validator = Validator::make(Input::all(), $rules);
 
@@ -165,25 +164,33 @@ class ProductController extends Controller
 			   list($width, $height) = getimagesize($path);
 			}
 
-            if(!empty(Input::get('category'))) {
-				Session::flash('error',"Please select category");
-				return Redirect::to('dnradmin/products/new')->withInput();
-				exit();
-			}
-
+            // if(!empty(Input::get('category'))) {
+			// 	Session::flash('error',"Please select category");
+			// 	return Redirect::to('dnradmin/products/new')->withInput();
+			// 	exit();
+			// }
 
 	   		$categoryID = Input::get('category');
             $newPosition = 1;
                if(!empty($categoryID))
             {
-                $catID = reset($categoryID);
+                $catID = $categoryID;
 
 
 	   		$productPos = Product::join('tblProductCategory','tblProductCategory.fldProductCategoryProductID','=','fldProductID')
 										->where('fldProductCategoryCategoryID','=',$catID)
 										->orderBy('fldProductPosition','DESC')
 										->first();
-		  	$newPosition = count($productPos) == 1 ? $productPos->fldProductPosition + 1 : 1;
+			$productPosCount = Product::join('tblProductCategory','tblProductCategory.fldProductCategoryProductID','=','fldProductID')
+			->where('fldProductCategoryCategoryID','=',$catID)
+			->orderBy('fldProductPosition','DESC')
+			->count();
+			
+		  	if ($productPosCount == 1) {
+				$newPosition = 1;
+			} else {
+				$newPosition = $productPos->fldProductPosition + 1 ;
+			}
 
             }
 
@@ -227,12 +234,12 @@ class ProductController extends Controller
 			$fldProductID = $products->fldProductID;
 			//save multiple category
 			if(!empty(Input::get('category'))) {
-				foreach(Input::get('category') as $category) {
+				
 					$categories = new ProductCategory;
 					$categories->fldProductCategoryProductID = $fldProductID;
-					$categories->fldProductCategoryCategoryID = $category;
+					$categories->fldProductCategoryCategoryID = $categoryID;
 					$categories->save();
-				}
+				
 			}
 
 		    /* CODE FOR OPTIONS ASSIGN TO PRODUCTS */
@@ -319,13 +326,12 @@ class ProductController extends Controller
 			$pCategories[] = $productsCategories->fldProductCategoryCategoryID;
 		}
 		$defaultcosts = ProductCost::where('product_id','=',$id)->orderBy('sequence','ASC')->get();
-
+		
 		$administrator = Settings::where('fldAdministratorID','=',Session::get('dnradmin_id'))->first();
 		$options =  Options::orderby('fldOptionsPosition')->get();
 		$product_options = ProductOptions::where('fldProductOptionsProductID','=',$id)->get();
 		$productClass = 'class=active';
 		$pageTitle = PRODUCT_MANAGEMENT;
-
 	    return View::make('_admin.product.products_edit', compact('products','additional_image','category','maincat','pCategories',
 	    										'administrator','options','product_options','productClass','pageTitle','defaultcosts'));
 

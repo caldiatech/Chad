@@ -21,6 +21,7 @@ class CategoryController extends Controller
 {
     public function getIndex()
     {
+		
 		//if not login redirect to login page
 		if(!Session::has('dnradmin_id')) { return Redirect::to('dnradmin/');}
 
@@ -164,7 +165,6 @@ class CategoryController extends Controller
 
    	  $rules   = Category::rules(0);
 	  $validator = Validator::make(Input::all(), $rules);
-
 	  if ($validator->fails()) {
 	        return Redirect::to('dnradmin/category/new/0/2')->withInput()->withErrors($validator,'category');
 	  } else {
@@ -239,7 +239,7 @@ class CategoryController extends Controller
 							   $backid=0;
 							   if($backid == 0) {
 							   	   Session::flash('success',"Category was successfully saved.");
-								   return Redirect::to('dnradmin/products/new/0/2');
+								   return Redirect::to('dnradmin/category/new/0/2');
 							   } else {
 							   	   Session::flash('success',"Category was successfully saved.");
 								   return Redirect::to('dnradmin/products/edit/'.$backid);

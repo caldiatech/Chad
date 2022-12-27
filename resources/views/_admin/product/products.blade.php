@@ -7,7 +7,7 @@
     <div id="page_control">
       <div class="col2">
        <a href="{!!url('dnradmin/category/view/'.$mainid->fldCategoryMainID)!!}">&laquo; Back to {{ CATEGORY_MANAGEMENT }}</a>
-       <a href="{!!url('dnradmin/products/new')!!}"><img src="{!!url('_admin/assets/images/icons/icon_add.png')!!}"> Add {{ PRODUCT_MANAGEMENT }}</a>
+       <a href="{!!url('dnradmin/products/new/'.$category_id)!!}"><img src="{!!url('_admin/assets/images/icons/icon_add.png')!!}"> Add {{ PRODUCT_MANAGEMENT }}</a>
      </div>
     </div>
 
@@ -46,8 +46,10 @@
                         <tr id="{{$products->fldProductID.'_'.$products->fldProductPosition}}">
                            <td>{{ $products->fldProductID }}</td>
                            <td>
-                            <?php $imagesize = 0; ?>
-                                <? $imagesize = ($products->fldProductIsVertical == 1)? THUMB_IMAGE: SMALL_IMAGE; ?>
+                           @php
+                             $imagesize = 0;
+                             $imagesize = ($products->fldProductIsVertical == 1)? THUMB_IMAGE: SMALL_IMAGE;
+                             @endphp
                            		@if($products->fldProductImage != "")
 	                           		{!! Html::image(PRODUCT_IMAGE_PATH.$products->fldProductSlug.'/'.$imagesize.$products->fldProductImage) !!}
                                 @else
@@ -55,7 +57,6 @@
                                 @endif
                             </td>
                            <td>{{ $products->fldProductName}} </td>
-                           <? /* <td>{{ '$'.$products->fldProductOptionsPrice}} </td> */ ?>
                            <td>{{ ($products->lowest_price > 0)? '$ '.number_format($products->lowest_price,2): '- - -'}} </td>
                            <td>
                                   {!! Html::image('_admin/assets/images/icons/updown.png') !!}

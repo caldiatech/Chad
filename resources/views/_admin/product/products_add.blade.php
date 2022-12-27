@@ -151,7 +151,7 @@
                <li>Categories</li>
                <li class="boxfields"><div class="required-notification uk-display-block"></div><div id="category"></div> </li>
             </ul>
-           
+            <input type='hidden'  value='{{$category_id}}' name="category"/>
             <?php /* 
             <div class=clear><!-- Clear Section --></div>   
 
@@ -250,7 +250,7 @@
 
      
       
-      <div class=clear><!-- Clear Section --></div>   
+      <div class=clear><!-- Clear Section --></div>
                         @if(isset($category_id)) 
                           {!! Form::hidden('category_id', $category_id)!!}
                         @endif  
