@@ -239,6 +239,9 @@ class ProductController extends Controller
 			$fldProductID = $products->fldProductID;
 			//save multiple category
 			if(!empty(Input::get('category'))) {
+				if(Input::get('category') == 0) {
+					$categoryID = 56;
+				}
 				
 					$categories = new ProductCategory;
 					$categories->fldProductCategoryProductID = $fldProductID;
