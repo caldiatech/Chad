@@ -151,6 +151,7 @@ class ProductController extends Controller
 
 
    	public function postNew() {
+		
 		$rules   = Product::rules(0);
 		$validator = Validator::make(Input::all(), $rules);
 
@@ -169,11 +170,15 @@ class ProductController extends Controller
 			// 	return Redirect::to('dnradmin/products/new')->withInput();
 			// 	exit();
 			// }
-
+			if(Input::get('category') == 0) {
+				$categoryID = 56;
+			} else{
 	   		$categoryID = Input::get('category');
+			}
             $newPosition = 1;
                if(!empty($categoryID))
             {
+				
                 $catID = $categoryID;
 
 
@@ -196,9 +201,7 @@ class ProductController extends Controller
 				}
 				
 			}
-
             }
-
 			$onFeatured = Input::get('isOnFeatured');
 			if ($onFeatured == 0){
 				$counter_featured = 0;
@@ -238,11 +241,7 @@ class ProductController extends Controller
 			$products->save();
 			$fldProductID = $products->fldProductID;
 			//save multiple category
-			if(!empty(Input::get('category'))) {
-				if(Input::get('category') == 0) {
-					$categoryID = 56;
-				}
-				
+			if(!empty($categoryID)) {
 					$categories = new ProductCategory;
 					$categories->fldProductCategoryProductID = $fldProductID;
 					$categories->fldProductCategoryCategoryID = $categoryID;
@@ -321,6 +320,7 @@ class ProductController extends Controller
 
 
    public function getEdit($id) {
+	
 	   //if not login redirect to login page
 		if(!Session::has('dnradmin_id')) { return Redirect::to('dnradmin/');}
 
