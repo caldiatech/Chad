@@ -7,7 +7,7 @@
     <div id="page_control">      
     	<div class="col2">    	                    
           <a href="{{url('dnradmin/category/new/'.$category_id.'/2')}}"><img src="{{url('_admin/assets/images/icons/icon_add.png')}}"> {{ $category_id == 0 ? "Add Category" : "Add Sub Category" }} </a>
-          <a href="{{url('dnradmin/products/new')}}"><img src="{{url('_admin/assets/images/icons/icon_add.png')}}"> Add Products</a>       
+          <a href="{{url('dnradmin/products/new/'.$category_id)}}"><img src="{{url('_admin/assets/images/icons/icon_add.png')}}"> Add Products</a>       
        </div>
        <div class="col1">
        	
