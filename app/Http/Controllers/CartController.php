@@ -87,12 +87,13 @@ class CartController extends Controller
 		$administrator = Settings::where('fldAdministratorID','=',Session::get('dnradmin_id'))->first();
 		$orderClass = 'class=active';
 		$pageTitle = ORDERS;
+		$total = 0;
 
 		return View::make('_admin.orders.orders_display', array('cart' => $cart,
 														        'data'=>$cartInfo,
 														        'administrator'=>$administrator,
 														        'orderClass'=>$orderClass,
-														        'pageTitle'=>$pageTitle));
+														        'pageTitle'=>$pageTitle,'total'=>$total));
 	}
 
 	public function userOrderHistory() {

@@ -275,7 +275,7 @@ class CategoryController extends Controller
 	  $validator = Validator::make(Input::all(), $rules);
 
 	  if ($validator->fails()) {
-	        return Redirect::to('dnradmin/category/edit/'.$id.'/2')->withInput()->withErrors($validator,'category');
+	        return Redirect::to('dnradmin/category/edit/'.$id.'')->withInput()->withErrors($validator,'category');
 	  } else {
 
 				  $file = Input::file('image');
@@ -359,7 +359,7 @@ class CategoryController extends Controller
 					   return Redirect::to('dnradmin/products/edit/'.$backid);
 				   } else {
 					   Session::flash('success',"Category was successfully saved.");
-					   return Redirect::to('dnradmin/category/edit/'.$id.'/2');
+					   return Redirect::to('dnradmin/category/edit/'.$id.'');
 				   }
 		}
    }

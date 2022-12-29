@@ -60,20 +60,12 @@
 	                		</button>
 	                	</div>
 
-            			<? /* <div class="uk-vertical-divider full-width uk-visible-large uk-visible-small"></div>
-	                	<div class="uk-width-large-1-2 uk-width-medium-1-4  uk-width-1-2  uk-padding-v-normal col-lbl">
-	                		<label for=""  class="table-text">Promo Code</label>
-	                	</div>
-	                	<div class="uk-width-large-1-2 uk-width-medium-1-4  uk-width-1-2  uk-padding-v-normal">
-	                		<label for=""  class="table-text light">{{ $client->fldClientPromoCode != "" ? $client->fldClientPromoCode : "&nbsp;" }}</label>
-	                	</div> */ ?>
-
             			<div class="uk-vertical-divider full-width uk-visible-large uk-visible-small"></div>
 	                	<div class="uk-width-large-1-2 uk-width-medium-1-4  uk-width-1-2  uk-padding-v-normal col-lbl">
 	                		<label for=""  class="table-text">Birthday</label>
 	                	</div>
 	                	<div class="uk-width-large-1-2 uk-width-medium-1-4  uk-width-1-2  uk-padding-v-normal">
-	                		<label for=""  class="table-text light">{{ $client->fldClientBirthday == "0000-00-00" || $client->fldClientBirthday=="" ? "- - / - - / - - &nbsp;" : date('F d, Y',strtotime($client->fldClientBirthday)) }}</label>
+	                		<label for=""  class="table-text light">{{ $client->fldClientBirthday == "0000-00-00" || $client->fldClientBirthday=="" ? " " : date('F d, Y',strtotime($client->fldClientBirthday)) }}</label>
 	                	</div>
             			<div class="uk-vertical-divider full-width uk-visible-large uk-visible-small"></div>
 	                	<div class="uk-width-large-1-2 uk-width-medium-1-4  uk-width-1-2  uk-padding-v-normal col-lbl">
@@ -110,14 +102,15 @@
             		<label  class="table-text">Payment <br><small>Invoice</small></label>
             	</div>
 
-                <? /*
-                <div class="uk-width-large-1-10 uk-width-3-10 uk-padding-v-normal uk-th uk-visible-large">
+                
+                <!-- <div class="uk-width-large-1-10 uk-width-3-10 uk-padding-v-normal uk-th uk-visible-large">
                     <label  class="table-text">Payment <br><small>Invoice</small></label>
                 </div>
                 <div class="uk-width-large-1-10 uk-width-3-10 uk-padding-v-normal uk-th uk-visible-large">
                     <label  class="table-text">Shipping <br><small>Processing Fee</small></label>
-                </div>
-                */ ?>
+                </div> -->
+                
+				 
             	<div class="uk-width-large-1-10 uk-width-3-10 uk-padding-v-normal uk-th uk-visible-large">
             		<label  class="table-text">Delivery Status</label>
             	</div>

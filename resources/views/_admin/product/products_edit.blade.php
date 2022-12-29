@@ -192,6 +192,7 @@
                <li>Categories</li>
                <li class="boxfields"><div class="required-notification uk-display-block"></div><div id="category"></div> </li>
             </ul>
+            <input type='hidden'  value='{{$category_id}}' name="category"/>
 
 {{--             <ul id="prints_container">
                 <li>Prints</li>

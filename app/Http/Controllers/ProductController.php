@@ -334,14 +334,14 @@ class ProductController extends Controller
 			$pCategories[] = $productsCategories->fldProductCategoryCategoryID;
 		}
 		$defaultcosts = ProductCost::where('product_id','=',$id)->orderBy('sequence','ASC')->get();
-		
+		$category_id=$cat->fldProductCategoryCategoryID;
 		$administrator = Settings::where('fldAdministratorID','=',Session::get('dnradmin_id'))->first();
 		$options =  Options::orderby('fldOptionsPosition')->get();
 		$product_options = ProductOptions::where('fldProductOptionsProductID','=',$id)->get();
 		$productClass = 'class=active';
 		$pageTitle = PRODUCT_MANAGEMENT;
 	    return View::make('_admin.product.products_edit', compact('products','additional_image','category','maincat','pCategories',
-	    										'administrator','options','product_options','productClass','pageTitle','defaultcosts'));
+	    										'administrator','options','product_options','productClass','pageTitle','defaultcosts','category_id'));
 
 	    // return View::make('_admin.product.products_edit', array('products' => $products,
 	    // 													    'additional_image' => $additional_image,
@@ -429,7 +429,7 @@ class ProductController extends Controller
 			return Redirect::to('dnradmin/products/edit/'.$id)->withInput()->withErrors($validator,'product');
 		} else {
 
-		    if(count(Input::get('category')) == 0) {
+		    if(Input::get('category') == 0) {
 				Session::flash('error',"Please select category");
 				return Redirect::to('dnradmin/products/edit/'.$id);
 				exit();
@@ -531,7 +531,7 @@ class ProductController extends Controller
 			$products->save();
 
 			//delete all category
-			if(count(Input::get('category')) >=1 ) {
+			if(Input::get('category') !=0 ) {
 
 				$pCategory = ProductCategory::where('fldProductCategoryProductID','=',$id)->get();
 				foreach($pCategory as $pCategories) {
@@ -540,13 +540,14 @@ class ProductController extends Controller
 				}
 
 			   	//add new category
-			    foreach(Input::get('category') as $category) {
+			    //foreach(Input::get('category') as $category) {
+					$category = Input::get('category');
 						   $categories = new ProductCategory;
 								$categories->fldProductCategoryProductID = $products->fldProductID;
 								$categories->fldProductCategoryCategoryID = $category;
 						   $categories->save();
 						   $category_id = $categories->fldProductCategoryCategoryID;
-				}
+				//}
 			}
 
 			/* CODE FOR OPTIONS ASSIGN TO PRODUCTS */

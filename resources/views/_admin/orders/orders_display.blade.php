@@ -83,15 +83,11 @@
                       @if($carts->fldCartFrameDesc)
                         <strong>FRAME:</strong> {{$carts->fldCartFrameDesc}} <br/>
                       @endif
-                      <? /* @if($carts->fldCartFrameInfo)
-                        <strong>FRAME SKU:</strong> {{$carts->fldCartFrameInfo}} <br/>
-                      @endif */ ?>
+                     
                       @if($carts->fldCartLinerDesc)
                         <strong>LINER:</strong> {{$carts->fldCartLinerDesc}} <br/>
                       @endif
-                      <? /* @if($carts->fldCartLinerSku)
-                        <strong>LINER SKU:</strong> {{$carts->fldCartLinerSku}} <br/>
-                      @endif */ ?>
+                     
                       @if($carts->fldCartImageSize)
                         <strong>Photo Size:</strong> {{$carts->fldCartImageSize}} <br/>
                       @endif
@@ -133,18 +129,10 @@
                    <td colspan="2">$ {{ number_format($data->fldCartTax,2) }}</td>
                 </tr>
 
-                <?php /* @if($data->fldCartShippingRateShippingAmount != "")
-                 {{-- */$total = $total + $data->fldCartShippingRateShippingAmount;/* --}}
-                 <tr>
-                   <td colspan="1">&nbsp;</td>
-                   <td colspan="2" class="uk-text-right uk-text-bold">Shipping (  {{ $data->fldCartShippingRateShippingName }}  ) : </td>
-                   <td colspan="2">$ {{ number_format($data->fldCartShippingRateShippingAmount,2) }}</td>
-                </tr>
-                @endif
-                */ ?>
-
                 @if ($shipping_cost > 0)
-                <?php $total += $shipping_cost; ?>
+                @php
+                $total += $shipping_cost;
+                @endphp
                 <tr>
                    <td colspan="1">&nbsp;</td>
                    <td colspan="2" class="uk-text-right uk-text-bold">Shipping : </td>

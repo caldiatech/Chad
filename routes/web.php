@@ -81,7 +81,7 @@ Route::group(array('prefix' => '/dnradmin'), function()
     Route::post('/products/new', 'ProductController@postNew');
     Route::get('/products/edit/{id}', 'ProductController@getEdit');
     Route::post('/products/edit/{id}', 'ProductController@postEdit');
-    Route::get('/products/delete/{id}', 'ProductController@getDelete');
+    Route::get('/products/delete/{id}/{category_id}', 'ProductController@getDelete');
     Route::get('/products/view/{id}', 'ProductController@getView');
 
     Route::get('/category', 'CategoryController@getIndex');
