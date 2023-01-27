@@ -49,7 +49,7 @@
 	                		</button>
 	                	</div>
 
-            			<? /* <div class="uk-vertical-divider full-width uk-visible-large uk-visible-small"></div>
+            			<?php /* <div class="uk-vertical-divider full-width uk-visible-large uk-visible-small"></div>
 	                	<div class="uk-width-large-1-2 uk-width-medium-1-4  uk-width-1-2  uk-padding-v-normal col-lbl">	                		
 	                		<label for=""  class="table-text">Promo Code</label>
 	                	</div>

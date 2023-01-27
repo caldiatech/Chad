@@ -129,13 +129,13 @@ class TempCartController extends BaseController
 			print_r($results);die();
 		}*/
 
-
+		$shipping_options = NULL;
 		// Generate Shipping Options
 		if (!empty($shipping)) {
 
 			$without_shipping_total = '';
 			foreach ($cart as $item) {
-	            $without_shipping_total += $item->total;
+	            $without_shipping_total = (float)$without_shipping_total + (float)$item->total;
 	        }
 
 
@@ -273,6 +273,7 @@ class TempCartController extends BaseController
 
 
 	public function addShoppingCart(Request $request) {
+		//dd($request);
 		//dd( $request->all() );
 
 		//dd($request->get('imageSize'));
@@ -362,7 +363,8 @@ class TempCartController extends BaseController
 		// Log::debug($o_liner);
 		// dd($get_the_same_cart_item);
 		// dd($request->all());
-		if(count($get_the_same_cart_item) > 0){
+		//if(count($get_the_same_cart_item) > 0){
+		if(!empty($get_the_same_cart_item)){
 				$tempcart = TempCart::find($get_the_same_cart_item->fldTempCartID);
 				$qty = ($qty == "" || $qty <0) ? $qty=1 : $qty;
 				$tempcart->fldTempCartQuantity = $tempcart->fldTempCartQuantity + $qty;
@@ -635,12 +637,13 @@ class TempCartController extends BaseController
 			 foreach(Input::get('qty') as $qty)
 			 {
 				if($qty == 0){$qty=1;}
-
-				list ($key,$cartid) = each ($cartID);
-
-				$tempcart = TempCart::find($cartid);
-				$tempcart->fldTempCartQuantity = $qty;
-				$tempcart->save();
+				//echo "<pre>";print_r($cartID);exit;
+				//list ($key,$cartid) = each ($cartID);
+				foreach($cartID as $key=>$cartid){
+					$tempcart = TempCart::find($cartid);
+					$tempcart->fldTempCartQuantity = $qty;
+					$tempcart->save();
+				}
 
 			 }
 
@@ -864,7 +867,7 @@ class TempCartController extends BaseController
         Log::debug('---------shop_owner_commission_total--------------');
         Log::debug($shop_owner_commission_total);
 
-		$charge_amount_orig 			= $discount_formula + $tax_total + $shipping_amount;
+		$charge_amount_orig 			= (float)$discount_formula + (float)$tax_total +(float) $shipping_amount;
         // Log::debug('---------Grand Total Price = P * (1 - d/100) + Tax total + s --------------');
 		// $charge_amount_orig 		= $discount_formula + $tax_total;
 		$charge_amount 					= round($charge_amount_orig,2);

@@ -21,7 +21,7 @@
                <li>Page Information</li>
                <li class="boxfields">
 
-               		<? /*
+               		<?php /*
                     @if($page->fldPagesID != 32)
                        <div class="uk-grid">
                           <div class="uk-width-large-1-10 uk-width-small-1-1">Main Menu</div>
@@ -154,7 +154,7 @@
                         @if(in_array($page->fldPagesID, array(32,73,107)))
                             <!-- Do not display Filename -->
                         @else
-                        	   <? /*
+                        	   <?php /*
                               <div class="uk-grid">
                                   <div class="uk-width-large-1-10 uk-width-small-1-1">Show to Navigation</div>
                                   <div class="uk-width-large-6-10 uk-width-small-1-1 ">
@@ -178,7 +178,7 @@
                                   </div>
                                </div>
 
-                                <? /*
+                                <?php /*
                                 @if($page->fldPagesID == 72)
                                      <div class="uk-grid">
                                           <div class="uk-width-large-1-10 uk-width-small-1-1">&nbsp;</div>

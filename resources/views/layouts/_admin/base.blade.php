@@ -39,7 +39,7 @@
                     <ul class="uk-nav uk-nav-dropdown">
                         <li class="uk-hidden"><a href="{{url('/')}}" target="_blank" class="p-liname" title="Clarkin"><i class="pe-7s-link paddright"></i> Clarkin</a></li>
                         <li class="uk-nav-divider uk-hidden"></li>
-                        <li><a href="{{url('/dnradmin/settings')}}" title="Settings"><i class="pe-7s-tools paddright"></i> Settings</a></li>
+                        <li><a href="{{url('/dnradmin/settings/edit/'.Session::get('dnradmin_id'))}}" title="Settings"><i class="pe-7s-tools paddright"></i> Settings</a></li>
                         <li><a href="{{url('/dnradmin/logout')}}" title="Logout"><i class="pe-7s-power paddright"></i> Logout</a></li>
                     </ul>
                 </div>

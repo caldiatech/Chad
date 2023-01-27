@@ -75,14 +75,19 @@
         $total_quantity += $cart_item->quantity;
 
         $shipping_sequence_fee = \DB::connection('mysql')->select('SELECT fldShippingFee FROM tblShippingFee WHERE fldShippingSequence = "'.$cart_item->frame_sequence.'" ');
-        // echo $shipping_sequence_fee[0]->fldShippingFee.'<br>';
+     //echo "<pre>";print_r($shipping_sequence_fee);exit;
 
         if ($counter > 0) {
             // $shipping_cost_total += ($cart_item->quantity > 1)? (($cart_item->quantity)*60) : 60;
             $shipping_cost_total += ($cart_item->quantity > 1)? (($cart_item->quantity)*30) : 30;
         } else {
             // $shipping_cost_total = ($cart_item->quantity > 1)? $shipping_sequence_fee[0]->fldShippingFee + (($cart_item->quantity - 1)*60) : $shipping_sequence_fee[0]->fldShippingFee;
-            $shipping_cost_total = ($cart_item->quantity > 1)? $shipping_sequence_fee[0]->fldShippingFee + (($cart_item->quantity - 1)*30) : $shipping_sequence_fee[0]->fldShippingFee;
+            if($shipping_sequence_fee){
+                $shipping_cost_total = ($cart_item->quantity > 1)? $shipping_sequence_fee[0]->fldShippingFee + (($cart_item->quantity - 1)*30) : $shipping_sequence_fee[0]->fldShippingFee;
+            }else{
+                $shipping_cost_total = 0;
+            
+            }
         }
 
         $counter++;
@@ -236,10 +241,10 @@
 
 
                     <ul id="tabContent" class="uk-switcher uk-margin">
-                        <? /************Billing****************/ ?>
+                        <?php /************Billing****************/ ?>
                         <li id="billingContent">
                             <h1 class="uk-h2 text-uppercase">Billing Address</h1>
-                           <? /*<div id="billingError" style="display:none;" class="uk-text-danger">Fields mark with * are required</div>*/ ?>
+                           <?php /*<div id="billingError" style="display:none;" class="uk-text-danger">Fields mark with * are required</div>*/ ?>
                             <div class="uk-grid">
                                 <div class = "uk-width-large-1-2  uk-width-small-1-2 uk-margin-top">
                                     {!! HTML::decode(Form::label('firstname', 'First Name <span class="red required">*</span>',array( ))); !!}
@@ -308,13 +313,13 @@
                                 </div>
                             </div >
                         </li>
-                        <? /************END Billing****************/ ?>
+                        <?php /************END Billing****************/ ?>
 
-                        <? /************Shipping Addres****************/ ?>
+                        <?php /************Shipping Addres****************/ ?>
                         <li id="shippingContent">
                             <h2>Shipping Address</h2>
                             Please fill out your Shipping information below.<hr />
-                            <? /*<div id="shippingError" style="display:none;" class="text-danger">Fields mark with * are required</div> */ ?>
+                            <?php /*<div id="shippingError" style="display:none;" class="text-danger">Fields mark with * are required</div> */ ?>
                                 <div class="uk-grid">
                                     <div class = "uk-width-medium-1-2 uk-width-small-1-1 uk-margin-top">
                                         {!!  HTML::decode(Form::label('shipping_firstname', 'First Name <span class="red required">*</span>',array( ))); !!}
@@ -372,25 +377,25 @@
                                     </div>
                               </div><!--row -->
                         </li>
-                        <? /************End Shipping Addres****************/ ?>
+                        <?php /************End Shipping Addres****************/ ?>
 
-                        <? /************Shipping METHOD****************/ ?>
+                        <?php /************Shipping METHOD****************/ ?>
                             <li id="shippingMethodContent">
                                 <h2>Shipping Method</h2>
                                 Please fill out your select your shipping method.<hr />
                                <div id="shippingRateError" style="display:none;" class="uk-alert uk-alert-danger">Please select shipping method.</div>
                                 <div id="shipping_rate">{!! Html::image('_front/assets/images/ajax-loader.gif') !!}</div>
                             </li>
-                        <? /************Shipping METHOD****************/ ?>
+                        <?php /************Shipping METHOD****************/ ?>
 
 
-                        <? /************Payment Method****************/ ?>
+                        <?php /************Payment Method****************/ ?>
                         <li id="paymentContent">
                                 <h2>Payment Method</h2>
                                 Please fill out your select your payment method.<hr />
                                 @include('home.braintree_cc')
                         </li>
-                        <?   /************END Payment Method****************/ ?>
+                        <?php   /************END Payment Method****************/ ?>
 
                     </ul>
 
@@ -563,7 +568,7 @@
                                 <td class="uk-text-right roboto">
                                 <?php 
                                 // $order_total = $grand_total + $shipping_total;
-                                $order_total = $grand_total + $defaultShippingAmount + $tax_total;
+                                $order_total = (float)$grand_total + (float)$defaultShippingAmount + (float)$tax_total;
                                 
                                 // echo 'subtotal: '.$grand_total.'<br>';
                                 // echo 'discount: '.$cart[0]->coupon_amount.'<br>';
@@ -821,13 +826,13 @@
                         country = document.getElementById('shipping_country').value;
                         city=city.replace(/ /g,"_");
                         // console.log('589 shipping-display/'+city+'/'+state+'/'+country+'/'+zip+'/'+<?=$cart[0]->weight?>+'/'+<?=$cart[0]->subtotal?>);
-                        <? if($coupon_code->freeshipping == "no" || !isset($coupon_code)) { ?>
+                        <?php if($coupon_code->freeshipping == "no" || !isset($coupon_code)) { ?>
                             console.log('Ln591');
                             var total = document.getElementById("total").value;
                             // generateShipping();
-                        <? } else { ?>
+                        <?php } else { ?>
                             $('#shippingRateDisplay').hide();
-                        <? } ?>
+                        <?php } ?>
 
                     } /*shipping zip */
     }
@@ -1122,14 +1127,14 @@
 
                 if(zip != "") {
 
-                    <? if($coupon_code->freeshipping == "no" || !isset($coupon_code)) { ?>
+                    <?php if($coupon_code->freeshipping == "no" || !isset($coupon_code)) { ?>
 
                     var total = document.getElementById("total").value;
 
                         generateShipping();
-                    <? } else { ?>
+                    <?php } else { ?>
                         $('#shippingRateDisplay').hide();
-                    <? }  ?>
+                    <?php }  ?>
                 }
 
 
@@ -1152,14 +1157,14 @@
 
                 if(zip != "" && state != '' && state != '0') {
 
-                    <?  if($coupon_code->freeshipping == "no" || !isset($coupon_code)) { ?>
+                    <?php  if($coupon_code->freeshipping == "no" || !isset($coupon_code)) { ?>
 
                     var total = document.getElementById("total").value;
 
                          generateShipping();
-                    <? } else { ?>
+                    <?php } else { ?>
                         $('#shippingRateDisplay').hide();
-                    <? } ?>
+                    <?php } ?>
                 }
             }
         }
@@ -1341,11 +1346,11 @@
             country = document.getElementById('shipping_country').value;
             city=city.replace(/ /g,"_");
 
-            <? if($coupon_code->freeshipping == "no" || !isset($coupon_code)) { ?>
+            <?php if($coupon_code->freeshipping == "no" || !isset($coupon_code)) { ?>
                 generateShipping();
-            <? } else { ?>
+            <?php } else { ?>
                 $('#shippingRateDisplay').hide();
-            <? } ?>
+            <?php } ?>
         });
 
 
@@ -1359,12 +1364,12 @@
             city=city.replace(/ /g,"_");
 
             if(document.getElementById('shipping_country').value == "US") {
-                <? if($coupon_code->freeshipping == "no" || !isset($coupon_code)) { ?>
+                <?php if($coupon_code->freeshipping == "no" || !isset($coupon_code)) { ?>
                     //$('#shipping_rate').load('spin.php');
                    generateShipping();
-                <? } else { ?>
+                <?php } else { ?>
                     $('#shippingRateDisplay').hide();
-                <? } ?>
+                <?php } ?>
             }
         });
 
@@ -1388,12 +1393,12 @@
                 $('#stateShippingText').html('State <span class="red required">*</span>');
                 $("#shippingstateus").html('{!! Form::select("shipping_state",array("0" => "Select one")+App\Models\State::displayState(), "0",array("id"=>"shipping_state","data-placeholder"=>"Select State","class"=>"form-control textfield_width")) !!}');
 
-                <? if($coupon_code->freeshipping == "no" || !isset($coupon_code)) { ?>
+                <?php if($coupon_code->freeshipping == "no" || !isset($coupon_code)) { ?>
                     //$('#shipping_rate').load('spin.php');
                     generateShipping();
-                <? } else { ?>
+                <?php } else { ?>
                     $('#shippingRateDisplay').hide();
-                <? } ?>
+                <?php } ?>
             }
         });
 
@@ -1439,17 +1444,17 @@
 
         if(zip != "") {
 
-            <? if($coupon_code->freeshipping == "no" || !isset($coupon_code)) { ?>
+            <?php if($coupon_code->freeshipping == "no" || !isset($coupon_code)) { ?>
                generateShipping();
-            <? } else { ?>
+            <?php } else { ?>
                     $('#shippingRateDisplay').hide();
-            <? } ?>
+            <?php } ?>
         }
 
    });
 
 </script>
-@stop
+
 
 @section('headercodes')
 {{-- Html::style('_front/uikit/css/components/accordion.min.css') --}}

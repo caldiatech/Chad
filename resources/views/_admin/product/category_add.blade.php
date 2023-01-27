@@ -35,7 +35,7 @@
                      <div class="uk-grid">
                       <div class="uk-width-large-1-10 uk-width-small-1-1">Title</div>
                       <div class="uk-width-large-6-10 uk-width-small-1-1 ">
-                            {!! Form::text('name','',array('size'=>'50','class'=>'required','id'=>'name')) !!}
+                            {!! Form::text('name','',array('size'=>'50','class'=>'required','id'=>'name','maxlength'=>"50")) !!}
                              @if($errors->category->first('name'))
                                 <div class="error">{!!$errors->category->first('name')!!}</div>
                              @endif

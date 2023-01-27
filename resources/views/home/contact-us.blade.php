@@ -11,10 +11,10 @@
                         <div class="contact-form uk-width-1-1">
                             {!! $pages->fldPagesDescription !!}
 
-                            <? /* <h2 class="uk-h2 text-uppercase">We'd like to hear from you!</h2>
+                            <?php /* <h2 class="uk-h2 text-uppercase">We'd like to hear from you!</h2>
                             <p>Contact us using the form below.</p> */ ?>
 
-                        <? /* {!! Form::open(array('url' => '/contact-us', 'method' => 'post',  'class' => 'row-fluid input-100 bill-info')); !!} */ ?>
+                        <?php /* {!! Form::open(array('url' => '/contact-us', 'method' => 'post',  'class' => 'row-fluid input-100 bill-info')); !!} */ ?>
                         {!! Form::open(array('url' => '/connect', 'method' => 'post',  'class' => 'row-fluid input-100 bill-info')); !!}
                         {{-- @if(isset($error))
                             <div class="alert alert-danger"> {!! $error !!}</div>

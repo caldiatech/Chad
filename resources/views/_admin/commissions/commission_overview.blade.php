@@ -64,7 +64,7 @@
         font-weight: 700;
     }
 </style>
-    <? /* <a class="searcha"><i class="pe-7s-search searchicon"></i><input type="text" id="search" value="" style="height:20px;"/></a> */ ?>
+    <?php /* <a class="searcha"><i class="pe-7s-search searchicon"></i><input type="text" id="search" value="" style="height:20px;"/></a> */ ?>
 
     <br style="clear:both;" />
     <h3 class="search">Search</h3>

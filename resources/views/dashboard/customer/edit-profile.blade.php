@@ -172,7 +172,7 @@
 	                			<span class="uk-button-toggle-text text-on">On</span>
 	                		</button>
 	                	</div>
-	                	<? /* Note: no need to include the promo code on edit profile because it is auto generated
+	                	<?php /* Note: no need to include the promo code on edit profile because it is auto generated
 	                	<div class="uk-width-small-1-2 uk-width-1-1 uk-padding-v-normal">
 	                		{!! Form::label('promo_code', 'Promo Code',array('class'=>'lbl table-text light' )); !!}
 	                    	{!! Form::text('promo_code',$client->fldClientPromoCode,array('id'=>'promo_code','class'=>'text')) !!}
@@ -263,7 +263,7 @@
 	    </div>
 	</section>
 
-	<? /*
+	<?php /*
 	<section id="banking-info" class="section">
     	<h2 class="section-header uk-h2"><i class="uk-icon-briefcase uk-icon-justify"></i> <span class="title-text">Banking Information</span>
     		@if($client->fldClientBraintreeMerchantID != "")
@@ -374,7 +374,7 @@
         	</div>
 	</section>
 
-	<? /*
+	<?php /*
 	<section id="credit-card-info" class="section">
     	<h2 class="section-header uk-h2"><i class="uk-icon-card ion ion-card uk-icon-justify"></i> <span class="title-text">Credit Card Information</span>
     		 @if($client->fldClientBraintreeCustomerID != "")

@@ -21,7 +21,7 @@
 .pagination .current {
     background: #3A3A3A;
     color: #fff;
-	border: solid 1px #3A3A3A;
+	/* border: solid 1px #3A3A3A; */
 }
 
 .pagination .current.prev, .pagination .current.next{

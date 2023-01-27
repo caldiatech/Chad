@@ -1,4 +1,4 @@
-    <? /* <div class="uk-grid checkout">
+    <?php /* <div class="uk-grid checkout">
           <div class="uk-width-large-1-1 uk-margin-top uk-margin-large-bottom">  
                 @if($client->fldClientBraintreeCustomerID != "") 
                     <label for="braintree">{!! Form::checkbox('braintree',1,0,['id'=>'braintree']) !!} <span class="uk-text-danger uk-h2"><strong>Quick Payment</strong></span> using your current payment information</label>
@@ -32,7 +32,7 @@
                             </div>
                         </div>
  
-                        <? /* <div class="controls">
+                        <?php /* <div class="controls">
                             <div class="uk-grid">
                                 <div class="uk-width-large-1-4 uk-width-medium-1-2 uk-width-small-1-2 uk-margin-top">
                                      {!! Form::text('card_no1','',array('id'=>'card_no1','pattern'=>'\d{4}','required','class'=>'form-control','title'=>'First four digits','rel'=>'1','autocomplete'=>'off','maxlength'=>'4','id'=>'card_no1')) !!}                                                                                                             
@@ -66,7 +66,7 @@
                                     </div>
                             	</div>
                             </div>
-                            <? /* <div class="uk-width-large-1-1 uk-width-medium-1-1 uk-width-small-1-1 uk-margin-top">
+                            <?php /* <div class="uk-width-large-1-1 uk-width-medium-1-1 uk-width-small-1-1 uk-margin-top">
                             <label class="control-label">Card CVV</label>
                             	<div class="uk-grid">
                                     <div class="uk-width-large-1-4 uk-width-medium-1-4 uk-width-small-1-2 uk-margin-top">

@@ -1597,7 +1597,7 @@ var newSrc = "https://pod.cloud.graphikservices.com/renderEMF/render?imgUrl={{'h
 	@endif
 
 <div class="full-width">
-<? /* <a href="#" data-uk-toggle="{target:'#toggle-pice-details'}" data-change-text="<i class='uk-icon-eye uk-icon-justify'></i> Hide Price Details"><i class='uk-icon-eye uk-icon-justify'></i> View Price Details</a> */ ?>
+<?php /* <a href="#" data-uk-toggle="{target:'#toggle-pice-details'}" data-change-text="<i class='uk-icon-eye uk-icon-justify'></i> Hide Price Details"><i class='uk-icon-eye uk-icon-justify'></i> View Price Details</a> */ ?>
   @include('home.product_details.price_details')
 </div>
 @stop

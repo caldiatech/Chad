@@ -10,7 +10,7 @@ class State extends Eloquent
     protected $table = 'tblState';
     protected $primaryKey = 'fldStateID';
 	public $timestamps = false;
-
+	public $incrementing = false;
 
 	public static function displayState()
 	{

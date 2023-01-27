@@ -27,7 +27,7 @@
                      <div class="uk-grid">
                       <div class="uk-width-large-1-10 uk-width-small-1-1">Coupon Code Name</div>
                       <div class="uk-width-large-6-10 uk-width-small-1-1 ">
-                         {!! Form::text('name',$coupon->fldCouponCodeName,array('size'=>'50','class'=>'required')) !!}
+                         {!! Form::text('name',$coupon->fldCouponCodeName,array('size'=>'50','class'=>'required','id'=>'name')) !!}
                            @if($errors->couponcode->first('name'))
                               <div class="error">{!!$errors->couponcode->first('name')!!}</div>
                            @endif

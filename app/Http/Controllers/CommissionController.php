@@ -149,6 +149,9 @@ class CommissionController extends Controller
 		if (!empty($search_date_from) && !empty($search_date_to)) {
 			$datefromstr = strtotime($search_date_from);
 			$datetostr = strtotime($search_date_to);
+		}else{
+			$datefromstr ='';
+			$datetostr = '';
 		}
 
 		// dd(DB::getQueryLog());

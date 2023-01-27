@@ -30,7 +30,7 @@
                      <div class="uk-grid">
                       <div class="uk-width-large-1-10 uk-width-small-1-1">First name</div>
                       <div class="uk-width-large-6-10 uk-width-small-1-1 ">
-                         {!! Form::text('firstname',$manager->fldManagerFirstname,array('size'=>'50','class'=>'required')) !!}
+                         {!! Form::text('firstname',$manager->fldManagerFirstname,array('size'=>'50','class'=>'required','id'=>'firstname')) !!}
                           @if($errors->manager->first('firstname'))
                               <div class="uk-text-danger">{!!$errors->manager->first('firstname')!!}</div>
                            @endif
@@ -40,7 +40,7 @@
                    <div class="uk-grid">
                       <div class="uk-width-large-1-10 uk-width-small-1-1">Last name</div>
                       <div class="uk-width-large-6-10 uk-width-small-1-1 ">
-                         {!! Form::text('lastname',$manager->fldManagerLastname,array('size'=>'50','class'=>'required')) !!}
+                         {!! Form::text('lastname',$manager->fldManagerLastname,array('size'=>'50','class'=>'required','id'=>'lastname')) !!}
                           @if($errors->manager->first('lastname'))
                               <div class="uk-text-danger">{!!$errors->manager->first('lastname')!!}</div>
                            @endif

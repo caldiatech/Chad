@@ -26,6 +26,8 @@ Route::group(array('prefix' => '/dnradmin'), function()
  	Route::get('/', 'SettingsController@displayLogin');
  	Route::post('/', 'SettingsController@login');
  	Route::get('/settings', 'SettingsController@getNew');
+    Route::get('/settings/edit/{id}', 'SettingsController@getEdit');
+    Route::post('/settings/edit/{id}', 'SettingsController@postEdit');
  	Route::get('/pages/remove_image/{id}','PagesController@removeImage');
 
     Route::get('/pages', 'PagesController@getIndex');

@@ -29,7 +29,7 @@
                    <div class="uk-grid">
                       <div class="uk-width-large-1-10 uk-width-small-1-1">First name</div>
                       <div class="uk-width-large-6-10 uk-width-small-1-1 ">
-                         {!! Form::text('firstname','',array('size'=>'50','class'=>'required')) !!}
+                         {!! Form::text('firstname','',array('size'=>'50','class'=>'required','id'=>'firstname')) !!}
                          @if($errors->shopOwner->first('firstname'))
                             <div class="error">{!!$errors->shopOwner->first('firstname')!!}</div>
                          @endif
@@ -39,7 +39,7 @@
                    <div class="uk-grid">
                       <div class="uk-width-large-1-10 uk-width-small-1-1">Last name</div>
                       <div class="uk-width-large-6-10 uk-width-small-1-1 ">
-                         {!! Form::text('lastname','',array('size'=>'50','class'=>'required')) !!}
+                         {!! Form::text('lastname','',array('size'=>'50','class'=>'required','id'=>'lastname')) !!}
                          @if($errors->shopOwner->first('lastname'))
                             <div class="error">{!!$errors->shopOwner->first('lastname')!!}</div>
                          @endif

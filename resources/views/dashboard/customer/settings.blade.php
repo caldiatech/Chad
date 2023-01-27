@@ -63,7 +63,7 @@
                             @endif
 	                	</div>
 
-	                	<? /*
+	                	<?php /*
 	                	<div class="uk-width-small-1-2 uk-width-1-1 uk-padding-v-normal">
 	                		{!! Form::label('promo_code', 'Promo Code',array('class'=>'lbl table-text light' )); !!}
 	                    	{!! Form::text('promo_code',$client->fldClientPromoCode,array('id'=>'promo_code','class'=>'text','disabled'=>'disabled')) !!}

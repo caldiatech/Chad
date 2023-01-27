@@ -21,7 +21,7 @@
                <li>Page Information</li>
                <li class="boxfields">
 
-               		<? /*
+               		<?php /*
                     <div class="uk-grid">
                       <div class="uk-width-large-1-10 uk-width-small-1-1">Main Menu</div>
                       <div class="uk-width-large-6-10 uk-width-small-1-1 ">
@@ -74,7 +74,7 @@
                       </div>
                    </div>
 
-                   	<? /*
+                   	<?php /*
                    <div class="uk-grid">
                       <div class="uk-width-large-1-10 uk-width-small-1-1">Show to Navigation</div>
                       <div class="uk-width-large-6-10 uk-width-small-1-1 ">

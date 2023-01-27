@@ -23,7 +23,7 @@
   {!! HTML::script('_front/plugins/uikit/js/uikit.min.js')!!}
 
   @section('headercodes') @show
-  <? /*
+  <?php /*
  {{ $google->google_analytics != "" ? $google->google_analytics : "" }}
  {{ $google->google_conversion != "" ? $google->google_conversion : "" }}
   */

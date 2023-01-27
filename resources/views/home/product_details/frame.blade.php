@@ -10,7 +10,7 @@ $array_expensive_costs = array_values($array_expensive_costs);
 // echo '<pre>';
 // print_r($array_expensive_costs);
 // die('Ln188');
-
+$i = 0; $ii = 1;
 $this_expensive_cost = $cheap_cost_counter = 0;
 ?>
 
@@ -227,7 +227,7 @@ $count = 0;
         //}
           
         ?>
-        <? $i = 0; $ii = 1; ?>
+      
 
         @if($print_id == "10001")
               

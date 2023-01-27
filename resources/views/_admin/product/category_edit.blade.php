@@ -38,7 +38,7 @@
                      <div class="uk-grid">
                       <div class="uk-width-large-1-10 uk-width-small-1-1">Title</div>
                       <div class="uk-width-large-6-10 uk-width-small-1-1 ">
-                           {!! Form::text('name',$category->fldCategoryName,array('size'=>'50','id'=>'name')) !!}
+                           {!! Form::text('name',$category->fldCategoryName,array('size'=>'50','class'=>'required','id'=>'name','maxlength'=>"50")) !!}
                             @if($errors->category->first('name'))
                                 <div class="error">{!!$errors->category->first('name')!!}</div>
                              @endif
@@ -131,11 +131,12 @@
 		var mypath = "{!! url('/') !!}";
 	</script>
     {!! Html::script('_admin/manager/tinymce/tiny_mce.js') !!}
-    {!! Html::script('_admin/assets/js/cufon_avantgarde.js') !!}
     {!! Html::script('_admin/assets/js/jquery-latest.min.js') !!}
+    {!! Html::script('_admin/assets/js/customValidation.js') !!}
     {!! Html::script('_admin/manager/tinymce/styles/mods2.js') !!}
     {!! Html::script('_admin/assets/js/count_char.js') !!}
-    {!! Html::script('_admin/plugins/jasny/js/jasny-bootstrap.min.js') !!}
+    {!! Html::script('_admin/plugins/jasny/js/jasny-bootstrap.min.js') !!}    
+    {!! Html::script('_admin/assets/js/cufon_avantgarde.js') !!}  
     <script>				
 			var elem1 = $("#name_text");
     var elem2 = $("#sub_title_text");

@@ -1,7 +1,7 @@
 <div class="uk-offcanvas" id="toggle-pice-details2">
     <div class="uk-offcanvas-bar" mode="slide">
         <div class="uk-panel">
-    <? /*<div class="full-width padding-small border-bottom">Approximate Outside Dimensions: (20" x 18 1/4")</div>*/ ?>
+    <?php /*<div class="full-width padding-small border-bottom">Approximate Outside Dimensions: (20" x 18 1/4")</div>*/ ?>
     <div class="full-width padding-small border-bottom">
       <span class="bold text-uppercase">Image</span><br/>
       <span class="light ">{{ $product->fldProductName }} (<span id="descImageWidth">{{ $product->fldProductImageWidth }}</span> x <span id="descImageHeight">{{ $product->fldProductImageHeight }}</span>)</span>
@@ -29,7 +29,7 @@
 
     </div>
 
-    <? /*
+    <?php /*
     <div class="uk-width-divider-blank uk-margin-small"></div>
     <div class="full-width padding-small bg-white  border-bottom" id="matDetails1">
         <span class="bold text-uppercase">Mat</span><br/>
@@ -52,7 +52,7 @@
         </div>
     </div>
 
-    <? /*
+    <?php /*
     <div class="uk-width-divider-blank uk-margin-small"></div>
     <div class="full-width padding-small bg-white border-bottom" id="finishkitDetails">
         <span class="bold text-uppercase">Finish Kit</span><br/>

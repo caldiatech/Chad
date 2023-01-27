@@ -24,7 +24,7 @@
 {!! HTML::script('_front/plugins/uikit/js/uikit.min.js') !!}
 {!! HTML::script('_front/plugins/uikit/js/components/lightbox.min.js') !!}
 {!! Html::script('_front/assets/js/css_browser_selector.js') !!}
- <? /*<script src="http://getuikit.com/docs/js/uikit.min.js"></script>*/ ?>
+ <?php /*<script src="http://getuikit.com/docs/js/uikit.min.js"></script>*/ ?>
 <!--[if lt IE 9]>
   {!! Html::script('_front/assets/js/respond.min.js') !!}
   {!! Html::script('_front/assets/js/Html5shiv.js') !!}

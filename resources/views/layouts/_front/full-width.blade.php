@@ -39,11 +39,11 @@
 
 
     <div class="grid">
-      <? /*
+      <?php /*
         @if(empty($pages->fldPagesImage)) <?php $pages->fldPagesImage = 'header-style-1.jpg'; ?> @endif http://54.68.88.28/clarkin/public/uploads/pages/medium/framing-page-background.jpg */ ?>
 
         <div class="uk-width-1-1 uk-cover-background header-image parallax" data-uk-parallax="{bg: '-200'}" style="background-image:url(' public/uploads/pages/{{$pages->fldPagesImage}}')">
-          <? /* <div class="uk-width-1-1 uk-cover-background header-image parallax"  data-uk-parallax="{bg: '-200'}"  style="background-image:url(' public/_front/assets/images/wallpapers/{{$pages->fldPagesImage}}')"> */ ?>
+          <?php /* <div class="uk-width-1-1 uk-cover-background header-image parallax"  data-uk-parallax="{bg: '-200'}"  style="background-image:url(' public/_front/assets/images/wallpapers/{{$pages->fldPagesImage}}')"> */ ?>
             <div class="uk-container uk-container-center">
               <h1>{!! $pages->fldPagesTitle == "" ? $pages->fldPagesName : $pages->fldPagesTitle !!}</h1>
             </div>

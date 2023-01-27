@@ -195,7 +195,7 @@
                             <label  class="table-text light"><span class="mobile-label uk-hidden-large">Payments <br><small>Invoice</small></span>
                                 $ {!!number_format($total_per_cart,2)!!}</label>
                         </div>
-                        <? /*
+                        <?php /*
                         <div class="uk-width-large-1-10  uk-width-small-1-2   uk-width-1-1  uk-padding-v-normal uk-td">
                             <label  class="table-text light"><span class="mobile-label uk-hidden-large">Shipping <br><small>Processing Fee</small></span>
                                 $ {!!number_format($order->fldCartShippingPrice,2)!!}</label>
