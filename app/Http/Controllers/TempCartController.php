@@ -999,7 +999,7 @@ class TempCartController extends BaseController
                     'profileTransAuthCapture' => array(
                         'amount' => $charge_amount,
                         'lineItems' => array(
-                            'itemId' => 'Order: '+$order_code,
+                            'itemId' => 'Order: '.$order_code,
                             'name' => 'Image Galleries',
                             'description' => 'Clarkin Purchase $'.$charge_amount,
                             'quantity' => '1',

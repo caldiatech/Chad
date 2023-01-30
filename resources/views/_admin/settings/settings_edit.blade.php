@@ -4,7 +4,7 @@
    <article>
     <div id=page_control >
        <div class="col2">
-            {!! Html::link('/dnradmin/settings','Settings') !!} &raquo; Update Administrator   
+            {!! Html::link('/dnradmin/settings/edit/'.$settings->fldAdministratorID,'Settings') !!} &raquo; Update Administrator   
          </div>  
     </div>
     
@@ -55,7 +55,7 @@
                 <div class="uk-grid">
                     <div class="uk-width-large-1-10 uk-width-small-1-1">Password</div>
                     <div class="uk-width-large-6-10 uk-width-small-1-1 ">
-                       <input type="password" name="password" id="password-fld" size="50">
+                       <input type="password" name="password" id="password-fld" size="50" required>
                         <table border=0>
                             <tr>
                                 <td style="padding-right:5px;"> <i class="uk-icon uk-icon-check-circle icon-color" id="passveryweak"></i> at least 8 char</td>
