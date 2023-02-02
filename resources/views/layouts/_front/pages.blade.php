@@ -45,7 +45,7 @@
 
     <div class="grid">
       @if(empty($pages->fldPagesImage)) <?php $pages->fldPagesImage = 'about-us-header.jpg'; ?> @endif
-      <div class="uk-width-1-1 uk-cover-background header-image" style="background-image:url(' public/uploads/pages/{{$pages->fldPagesImage}}')">
+      <div class="uk-width-1-1 uk-cover-background header-image" style="background-image:url('uploads/pages/{{$pages->fldPagesImage}}')">
         <div class="uk-container uk-container-center">
           <h1>{!! $pages->fldPagesTitle == "" ? $pages->fldPagesName : $pages->fldPagesTitle !!}</h1>
           @if($pages->fldPagesSubTitle != '')<h2 class="sub-title">{!! $pages->fldPagesSubTitle !!}</h2>@endif

@@ -358,9 +358,9 @@ Route::group(array('prefix' => '/'), function() {
     // Route::get('/framing', 'PagesController@fullWidth');
     Route::get('/store', 'PagesController@store');
 
-    Route::post('/404', 'PagesController@page404');
-    Route::get('/{slug}', 'PagesController@pageDisplay');
-    Route::post('/{slug}', 'PagesController@savePageChanges');
+     Route::post('/404', 'PagesController@page404');
+     Route::get('/{slug}', 'PagesController@pageDisplay');
+     Route::post('/{slug}', 'PagesController@savePageChanges');
 });
 
 define('SITENAME','Clarkin Collections');
@@ -379,12 +379,12 @@ define('XLARGE_IMAGE','x-large/');
 // define('MANAGER_IMAGE_PATH','public/uploads/manager/');
 // define('CUSTOMER_IMAGE_PATH','public/uploads/customer/');
 // define('SHOP_OWNER_IMAGE_PATH','public/uploads/shop_owner/');
-define('PAGES_IMAGE_PATH','public/uploads/pages/');
+define('PAGES_IMAGE_PATH','uploads/pages/');
 define('HOME_SLIDE_IMAGE_PATH','uploads/home-sliders/');
-define('PHOTO_GALLERY_IMAGE_PATH','public/uploads/photo-gallery/');
+define('PHOTO_GALLERY_IMAGE_PATH','uploads/photo-gallery/');
 define('STAFF_IMAGE_PATH','upload/staff/');
 define('CATEGORY_IMAGE_PATH','upload/category/');
-define('PRODUCT_IMAGE_PATH','upload/products/');
+define('PRODUCT_IMAGE_PATH','uploads/products/');
 define('SLIDER_IMAGE_PATH','upload/slider/');
 define('MANAGER_IMAGE_PATH','upload/manager/');
 define('CUSTOMER_IMAGE_PATH','upload/customer/');

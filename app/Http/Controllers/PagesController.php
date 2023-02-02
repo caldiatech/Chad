@@ -524,8 +524,8 @@ class PagesController extends Controller
 // die();
 
 		if(empty($pages)){
-			$pages = Pages::where('fldPagesSlug', '=', "404")->first();
-			return response()->view('errors.404', array('pages' => $pages,
+			$pages = Pages::where('fldPagesSlug', '=', "404")->first();//dd($pages);exit;
+			return View::make('errors.404')->with(array('pages' => $pages,
    													'menus' => $menus,
    													'settings'=>$settings,
    													'google'=>$google,
