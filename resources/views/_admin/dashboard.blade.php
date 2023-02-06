@@ -126,7 +126,7 @@
 @stop
 
 @section('headercodes')
-    {!! Html::style('/public/_admin/assets/css/dashboard.css') !!}
+    {!! Html::style('_admin/assets/css/dashboard.css') !!}
 
 @stop
 

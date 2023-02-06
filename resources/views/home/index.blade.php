@@ -100,7 +100,7 @@
 <script>
 	var url = "{{ url('/') }}";
 </script>
- {!! Html::script('/public/_front/assets/js/cart.js') !!}
+ {!! Html::script('_front/assets/js/cart.js') !!}
 @stop @section('extracodes') {{-- */ /* */ /* --}}
 <script>
 
