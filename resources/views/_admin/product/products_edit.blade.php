@@ -188,11 +188,18 @@
         </div>
 
         <div class="uk-width-large-3-10 uk-width-small-1-1">
-            <ul id="required_category">
+        <ul id="required_category">
                <li>Categories</li>
-               <li class="boxfields"><div class="required-notification uk-display-block"></div><div id="category"></div> </li>
+               <li class="boxfields"><div class="required-notification uk-display-block"></div>
+               <select name="category" id="category" required>
+                    <option value="0">Select Category</option>
+                    @foreach($category as $category_item)
+                    <option value="{{$category_item->fldCategoryID}}" <?php if ($cat->fldProductCategoryCategoryID == $category_item->fldCategoryID) echo "selected='selected'";?>>{{$category_item->fldCategoryName;}}</option>
+                    @endforeach
+               </select>
+           </li>
             </ul>
-            <input type='hidden'  value='{{$category_id}}' name="category"/>
+            <!-- <input type='hidden'  value='{{$category_id}}' name="category"/> -->
 
 {{--             <ul id="prints_container">
                 <li>Prints</li>

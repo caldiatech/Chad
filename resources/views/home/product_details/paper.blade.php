@@ -207,4 +207,65 @@ $(document).ready(function(){
 
 
 });
-</script>                          
+function getBorderStyle() {
+		  paperType = $("input[name='print_on']:checked").val();
+		  canvasStyle = $("input[name='wrap_options']:checked").val();
+		  if(paperType != 'canvas')
+			return null;
+		  switch(canvasStyle){
+			case 'GW':
+			  return $('select[name="gw_options"]').val();
+			break;
+			case 'MW':
+			  return $('select[name="mw_options"]').val();
+			break;
+			default:
+			  return null;
+			break;
+		  }
+	  }
+getPackagePrice = function () {
+
+paperSku  = $('#paperSKU').html();
+paperType = $("input[name='print_on']:checked").val();
+canvasStyle = $("input[name='wrap_options']:checked").val();
+borderStyle = getBorderStyle();
+frameSku  = $('#frame_info').val();
+productId = $('#product_id').val();
+image_width = $('#descImageWidth').text();
+image_height = $('#descImageHeight').text();
+
+mats_width = $( "#matborder_whole" ).val() + $( "#matborder_fractions" ).val();
+finishkitSku = $('#hdn-finishkit').val();
+mats = [];
+mat_options = [];
+if($('input[name="mat_type"]').is(':checked')){
+  no_of_mats =  $('input[name="mat_type"]:checked').val();
+  no = 1;
+  error = false;
+  for(no=1; no <= no_of_mats; no++){
+    if($('#mat'+no+"_info").val()){
+      m = $('#mat'+no+"_info").val();
+      selected = m.split(";");
+      mats.push(selected[0]);
+      mat_options[no] = [];
+      if(no > 1){
+      mat_options[no].push($('select[name="offset'+no+'"]').val());
+      }
+      $.each($('input[name="option'+no+'[]"]:checked'), function(){
+        mat_options[no].push($(this).val());
+      });
+    }
+  }
+}
+
+var current_frame_size_val = $('input[name="imageSize"]:checked').val();
+var current_frame_size_price = $('input.photo-size-selection-option-'+current_frame_size_val).attr('data-frame_cost');
+if(typeof current_frame_size_val != 'undefined'){
+ var frame = { 'sku' : frameSku, 'priceData' : { 'markUpPrice' : current_frame_size_price }};
+updateFrameData(frame)
+updateComputations(current_frame_size_val, current_frame_size_price);
+}
+
+}
+</script>

@@ -622,7 +622,6 @@ class ClientController extends Controller
 		$settings = Settings::first();
 
 		$cart = Cart::displayOrderHistoryDashboard($client_id);
-		// dd($cart);
 
 		return View::make('dashboard.customer.index', array('client_id'=>$client_id,
 													 'client' => $client,

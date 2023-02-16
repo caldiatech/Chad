@@ -39,10 +39,10 @@ class ManagerController extends Controller
 			//check commission
 			$commission = ManagerCommission::calculateCommissionYearAdmin($managers->fldManagerID);
 			$managers->fldManagerCommission = $commission;
-			// echo 'comm: '.$commission.'<br>';
+		// echo 'comm: '.$commission.'<br>';
 		}
 
-		// die('Ln45');
+		//die('Ln45');
 
 		$pageTitle = SALESMANAGER_MANAGEMENT;
 

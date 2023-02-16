@@ -313,7 +313,7 @@ class ShopOwnerCommission extends Eloquent
 					  	->orderBy('fldShopOwnerCommissionDate','DESC')
 						->sum('fldShopOwnerCommissionAmount');
 
-		return $sumCommission;							  
+		return $sumCommission;
 	}
 		
 }

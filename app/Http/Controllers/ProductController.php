@@ -112,7 +112,7 @@ class ProductController extends Controller
 		if(!Session::has('dnradmin_id')) { return Redirect::to('dnradmin/');}
 
 	   	//$success = "";
-		$category = Category::where('fldCategoryMainID','=','0')->orderby("fldCategoryPosition")->get();
+		$category = Category::orderby("fldCategoryPosition")->get();
 		$administrator = Settings::where('fldAdministratorID','=',Session::get('dnradmin_id'))->first();
 		$options =  Options::orderby('fldOptionsPosition')->get();
 		$productClass = 'class=active';
@@ -326,9 +326,10 @@ class ProductController extends Controller
 
 		$products =  Product::where('fldProductID', '=', $id)->first();
 	    $additional_image =  AdditionalProduct::where('fldAdditionalProductProductID', '=', $id)->get();
-		$category = Category::where('fldCategoryMainID','=','0')->orderby("fldCategoryPosition")->get();
+		$category = Category::orderby("fldCategoryPosition")->get();
 		$productsCategory = ProductCategory::where('fldProductCategoryProductID','=',$id)->get();
 		$cat = ProductCategory::where('fldProductCategoryProductID','=',$id)->first();
+		
 		$maincat = Category::where('fldCategoryID','=',$cat->fldProductCategoryCategoryID)->first();
 		foreach($productsCategory as $productsCategories) {
 			$pCategories[] = $productsCategories->fldProductCategoryCategoryID;
@@ -341,7 +342,7 @@ class ProductController extends Controller
 		$productClass = 'class=active';
 		$pageTitle = PRODUCT_MANAGEMENT;
 	    return View::make('_admin.product.products_edit', compact('products','additional_image','category','maincat','pCategories',
-	    										'administrator','options','product_options','productClass','pageTitle','defaultcosts','category_id'));
+	    										'administrator','options','product_options','productClass','pageTitle','defaultcosts','category_id','cat'));
 
 	    // return View::make('_admin.product.products_edit', array('products' => $products,
 	    // 													    'additional_image' => $additional_image,

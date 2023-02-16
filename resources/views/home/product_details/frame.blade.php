@@ -40,12 +40,12 @@ $this_expensive_cost = $cheap_cost_counter = 0;
   }
 ?>
 
-<br>
+<!-- <br>
 
 <input type="radio" id="OptionsFrames10001" name="OptionsFrames"  data-id = "10001"  class="OptionsFrames" value="10001" {{ $print_id == 0 ? 'checked' : '' }} {{ $print_id == '10001' ? 'checked' : '' }}><label style="font-size: 21px; font-weight: 400;">&nbspFramed Prints</label>
-<br><br>
+<br><br> -->
 <!-- <label for="OptionsFrames10001"><h3>Framed Prints</h3></label><br> -->
-{{--  <hr>  --}}
+<!-- {{--  <hr>  --}} -->
 
 <!-- Graphik Cost Est --> <input type="hidden" name="defaultcost" id="defaultcost" value="">  
 <!-- Frame Sequence --> <input type="hidden" name="frame_sequence" id="frame_sequence" value="">
@@ -53,7 +53,7 @@ $this_expensive_cost = $cheap_cost_counter = 0;
 <br /> -->
 
 
-<div class="product-settings">
+<!-- <div class="product-settings">
   
   
   <div class="uk-grid w100 uk-margin-remove uk-text-large remove-frame-section" id="frameDiv">
@@ -65,32 +65,32 @@ $this_expensive_cost = $cheap_cost_counter = 0;
     <div class="uk-width-1-2 frame-select-column uk-float-right uk-padding-remove" style="margin-bottom: 1em !important;">
           <div class="select-wrapper uk-md-large uk-float-right input-append spinner">
                <select name="frame_selection" id="frame_selection" class="frame_selection" onChange="generateNewImageFrame()">
-		    <option value="">Choose your frame</option>
-                    @foreach($get_static_frames as $frame_obj)
+		    <option value="">Choose your frame</option> -->
+                    <!-- @foreach($get_static_frames as $frame_obj) -->
                       <?php 
-                      $attr = $attr_selected = '';
-                      $frame_obj_attr = $frame_obj['attributes'];
-                      foreach($frame_obj_attr as $i => $frame_obj_attr_item){
-                        if($attr != ''){
-                          $attr .= ',';
-                        }
-                        $attr .= $frame_obj_attr_item;
-                      } 
-                      $this_frame_sku = $frame_obj['sku'];
-                      $this_frame_materials = $frame_obj['material'];
-                      // $this_frame_title = $frame_obj['title'];
-                      $this_frame_title = strstr($frame_obj['title'], ' ');
-                      if ($this_frame_sku=='PEC6') { $this_frame_title = str_replace(' Economy', '', $this_frame_title); } // Remove the word 'Economy'
-                      $this_frame_width = $frame_obj['width'];
-                      $this_frame_color = stringify_items($frame_obj['color']);
-                      $this_frame_style = stringify_items($frame_obj['style']);
-                      $this_frame_ischeap = $frame_obj['is_cheap'];
-                      if($this_frame_ischeap == 1 && $cheap_cost_counter == 0){
-                        $attr_selected = ' selected = "selected" ';
-                        $cheap_cost_counter++;
-                      }
+                      // $attr = $attr_selected = '';
+                      // $frame_obj_attr = $frame_obj['attributes'];
+                      // foreach($frame_obj_attr as $i => $frame_obj_attr_item){
+                      //   if($attr != ''){
+                      //     $attr .= ',';
+                      //   }
+                      //   $attr .= $frame_obj_attr_item;
+                      // } 
+                      // $this_frame_sku = $frame_obj['sku'];
+                      // $this_frame_materials = $frame_obj['material'];
+                      // // $this_frame_title = $frame_obj['title'];
+                      // $this_frame_title = strstr($frame_obj['title'], ' ');
+                      // if ($this_frame_sku=='PEC6') { $this_frame_title = str_replace(' Economy', '', $this_frame_title); } // Remove the word 'Economy'
+                      // $this_frame_width = $frame_obj['width'];
+                      // $this_frame_color = stringify_items($frame_obj['color']);
+                      // $this_frame_style = stringify_items($frame_obj['style']);
+                      // $this_frame_ischeap = $frame_obj['is_cheap'];
+                      // if($this_frame_ischeap == 1 && $cheap_cost_counter == 0){
+                      //   $attr_selected = ' selected = "selected" ';
+                      //   $cheap_cost_counter++;
+                      // }
                       ?>
-                      <option value="{{$this_frame_sku}}" id="option_{{$this_frame_sku}}" data-style="{{$this_frame_style}}" data-color="{{$this_frame_color}}" data-width="{{$this_frame_width}}" data-title="{{$this_frame_title}}" data-filter="{{$attr}}" data-price="0" data-material="{{$this_frame_materials}}" data-style="" data-is_cheap="{{$this_frame_ischeap}}" {{$attr_selected}}> {{$this_frame_title}}
+                      <!-- <option value="{{$this_frame_sku}}" id="option_{{$this_frame_sku}}" data-style="{{$this_frame_style}}" data-color="{{$this_frame_color}}" data-width="{{$this_frame_width}}" data-title="{{$this_frame_title}}" data-filter="{{$attr}}" data-price="0" data-material="{{$this_frame_materials}}" data-style="" data-is_cheap="{{$this_frame_ischeap}}" {{$attr_selected}}> {{$this_frame_title}}
                       </option>
                     @endforeach
                 </select>
@@ -101,10 +101,10 @@ $this_expensive_cost = $cheap_cost_counter = 0;
           </div>
     </div>
 
-  </div>
+  </div> -->
 
 
-  <div class="uk-grid w100 uk-margin-remove uk-text-large remove-frame-section" id="linerDiv">
+  <!-- <div class="uk-grid w100 uk-margin-remove uk-text-large remove-frame-section" id="linerDiv">
     <div class="uk-width-large-5-10 uk-float-left uk-display-inline uk-width-1-2 uk-padding-remove remove-frame-column">
         <h3>Select LINER:</h3>
     </div>
@@ -135,8 +135,8 @@ $this_expensive_cost = $cheap_cost_counter = 0;
         <div class="uk-width-1-2 frame-select-column uk-float-right uk-padding-remove">
             <div class="select-wrapper uk-md-large uk-float-right input-append spinner">
                 <select name="prints_selection" id="printsselection" class="prints_selection" style="display:none;">
-                    <option value="">Select Print</option>
-                    @foreach(App\Models\Prints::get() as $print)
+                    <option value="">Select Print</option> -->
+                    <!-- @foreach(App\Models\Prints::get() as $print)
                     <option value="{{$print->id}}" data-text="{{$print->name}}" data-price="{{$print->price}}" {{$print_id == $print->id ? 'selected' : '' }}>{{$print->name}}</option>
                     @endforeach
                 </select>
@@ -158,7 +158,7 @@ $this_expensive_cost = $cheap_cost_counter = 0;
 <hr>
 <h3>Print Only :</h3>
 <?php
-$count = 0;
+//$count = 0;
 ?>
 @foreach(App\Models\Prints::get() as $print)
   <input type="radio" data-sequence="{{$count}}" id="OptionsFrames{{$print->id}}" name="OptionsFrames" data-id = "{{$print->id}}" class="OptionsFrames" value="{{$print->id}}"
@@ -166,22 +166,22 @@ $count = 0;
   <label for="OptionsFrames{{$print->id}}" style="font-size: 21px; font-weight: 400;">&nbsp;{!! $print->name !!}
     {{--  - ${!! $print->price!!}  --}}</label><br><br>
 	<?php
-	$count++;
+	//$count++;
 	?>
-@endforeach
+@endforeach -->
 
 
-    <strong>Note</strong>: Please verify size when switching between framed and print only products.
+    <!-- <strong>Note</strong>: Please verify size when switching between framed and print only products.
   <div class="uk-grid uk-width-1-1  select-photo-size uk-margin-remove uk-text-large remove-frame-section">
     <div class="uk-width-medium-1-2 uk-width-7-10 uk-padding-remove">
         Photo (only) Size (inches)
     </div>
     <div class="uk-width-medium-1-2 uk-width-3-10 uk-padding-remove">
-      Price: &nbsp; &nbsp; &nbsp; &nbsp; <!--<small>* Includes Shipping</small>-->
-    </div>
-  </div>
+      Price: &nbsp; &nbsp; &nbsp; &nbsp; <small>* Includes Shipping</small> -->
+    <!-- </div>
+  </div> -->
   <?php 
-  $price_html_temp = ''; 
+  //$price_html_temp = ''; 
 
     // echo '---------------------------------------';
     // $arrayShipProcFee = array(21,34,56,98);
@@ -194,8 +194,8 @@ $count = 0;
     // die('Ln77');
   ?>
 
-  <div class="uk-grid uk-width-1-1 uk-margin-remove uk-text-large border-size-price-section">
-    <div class="uk-width-medium-1-2 uk-width-7-10 uk-padding-remove">
+  <!-- <div class="uk-grid uk-width-1-1 uk-margin-remove uk-text-large border-size-price-section">
+    <div class="uk-width-medium-1-2 uk-width-7-10 uk-padding-remove"> -->
 
 <?php
 // echo "<pre>";
@@ -209,15 +209,15 @@ $count = 0;
 ?>
 
 
-    <div class="radio-option-wrapper uk-md-large">
+    <!-- <div class="radio-option-wrapper uk-md-large"> -->
         <?php 
-        $lowcost = []; $highcost = [];
-        if (isset($defaultcosts)) {
-          foreach ($defaultcosts as $dcost) {
-            $lowcost[$dcost->sequence] = $dcost->framelow_cost;
-            $highcost[$dcost->sequence] = $dcost->framehigh_cost;
-          }
-        }
+        // $lowcost = []; $highcost = [];
+        // if (isset($defaultcosts)) {
+        //   foreach ($defaultcosts as $dcost) {
+        //     $lowcost[$dcost->sequence] = $dcost->framelow_cost;
+        //     $highcost[$dcost->sequence] = $dcost->framehigh_cost;
+        //   }
+        // }
         // Original Place
         //if (isset($defaultcosts)) {
         //  foreach ($defaultcosts as $dcost) {
@@ -229,43 +229,43 @@ $count = 0;
         ?>
       
 
-        @if($print_id == "10001")
+        <!-- @if($print_id == "10001")
               
-              @foreach($productOption as $photo_size_key => $productOptions)
+              @foreach($productOption as $photo_size_key => $productOptions) -->
                     <?php 
                       // echo $productOptions->fldOptionsAssetsWidth.': '.$productOptions->fldProductOptionsPrice.'<br>';
 
-                      $first_fraction = $product_option_class->frameFraction($productOptions->fldOptionsAssetsWidthFraction);
-                      $first_fraction_val = fractionized($first_fraction);
-                      $second_fraction = $product_option_class->frameFraction($productOptions->fldOptionsAssetsHeightFraction);
-                      $second_fraction_val = fractionized($second_fraction);
-                      $border_size =  $productOptions->fldOptionsAssetsWidth . ' ' . $first_fraction .' x ' .$productOptions->fldOptionsAssetsHeight . ' ' . $second_fraction;
-                      $border_size_html =  $productOptions->fldOptionsAssetsWidth . ' ' . $first_fraction_val .' x ' .$productOptions->fldOptionsAssetsHeight  . ' ' .$second_fraction_val;
+                      // $first_fraction = $product_option_class->frameFraction($productOptions->fldOptionsAssetsWidthFraction);
+                      // $first_fraction_val = fractionized($first_fraction);
+                      // $second_fraction = $product_option_class->frameFraction($productOptions->fldOptionsAssetsHeightFraction);
+                      // $second_fraction_val = fractionized($second_fraction);
+                      // $border_size =  $productOptions->fldOptionsAssetsWidth . ' ' . $first_fraction .' x ' .$productOptions->fldOptionsAssetsHeight . ' ' . $second_fraction;
+                      // $border_size_html =  $productOptions->fldOptionsAssetsWidth . ' ' . $first_fraction_val .' x ' .$productOptions->fldOptionsAssetsHeight  . ' ' .$second_fraction_val;
 
                       ?>
                       
                       <?php
                       
-                      if($productOptions->fldProductOptionsPrice == null || $productOptions->fldProductOptionsPrice == ''){
-                          $productOptions->fldProductOptionsPrice = 0;
-                      }
+                      // if($productOptions->fldProductOptionsPrice == null || $productOptions->fldProductOptionsPrice == ''){
+                      //     $productOptions->fldProductOptionsPrice = 0;
+                      // }
 
                       // if(isset($array_expensive_costs[$productOptions->fldOptionsAssetsWidth])){
                       //   $this_expensive_cost = $array_expensive_costs[$productOptions->fldOptionsAssetsWidth];
                       // }
-                      $this_expensive_cost = $array_expensive_costs[$photo_size_key];
+                      // $this_expensive_cost = $array_expensive_costs[$photo_size_key];
 
-                      $frame_cost = $productOptions->fldProductOptionsPrice;
+                      // $frame_cost = $productOptions->fldProductOptionsPrice;
 
-                      // Liner
-                      $default_dataliner = "LN1BK";
-                      if ( in_array($i, array('0')) ) {
-                          $dataliner = "LN1BK";
-                      } elseif ( in_array($i, array('1')) ) {
-                          $dataliner = "LN2BK";
-                      } else {
-                          $dataliner = "LN3BK";
-                      }
+                      // // Liner
+                      // $default_dataliner = "LN1BK";
+                      // if ( in_array($i, array('0')) ) {
+                      //     $dataliner = "LN1BK";
+                      // } elseif ( in_array($i, array('1')) ) {
+                      //     $dataliner = "LN2BK";
+                      // } else {
+                      //     $dataliner = "LN3BK";
+                      // }
                     ?>
 
                     <?php  /* 
@@ -283,7 +283,7 @@ $count = 0;
                       */ ?>
                 
                   
-                    <label for="photo_size_{{$photo_size_key}}" class="uk-width-1-1">{{($i == 0)? "a" : "b"}}
+                    <!-- <label for="photo_size_{{$photo_size_key}}" class="uk-width-1-1">{{($i == 0)? "a" : "b"}}
                       <input type="radio" name="imageSize" 
                       class="photo-size-selection-option photo-size-selection-option-{{$productOptions->fldProductOptionsID}}" 
                       id="photo_size_{{$photo_size_key}}" data-height= "{{ $productOptions->fldOptionsAssetsHeight }}" 
@@ -294,52 +294,52 @@ $count = 0;
                       data-sequence="{{$ii}}"
                       data-arrange="{{$queryOptions->fldOptionsAssetsPosition}}"
                       data-widthfraction="{{ \App\Models\ProductOptions::frameFraction($productOptions->fldOptionsAssetsWidthFraction)}}" 
-                      data-heightfraction="{{ \App\Models\ProductOptions::frameFraction($productOptions->fldOptionsAssetsHeightFraction)}}" onchange="generateNewImageFrame()" value="{{ $productOptions->fldProductOptionsID }}" {{($i == 0)? "checked='checked'" : "b"}} data-addtnl_cost="{{$this_expensive_cost}}" data-frame_cost="{{$frame_cost}}" data-liner="{{$dataliner}}"><span class="uk-display-inline-block photo-size-selection-option-lbl-{{$productOptions->fldProductOptionsID}}" >{!!$border_size_html!!}</span></label>
+                      data-heightfraction="{{ \App\Models\ProductOptions::frameFraction($productOptions->fldOptionsAssetsHeightFraction)}}" onchange="generateNewImageFrame()" value="{{ $productOptions->fldProductOptionsID }}" {{($i == 0)? "checked='checked'" : "b"}} data-addtnl_cost="{{$this_expensive_cost}}" data-frame_cost="{{$frame_cost}}" data-liner="{{$dataliner}}"><span class="uk-display-inline-block photo-size-selection-option-lbl-{{$productOptions->fldProductOptionsID}}" >{!!$border_size_html!!}</span></label> -->
 
                       <?php /* LoCost<input type="text" name="defaultlocost" id="defaultlocost" value="{{$lowcost[$ii]}}"> */ ?>
 
                     <?php
                     // $price_html_temp .= '<label class="uk-width-1-1 uk-display-block">$ <span class="price-start price-start-'.$productOptions->fldProductOptionsID.'">'.$productOptions->fldProductOptionsPrice.' ('.$arrayShipProcFee[$i].')</span></label>';
-                    $price_html_temp .= '<label class="uk-width-1-1 uk-display-block">$ <span class="price-start price-start-'.$productOptions->fldProductOptionsID.'">'.$productOptions->fldProductOptionsPrice.'</span></label>';
+                    //$price_html_temp .= '<label class="uk-width-1-1 uk-display-block">$ <span class="price-start price-start-'.$productOptions->fldProductOptionsID.'">'.$productOptions->fldProductOptionsPrice.'</span></label>';
                     ?>
 
-                    <? $i++; $ii++; ?>
-              @endforeach
+                    <? //$i++; $ii++; ?>
+              <!-- @endforeach
         @elseif($print_id == 0)
-              @foreach($productOption as $photo_size_key => $productOptions)
+              @foreach($productOption as $photo_size_key => $productOptions) -->
                     <?php 
-                    $defaultCostPrint = \App\Models\ProductCost::where('product_id','=',$itemID)->where('sequence',$ii)->first();
-                    $queryOptions = \App\Models\OptionsAssets::where( 'fldOptionsAssetsID', $productOptions->fldProductOptionsAssetsID )->first();
+                    // $defaultCostPrint = \App\Models\ProductCost::where('product_id','=',$itemID)->where('sequence',$ii)->first();
+                    // $queryOptions = \App\Models\OptionsAssets::where( 'fldOptionsAssetsID', $productOptions->fldProductOptionsAssetsID )->first();
                     ?>
-                    @if( !empty($queryOptions) )
+                    <!-- @if( !empty($queryOptions) ) -->
                       <?php 
-                        $first_fraction = $product_option_class->frameFraction($productOptions->fldOptionsAssetsWidthFraction);
-                        $first_fraction_val = fractionized($first_fraction);
-                        $second_fraction = $product_option_class->frameFraction($productOptions->fldOptionsAssetsHeightFraction);
-                        $second_fraction_val = fractionized($second_fraction);
-                        $border_size =  $productOptions->fldOptionsAssetsWidth . ' ' . $first_fraction .' x ' .$productOptions->fldOptionsAssetsHeight . ' ' . $second_fraction;
-                        $border_size_html =  $productOptions->fldOptionsAssetsWidth . ' ' . $first_fraction_val .' x ' .$productOptions->fldOptionsAssetsHeight  . ' ' .$second_fraction_val;
+                        // $first_fraction = $product_option_class->frameFraction($productOptions->fldOptionsAssetsWidthFraction);
+                        // $first_fraction_val = fractionized($first_fraction);
+                        // $second_fraction = $product_option_class->frameFraction($productOptions->fldOptionsAssetsHeightFraction);
+                        // $second_fraction_val = fractionized($second_fraction);
+                        // $border_size =  $productOptions->fldOptionsAssetsWidth . ' ' . $first_fraction .' x ' .$productOptions->fldOptionsAssetsHeight . ' ' . $second_fraction;
+                        // $border_size_html =  $productOptions->fldOptionsAssetsWidth . ' ' . $first_fraction_val .' x ' .$productOptions->fldOptionsAssetsHeight  . ' ' .$second_fraction_val;
                       ?>
 
                       <?php
 
-                      if($productOptions->fldProductOptionsPrice == null || $productOptions->fldProductOptionsPrice == ''){
-                          $productOptions->fldProductOptionsPrice = 0;
-                      }
-                      $this_expensive_cost = $array_expensive_costs[$photo_size_key];
-                      $frame_cost = $productOptions->fldProductOptionsPrice;
+                      // if($productOptions->fldProductOptionsPrice == null || $productOptions->fldProductOptionsPrice == ''){
+                      //     $productOptions->fldProductOptionsPrice = 0;
+                      // }
+                      // $this_expensive_cost = $array_expensive_costs[$photo_size_key];
+                      // $frame_cost = $productOptions->fldProductOptionsPrice;
 
-                      // Liner
-                      $default_dataliner = "LN1BK";
-                      if ( in_array($i, array('0')) ) {
-                          $dataliner = "LN1BK";
-                      } elseif ( in_array($i, array('1')) ) {
-                          $dataliner = "LN2BK";
-                      } else {
-                          $dataliner = "LN3BK";
-                      }
+                      // // Liner
+                      // $default_dataliner = "LN1BK";
+                      // if ( in_array($i, array('0')) ) {
+                      //     $dataliner = "LN1BK";
+                      // } elseif ( in_array($i, array('1')) ) {
+                      //     $dataliner = "LN2BK";
+                      // } else {
+                      //     $dataliner = "LN3BK";
+                      // }
                     ?>
-                    <label for="photo_size_{{$photo_size_key}}" class="uk-width-1-1">
+                    <!-- <label for="photo_size_{{$photo_size_key}}" class="uk-width-1-1">
                       <input type="radio" name="imageSize" 
                       class="photo-size-selection-option photo-size-selection-option-{{$productOptions->fldProductOptionsID}}"
                        id="photo_size_{{$photo_size_key}}"
@@ -350,63 +350,63 @@ $count = 0;
                             data-shipping="" data-defaultlocost="{{!empty($defaultCostPrint) ? $defaultCostPrint->framelow_cost : 0 }}"
                              data-defaulthicost="{{!empty($defaultCostPrint) ? $defaultCostPrint->framehigh_cost : 0 }}"
                              data-arrange="{{$queryOptions->fldOptionsAssetsPosition}}"
-                             data-sequence="{{$ii}}" data-widthfraction="{{ \App\Models\ProductOptions::frameFraction($productOptions->fldOptionsAssetsWidthFraction)}}" data-heightfraction="{{ \App\Models\ProductOptions::frameFraction($productOptions->fldOptionsAssetsHeightFraction)}}" onchange="generateNewImageFrame()" value="{{ $productOptions->fldProductOptionsID }}" {{($i == 0)? "checked='checked'" : ""}} data-addtnl_cost="{{$this_expensive_cost}}" data-frame_cost="{{$frame_cost}}" data-liner="{{$dataliner}}"><span class="uk-display-inline-block photo-size-selection-option-lbl-{{$productOptions->fldProductOptionsID}}" >{!!$border_size_html!!}</span></label>
+                             data-sequence="{{$ii}}" data-widthfraction="{{ \App\Models\ProductOptions::frameFraction($productOptions->fldOptionsAssetsWidthFraction)}}" data-heightfraction="{{ \App\Models\ProductOptions::frameFraction($productOptions->fldOptionsAssetsHeightFraction)}}" onchange="generateNewImageFrame()" value="{{ $productOptions->fldProductOptionsID }}" {{($i == 0)? "checked='checked'" : ""}} data-addtnl_cost="{{$this_expensive_cost}}" data-frame_cost="{{$frame_cost}}" data-liner="{{$dataliner}}"><span class="uk-display-inline-block photo-size-selection-option-lbl-{{$productOptions->fldProductOptionsID}}" >{!!$border_size_html!!}</span></label> -->
 
                     <?php
-                    $price_html_temp .= '<label class="uk-width-1-1 uk-display-block">$ <span class="price-start price-start-'.$productOptions->fldProductOptionsID.'">'.$productOptions->fldProductOptionsPrice.'</span></label>';
+                   // $price_html_temp .= '<label class="uk-width-1-1 uk-display-block">$ <span class="price-start price-start-'.$productOptions->fldProductOptionsID.'">'.$productOptions->fldProductOptionsPrice.'</span></label>';
                     ?>
 
-                    <? $i++; $ii++; ?>
-                    @endif
+                    <? //$i++; $ii++; ?>
+                    <!-- @endif
               @endforeach
-        @else
-              <? $counter_if = 0; ?>
-              @foreach($productOption as $photo_size_key => $productOptions)
+        @else -->
+              <? //$counter_if = 0; ?>
+              <!-- @foreach($productOption as $photo_size_key => $productOptions) -->
                 <?php 
 
-                $queryOptions = \App\Models\OptionsAssets::where( 'fldOptionsAssetsID', $productOptions->fldProductOptionsAssetsID )->first();
+                //$queryOptions = \App\Models\OptionsAssets::where( 'fldOptionsAssetsID', $productOptions->fldProductOptionsAssetsID )->first();
                 ?>
-                @if( !empty($queryOptions) )
+                <!-- @if( !empty($queryOptions) ) -->
                 <?php 
                   // echo $productOptions->fldOptionsAssetsWidth.': '.$productOptions->fldProductOptionsPrice.'<br>';
 
-                  if($productOptions->fldProductOptionsPricePrint == null || $productOptions->fldProductOptionsPricePrint == ''){
+                  // if($productOptions->fldProductOptionsPricePrint == null || $productOptions->fldProductOptionsPricePrint == ''){
 
-                      $productOptions->fldProductOptionsPricePrint = 0;
+                  //     $productOptions->fldProductOptionsPricePrint = 0;
                       
-                  }
+                  // }
 
-                  $first_fraction = $product_option_class->frameFraction($productOptions->fldOptionsAssetsWidthFraction);
-                  $first_fraction_val = fractionized($first_fraction);
-                  $second_fraction = $product_option_class->frameFraction($productOptions->fldOptionsAssetsHeightFraction);
-                  $second_fraction_val = fractionized($second_fraction);
-                  $border_size =  $productOptions->fldOptionsAssetsWidth . ' ' . $first_fraction .' x ' .$productOptions->fldOptionsAssetsHeight . ' ' . $second_fraction;
-                  $border_size_html =  $productOptions->fldOptionsAssetsWidth . ' ' . $first_fraction_val .' x ' .$productOptions->fldOptionsAssetsHeight  . ' ' .$second_fraction_val;
+                  // $first_fraction = $product_option_class->frameFraction($productOptions->fldOptionsAssetsWidthFraction);
+                  // $first_fraction_val = fractionized($first_fraction);
+                  // $second_fraction = $product_option_class->frameFraction($productOptions->fldOptionsAssetsHeightFraction);
+                  // $second_fraction_val = fractionized($second_fraction);
+                  // $border_size =  $productOptions->fldOptionsAssetsWidth . ' ' . $first_fraction .' x ' .$productOptions->fldOptionsAssetsHeight . ' ' . $second_fraction;
+                  // $border_size_html =  $productOptions->fldOptionsAssetsWidth . ' ' . $first_fraction_val .' x ' .$productOptions->fldOptionsAssetsHeight  . ' ' .$second_fraction_val;
 
                   ?>
                   
                   <?php
 
-                  $this_expensive_cost = $array_expensive_costs[$photo_size_key];
+                  // $this_expensive_cost = $array_expensive_costs[$photo_size_key];
 
-                  $frame_cost = $productOptions->fldProductOptionsPricePrint;
+                  // $frame_cost = $productOptions->fldProductOptionsPricePrint;
 
-                  // Liner
-                  $default_dataliner = "LN1BK";
-                  if ( in_array($i, array('0')) ) {
-                      $dataliner = "LN1BK";
-                  } elseif ( in_array($i, array('1')) ) {
-                      $dataliner = "LN2BK";
-                  } else {
-                      $dataliner = "LN3BK";
-                  }
+                  // // Liner
+                  // $default_dataliner = "LN1BK";
+                  // if ( in_array($i, array('0')) ) {
+                  //     $dataliner = "LN1BK";
+                  // } elseif ( in_array($i, array('1')) ) {
+                  //     $dataliner = "LN2BK";
+                  // } else {
+                  //     $dataliner = "LN3BK";
+                  // }
 
                 ?>
 
-                @if($productOptions->fldProductOptionsPricePrint == null || $productOptions->fldProductOptionsPricePrint == '')
+                <!-- @if($productOptions->fldProductOptionsPricePrint == null || $productOptions->fldProductOptionsPricePrint == '')
 
                 @else
-                <?$counter_if++;?>
+                <?//$counter_if++;?>
                 <label for="photo_size_{{$photo_size_key}}" class="uk-width-1-1">
                   <input type="radio" name="imageSize"
                     class="photo-size-selection-option photo-size-selection-option-{{$productOptions->fldProductOptionsID}}"
@@ -432,31 +432,31 @@ $count = 0;
                   
                   </span>
                 </label>
-                @endif
+                @endif -->
 
 
 
 
                 <?php
 
-                  if($productOptions->fldProductOptionsPricePrint == null || $productOptions->fldProductOptionsPricePrint == ''){
+                  // if($productOptions->fldProductOptionsPricePrint == null || $productOptions->fldProductOptionsPricePrint == ''){
 
                         
                       
-                  }
-                  else
-                  {
+                  // }
+                  // else
+                  // {
 
 
-                        $price_html_temp .= '<label class="uk-width-1-1 uk-display-block">$ <span class="price-start price-start-'.$productOptions->fldProductOptionsID.'">'.$productOptions->fldProductOptionsPricePrint.'</span></label>';
+                  //       $price_html_temp .= '<label class="uk-width-1-1 uk-display-block">$ <span class="price-start price-start-'.$productOptions->fldProductOptionsID.'">'.$productOptions->fldProductOptionsPricePrint.'</span></label>';
 
-                  }
+                  // }
 
                 // $price_html_temp .= '<label class="uk-width-1-1 uk-display-block">$ <span class="price-start price-start-'.$productOptions->fldProductOptionsID.'">'.$productOptions->fldProductOptionsPrice.' ('.$arrayShipProcFee[$i].')</span></label>';
                 ?>
 
-                <? $i++; $ii++; ?>
-                @endif
+                <?// $i++; $ii++; ?>
+                <!-- @endif
               @endforeach
 
               @if($counter_if == 0)
@@ -468,7 +468,7 @@ $count = 0;
 
 
       </div>
-    </div>
+    </div> -->
 
 
 
@@ -483,7 +483,7 @@ $count = 0;
 // die('Ln129');
 ?>
 
-    <div class="uk-width-medium-1-2 uk-width-3-10 uk-padding-remove">
+    <!-- <div class="uk-width-medium-1-2 uk-width-3-10 uk-padding-remove">
       <div class="radio-option-wrapper uk-md-large">               
        {!!$price_html_temp!!}
       </div>
@@ -498,9 +498,9 @@ $count = 0;
             <span class="light frame-color-lbl uk-display-inline-block uk-margin-small-right frame-details-lbl frame-details-lbl notPrint"> Color: &nbsp;</span> <span class="bold text-uppercase  frame-color-text uk-display-inline-block uk-margin-right frame-details-val removeFrameVal notPrint"></span>
             <span class="light frame-style-lbl uk-margin-small-right frame-details-lbl frame-details-lbl notPrint">Style: &nbsp;</span> 
             <span class="bold text-uppercase  frame-style-text uk-display-inline-block frame-details-val removeStyleSpan notPrint"></span>  
-            <span class="light frame-liner-lbl uk-display-inline-block uk-margin-small-right frame-details-lbl removeLinerOnPrints">Liner: &nbsp;</span>
+            <span class="light frame-liner-lbl uk-display-inline-block uk-margin-small-right frame-details-lbl removeLinerOnPrints">Liner: &nbsp;</span> -->
             <!-- <span class="bold text-uppercase  frame-liner-text uk-display-inline-block frame-details-val">Black Linen Liner</span> -->
-	    <span class="bold text-uppercase  frame-liner-text uk-display-inline-block frame-details-val removeLinerVal removeLinerOnPrints"></span>
+	    <!-- <span class="bold text-uppercase  frame-liner-text uk-display-inline-block frame-details-val removeLinerVal removeLinerOnPrints"></span>
 
             <span class="light frame-print-lbl uk-display-inline-block uk-margin-small-right frame-details-lbl uk-hidden">Print: &nbsp;</span>
             <span class="bold text-uppercase  frame-print-text uk-display-inline-block frame-details-val uk-hidden removePrintsVal"></span>
@@ -510,7 +510,7 @@ $count = 0;
             <span class="light photo-size-lbl uk-display-inline-block uk-margin-small-right frame-details-lbl">&nbsp;</span>
             <span class="uk-display-inline-block frame-details-val">*Photo Size For Print. Add 8-10 inches for Frame and Liner.</span>
     </div>
-  </div>
+  </div> -->
   
 
 </div> <!-- <div class="product-settings"> -->

@@ -41,7 +41,6 @@ class CategoryController extends Controller
     {
 		//if not login redirect to login page
 		if(!Session::has('dnradmin_id')) { return Redirect::to('dnradmin/');}
-
 		$main_id=0;
 		$category =  Category::where('fldCategoryMainID', '=', $main_id)->orderby('fldCategoryPosition')->get();
 		$administrator = Settings::where('fldAdministratorID','=',Session::get('dnradmin_id'))->first();

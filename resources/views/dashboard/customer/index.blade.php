@@ -125,7 +125,7 @@
             	</div>
             	<div class="uk-vertical-divider full-width  uk-visible-large"></div>
 
-                <?php // echo '<pre>'; print_r($cart); die(); ?>
+                <?php  //echo '<pre>'; print_r($cart); die(); ?>
             	@foreach($cart as $order)
             		<?php
                     $images = '';
@@ -140,8 +140,8 @@
                     $total_tax      = $order->fldCartTax;
                     $total_coupon   = $order->fldCartCouponCodeCouponPrice;
                     // $total_shipping = $order->fldCartShippingRateShippingAmount;
-
-                    $products->name[$order->fldCartID]   = array();
+					
+                    $products->name[$order->fldCartID]  = array();
                     $products->price[$order->fldCartID]  = array();
                     $products->image[$order->fldCartID]  = array();
                     $products->slug[$order->fldCartID]   = array();

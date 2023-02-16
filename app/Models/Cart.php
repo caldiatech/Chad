@@ -311,7 +311,7 @@ class Cart extends Eloquent
 		$cartDisplay = self::leftJoin('tblCartCouponCode','tblCart.fldCartOrderNo','=','tblCartCouponCode.fldCartCouponCodeOrderNo')
 					->leftJoin('tblCartTax','tblCart.fldCartOrderNo','=','tblCartTax.fldCartTaxOrderNo')
 					->where('tblCart.fldCartClientID','=',$client_id)
-					->select('tblCart.fldCartOrderNo', 'tblCart.fldCartShippingAddress', 'tblCart.fldCartOrderDate', 'tblCartTax.fldCartTax', 'tblCartCouponCode.fldCartCouponCodeCouponPrice')
+					->select('tblCart.fldCartID','tblCart.fldCartOrderNo', 'tblCart.fldCartShippingAddress', 'tblCart.fldCartOrderDate', 'tblCartTax.fldCartTax', 'tblCartCouponCode.fldCartCouponCodeCouponPrice')
 					->groupBy('fldCartOrderNo')
 					->orderBy('fldCartID','DESC')
 					->get();

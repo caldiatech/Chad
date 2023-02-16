@@ -69,11 +69,11 @@
 
 <div class="uk-container uk-container-center uk-margin-medium-bottom  uk-padding-remove product-detail-wrapper product-type-{{$fldProductIsVertical}}">
 
-	<div id="div_prod_loading" style="pointer-events: none;opacity: 0.5;background: #CCC;">
-		<h1 style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%) translateY(-50%); background-color: #fff; opacity: 100;" id="h2_prod_loading">Please wait..</h1>
-  <article id="main" role="main">
-	<!--PAGE BREADCRUMB -->
-	<div class="uk-breadcrumb-wrapper  uk-margin-bottom  uk-width-1-1" >
+	<div>
+		<!-- <h1 style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%) translateY(-50%); background-color: #fff; opacity: 100;" id="h2_prod_loading">Please wait..</h1> -->
+     <article id="main" role="main">
+	  <!--PAGE BREADCRUMB -->
+	  <div class="uk-breadcrumb-wrapper  uk-margin-bottom  uk-width-1-1" >
 	  <ul class="uk-breadcrumb">
 		<li class="product-main-category"><a href="{{url('collection')}}">Collection</a></li>
 
@@ -144,7 +144,7 @@
 
 			{!! Form::hidden('total_price',number_format($fldProductImagePrice,2),['id'=>'total_price']) !!}
 			<div class="frame-selection" id="frame-selection" style="opacity: 0"> <!-- frame -->
-			  @include('home.product_details.frame-1')
+			  
 			</div>
 		</div>
 		<a href="#toggle-pice-details2" class="floatingPrice uk-hidden" data-uk-offcanvas="{mode:'slide'}">
@@ -191,8 +191,11 @@
 			@if (count($productOption) > 0)
 <!-- XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -->
 
-@include('home.product_details.frame')
 
+<input type="hidden" name="imageSize" value="{{ $productOption[0]['fldProductOptionsID'] }}">
+<input type="hidden" name="frame_sequence" id="frame_sequence" value="1">
+<input type="hidden" name="liner" id="liner" value="LN1BK">
+<input type="hidden" id="liner_color_code" name="liner_color_code" value="BK">
 <!-- XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -->
 
 
@@ -223,10 +226,10 @@
 
 
 <!-- This is the modal -->
-<div id="enlargedImage" class="uk-modal   product-type-{{$product->fldProductIsVertical}}"">
+<div id="enlargedImage" class="uk-modal   product-type-{{$product->fldProductIsVertical}}">
 	<div class="uk-modal-dialog uk-modal-dialog-lightbox">
 		<a href="" class="uk-modal-close uk-close uk-close-alt"></a>
-		<img src="{!! url(PRODUCT_IMAGE_PATH.$product->fldProductSlug.'/'.$product->fldProductImage) !!}" alt="" id="modalImage"  onload="on_render_finish();">
+		<img src="{!! url(PRODUCT_IMAGE_PATH.$product->fldProductSlug.'/'.$product->fldProductImage) !!}" alt="" id="modalImage"  onload="on_render_finish();" style="transform: scale(1.5);">
 	</div>
 </div>
 
@@ -762,7 +765,7 @@ function load_javascripts(){
 		  // console.log('finishkitSku');
 		  // console.log(finishkitSku);
 		  var current_frame_size_val = $('input[name="imageSize"]:checked').val();
-		  // console.log('current_frame_size_val');
+		  //console.log('current_frame_size_val');
 		  // console.log(current_frame_size_val);
 		  // console.log('input.photo-size-selection-option-'+current_frame_size_val);
 		  var current_frame_size_price = $('input.photo-size-selection-option-'+current_frame_size_val).attr('data-frame_cost');
@@ -1303,8 +1306,8 @@ window.sortMeBy = (function(){
 	console.log('v_frame_is_cheap: '+v_frame_is_cheap);
 	console.log('defaultcost: '+defaultcost);
 	//patrick added
-	$('#div_prod_loading').removeAttr('style');
-	$('#h2_prod_loading').attr('hidden','hidden');
+	//$('#div_prod_loading').removeAttr('style');
+	//$('#h2_prod_loading').attr('hidden','hidden');
 
 
 	var dateNow = new Date(); // for now
