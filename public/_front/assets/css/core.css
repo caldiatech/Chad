@@ -11,8 +11,8 @@
 
   body, #container {
 	*zoom: 1;
-	background-color: #000000;
-	color: #ffffff;
+	background-color: #ffffff;
+	color: #000000;
   }
 
   body:before, body:after, #container:before, #container:after {
