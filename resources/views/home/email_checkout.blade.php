@@ -50,11 +50,11 @@
                         <th widht='10%' style='background:rgba(0,0,0,0.10);font:600 13px sans-serif;color:#555;text-align:left;text-transform:uppercase;text-shadow:none;padding:10px;'> QTY </th>
                         <th width='15%' style='background:rgba(0,0,0,0.10);font:600 13px sans-serif;color:#555;text-align:left;text-transform:uppercase;text-shadow:none;padding:10px;'> Total </th>
                     </tr>
-                    
-                     {{-- */                         	
+                   
+                      @php                     	
                        $cart = App\Models\Cart::displayCart($order_code)
-                     /* --}}	
-
+                     @endphp
+                     
                     <?php $shipping_total = $shipping_per_item = $without_shipping_total = $grandtotal = 0; ?>
                     @foreach($cart as $carts)
 

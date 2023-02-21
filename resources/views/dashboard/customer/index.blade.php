@@ -127,6 +127,7 @@
 
                 <?php  //echo '<pre>'; print_r($cart); die(); ?>
             	@foreach($cart as $order)
+				
             		<?php
                     $images = '';
 
@@ -140,12 +141,11 @@
                     $total_tax      = $order->fldCartTax;
                     $total_coupon   = $order->fldCartCouponCodeCouponPrice;
                     // $total_shipping = $order->fldCartShippingRateShippingAmount;
-					
-                    $products->name[$order->fldCartID]  = array();
-                    $products->price[$order->fldCartID]  = array();
-                    $products->image[$order->fldCartID]  = array();
-                    $products->slug[$order->fldCartID]   = array();
-                    $products->name_quantity[$order->fldCartID]   = array();
+                    $products['name'][$order->fldCartID]  = array();
+                    $products['price'][$order->fldCartID]  = array();
+                    $products['image'][$order->fldCartID]  = array();
+                    $products['slug'][$order->fldCartID]   = array();
+                    $products['name_quantity'][$order->fldCartID]   = array();
 
                     $subtotal_per_cart = 0;
 
@@ -157,32 +157,32 @@
                         $subtotal_per_line = $item->fldCartProductPrice * $item->fldCartQuantity;
                         $subtotal_per_cart += $subtotal_per_line;
 
-                        array_push($products->name[$order->fldCartID], $item->fldCartProductName);
-                        array_push($products->name_quantity[$order->fldCartID], $item->fldCartProductName.' ( '.$item->fldCartQuantity.' )');
+                        array_push($products['name'][$order->fldCartID], $item->fldCartProductName);
+                        array_push($products['name_quantity'][$order->fldCartID], $item->fldCartProductName.' ( '.$item->fldCartQuantity.' )');
 
                         $product = \App\Models\Product::find($item->fldCartProductID);
 
                         if (!empty($product)) {
-                            array_push($products->slug[$order->fldCartID], $product->fldProductSlug);
+                            array_push($products['slug'][$order->fldCartID], $product->fldProductSlug);
                             // array_push($products->price[$order->fldCartID], $subtotal_per_line);
-                            array_push($products->image[$order->fldCartID], $product->fldProductImage);
+                            array_push($products['image'][$order->fldCartID], $product->fldProductImage);
                             $images .= '<img src="'.url(PRODUCT_IMAGE_PATH.$product->fldProductSlug.'/'.THUMB_IMAGE.$product->fldProductImage).'" alt="'.$product->fldProductName.'" /><br><br>';
                         }
 
                     }
 
-                    if (!empty($products->name[$order->fldCartID])) {
+                    if (!empty($products['name'][$order->fldCartID])) {
                         $total_per_cart = $subtotal_per_cart - $total_coupon + $shipping_cost + $total_tax;
 
                         // $slugs = (count($products->slug[$order->fldCartID]) > 1)? '': $products->slug[$order->fldCartID][0];
                         // $images = (count($products->image[$order->fldCartID]) > 1)? 'Multiple': $products->image[$order->fldCartID][0];
-                        $product_name = implode('<br>', $products->name[$order->fldCartID]);
-                        $product_name_quantity = implode('<br>', $products->name_quantity[$order->fldCartID]);
+                        $product_name = implode('<br>', $products['name'][$order->fldCartID]);
+                        $product_name_quantity = implode('<br>', $products['name_quantity'][$order->fldCartID]);
                     }
             		?>
 
 
-                    @if (!empty($products->name[$order->fldCartID]))
+                    @if (!empty($products['name'][$order->fldCartID]))
                         <div class="uk-width-large-1-10  uk-width-small-1-2  uk-width-1-1 uk-padding-v-normal uk-td">
                             <label  class="table-text light"><span class="mobile-label uk-hidden-large">Date</span>
                                 <small>{!!date('m/d/Y',strtotime($order->fldCartOrderDate)) !!}</small></label>

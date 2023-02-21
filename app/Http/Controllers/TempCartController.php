@@ -124,7 +124,6 @@ class TempCartController extends BaseController
 			\Braintree_Configuration::merchantId(BRAINTREE_MERCHANTID);
 			\Braintree_Configuration::publicKey(BRAINTREE_PUBLICKEY);
 			\Braintree_Configuration::privateKey(BRAINTREE_PRIVATEKEY);
-
 			$results = BraintreeInformation::findClient($client->fldClientBraintreeCustomerID);
 			print_r($results);die();
 		}*/
@@ -415,7 +414,6 @@ class TempCartController extends BaseController
 					$error = true;
 				}
 			}
-
 			if($error == true) {
 				return Redirect::to('products/details/'.$product->fldProductSlug)->withInput();
 			}
@@ -423,7 +421,6 @@ class TempCartController extends BaseController
 				$borderStyle = $request->get('gw_options');
 			else
 				$borderStyle = $request->get('mw_options');
-
 			if($paperType == 'canvas')
 				$paper_options = json_encode([
 					'wrap_options'  => $wrap_options,
@@ -445,28 +442,21 @@ class TempCartController extends BaseController
 			/*
 			*remove api
 			$xmlbld = new SoapXmlBuilder;
-
 			$xmlbld->setImageElem($width, $height, $product->fldProductName, url(PRODUCT_IMAGE_PATH.$product->fldProductSlug.'/'.MEDIUM_IMAGE.$product->fldProductImage), $borderStyle);
-
 			if(Input::has('paper_info'))
 	    		$xmlbld->setPaperElem($paperSku[0], $paperType, $wrap_options);
 	    	else
 	    		$xmlbld->setPaperElem(Input::get('photo_paper'), $paperType, $wrap_options);
-
 	    	if($frame_info){
 				$xmlbld->setFrameElem($frame_info);
 			}
-
 			if($mats) {
 				$xmlbld->setMatElem($mats, $mats_width, $mat_options);
 			}
-
 			if($request->has('finishkit')) {
 				$xmlbld->setFinishElem($request->get('finishkit'));
 			}
-
 			// dd($xmlbld->buildBody('getProductGroupPrice', 'pricingGroupRequest'));
-
 			$packagePrice = $xmlbld->curlExec('getProductGroupPrice', 'pricingGroupRequest');
 			//print_r($packagePrice);die();
 			if(isset($packagePrice->soapBody)){
@@ -475,13 +465,11 @@ class TempCartController extends BaseController
 					return Redirect::to('products/details/'.$product->fldProductSlug)->withInput();
 				}
 			}
-
 			//$packagePrice = json_decode(json_encode($packagePrice['PricedProductPackage']));
 			if(count($packagePrice) > 0) {
 			   	$frame_price 		= ($frame_info) ? $packagePrice->frame->priceData->markUpPrice : 0;
 			   	$feeTotal 			= $packagePrice->packagePriceData->feeTotal;
 			   	$merchandiseTotal 	= $packagePrice->packagePriceData->merchandiseTotal;
-
 			   	$promotionTotal 	= $packagePrice->packagePriceData->promotionTotal;
 			   	$wholesaleTotal 	= $packagePrice->packagePriceData->wholesaleTotal;
 			   	$discountTotal 		= $packagePrice->packagePriceData->discountTotal;
@@ -889,14 +877,6 @@ class TempCartController extends BaseController
 		// 	'currencyCode'	=> $currencyCode
 		// ]);
 		// dd($myArray);
-
-
-
-
-
-
-
-
 		// echo '<hr>';
 		// echo 'Product Cost: '.$subtotal_amount.'<br>';
 		// echo '20% Discount: '.$coupon_discount.'<br>';
@@ -947,8 +927,8 @@ class TempCartController extends BaseController
                     )
                 );
 
-        // $xml_profile = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_DEVELOPMENT_SERVER);
-        $xml_profile = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_PRODUCTION_SERVER);
+        $xml_profile = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_DEVELOPMENT_SERVER);
+        //$xml_profile = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_PRODUCTION_SERVER);
         $refId = date('ymdhis') . rand(1000,9999);
         $xml_profile->createCustomerProfileRequest($customer_profile);
 
@@ -971,8 +951,8 @@ class TempCartController extends BaseController
                         )
                     );
 
-            // $xml_profile_update = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_DEVELOPMENT_SERVER);
-            $xml_profile_update = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_PRODUCTION_SERVER);
+             $xml_profile_update = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_DEVELOPMENT_SERVER);
+            //$xml_profile_update = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_PRODUCTION_SERVER);
             // $refId = date('ymdhis') . rand(1000,9999);
             $xml_profile_update->updateCustomerProfileRequest($customer_profile_update);
 
@@ -1026,8 +1006,8 @@ class TempCartController extends BaseController
         Log::debug($one_time_charge);
         Log::debug('---------one_time_charge--------------');
 
-        // $xml_charge = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_DEVELOPMENT_SERVER);
-        $xml_charge = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_PRODUCTION_SERVER);
+        $xml_charge = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_DEVELOPMENT_SERVER);
+        //$xml_charge = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_PRODUCTION_SERVER);
         $refId = date('ymdhis') . rand(1000,9999);
         $xml_charge->createCustomerProfileTransactionRequest($one_time_charge); // authorizeAndCapture
 
@@ -1254,7 +1234,7 @@ class TempCartController extends BaseController
 			$cartSave->fldCartProductOptions = $carts->fldTempCartProductOptions;
 			// $cartSave->fldCartShippingPrice = $carts->fldTempCartShippingPrice;
 			$cartSave->fldCartShippingPrice = Input::get('shipping_amount'); // Shipping Amount for the whole transaction
-			$cartSave->fldCartShippingCode = Input::get('shipping_code'); // Shipping Code for the whole transaction
+			$cartSave->fldCartShippingCode = "STANDARD";//Input::get('shipping_code'); // Shipping Code for the whole transaction
 			$cartSave->fldCartQuantity =$carts->quantity;
 			$cartSave->fldCartOrderNo = $order_code;
 			$cartSave->fldCartOrderDate = $date;

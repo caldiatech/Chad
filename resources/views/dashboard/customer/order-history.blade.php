@@ -84,28 +84,29 @@
                     $total_coupon   = $order->fldCartCouponCodeCouponPrice;
                     // $total_shipping = $order->fldCartShippingRateShippingAmount;
 
-                    $products->name[$order->fldCartID]   = array();
-                    $products->price[$order->fldCartID]  = array();
-                    $products->image[$order->fldCartID]  = array();
-                    $products->slug[$order->fldCartID]   = array();
-                    $products->name_quantity[$order->fldCartID]   = array();
+                    $products['name'][$order->fldCartID]  = array();
+                    $products['price'][$order->fldCartID]  = array();
+                    $products['image'][$order->fldCartID]  = array();
+                    $products['slug'][$order->fldCartID]   = array();
+                    $products['name_quantity'][$order->fldCartID]   = array();
+
 
                     $subtotal_per_cart = 0;
 
                     foreach ($order_rows as $key => $item) {
                         $product = \App\Models\Product::find($item->fldCartProductID);
 
-                        array_push($products->name[$order->fldCartID], $item->fldCartProductName);
+                        array_push($products['name'][$order->fldCartID], $item->fldCartProductName);
                         $shipping_cost = $item->fldCartShippingPrice; // To be added one time only after loop
                         $subtotal_per_line = $item->fldCartProductPrice * $item->fldCartQuantity;
                         // $subtotal_per_line = ($item->fldCartProductPrice + $item->fldCartShippingPrice) * $item->fldCartQuantity;
                         $subtotal_per_cart += $subtotal_per_line;
-                        array_push($products->price[$order->fldCartID], $subtotal_per_line);
-                        array_push($products->name_quantity[$order->fldCartID], $item->fldCartProductName.' ( '.$item->fldCartQuantity.' )');
+                        array_push($products['price'][$order->fldCartID], $subtotal_per_line);
+                        array_push($products['name_quantity'][$order->fldCartID], $item->fldCartProductName.' ( '.$item->fldCartQuantity.' )');
 
                         if (!empty($product)) {
-                            array_push($products->slug[$order->fldCartID], $product->fldProductSlug);
-                            array_push($products->image[$order->fldCartID], $product->fldProductImage);
+                            array_push($products['slug'][$order->fldCartID], $product->fldProductSlug);
+                            array_push($products['image'][$order->fldCartID], $product->fldProductImage);
                             $images .= '<img src="'.url(PRODUCT_IMAGE_PATH.$product->fldProductSlug.'/'.THUMB_IMAGE.$product->fldProductImage).'" alt="'.$product->fldProductName.'" /><br><br>';
                         }
                     }
@@ -113,10 +114,10 @@
                     $total_per_cart = $subtotal_per_cart - $total_coupon + $shipping_cost + $total_tax;
                     // $total_per_cart = $subtotal_per_cart + $total_tax - $total_coupon;
                     
-                    $slugs = (count($products->slug[$order->fldCartID]) > 1)? '': $products->slug[$order->fldCartID][0];
-                    // $images = (count($products->image[$order->fldCartID]) > 1)? 'Multiple': $products->image[$order->fldCartID][0];
-                    $product_name = implode('<br>', $products->name[$order->fldCartID]);
-                    $product_name_quantity = implode('<br>', $products->name_quantity[$order->fldCartID]);
+                    $slugs = (count($products['slug'][$order->fldCartID]) > 1)? '': $products['slug'][$order->fldCartID][0];
+                    // $images = (count($products['image'][$order->fldCartID]) > 1)? 'Multiple': $products['image'][$order->fldCartID][0];
+                    $product_name = implode('<br>', $products['name'][$order->fldCartID]);
+                    $product_name_quantity = implode('<br>', $products['name_quantity'][$order->fldCartID]);
                 ?>            	
             	<div class="uk-grid uk-panel uk-panel-box normal uk-margin-remove uk-padding-remove uk-table-row history-item-{{$item_ctr}}">
 	            	<div class="uk-width-large-1-10  uk-width-small-1-2 uk-width-1-1 uk-padding-v-normal uk-td uk-row-{{$item_ctr}}">	                		
