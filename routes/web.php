@@ -147,7 +147,9 @@ Route::group(array('prefix' => '/dnradmin'), function()
  	Route::controller('/category', 'CategoryController');
  	Route::controller('/products', 'ProductController');
  	Route::controller('/product_options', 'OptionsController');
+    Route::get('/product_options/display/{id}', 'OptionsController@getIndex');
     Route::controller('/product_options_assets', 'OptionsAssetsController');
+    Route::get('/product_options_assets/display/{id}', 'OptionsAssetsController@getDisplay');
     Route::get('/dnradmin/news-category', 'NewsCategoryController@displayCategory');
     Route::controller('/news', 'NewsController');
     Route::controller('/news-category', 'NewsCategoryController');

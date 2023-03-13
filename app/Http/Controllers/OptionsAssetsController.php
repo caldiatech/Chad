@@ -22,7 +22,7 @@ use Validator;
 class OptionsAssetsController extends Controller
 {
     public function getIndex()
-    {   
+    {
 		//if not login redirect to login page    
 		if(!Session::has('dnradmin_id')) { return Redirect::to('dnradmin/');}
 	
@@ -61,11 +61,7 @@ class OptionsAssetsController extends Controller
 			$product_options_array[] = '';
 		}
 		
-		// echo '<pre>';
-		// print_r($product_options_array);
-		// echo '<hr>';
-
-		// if (!empty($options)) {
+			// if (!empty($options)) {
 		// 	foreach ($options as $preset) {
 		// 		if (in_array($preset->fldOptionsAssetsID, $product_options_array)) {
 		// 			echo 'Y - ';

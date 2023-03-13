@@ -18,7 +18,7 @@ use App\Models\GraphikDimension;
 use App\Models\ProductCost;
 use App\Models\Prints;
 use App\Models\SizeListModel;
-
+use Illuminate\Support\Arr;
 use App\SoapXmlBuilder;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -104,7 +104,7 @@ class ProductController extends Controller
 	public function getNew($id)
    {
 
-   		if(Input::get('new_size')){
+	   		if(Input::get('new_size')){
    			Product::generateLandscapeImages();
    			exit();
    		}
@@ -115,6 +115,7 @@ class ProductController extends Controller
 		$category = Category::orderby("fldCategoryPosition")->get();
 		$administrator = Settings::where('fldAdministratorID','=',Session::get('dnradmin_id'))->first();
 		$options =  Options::orderby('fldOptionsPosition')->get();
+		//dd($options);
 		$productClass = 'class=active';
 		$pageTitle = PRODUCT_MANAGEMENT;
    		return View::make('_admin.product.products_add',array('category'=>$category,
@@ -122,7 +123,7 @@ class ProductController extends Controller
    															  'options'=>$options,
    															  'productClass'=>$productClass,
    															  'pageTitle'=>$pageTitle,
-																 'category_id'=>$id));
+															  'category_id'=>$id));
 
    }
 
@@ -153,7 +154,9 @@ class ProductController extends Controller
    	public function postNew() {
 		
 		$rules   = Product::rules(0);
-		$validator = Validator::make(Input::all(), $rules);
+		$allProduct = Input::all();
+		$valPro =  Arr::except($allProduct, 'weight');
+		$validator = Validator::make($valPro, $rules);
 
 		if ($validator->fails()) {
 			return Redirect::to('dnradmin/products/new/'.Input::get('category'))->withInput()->withErrors($validator,'product');
@@ -223,14 +226,14 @@ class ProductController extends Controller
 			$products->fldProductFeaturedPage 	= $counter_featured;
 			$products->fldProductIsFeatured 	= Input::get('isFeatured');
 			$products->fldProductPosition 		= $newPosition;
-			// $products->shipping_proc_fee1 		= Input::get('shipping_cost1');
-			// $products->shipping_proc_fee2 		= Input::get('shipping_cost2');
-			// $products->shipping_proc_fee3 		= Input::get('shipping_cost3');
-			// $products->shipping_proc_fee4 		= Input::get('shipping_cost4');
-			// if (Input::get('shipping_cost5') > 0) { $products->shipping_proc_fee5 		= Input::get('shipping_cost5'); }
-			// if (Input::get('shipping_cost6') > 0) { $products->shipping_proc_fee6 		= Input::get('shipping_cost6'); }
-			// if (Input::get('shipping_cost7') > 0) { $products->shipping_proc_fee7 		= Input::get('shipping_cost7'); }
-			// if (Input::get('shipping_cost8') > 0) { $products->shipping_proc_fee8 		= Input::get('shipping_cost8'); }
+			$products->shipping_proc_fee1 		= Input::get('shipping_cost1');
+			$products->shipping_proc_fee2 		= Input::get('shipping_cost2');
+			$products->shipping_proc_fee3 		= Input::get('shipping_cost3');
+			$products->shipping_proc_fee4 		= Input::get('shipping_cost4');
+			if (Input::get('shipping_cost5') > 0) { $products->shipping_proc_fee5 		= Input::get('shipping_cost5'); }
+			if (Input::get('shipping_cost6') > 0) { $products->shipping_proc_fee6 		= Input::get('shipping_cost6'); }
+			if (Input::get('shipping_cost7') > 0) { $products->shipping_proc_fee7 		= Input::get('shipping_cost7'); }
+			if (Input::get('shipping_cost8') > 0) { $products->shipping_proc_fee8 		= Input::get('shipping_cost8'); }
 
 			//generate slug
 			$pageCount = Product::where('fldProductName','=',Input::get('name'))->count();
@@ -636,13 +639,6 @@ class ProductController extends Controller
 
 							File::deleteDirectory($path);
 					}
-
-
-
-
-
-
-
 		$products->delete();
 
 		//delete all category under this products
@@ -744,7 +740,7 @@ class ProductController extends Controller
 		$cart_count = TempCart::countCart();
 		$settings = Settings::first();
 		$footer = Footer::first();
-
+//dd($product_array_prices,$product_array_highest_prices,$product_array_lowest_prices);
 
    		return View::make('home.products')->with(array('pages'=> $pages,
    													   'menus' => $menus,
@@ -846,7 +842,7 @@ class ProductController extends Controller
 			$product = Product::join('tblProductCategory','tblProductCategory.fldProductCategoryProductID','=','tblProduct.fldProductID')
 					   ->join('tblCategory','tblCategory.fldCategoryID','=','tblProductCategory.fldProductCategoryCategoryID')
 					   ->orderBY('fldProductName', 'DESC')
-					   ->paginate(12);
+					   ->paginate(50);
 
 			$category_details->fldCategoryName = "Products";
 		} else {
@@ -860,7 +856,9 @@ class ProductController extends Controller
 
 			$product = Product::leftJoin('tblProductCategory','tblProductCategory.fldProductCategoryProductID','=','tblProduct.fldProductID')
 								->where('tblProductCategory.fldProductCategoryCategoryID','=',$category_details->fldCategoryID)
-								->paginate(12);
+								->orderBY('fldProductName', 'DESC')
+								->paginate(50);
+
 		}
 
 		/* get prices */
@@ -892,6 +890,7 @@ class ProductController extends Controller
 
 		}
 
+		//dd($product_array_prices,$product_array_highest_prices,$product_array_lowest_prices);
 		return View::make('home.products', compact('pages','menus','category','category_details','product','google','settings','footer','cart_count','slug','product_vertical','product_array_prices','product_array_highest_prices','product_array_lowest_prices'));
 	}
 
@@ -1017,14 +1016,13 @@ class ProductController extends Controller
                     								 ->orWhere('fldProductPrice', 'LIKE', '%'.$search.'%');
             					})
 								->paginate(12);
-		//print_r($product);die();
+		//dd($product);
 		$category_details->fldCategoryName = "Products";
 
 		$google = Google::first();
 		$cart_count = TempCart::countCart();
 		$settings = Settings::first();
 		$footer = Footer::first();
-
    		return View::make('home.products')->with(array('pages'=> $pages,
    													   'menus' => $menus,
    													   'category' => $category,
