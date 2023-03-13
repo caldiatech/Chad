@@ -68,7 +68,15 @@
                                <span id="sub_title_text" style="font-weight:bold; color:#F00"></span> Remaining characters
                       </div>
                    </div>
-
+                   <div class="uk-grid">
+                        <div class="uk-width-large-1-10 uk-width-small-1-1">Price $</div>
+                        <div class="uk-width-large-6-10 uk-width-small-1-1 ">
+                            {!!Form::text('price',$products->fldProductPrice,array('size'=>'50','class'=>'required')) !!}
+                            @if($errors->product->first('price'))
+                                <div class="error">{!!$errors->product->first('price')!!}</div>
+                            @endif
+                        </div>
+                    </div>
                    <div class="uk-grid">
                       <div class="uk-width-large-1-10 uk-width-small-1-1">Weight</div>
                       <div class="uk-width-large-6-10 uk-width-small-1-1 ">
@@ -412,7 +420,8 @@
 
 	<script>
 		var mypath = "{!! url('/') !!}";
-		var category_id = "{!! $maincat->fldCategoryMainID !!}";
+		var category_id = "{!! $category_id !!}";
+        console.log(category_id);
 		var product_id = "{!! $products->fldProductID !!}";
 	</script>
    

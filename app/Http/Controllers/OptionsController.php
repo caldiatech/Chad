@@ -22,6 +22,7 @@ class OptionsController extends Controller
 {
     public function getIndex()
     {
+	
 		//if not login redirect to login page    
 		if(!Session::has('dnradmin_id')) { return Redirect::to('dnradmin/');}
 		$main_id = 0;
@@ -33,6 +34,7 @@ class OptionsController extends Controller
 	
 	 public function getDisplay($main_id,$product_id="")
     {
+		
 		//if not login redirect to login page    
 		if(!Session::has('dnradmin_id')) { return Redirect::to('dnradmin/');}
 		
