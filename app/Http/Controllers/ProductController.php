@@ -167,7 +167,7 @@ class ProductController extends Controller
 			   list($width, $height) = getimagesize($path);
 			}
 
-            if(!empty(Input::get('category'))) {
+            if(empty(Input::get('category'))) {
 				Session::flash('error',"Please select category");
 				return Redirect::to('dnradmin/products/new')->withInput();
 				exit();
@@ -206,7 +206,7 @@ class ProductController extends Controller
 				}
 				
 			}
-            }
+            
 			$onFeatured = Input::get('isOnFeatured');
 			if ($onFeatured == 0){
 				$counter_featured = 0;

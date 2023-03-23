@@ -9,7 +9,7 @@
 
     </div>
 
-    {!! Form::open(array('url' => '/dnradmin/products/new', 'method' => 'post', 'id' => 'pageform', 'files' =>
+    {!! Form::open(array('url' => '/dnradmin/products/addProduct', 'method' => 'post', 'id' => 'pageform', 'files' =>
     true,'class'=>'uk-form')); !!}
     @if(Session::has('success'))
         <div class="uk-alert uk-alert-success">{!!Session::get('success')!!}</div>
