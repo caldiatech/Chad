@@ -202,7 +202,7 @@ font-size: 15px;
                         }
                         @endphp
                         $
-                            <input type="text" name="assets_price_print[{!!$optionss->fldOptionsAssetsID!!}]" value="{!! $mainPriceVal !!}" placeholder="New Price" readonly/>
+                            <input type="text" name="assets_price_print[{!!$optionss->fldOptionsAssetsID!!}]" value="{!! $mainPriceVal !!}" placeholder="New Price"/>
                             <?php 
                                 $is_sale = false; $sale_checked = '';
                                 $sale_price = 0;                                 
