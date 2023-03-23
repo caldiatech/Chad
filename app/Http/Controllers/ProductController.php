@@ -167,21 +167,24 @@ class ProductController extends Controller
 			   list($width, $height) = getimagesize($path);
 			}
 
-            // if(!empty(Input::get('category'))) {
-			// 	Session::flash('error',"Please select category");
-			// 	return Redirect::to('dnradmin/products/new')->withInput();
-			// 	exit();
-			// }
-			if(Input::get('category') == 0) {
-				$categoryID = 56;
-			} else{
-	   		$categoryID = Input::get('category');
+            if(!empty(Input::get('category'))) {
+				Session::flash('error',"Please select category");
+				return Redirect::to('dnradmin/products/new')->withInput();
+				exit();
 			}
-            $newPosition = 1;
-               if(!empty($categoryID))
-            {
+
+			$categoryID = Input::get('category');
+	   		$catID = reset($categoryID);
+			// if(Input::get('category') == 0) {
+			// 	$categoryID = 56;
+			// } else{
+	   		// $categoryID = Input::get('category');
+			// }
+            // $newPosition = 1;
+            //    if(!empty($categoryID))
+            // {
 				
-                $catID = $categoryID;
+            //     $catID = $categoryID;
 
 
 	   		$productPos = Product::join('tblProductCategory','tblProductCategory.fldProductCategoryProductID','=','fldProductID')
@@ -243,12 +246,20 @@ class ProductController extends Controller
 			$products->save();
 			$fldProductID = $products->fldProductID;
 			//save multiple category
-			if(!empty($categoryID)) {
+			// if(!empty($categoryID)) {
+			// 		$categories = new ProductCategory;
+			// 		$categories->fldProductCategoryProductID = $fldProductID;
+			// 		$categories->fldProductCategoryCategoryID = $categoryID;
+			// 		$categories->save();
+				
+			// }
+			if(count(Input::get('category')) >=1 ) {
+				foreach(Input::get('category') as $category) {
 					$categories = new ProductCategory;
 					$categories->fldProductCategoryProductID = $fldProductID;
-					$categories->fldProductCategoryCategoryID = $categoryID;
+					$categories->fldProductCategoryCategoryID = $category;
 					$categories->save();
-				
+				}
 			}
 
 		    /* CODE FOR OPTIONS ASSIGN TO PRODUCTS */
@@ -535,7 +546,7 @@ class ProductController extends Controller
 			$products->save();
 
 			//delete all category
-			if(Input::get('category') !=0 ) {
+			if(count(Input::get('category')) >=1 ) {
 
 				$pCategory = ProductCategory::where('fldProductCategoryProductID','=',$id)->get();
 				foreach($pCategory as $pCategories) {
@@ -544,15 +555,33 @@ class ProductController extends Controller
 				}
 
 			   	//add new category
-			    //foreach(Input::get('category') as $category) {
-					$category = Input::get('category');
+			    foreach(Input::get('category') as $category) {
 						   $categories = new ProductCategory;
 								$categories->fldProductCategoryProductID = $products->fldProductID;
 								$categories->fldProductCategoryCategoryID = $category;
 						   $categories->save();
 						   $category_id = $categories->fldProductCategoryCategoryID;
-				//}
+				}
 			}
+
+			// if(Input::get('category') !=0 ) {
+
+			// 	$pCategory = ProductCategory::where('fldProductCategoryProductID','=',$id)->get();
+			// 	foreach($pCategory as $pCategories) {
+			// 		$delete = ProductCategory::find($pCategories->fldProductCategoryID);
+			// 		$delete->delete();
+			// 	}
+
+			//    	//add new category
+			//     //foreach(Input::get('category') as $category) {
+			// 		$category = Input::get('category');
+			// 			   $categories = new ProductCategory;
+			// 					$categories->fldProductCategoryProductID = $products->fldProductID;
+			// 					$categories->fldProductCategoryCategoryID = $category;
+			// 			   $categories->save();
+			// 			   $category_id = $categories->fldProductCategoryCategoryID;
+			// 	//}
+			// }
 
 			/* CODE FOR OPTIONS ASSIGN TO PRODUCTS */
 
