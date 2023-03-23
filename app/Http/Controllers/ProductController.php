@@ -152,10 +152,9 @@ class ProductController extends Controller
 
 
    	public function postNew() {
-		
 		$rules   = Product::rules(0);
 		$allProduct = Input::all();
-		$valPro =  Arr::except($allProduct, 'weight');
+		$valPro =  Arr::except($allProduct, 'weight','framelow_1','framelow_2','framelow_3','framelow_4','framelow_5','framelow_6','framelow_7','framelow_8');
 		$validator = Validator::make($valPro, $rules);
 
 		if ($validator->fails()) {
@@ -265,8 +264,9 @@ class ProductController extends Controller
 					$productOptions->fldProductOptionsProductID = $fldProductID;
 					$productOptions->fldProductOptionsAssetsID = $option_assets;
 					$productOptions->fldProductOptionsOptionsID = $optionsInfo->fldOptionsAssetsOptionID;
-					$productOptions->fldProductOptionsPrice = $option_price;
-					// $productOptions->fldProductOptionsPricePrint = $option_price_print;
+					//$productOptions->fldProductOptionsPrice = $option_price;
+					$productOptions->fldProductOptionsPrice = $option_price_print;
+					//$productOptions->fldProductOptionsPricePrint = $option_price_print;
 				   	$productOptions->save();
 			   }
 			}
@@ -303,8 +303,8 @@ class ProductController extends Controller
    				// $hicost	 = Input::get('framehigh_'.$i);
    				$hicost	 = ($lowcost > 0)? $lowcost + $add : 0;
 
-   				echo $lowcost.'<br>';
-   				echo $hicost.'<br>';
+   				// echo $lowcost.'<br>';
+   				// echo $hicost.'<br>';
    				$graphik = new ProductCost;
    				$graphik->product_id		= $fldProductID;
    				$graphik->sequence 			= $i;
@@ -595,7 +595,8 @@ class ProductController extends Controller
 					$productOptions->fldProductOptionsProductID = $id;
 					$productOptions->fldProductOptionsAssetsID = $option_assets;
 					$productOptions->fldProductOptionsOptionsID = $optionsInfo->fldOptionsAssetsOptionID;
-					$productOptions->fldProductOptionsPrice = $option_price;
+					//$productOptions->fldProductOptionsPrice = $option_price;
+					$productOptions->fldProductOptionsPrice = $option_price_print;
 					// $productOptions->fldProductOptionsPricePrint = $option_price_print;
 					$productOptions->save();
 
@@ -734,7 +735,6 @@ class ProductController extends Controller
 			}
 
 		}
-
 
 		$google = Google::first();
 		$cart_count = TempCart::countCart();
@@ -876,7 +876,7 @@ class ProductController extends Controller
 			$product_array_prices[$fldProductOptionsProductID] = $fldProductOptionsPrice;
 
 			if(!isset($product_array_highest_prices[$fldProductOptionsProductID])){
-				$product_array_highest_prices[$fldProductOptionsProductID] = $fldProductOptionsPrice+300; // 300 because max expensive frame = max cheap frame cost + 300
+				$product_array_highest_prices[$fldProductOptionsProductID] = (int)$fldProductOptionsPrice+300; // 300 because max expensive frame = max cheap frame cost + 300
 			}
 			if(!isset($product_array_lowest_prices[$fldProductOptionsProductID])){
 				$product_array_lowest_prices[$fldProductOptionsProductID] = $fldProductOptionsPrice;
@@ -885,7 +885,7 @@ class ProductController extends Controller
 				$product_array_lowest_prices[$fldProductOptionsProductID] = $fldProductOptionsPrice;
 			}
 			if($fldProductOptionsPrice > $product_array_highest_prices[$fldProductOptionsProductID]){
-				$product_array_highest_prices[$fldProductOptionsProductID] = $fldProductOptionsPrice+300; // 300 because max expensive frame = max cheap frame cost + 300
+				$product_array_highest_prices[$fldProductOptionsProductID] = (int)$fldProductOptionsPrice+300; // 300 because max expensive frame = max cheap frame cost + 300
 			}
 
 		}

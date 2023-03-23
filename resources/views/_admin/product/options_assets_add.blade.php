@@ -3,26 +3,7 @@
                     <table border="0" >                  	
                   	 <tr>                                           	
                         <td style="padding:5px 5px;"  id="edit-width-section">
-                          Width: 
-                           <? /* <input type="text" name="width" id="width" style="width:95px; margin-left:7px;" placeholder="Width" /> */ ?>
-
-                        <? /*
-                        <input type="number" name="width" style="width:60px;" id="edit-width" onchange="updateWidth();" value="40">
-                         <div class="selection-fraction-wrapper">
-                             <select name="widthfraction" style="width: 75px;" id="edit-widthfractions">                             
-                                 <option value=".0">0</option>
-                                 <option value=".125">1/8</option>
-                                 <option value=".25">1/4</option>
-                                 <option value=".375">3/8</option>
-                                 <option value=".5">1/2</option>
-                                 <option value=".625">5/8</option>
-                                 <option value=".75">3/4</option>
-                                 <option value=".875">7/8</option>                            
-                             </select>
-                         </div>
-                         */ ?>
-
-                        <input type="number" name="width" style="width:60px;" id="edit-width" value="40" required>
+                          Width: <input type="number" name="width" style="width:60px;" id="edit-width" value="40" required>
                             
                          <div class="selection-fraction-wrapper">
                              <select name="widthfraction" style="width: 75px;" required>                             
@@ -42,28 +23,7 @@
                         <tr>
                         <td style="padding:5px 5px;"  id="edit-height-section">
 
-                            <?php /*<input type="text" name="height" id="height" style="width:95px; margin-left:7px;" placeholder="Height" />*/ ?>
-                                 Height: 
-
-                                <? /*
-                                <input type="number" name="height" style="width:60px;" id="edit-height" onchange="updateHeight();" value="40">
-
-                                <div class="selection-fraction-wrapper">
-                                 <select name="heightfraction" style="width:75px;" id="edit-heightfractions">                             
-                                     <option value=".0">0</option>
-                                     <option value=".125">1/8</option>
-                                     <option value=".25">1/4</option>
-                                     <option value=".375">3/8</option>
-                                     <option value=".5">1/2</option>
-                                     <option value=".625">5/8</option>
-                                     <option value=".75">3/4</option>
-                                     <option value=".875">7/8</option>                            
-                                 </select>
-                                </div>
-                                */ ?>
-
-
-                                <input type="number" name="height" style="width:60px;" id="edit-height" value="40" required>
+                                 Height: <input type="number" name="height" style="width:60px;" id="edit-height" value="40" required>
 
                                 <div class="selection-fraction-wrapper">
                                  <select name="heightfraction" style="width:75px;" required>                             
@@ -74,7 +34,7 @@
                                      <option value=".5">1/2</option>
                                      <option value=".625">5/8</option>
                                      <option value=".75">3/4</option>
-                                     <option value=".875">7/8</option>                            
+                                     <option value=".875">7/8</option>
                                  </select>
                                 </div>
                         </td>

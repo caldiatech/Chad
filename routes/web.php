@@ -93,6 +93,8 @@ Route::group(array('prefix' => '/dnradmin'), function()
     Route::post('/category/edit/{id}', 'CategoryController@postEdit');
     Route::get('/category/delete/{id}', 'CategoryController@getDelete');
     Route::get('/category/view/{id}', 'CategoryController@getView');
+    Route::get('/category/display/{category_id}/{product_id?}', 'CategoryController@displaySubCategory');
+    Route::get('/category/delete/{id}/0/add', 'CategoryController@getDelete');
 
 
     Route::get('/coupon_code', 'CouponCodeController@getIndex');
@@ -148,8 +150,18 @@ Route::group(array('prefix' => '/dnradmin'), function()
  	Route::controller('/products', 'ProductController');
  	Route::controller('/product_options', 'OptionsController');
     Route::get('/product_options/display/{category}/{id?}', 'OptionsController@getDisplay');
+    Route::get('/product_options/edit/{id?}', 'OptionsController@getEdit');
+    Route::post('/product_options/edit/{id?}', 'OptionsController@postEdit');
+    Route::get('/product_options/delete/{id?}', 'OptionsController@getDelete');
+
     Route::controller('/product_options_assets', 'OptionsAssetsController');
     Route::get('/product_options_assets/display/{category}/{id?}', 'OptionsAssetsController@getDisplay');
+    Route::get('/product_options_assets/new/{error}/{option_id}/{product_id?}', 'OptionsAssetsController@getNew');
+    Route::get('/product_options_assets/edit/{id}/{option_id}/{product_id?}', 'OptionsAssetsController@getEdit');
+    Route::post('/product_options_assets/new', 'OptionsAssetsController@postNew');
+    Route::post('/product_options_assets/edit/{id}', 'OptionsAssetsController@postEdit');
+    Route::get('/product_options_assets/delete/{id}/{product_id?}', 'OptionsAssetsController@getDelete');
+
     Route::get('/dnradmin/news-category', 'NewsCategoryController@displayCategory');
     Route::controller('/news', 'NewsController');
     Route::controller('/news-category', 'NewsCategoryController');

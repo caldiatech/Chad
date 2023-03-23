@@ -3,13 +3,11 @@
                 {!! Form::open(array('method' => 'post', 'id' => 'frmOptionsAssets','name'=>'frmOptionsAssets')); !!}	
                     <table border="0" >                  	
                   	 <tr>  
-                        <? /*                   	
-                        <td style="padding:5px 5px;"><input type="text" name="name" id="name" style="width:225px; margin-left:7px;" placeholder="Option Name" value="{!!$options->fldOptionsAssetsName!!}" /></td>
-                        */ ?>
+                     
 
                          <td style="padding:5px 5px;" id="edit-width-section" >
                          Width:&nbsp;
-                         <input type="number" name="width" style="width:60px;" id="edit-width" <? /* onchange="updateWidth();" */ ?> value="{{$options->fldOptionsAssetsWidth}}">
+                         <input type="number" name="width" style="width:60px;" id="edit-width"  value="{{$options->fldOptionsAssetsWidth}}">
                          <div class="selection-fraction-wrapper">
                             <select name="widthfraction" style="width:75px;" id="edit-widthfractions">                             
                              <option value=".0" {{ ".0" == $options->fldOptionsAssetsWidthFraction ? "selected='selected'" : "" }}>0</option>
@@ -23,18 +21,13 @@
                             </select>
                         </div>
 
-                          
-                        
-                         <?php /*<input type="text" name="width" id="width" style="width:95px; margin-left:7px;" placeholder="Width" value="{{ $options->fldOptionsAssetsWidth }}" />*/ ?>
-
                          </td>
                          </tr>
                          <tr>
                         <td style="padding:5px 5px;"  id="edit-height-section">
                              Height:
-                        <?php /*<input type="text" name="height" id="height" style="width:95px; margin-left:7px;" placeholder="Height" value="{{ $options->fldOptionsAssetsHeight }}"/>*/ ?>
-                                 
-                         <input type="number" name="height" style="width:60px;" id="edit-height" <? /* onchange="updateHeight();" */ ?> value="{{$options->fldOptionsAssetsHeight}}">
+                               
+                         <input type="number" name="height" style="width:60px;" id="edit-height" value="{{$options->fldOptionsAssetsHeight}}">
                          <div class="selection-fraction-wrapper">
 
                              <select name="heightfraction" style="width:75px;" id="edit-heightfractions">                             

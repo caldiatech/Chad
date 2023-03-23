@@ -417,8 +417,8 @@ class CategoryController extends Controller
 	}
 
 	public function displaySubCategory($category_id,$product_id) {
+		$category_id = 0;
 		$category = Category::where('fldCategoryMainID','=',$category_id)->orderby("fldCategoryPosition")->get();
-
 		return View::make('_admin.product.category_display', array('category' => $category,
 														           'category_id'=>$category_id,
 														           'product_id'=>$product_id));

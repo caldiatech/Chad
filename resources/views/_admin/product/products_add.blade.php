@@ -55,7 +55,7 @@
                             <span id="sub_title_text" style="font-weight:bold; color:#F00"></span> Remaining characters
                         </div>
                     </div>
-                    <div class="uk-grid">
+                    <!-- <div class="uk-grid">
                         <div class="uk-width-large-2-10 uk-width-small-1-1">Price $</div>
                         <div class="uk-width-large-6-10 uk-width-small-1-1 ">{!!
                             Form::text('price','',array('size'=>'50','class'=>'required')) !!}
@@ -63,7 +63,7 @@
                                 <div class="error">{!!$errors->product->first('price')!!}</div>
                             @endif
                         </div>
-                    </div>
+                    </div> -->
 
                     <div class="uk-grid">
                         <div class="uk-width-large-2-10 uk-width-small-1-1">Weight</div>
@@ -171,7 +171,12 @@
 
 
         <div class="uk-width-large-3-10 uk-width-small-1-1">
-            <ul id="required_category">
+        <ul id="required_category">
+               <li>Categories</li>
+               <li class="boxfields"><div class="required-notification uk-display-block"></div><div id="category"></div> </li>
+            </ul>
+           
+            <!-- <ul id="required_category">
                 <li>Categories</li>
                 <li class="boxfields">
                     <div class="required-notification uk-display-block"></div>
@@ -183,7 +188,7 @@
                         @endforeach
                     </select>
                 </li>
-            </ul>
+            </ul> -->
             <!-- <input type='hidden'  value='{{ $category_id }}' name="category"/> -->
 
             <div class="clear">

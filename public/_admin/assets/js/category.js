@@ -4,7 +4,7 @@
 				$('#category').load(mypath+'/dnradmin/category/display/'+category_id+'/'+product_id);
 			} else {
 				$('#product_options').load(mypath+'/dnradmin/product_options/display/'+category_id);
-				$('#category').load(mypath+'/dnradmin/category/display/'+category_id);
+				$('#category').load(mypath+'/dnradmin/category/display/'+category_id+'/'+product_id);
 			}
 		   
 		
@@ -58,6 +58,8 @@
 							cache: false,
 							success: function(){
 								$('#subcategory').load(mypath+'/dnradmin/sub-category/'+category_id+'/0');
+								location.reload();
+
 							}					
 					  });	
 				} else {
@@ -122,7 +124,7 @@
 			}
 			
 			function addAssetsOptions(option_id,product_id) {
-				if(product_id=="") {
+				if(product_id==null) {
 					product_id=0;
 				}
 				$('#product_options_assets'+option_id).load(mypath+'/dnradmin/product_options_assets/new/0/'+option_id+'/'+product_id, function() {
@@ -199,7 +201,9 @@
 			}
 			
 			function editAssetsOptions(id,option_id,product_id) {
-				
+				if(product_id==null) {
+					product_id=0;
+				}
 				$('#product_options_assets'+option_id).load(mypath+'/dnradmin/product_options_assets/edit/'+id+'/'+option_id+'/'+product_id, function(){
 					
 					 donotallow_editif();

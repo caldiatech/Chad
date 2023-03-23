@@ -34,6 +34,7 @@ class OptionsAssetsController extends Controller
 	 public function getDisplay($option_id,$product_id="")
     {   
 		//if not login redirect to login page    
+		$product_options_array = [];
 		if(!Session::has('dnradmin_id')) { return Redirect::to('dnradmin/');}
 		
 		$main_id=0;		
@@ -167,17 +168,13 @@ class OptionsAssetsController extends Controller
 			   			   			  
 			   //get last position
 				$optionsPosition = OptionsAssets::where('fldOptionsAssetsOptionID','=',Input::get('option_id'))->orderby("fldOptionsAssetsPosition","desc")->first();
-				if(count($optionsPosition)==1):
-					$options->fldOptionsAssetsPosition = $optionsPosition->fldOptionsAssetsPosition+1;	
-				else:
+				if (!empty($optionsPosition)) {
+					$options->fldOptionsAssetsPosition = $optionsPosition->fldOptionsAssetsPosition+1;
+				} else {
 					$options->fldOptionsAssetsPosition = 1;
-				endif;	
+				}
 			   			   
 			   $options->save();
-
-				
-
-			   	//echo $options->fldOptionsAssetsOptionID;	  			 	
 			echo json_encode(array('option_id' => $options->fldOptionsAssetsOptionID,'product_id'=>$product_id));
 			
    }
@@ -187,7 +184,6 @@ class OptionsAssetsController extends Controller
 		if(!Session::has('dnradmin_id')) { return Redirect::to('dnradmin/');}
 		   
 	    $options =  OptionsAssets::where('fldOptionsAssetsID', '=', $id)->first();
-	    
 	    return View::make('_admin.product.options_assets_edit', array('options' => $options,'option_id'=>$option_id,'product_id'=>$product_id));	
 
    }

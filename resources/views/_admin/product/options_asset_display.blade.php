@@ -103,10 +103,14 @@ font-size: 15px;
                         {{ \App\Models\ProductOptions::frameFraction($optionss->fldOptionsAssetsHeightFraction) }}
                     </td>
                     <td style="padding: 5px 3px; text-align:center;"  width="30%">
-                        $ {!! DB::table('tblProductOptions')->where('fldProductOptionsAssetsID','=',$optionss->fldOptionsAssetsID)->where('fldProductOptionsProductID','=',$product_id)->pluck('fldProductOptionsPrice'); !!}
+                        <!-- $ {!! DB::table('tblProductOptions')->where('fldProductOptionsAssetsID','=',$optionss->fldOptionsAssetsID)->where('fldProductOptionsProductID','=',$product_id)->pluck('fldProductOptionsPrice'); !!} -->
+                    $ 0
                     </td>
                     <td style="padding: 5px 3px; text-align:center;"  width="30%">
-                        $ {!! DB::table('tblProductOptions')->where('fldProductOptionsAssetsID','=',$optionss->fldOptionsAssetsID)->where('fldProductOptionsProductID','=',$product_id)->pluck('fldProductOptionsPricePrint'); !!}
+                    @php 
+                     $printVal = str_replace( array( '[', '"',']'), '',DB::table('tblProductOptions')->where('fldProductOptionsAssetsID','=',$optionss->fldOptionsAssetsID)->where('fldProductOptionsProductID','=',$product_id)->pluck('fldProductOptionsPrice'));
+                     @endphp
+                        $ {{$printVal}}
                     </td>
                     <td style="padding: 5px 3px;"  width="9%">
                         <a class="clickSize uk-button uk-button-success" data-id="{{$optionss->fldOptionsAssetsID.'_'.$optionss->fldOptionsAssetsPosition}}"  style="color:#fff !important;">Modify</a>
@@ -164,8 +168,18 @@ font-size: 15px;
                 </td>
                 <td style="padding: 5px 3px;"  width="30%">
                     <div id="assets{!!$optionss->fldOptionsID!!}">
-                        <div colspan="4" style="padding:5px 5px;"> $
-                            <input type="text" name="assets_price[{!!$optionss->fldOptionsAssetsID!!}]" value="{!! DB::table('tblProductOptions')->where('fldProductOptionsAssetsID','=',$optionss->fldOptionsAssetsID)->where('fldProductOptionsProductID','=',$product_id)->pluck('fldProductOptionsPrice'); !!}" placeholder="New Price" />
+                        <div colspan="4" style="padding:5px 5px;"> 
+                        @php 
+                        $priceVal = DB::table('tblProductOptions')->where('fldProductOptionsAssetsID','=',$optionss->fldOptionsAssetsID)->where('fldProductOptionsProductID','=',$product_id)->pluck('fldProductOptionsPrice');
+                        if(count($priceVal) == 0)
+                        {
+                            $priceVal = 0;
+                        } else {
+                            $priceVal = str_replace( array( '[', '"',']'), '',$priceVal);
+                        }
+                        @endphp
+                        $
+                            <input type="text" name="assets_price[{!!$optionss->fldOptionsAssetsID!!}]" value="{!! $priceVal !!}" placeholder="New Price" readonly/>
                             <?php 
                                 $is_sale = false; $sale_checked = '';
                                 $sale_price = 0;                       
@@ -177,8 +191,18 @@ font-size: 15px;
                 <td style="padding: 5px 3px;"  width="30%">
                     <div id="assets_print{!!$optionss->fldOptionsID!!}">
 
-                        <div colspan="4" style="padding:5px 5px;"> $
-                            <input type="text" name="assets_price_print[{!!$optionss->fldOptionsAssetsID!!}]" value="{!! DB::table('tblProductOptions')->where('fldProductOptionsAssetsID','=',$optionss->fldOptionsAssetsID)->where('fldProductOptionsProductID','=',$product_id)->pluck('fldProductOptionsPricePrint'); !!}" placeholder="New Price" />
+                        <div colspan="4" style="padding:5px 5px;"> 
+                        @php 
+                        $mainPriceVal = DB::table('tblProductOptions')->where('fldProductOptionsAssetsID','=',$optionss->fldOptionsAssetsID)->where('fldProductOptionsProductID','=',$product_id)->pluck('fldProductOptionsPrice');
+                        if(count($mainPriceVal) == 0)
+                        {
+                            $mainPriceVal = 0;
+                        } else {
+                            $mainPriceVal = str_replace( array( '[', '"',']'), '',$mainPriceVal);
+                        }
+                        @endphp
+                        $
+                            <input type="text" name="assets_price_print[{!!$optionss->fldOptionsAssetsID!!}]" value="{!! $mainPriceVal !!}" placeholder="New Price" readonly/>
                             <?php 
                                 $is_sale = false; $sale_checked = '';
                                 $sale_price = 0;                                 
