@@ -173,7 +173,7 @@
 				  <div class="uk-grid uk-form-horizontal uk-text-right uk-margin-remove " id="add-to-cart">
 					<div class="uk-width-3-10 uk-padding-remove cart-number-picker">
 						 <div class="input-append uk-form-width-mini spinner" data-trigger="spinner">
-							<input type="text" value="1" name="qty" data-max="1000" data-min="1" data-step="1" id="text-qty">
+							<input type="text" value="1" name="qty" data-max="1000" data-min="1" data-step="1" id="text-qty" class="text-qty">
 							<div class="add-on">
 							  <a href="javascript:;" class="spin-up btn-update-qty" data-spin="up"><i class="uk-icon-sort-up"></i></a>
 							  <a href="javascript:;" class="spin-down btn-update-qty" data-spin="down"><i class="uk-icon-sort-down"></i></a>
@@ -247,6 +247,62 @@ var frames_array = new Array(), frame_materials = new Array(), sortMeBy = {}, ge
 function on_render_finish(){
   $('.frame-style-box').removeClass('rendering-img');
 }
+$(document).ready(function() {
+	$(document).on('change','.text-qty',function(){
+
+		  var qty = $(this).val();
+		  var total = parseFloat($('#grandTotalL').text());
+		  var print_price = $('.prints_selection').find(':selected').data('price');
+
+          //ROI CHANGES
+		  if(print_price){
+              totalQty = (total + print_price) * qty;
+		  }else{
+              totalQty = total * qty;
+		  }
+          //ROI CHANGES
+		  $('#totalPrice').html(totalQty.toFixed(2));
+		  // $('#totalPrice').text(975);
+
+		  //MARK CHANGES
+		//  updateTotalPrice();
+		  //MARK CHANGES
+	  });
+	  $('.btn-update-qty').click(function() {
+		  var dir = $(this).data('spin');
+		  var qty = parseInt($('.text-qty').val());
+		  if(dir == "up"){
+			qty++;
+		  }
+		  else{
+			qty--;
+			if(qty < 1)
+			  qty = 1;
+		  }
+		 
+		  //MARK CHANGES
+		  $('.text-qty').html(qty);
+		 // updateTotalPrice();
+
+		 // return false;
+		  //MARK CHANGES
+
+		  var total = parseFloat($('#grandTotalL').text());
+
+          var print_price = $('.prints_selection').find(':selected').data('price');
+
+          //ROI CHANGES
+          if(print_price){
+              totalQty = (total + print_price) * qty;
+          }else{
+              totalQty = total * qty;
+          }
+          //ROI CHANGES
+
+		  $('#totalPrice').text(totalQty.toFixed(2));
+		  // $('#totalPrice').text(1033);
+	  });
+});
 </script>
 @stop
 @section('extracodes')
@@ -973,28 +1029,7 @@ function load_javascripts(){
 	  });
       //ROI CHANGES
 
-	  $('#text-qty').change(function () {
-		  var qty = $(this).val();
-		  var total = parseFloat($('#grandTotalL').text());
-
-		  var print_price = $('.prints_selection').find(':selected').data('price');
-
-          //ROI CHANGES
-		  if(print_price){
-              totalQty = (total + print_price) * qty;
-		  }else{
-              totalQty = total * qty;
-		  }
-          //ROI CHANGES
-
-
-		  $('#totalPrice').text(totalQty.toFixed(2));
-		  // $('#totalPrice').text(975);
-
-		  //MARK CHANGES
-		  updateTotalPrice();
-		  //MARK CHANGES
-	  });
+	
 
 	  //MARK CHANGES
 	  $('#text-qty').blur(function() {
@@ -1004,7 +1039,6 @@ function load_javascripts(){
 	  function updateTotalPrice() {
 
 		  var qty = $('#text-qty').val();
-
 		  var print_price = $('.prints_selection').find(':selected').data('price') ? Number($('.prints_selection').find(':selected').data('price')) : 0;
 
 
@@ -1019,48 +1053,12 @@ function load_javascripts(){
 
 		  totalPrice = (price + print_price) * qty;
 
-		  console.log(totalPrice,price,print_price,qty);
-
 		  $("#totalPrice").text(totalPrice.toFixed(2));
 		  // $("#totalPrice").text(996);
 	  }
 	  //MARK CHANGES
 
-	  $('.btn-update-qty').click(function() {
-		  var dir = $(this).data('spin');
-		  var qty = parseInt($('#text-qty').val());
-		  if(dir == "up"){
-			qty++;
-		  }
-		  else{
-			qty--;
-			if(qty < 1)
-			  qty = 1;
-		  }
-
-		  //MARK CHANGES
-		  $('#text-qty').val(qty);
-
-		  updateTotalPrice();
-
-		  return false;
-		  //MARK CHANGES
-
-		  var total = parseFloat($('#grandTotalL').text());
-
-          var print_price = $('.prints_selection').find(':selected').data('price');
-
-          //ROI CHANGES
-          if(print_price){
-              totalQty = (total + print_price) * qty;
-          }else{
-              totalQty = total * qty;
-          }
-          //ROI CHANGES
-
-		  $('#totalPrice').text(totalQty.toFixed(2));
-		  // $('#totalPrice').text(1033);
-	  });
+	  
 
 	  var package_price_discount_total = 0;
 	  $('#chkNoFrame').click(function() {
