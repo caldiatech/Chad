@@ -144,8 +144,8 @@ button, a, a:focus, button:focus {
 /*pagination*/
 .uk-pagination > li  a,.uk-pagination > li  span, .uk-pagination > li  a:visited {
     background: transparent; border-radius: 0;
-    border: 1px solid #ffffff;
-    color: #ffffff;
+    border: 1px solid #090909;
+    color: #090909;
     padding: 10px 14px; opacity:0.7;
 }
 .uk-pagination > li  .paginate-nav i{ background: url('../images/angle-white.png') no-repeat 0 0;padding: 5px;  width: 13px; opacity:0.7; }

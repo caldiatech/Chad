@@ -70,7 +70,7 @@ class Pages extends Eloquent
 	public static function displayMenu()
 	{
 		$menuList = array();
-		$page = self::where('fldPagesMainID','=',0)->where('fldPagesIsVisible','=','1')->orderBy('fldPagesPosition')->get();
+		$page = self::where('fldPagesMainID','=',0)->where('fldPagesIsVisible','=','1')->where('fldPagesID','!=',74)->orderBy('fldPagesPosition')->get();
 		$ctr=0;
 		foreach ($page as $pages)
 		{

@@ -277,7 +277,7 @@ class ProductController extends Controller
 					$productOptions->fldProductOptionsOptionsID = $optionsInfo->fldOptionsAssetsOptionID;
 					//$productOptions->fldProductOptionsPrice = $option_price;
 					$productOptions->fldProductOptionsPrice = $option_price_print;
-					//$productOptions->fldProductOptionsPricePrint = $option_price_print;
+					$productOptions->fldProductOptionsPricePrint = $option_price_print;
 				   	$productOptions->save();
 			   }
 			}
@@ -626,7 +626,7 @@ class ProductController extends Controller
 					$productOptions->fldProductOptionsOptionsID = $optionsInfo->fldOptionsAssetsOptionID;
 					//$productOptions->fldProductOptionsPrice = $option_price;
 					$productOptions->fldProductOptionsPrice = $option_price_print;
-					// $productOptions->fldProductOptionsPricePrint = $option_price_print;
+					$productOptions->fldProductOptionsPricePrint = $option_price_print;
 					$productOptions->save();
 
 			   }
@@ -1124,7 +1124,7 @@ class ProductController extends Controller
         //new
         $productOption = ProductOptions::leftJoin('tblOptionsAssets','tblOptionsAssets.fldOptionsAssetsID','=','tblProductOptions.fldProductOptionsAssetsID')
         ->where('fldProductOptionsProductID','=',$product->fldProductID)
-        ->select('fldProductOptionsAssetsID','fldProductOptionsPrice','fldProductOptionsID','fldOptionsAssetsWidth','fldOptionsAssetsHeight','fldOptionsAssetsWidthFraction','fldOptionsAssetsHeightFraction')
+        ->select('fldProductOptionsAssetsID','fldProductOptionsPrice','fldProductOptionsID','fldOptionsAssetsWidth','fldOptionsAssetsHeight','fldOptionsAssetsWidthFraction','fldOptionsAssetsHeightFraction','fldProductOptionsPricePrint')
         // ->orderBy('fldOptionsAssetsWidth','ASC')
         ->orderBy('tblOptionsAssets.fldOptionsAssetsPosition','ASC')
         ->get();
@@ -1135,9 +1135,6 @@ class ProductController extends Controller
 		// foreach ($productOption as $option) {
 		// 	echo $option->fldOptionsAssetsWidth.': '.$option->fldProductOptionsPrice.'<br>';
 		// }
-		// echo '<pre>';
-		// print_r($defaultcosts);
-		// die('details');
 
 		//get the product options assets
 		if(count($productOption) > 0) {

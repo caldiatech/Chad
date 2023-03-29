@@ -70,7 +70,7 @@
 		</div>
 
 		<div class="uk-width-1-1 uk-text-center uk-margin-medium-bottom uk-margin-medium-top">
-			<a href="{{ $pages->fldPagesButtonLinks }}" class="uk-button fnone uk-button-trans uk-container-center uk-margin-large-top  white uk-margin-large-bottom text-uppercase"
+			<a href="{{ $pages->fldPagesButtonLinks }}" class="uk-button fnone uk-button-trans uk-container-center uk-margin-large-top  white uk-margin-large-bottom text-uppercase" style="color:#111111"
 			  class="roboto">{!!$pages->fldPagesButton!!}</a>
 		</div>
 		<?php /* $pages->fldPagesDescription */ ?>

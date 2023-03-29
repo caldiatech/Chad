@@ -9,7 +9,7 @@
           <?php $mctr=0; ?>
         @foreach(App\Models\Pages::displayMenu() as $menus)
             <?php $mctr=$mctr+1;?>
-            @if(isset($menus['subpage']) )
+            @if(isset($menus['subpage']))
                 <li data-uk-dropdown="" class="uk-parent dropdown" aria-haspopup="true" aria-expanded="false">a<a href="{{ URL::asset($menus['isCMS'] == 1 ? url("/".$menus['slug']) : $menus['filename'],$menus['pagename']) }}" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">{{ $menus['pagename'] }} <i class="uk-icon-angle-down white"></i> </a>
                     <div class="uk-dropdown uk-dropdown-navbar uk-dropdown-bottom" style="top: 40px; left: 0px;">
                     <ul class="uk-nav uk-nav-navbar">
@@ -27,12 +27,10 @@
                 </li>
 
             @else
-
                 <!-- <li class="uk-active"> -->
                 <li class='{{$menus["slug"]}} uk-{{ $mctr > 7 ? "hidden-medium" : "" }} @if(isset($pages->fldPagesSlug) && ($menus['slug'] == $pages->fldPagesSlug)) uk-active @endif'>
                     <a href="{{ URL::asset($menus['slug']) }}" >{{ $menus['pagename'] }}</a>
                 </li>
-
             @endif
         @endforeach
          @stop

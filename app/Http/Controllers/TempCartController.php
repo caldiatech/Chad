@@ -273,10 +273,10 @@ class TempCartController extends BaseController
 
 	public function addShoppingCart(Request $request) {
 		//dd($request);
-		//dd( $request->all() );
+		
 
-		//dd($request->get('imageSize'));
-		 // dd($request->all());
+		 //dd($request->get('imageSize'));
+		// dd($request->all());
 		// print_r($request->all());
 		// die('168');
 		// Log::debug('Session::has(client_id)');
@@ -296,12 +296,12 @@ class TempCartController extends BaseController
 
 		$print_name = $request->get('print_name'); // MARK CHANGES
 
+		
 		$productOption = ProductOptions::leftJoin('tblOptionsAssets','tblOptionsAssets.fldOptionsAssetsID','=','tblProductOptions.fldProductOptionsAssetsID')
 					->where('fldProductOptionsProductID','=',$product->fldProductID)
 					->where('fldProductOptionsID', '=', $request->get('imageSize'))
 					->select('fldProductOptionsPrice','fldProductOptionsID','fldOptionsAssetsWidth','fldOptionsAssetsHeight')
 					->first();
-
 		if($productOption) {
 			$width = $productOption->fldOptionsAssetsWidth;
 			$height = $productOption->fldOptionsAssetsHeight;
@@ -309,6 +309,11 @@ class TempCartController extends BaseController
             //Added by Don Pablo
 			if ($request->get('print_id_add_cart') != "10001") {
 				$sizelistdata = \App\Models\SizeListModel::where('print_id',$request->get('print_id_add_cart'))->where('id',$request->get('imageSize'))->get();
+				if(count($sizelistdata) == 0)
+					{
+						Session::flash('error','This product seems to be not yet ready to be purchased.');
+						return redirect()->back();
+					}
 				$width = $sizelistdata[0]->width;
 				$height = $sizelistdata[0]->height;
 			} else {
