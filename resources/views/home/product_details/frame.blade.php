@@ -12,6 +12,7 @@ $array_expensive_costs = array_values($array_expensive_costs);
 // die('Ln188');
 $i = 0; $ii = 1;
 $this_expensive_cost = $cheap_cost_counter = 0;
+$default_dataliner = "LN1BK";
 ?>
 
 {{--  <hr>  --}}
@@ -48,7 +49,7 @@ $this_expensive_cost = $cheap_cost_counter = 0;
 {{--  <hr>  --}}
 
 <!-- Graphik Cost Est --> <input type="hidden" name="defaultcost" id="defaultcost" value="">  
-<!-- Frame Sequence --> <input type="hidden" name="frame_sequence" id="frame_sequence" value="">
+<!-- Frame Sequence --> <input type="hidden" name="frame_sequence" id="frame_sequence" value="1">
 <!-- <br />
 <br /> -->
 
@@ -267,6 +268,7 @@ $count = 0;
                           $dataliner = "LN3BK";
                       }
                     ?>
+    <input type="text" id="liner" name="liner" value="{{$default_dataliner}}" style="display:none;">
 
                     <?php  /* 
                     <label for="photo_size_{{$photo_size_key}}" class="uk-width-1-1">
@@ -303,7 +305,7 @@ $count = 0;
                     $price_html_temp .= '<label class="uk-width-1-1 uk-display-block">$ <span class="price-start price-start-'.$productOptions->fldProductOptionsID.'">'.$productOptions->fldProductOptionsPrice.'</span></label>';
                     ?>
 
-                    <? $i++; $ii++; ?>
+                    <?php $i++; $ii++; ?>
               @endforeach
         @elseif($print_id == 0)
               @foreach($productOption as $photo_size_key => $productOptions)
@@ -339,8 +341,10 @@ $count = 0;
                           $dataliner = "LN3BK";
                       }
                     ?>
+                        <input type="text" id="liner" name="liner" value="{{$default_dataliner}}" style="display:none;">
+
                     <label for="photo_size_{{$photo_size_key}}" class="uk-width-1-1">
-                      <input type="radio" name="imageSize" 
+                      <input type="radio" name="imageSize"
                       class="photo-size-selection-option photo-size-selection-option-{{$productOptions->fldProductOptionsID}}"
                        id="photo_size_{{$photo_size_key}}"
                         data-height= "{{ $productOptions->fldOptionsAssetsHeight }}"
@@ -356,13 +360,13 @@ $count = 0;
                     $price_html_temp .= '<label class="uk-width-1-1 uk-display-block">$ <span class="price-start price-start-'.$productOptions->fldProductOptionsID.'">'.$productOptions->fldProductOptionsPrice.'</span></label>';
                     ?>
 
-                    <? $i++; $ii++; ?>
+                    <?php $i++; $ii++; ?>
                     @endif
               @endforeach
         @else
               @php $counter_if = 0; @endphp
               @foreach($productOption as $photo_size_key => $productOptions)
-                <?php 
+                <?php
 
                 $queryOptions = \App\Models\OptionsAssets::where( 'fldOptionsAssetsID', $productOptions->fldProductOptionsAssetsID )->first();
                 ?>
@@ -401,6 +405,7 @@ $count = 0;
                   }
 
                 ?>
+              <input type="text" id="liner" name="liner" value="{{$default_dataliner}}" style="display:none;">
 
                 @if($productOptions->fldProductOptionsPricePrint == null || $productOptions->fldProductOptionsPricePrint == '')
                
@@ -433,9 +438,6 @@ $count = 0;
                 </label>
                 @endif
 
-
-
-
                 <?php
 
                   if($productOptions->fldProductOptionsPricePrint == null || $productOptions->fldProductOptionsPricePrint == ''){
@@ -445,16 +447,13 @@ $count = 0;
                   }
                   else
                   {
-
-
                         $price_html_temp .= '<label class="uk-width-1-1 uk-display-block">$ <span class="price-start price-start-'.$productOptions->fldProductOptionsID.'">'.$productOptions->fldProductOptionsPricePrint.'</span></label>';
-
                   }
 
                 // $price_html_temp .= '<label class="uk-width-1-1 uk-display-block">$ <span class="price-start price-start-'.$productOptions->fldProductOptionsID.'">'.$productOptions->fldProductOptionsPrice.' ('.$arrayShipProcFee[$i].')</span></label>';
                 ?>
 
-                <? $i++; $ii++; ?>
+                <?php $i++; $ii++; ?>
                 @endif
               @endforeach
               @if($counter_if == 0)
@@ -462,24 +461,8 @@ $count = 0;
                 <input type="text" hidden name="counter_if">
               @endif
         @endif
-
-
-
       </div>
     </div>
-
-
-
-
-
-    
-<?php
-// die('Ln131');
-// echo "<pre>";
-// print_r($array_expensive_costs[$photo_size_key]);
-// print_r($productOption);
-// die('Ln129');
-?>
 
     <div class="uk-width-medium-1-2 uk-width-3-10 uk-padding-remove">
       <div class="radio-option-wrapper uk-md-large">               
@@ -487,7 +470,7 @@ $count = 0;
       </div>
     </div>
   </div>
-    <input type="text" id="liner" name="liner" value="{{$default_dataliner}}" style="display:none;">
+  
     <input type="text" id="liner_color_code" name="liner_color_code" value="BK" style="display:none;">
     
   <div class="full-width bg-grey uk-margin uk-margin-large-top" id="toggle-frame-details">

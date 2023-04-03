@@ -272,7 +272,7 @@ class TempCartController extends BaseController
 
 
 	public function addShoppingCart(Request $request) {
-		//dd($request);
+		//dd($request->all());
 		
 
 		 //dd($request->get('imageSize'));
@@ -543,6 +543,7 @@ class TempCartController extends BaseController
 			if ($frame_info=='') { // PRINT ONLY
 				// fldTempCartProductID and frame_sequence
 				$graphik = ProductCost::where('product_id','=',$product_id)->where('sequence','=',$frame_sequence)->first();
+				// dd($graphik);
 				// $graphik_cost = $graphik->framelow_cost - 125;
 				$graphik_cost = $graphik->framelow_cost;
 			}
