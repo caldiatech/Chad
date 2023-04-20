@@ -73,9 +73,9 @@ if(Session::has('couponAmount')){
                     <!-- <div class="cart-item-more-info"><span class="frame-label uk-text-small">Sequnce:</span>123</div>
                     -->
                                 <div class="cart-item-more-info"><span class="frame-label uk-text-small">Border Size:</span> {{$carts->fldTempCartImageSize}}</div>
-				@if($carts->fldTempCartLinerDesc)
+				<!-- @if($carts->fldTempCartLinerDesc)
                                 	<div class="cart-item-more-info"><span class="frame-label uk-text-small">Liner:</span> {{ $carts->fldTempCartLinerDesc }} {{-- $carts->fldTempCartLinerSku --}}</div>
-				@endif
+				@endif -->
                                 @if($carts->printName)
                                 	<div class="cart-item-more-info"><span class="frame-label uk-text-small">Print:</span> {{ $carts->printName }}</div>
                                 @endif

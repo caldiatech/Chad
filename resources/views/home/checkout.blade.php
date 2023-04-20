@@ -444,7 +444,7 @@
 					<p>{!! $carts->printName !!}</p>
                                             <div class="grey ">{!! $carts->fldTempCartFrameDesc !!}</div>
                                             <div class="grey ">{!! $carts->fldTempCartImageSize !!}</div>
-                                            <div class="grey ">{!! $carts->fldTempCartLinerDesc !!}</div>
+                                            <!-- <div class="grey ">{!! $carts->fldTempCartLinerDesc !!}</div> -->
 
                                             <!-- this will get all frame sequence 1/14/2021 -->
                                             <!-- <div class="grey ">{!! $carts->frame_sequence !!}</div>

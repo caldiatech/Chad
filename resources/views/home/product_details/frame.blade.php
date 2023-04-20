@@ -489,7 +489,7 @@ $count = 0;
             <span class="light photo-size-lbl uk-display-inline-block uk-margin-small-right frame-details-lbl">Photo Size: &nbsp;</span>
             <span class="bold text-uppercase  photo-size-text uk-display-inline-block frame-details-val"></span>
             <span class="light photo-size-lbl uk-display-inline-block uk-margin-small-right frame-details-lbl">&nbsp;</span>
-            <span class="uk-display-inline-block frame-details-val">*Photo Size For Print. Add 8-10 inches for Frame and Liner.</span>
+            <!-- <span class="uk-display-inline-block frame-details-val">*Photo Size For Print. Add 8-10 inches for Frame and Liner.</span> -->
     </div>
   </div>
   
