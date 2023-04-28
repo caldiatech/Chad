@@ -732,7 +732,7 @@ class TempCartController extends BaseController
 		}else{ // Guest Checkout
 			// Create Client account but tag as Guest
 			$client_id = $this->get_create_guest(0,$data);
-			Session::set('client_id', $client_id);
+			Session::put('client_id', $client_id);
 
 			// Update cart
 			$temp_client_id = Session::getId();

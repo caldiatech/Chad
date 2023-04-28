@@ -157,7 +157,7 @@ $default_dataliner = "LN1BK";
 <br><br><br><br><br>
 @endif
 <hr>
-<h3>Print Only :</h3>
+<!-- <h3>Print Only :</h3> -->
 <?php
 $count = 0;
 ?>
@@ -465,7 +465,7 @@ $count = 0;
     </div>
 
     <div class="uk-width-medium-1-2 uk-width-3-10 uk-padding-remove">
-      <div class="radio-option-wrapper uk-md-large">               
+      <div class="radio-option-wrapper uk-md-large">
        {!!$price_html_temp!!}
       </div>
     </div>
@@ -502,18 +502,18 @@ $count = 0;
 <!-- <link href="https://davidstutz.de/bootstrap-multiselect/docs/css/bootstrap-3.3.2.min.css" rel="stylesheet"/>
 <script src="https://davidstutz.de/bootstrap-multiselect/docs/js/bootstrap-3.3.2.min.js"></script> -->
 
-<!-- Latest compiled and minified CSS --> 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"> 
-<!-- Optional theme --> 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css"> 
-<!-- Latest compiled and minified JavaScript --> 
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
 <script>
 $(function() {
 $('.removeLinerVal').html('Black Linen Liner');
 //$('#printsselection option:eq(0)').prop('selected', true);
-$("#printsselection").change();  
+$("#printsselection").change();
 
 var getOpt = $( 'input[name=opt]:checked' ).val();
 if ( getOpt == "FRAMEX") {

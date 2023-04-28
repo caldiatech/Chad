@@ -158,7 +158,7 @@ if(Session::has('couponAmount')){
                                     <button type="button" name="coupon_check" class="uk-button uk-button-grey uk-button-primary" onclick="checkCoupon({{ $cart[0]->subtotal }})">APPLY CODE</button>
                                 </div>
                                 <br>
-                                <strong>Note</strong>: Be sure to click the Apply Code Box to apply your 20% discount.
+                                <strong>Note</strong>: Be sure to click the Apply Code Box to apply your Promo Code.
                             </div>
 
                             <div class="btn-group">

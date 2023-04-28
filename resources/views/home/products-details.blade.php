@@ -201,6 +201,7 @@
 					$("#add-to-cart").hide();
 					$("#totalPrice").hide();
 					$("#original_price").text('{{number_format($fldProductPrice,2)}}');
+					
 				</script>
 			@endif
 		  </div>
@@ -1004,8 +1005,6 @@ function load_javascripts(){
 
 		  var print_price = $('.prints_selection').find(':selected').data('price') ? Number($('.prints_selection').find(':selected').data('price')) : 0;
 
-
-
 		  var price = parseFloat($("input[name='imageSize']:checked").attr('data-frame_cost'));
 
 		  if($('.OptionsFrames').find(':selected'))
@@ -1013,10 +1012,11 @@ function load_javascripts(){
 		  	print_price = 0;
 			$('#print_fee').val(print_price);
 		  }
+		  console.log("price : ", price);
 
 		  totalPrice = (price + print_price) * qty;
 
-		  console.log(totalPrice,price,print_price,qty);
+		  console.log("total price : ",totalPrice,price,print_price,qty);
 
 		  $("#totalPrice").text(totalPrice.toFixed(2));
 		  // $("#totalPrice").text(996);
