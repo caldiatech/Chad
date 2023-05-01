@@ -1289,7 +1289,7 @@ class TempCartController extends BaseController
 
 		$settings = Settings::first();
 
-		if ($data->fldCartCouponCodeCouponCode) {
+		if ($data->fldCartCouponCodeCouponCode != null) {
 			$code = trim($data->fldCartCouponCodeCouponCode);
 
 			$mgr = Manager::where('fldManagerPromoCode','=',$code)->first();
