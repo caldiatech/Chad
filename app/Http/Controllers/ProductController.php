@@ -882,11 +882,15 @@ class ProductController extends Controller
 						   // ->orderBY('fldProductName')
 						   ->where('fldProductIsVertical',1)
 						   ->paginate(2);*/
-
+	   if(!empty($category_details)) {
 			$product = Product::leftJoin('tblProductCategory','tblProductCategory.fldProductCategoryProductID','=','tblProduct.fldProductID')
 								->where('tblProductCategory.fldProductCategoryCategoryID','=',$category_details->fldCategoryID)
 								->orderBY('fldProductName', 'DESC')
 								->paginate(50);
+	   } else {
+		Session::flash('error',"Category not found.");
+		return Redirect::to('/');
+	   }
 
 		}
 

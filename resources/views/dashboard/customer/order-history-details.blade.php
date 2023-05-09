@@ -77,62 +77,19 @@
                     </td>
                     <td>
 
-                      @if($carts->fldCartFrameDesc)
+                      <!-- @if($carts->fldCartFrameDesc)
                         <strong>Frame:</strong> {{$carts->fldCartFrameDesc}} <br/>
-                      @endif
+                      @endif -->
 
                       @if($carts->fldCartImageSize)
                         <strong>Size:</strong> {{$carts->fldCartImageSize}} <br/>
                       @endif
 
-                      @if($carts->fldCartLinerDesc)
+                      <!-- @if($carts->fldCartLinerDesc)
                         <strong>Liner:</strong> {{$carts->fldCartLinerDesc}} <br/>
-                      @endif
+                      @endif -->
 
-                      <? /* 
-                      @if($carts->fldCartFrameInfo)
-                        <strong>FRAME SKU:</strong> {{$carts->fldCartFrameInfo}} <br/>
-                      @endif
-
-                      @if($carts->fldCartLinerSku)
-                        <strong>LINER SKU:</strong> {{$carts->fldCartLinerSku}} <br/>
-                      @endif
-
-                      @if($carts->fldCartMat1Info)
-                          <?php $mat1 = explode(';', $carts->fldCartMat1Info) ?>
-                          <strong>MAT1 SKU:</strong> {{ $mat1[0] }} <br/>
-
-                          @if($carts->fldCartMat1Options)
-                              <?php $mat1Opts = json_decode($carts->fldCartMat1Options, false) ?>
-                              <strong>MAT1 OPTIONS:</strong> {{ implode(', ', $mat1Opts) }} <br/>
-                          @endif
-                      @endif
-
-                      @if($carts->fldCartMat2Info)
-                          <?php $mat2 = explode(';', $carts->fldCartMat2Info) ?>
-                          <strong>MAT2 SKU:</strong> {{ $mat2[0] }} <br/>
-
-                          @if($carts->fldCartMat2Options)
-                              <?php $mat2Opts = json_decode($carts->fldCartMat2Options, false) ?>
-                              <strong>MAT2 OPTIONS:</strong> {{ implode(', ', $mat2Opts) }} <br/>
-                          @endif
-                      @endif
-
-                      @if($carts->fldCartMat3Info)
-                          <?php $mat3 = explode(';', $carts->fldCartMat3Info) ?>
-                          <strong>MAT3 SKU:</strong> {{ $mat3[0] }} <br/>
-
-                          @if($carts->fldCartMat3Options)
-                              <?php $mat3Opts = json_decode($carts->fldCartMat3Options, false) ?>
-                              <strong>MAT3 OPTIONS:</strong> {{ implode(', ', $mat3Opts) }} <br/>
-                          @endif
-                      @endif
-
-                      @if($carts->fldCartFinishkitInfo)
-                        <strong>GLAZING:</strong>  <br/>
-                        <strong>GLAZING SKU:</strong>  <br/>
-                      @endif
-                      */ ?>
+                      
 
          @if($carts->printName != "" && $carts->printTotal != "")
       <strong>Print Name:</strong>  {{ $carts->printName }}<br/>
@@ -176,7 +133,7 @@
                  {{-- */$total = $total + $data->fldCartShippingPrice;/* --}} 
                  <tr>
                    <td colspan="3" class="uk-text-right uk-text-bold">Shipping (  {{ $data->fldCartShippingCode }}  ) : </td>
-                   <td>$ {{ number_format($data->fldCartShippingPrice,2) }}</td>                  
+                   <td  colspan="2">$ {{ number_format($data->fldCartShippingPrice,2) }}</td>                  
                 </tr> 
                 @endif
 

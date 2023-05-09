@@ -609,7 +609,8 @@ class Cart extends Eloquent
 		}
 
 		// $imageLink = 'https://pod.cloud.graphikservices.com/renderEMF/render?imgUrl='.url(PRODUCT_IMAGE_PATH.$slug.'/'.SMALL_IMAGE.$image).'&imgHI='.$imageSize->fldOptionsAssetsHeight.'&imgWI='.$imageSize->fldOptionsAssetsWidth.'&maxW=225&maxH=225'.$frameparams.$matParams;
-		$imageLink = 'https://pod.cloud.graphikservices.com/renderEMF/render?imgUrl=https://clarkincollection.com/new/'.PRODUCT_IMAGE_PATH.$slug.'/'.SMALL_IMAGE.$image.'&imgHI='.$imageSize->fldOptionsAssetsHeight.'&imgWI='.$imageSize->fldOptionsAssetsWidth.'&maxW=225&maxH=225'.$frameparams.$matParams;
+		$imageLink = 'https://pod.cloud.graphikservices.com/renderEMF/render?imgUrl=https://usd.mtg.mybluehost.me/Chad/public/new/'.PRODUCT_IMAGE_PATH.$slug.'/'.SMALL_IMAGE.$image;
+		//$imageLink = 'https://pod.cloud.graphikservices.com/renderEMF/render?imgUrl=https://clarkincollection.com/new/'.PRODUCT_IMAGE_PATH.$slug.'/'.SMALL_IMAGE.$image.'&imgHI='.$imageSize->fldOptionsAssetsHeight.'&imgWI='.$imageSize->fldOptionsAssetsWidth.'&maxW=225&maxH=225'.$frameparams.$matParams;
 
 		return $imageLink;
 	}
