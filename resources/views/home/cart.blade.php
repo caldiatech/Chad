@@ -82,7 +82,7 @@ if(Session::has('couponAmount')){
                             </div>
                         </div>
                     </td>
-                    <td class="tp2 uk-vertical-align"><strong>${{ number_format($carts->product_price,2) }}</strong></td>
+                    <td class="tp2 uk-vertical-align"><strong>${{ $carts->product_price }}</strong></td>
                     <td class="tp3 uk-vertical-align">
 
                         <div data-trigger="spinner" class="input-append uk-form-width-mini spinner lighter" style="max-width:100px;">

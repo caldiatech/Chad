@@ -48,7 +48,10 @@ class TempCart extends Eloquent
 
 				//for product options
 				$productOption = explode("_",$cartDisplays->product_options);
-				$total =  ($cartDisplays->quantity * $cartDisplays->product_price);
+				$discountAmount = $cartDisplays->product_price;
+				$discountAmount = (float)str_replace(",", "", $discountAmount);
+				
+				$total =  ($cartDisplays->quantity * $discountAmount);
                 $subtotal = $subtotal + $total;
 				$weight = (float)$weight + (float)$cartDisplays->weight;
 				$cartDisplay[$ctr]['total'] = $total;

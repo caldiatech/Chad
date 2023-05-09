@@ -144,7 +144,7 @@ class TempCartController extends BaseController
 			$feeCost = 0;
 			// Discount
 			$discountAmount = number_format($cart[0]->coupon_amount,2);
-
+			$discountAmount = (float)str_replace(",", "", $discountAmount);
 			// Total
 			$totalCost = $without_shipping_total + $feeCost - $discountAmount;
 			// echo 'merch: '.$merchCost.'<br>';
@@ -628,18 +628,22 @@ class TempCartController extends BaseController
 			$order_date = date('Y-m-d');
 
 			 $cartID = Input::get('cartId');
-			 foreach(Input::get('qty') as $qty)
-			 {
-				if($qty == 0){$qty=1;}
-				//echo "<pre>";print_r($cartID);exit;
-				//list ($key,$cartid) = each ($cartID);
+			//dd($data);
+			$qty = 	Input::get('qty');
+			//  foreach(Input::get('qty') as $qty)
+			//  {
+			// 	if($qty == 0){$qty=1;}
+			// 	//echo "<pre>";print_r($cartID);exit;
+			// 	//list ($key,$cartid) = each ($cartID);
+				
 				foreach($cartID as $key=>$cartid){
+				
 					$tempcart = TempCart::find($cartid);
-					$tempcart->fldTempCartQuantity = $qty;
+					$tempcart->fldTempCartQuantity = $qty[$key];
 					$tempcart->save();
 				}
 
-			 }
+			// }
 
 			if(isset($data['checkout'])) {
 
@@ -663,12 +667,14 @@ class TempCartController extends BaseController
 
 	public function deleteShoppingCart($id) {
 		$cart = TempCart::find($id);
+		if (!empty($cart)) {
 		$cart->delete();
-
 		Session::forget('couponSource');
 		Session::forget('couponSourceID');
 		Session::forget('couponCode');
 		Session::forget('couponAmount');
+
+		}
 
 		return Redirect::to('shopping-cart');
 	}
