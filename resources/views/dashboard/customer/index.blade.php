@@ -154,7 +154,8 @@
                         $shipping_cost = $item->fldCartShippingPrice; // To be added one time only after loop
                         // dd($item);
                         // $subtotal_per_line = ($item->fldCartProductPrice + $item->fldCartShippingPrice) * $item->fldCartQuantity;
-                        $subtotal_per_line = $item->fldCartProductPrice * $item->fldCartQuantity;
+						$subtotal_per_line = (int)$item->fldCartProductPrice * (int)$item->fldCartQuantity;
+
                         $subtotal_per_cart += $subtotal_per_line;
 
                         array_push($products['name'][$order->fldCartID], $item->fldCartProductName);
