@@ -1006,6 +1006,7 @@ class ClientController extends Controller
 			$pages->category = "customer";
 			$pages->slug = "order-history";
 			$settings = Settings::first();
+			//dd( $cart, $data);
 
 			return View::make('dashboard.customer.order-history-details', compact('client_id','client','pages','settings','data','cart'));
 			// return View::make('dashboard.customer.order-history-details', array('client_id'=>$client_id,
@@ -1036,7 +1037,6 @@ class ClientController extends Controller
 		$orderInfo->fldProductDescription = $product->fldProductDescription;
 		$orderInfo->fldCartOrderDate = date('m/d/Y',strtotime($orderInfo->fldCartOrderDate));
 		$orderInfo->imageFrame = Cart::getReturnFrameImage($orderCode,$product->fldProductSlug,$product->fldProductImage);
-
 		return $orderInfo;
 	}
 

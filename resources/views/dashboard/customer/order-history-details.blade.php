@@ -147,7 +147,7 @@
                     <td>$ {{ number_format($carts->product_price,2) }}</td>
                     <td>{{ $carts->quantity }}</td>
                     <td>$ {{ number_format($carts->total,2) }}</td>
-                </tr>                  
+                </tr>
             @endforeach
                  <tr>
                     <td colspan="5"><hr></td>
@@ -182,7 +182,10 @@
 
                  <tr>
                    <td colspan="3" class="uk-text-right uk-text-bold">GRAND TOTAL: </td>
-                   <td colspan="2">$ {{ number_format($total,2) }}</td>                  
+                   @php
+                   $total = $cart[0]->subtotal + $data->fldCartTax + $data->fldCartShippingPrice; 
+                   @endphp
+                   <td colspan="2">${{number_format($total,2)}} </td>                  
                 </tr> 
 
          </table> 
