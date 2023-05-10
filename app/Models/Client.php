@@ -79,6 +79,8 @@ class Client extends Eloquent
    public static function rulesUpdateProfile($id) {
 		Validator::extend('img_min_size', function($attribute, $value, $parameters)
 	    	{
+				$fileExtension =  Request::file($attribute)->extension();
+				if($fileExtension == 'jpeg' || $fileExtension == 'gif' || $fileExtension == 'png')  {
 		            $file = Request::file($attribute);
 		            $image_info = getimagesize($file);
 		            $image_width = $image_info[0];
@@ -86,8 +88,11 @@ class Client extends Eloquent
 		            if($image_width >= $parameters[0] && $image_height >= $parameters[1]) {
 		            	return true;
 		            }
-
-		            return false;
+					return false;
+		            
+				} else {
+					return false;
+				}
 
 		    });
 

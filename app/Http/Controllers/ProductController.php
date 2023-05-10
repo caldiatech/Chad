@@ -1152,7 +1152,7 @@ class ProductController extends Controller
 			$product->fldProductImageID = 0;
 		}
 //dd($product);
-		$itemID = $product->fldProductID;
+$itemID = $product->fldProductID;
    		return View::make('home.products-details')->with(array('menus' => $menus,
 															   'category' => $category,
 															   'category_details' => $category_details,
@@ -1559,6 +1559,14 @@ class ProductController extends Controller
 
         return $print;
 
+	}
+
+	public function getShippingIndex()
+	{
+		$menus = Pages::where('fldPagesMainID', '=', 0)->get();
+		$pages = Pages::where('fldPagesSlug', '=', 'shipping')->first();
+		$category = Category::orderby('fldCategoryPosition')->get();
+		return View::make('home.shipping-page', compact('pages','menus','category'));
 	}
 
 }

@@ -9,8 +9,8 @@
                      <div class="uk-width-small-1-1 uk-width-1-1 first-row">
                         {!! Html::link('/about','About', array('class'=>'uk-display-inline-block footer-link-menu')) !!}
                         {!! Html::link('/collection','Collection', array('class'=>'uk-display-inline-block footer-link-menu')) !!}
-                        {!! Html::link('/framing','Framing', array('class'=>'uk-display-inline-block footer-link-menu')) !!}
-                        {!! Html::link('/shipping','Shipping', array('class'=>'uk-display-inline-block footer-link-menu')) !!}
+                        <!-- {!! Html::link('/framing','Framing', array('class'=>'uk-display-inline-block footer-link-menu')) !!} -->
+                        {!! Html::link('/shipping-page','Shipping', array('class'=>'uk-display-inline-block footer-link-menu')) !!}
                         
                         {!! Html::link('/connect','Contact Us', array('class'=>'uk-display-inline-block footer-link-menu')) !!}
                         {!! Html::link('/privacy-policy','Privacy Policy', array('class'=>'uk-display-inline-block footer-link-menu')) !!}

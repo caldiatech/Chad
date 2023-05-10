@@ -288,6 +288,8 @@ Route::group(array('prefix' => '/'), function() {
     Route::get('/collection', 'ProductController@displayAll');
     Route::post('/collection', 'ProductController@searchProduct');
 
+    Route::get('/shipping-page', 'ProductController@getShippingIndex');
+
     Route::get('/featured-images', 'ProductController@featuredImages');
 
     Route::get('/products/test-price', 'ProductController@displayFramePricing');

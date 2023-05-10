@@ -782,7 +782,7 @@ class ClientController extends Controller
 				if(Input::get('password') != "") {
 					$client->fldClientPassword = Hash::make(Input::get('password'));
 				}
-
+				
 				$file = Input::file('image');
 				if($file != "") {
 					$client->fldClientImage = Client::uploadSingleImage($file,$client_id);

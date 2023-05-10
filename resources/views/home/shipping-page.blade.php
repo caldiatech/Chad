@@ -113,9 +113,7 @@
 
 @stop
 
-@if($pageEditable==true)
 
-@endif
 @section('extracodes')
  {{-- */ /* */ /* --}}
 	<script>
