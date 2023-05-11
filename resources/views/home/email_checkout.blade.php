@@ -92,12 +92,12 @@
                              <br />
                              <strong>{{ strtoupper($carts->product_name) }}</strong> <br>
                              {{ $carts->fldCartImageSize }} <br>
-    @if($carts->fldCartFrameDesc)
+    <!-- @if($carts->fldCartFrameDesc)
                              <strong>Frame:</strong> {{ $carts->fldCartFrameDesc }} <br>
     @endif
     @if($carts->fldCartLinerDesc)
                              <strong>Liner:</strong> {{ $carts->fldCartLinerDesc }} <br>
-    @endif
+    @endif -->
     @if($carts->printName != "" && $carts->printTotal)
       <strong>Print Name:</strong> {{ $carts->printName }} <br>
     @endif

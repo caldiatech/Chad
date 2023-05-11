@@ -478,7 +478,7 @@ class PagesController extends Controller
 			$fldProductOptionsPrice =  $get_product_option->fldProductOptionsPrice;
 			$product_array_prices[$fldProductOptionsProductID] = $fldProductOptionsPrice;
 			if(!isset($product_array_highest_prices[$fldProductOptionsProductID])){
-				$product_array_highest_prices[$fldProductOptionsProductID] = $fldProductOptionsPrice+300; // 300 because max expensive frame = max cheap frame cost + 300
+				$product_array_highest_prices[$fldProductOptionsProductID] = $fldProductOptionsPrice; // 300 because max expensive frame = max cheap frame cost + 300
 			}
 			if(!isset($product_array_lowest_prices[$fldProductOptionsProductID])){
 				$product_array_lowest_prices[$fldProductOptionsProductID] = $fldProductOptionsPrice;
@@ -487,7 +487,7 @@ class PagesController extends Controller
 				$product_array_lowest_prices[$fldProductOptionsProductID] = $fldProductOptionsPrice;
 			}
 			if($fldProductOptionsPrice > $product_array_highest_prices[$fldProductOptionsProductID]){
-				$product_array_highest_prices[$fldProductOptionsProductID] = $fldProductOptionsPrice+300; // 300 because max expensive frame = max cheap frame cost + 300
+				$product_array_highest_prices[$fldProductOptionsProductID] = $fldProductOptionsPrice; // 300 because max expensive frame = max cheap frame cost + 300
 			}
 
 		}
