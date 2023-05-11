@@ -221,7 +221,8 @@ div#products.loading-products > .product-container:before {
 figure.uk-overlay {
     background-position: center center;
     background-repeat: no-repeat;    background-size: contain;
-    background-color: #191919;
+    background-color: #fff;
+
 }
 /*.gallery-style-1 #products .product-container .product-list-item.product-list-item-0 figure.uk-overlay,
 .gallery-style-1 #products .product-container .product-list-item.product-list-item-1 figure.uk-overlay,
