@@ -80,13 +80,13 @@
                     </td>
                     <td>
 
-                      @if($carts->fldCartFrameDesc)
+                      <!-- @if($carts->fldCartFrameDesc)
                         <strong>FRAME:</strong> {{$carts->fldCartFrameDesc}} <br/>
                       @endif
-                     
-                      @if($carts->fldCartLinerDesc)
+                      -->
+                      <!-- @if($carts->fldCartLinerDesc)
                         <strong>LINER:</strong> {{$carts->fldCartLinerDesc}} <br/>
-                      @endif
+                      @endif -->
                      
                       @if($carts->fldCartImageSize)
                         <strong>Photo Size:</strong> {{$carts->fldCartImageSize}} <br/>
