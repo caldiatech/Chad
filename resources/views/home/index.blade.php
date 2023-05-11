@@ -92,7 +92,7 @@
 }
 .featured-photos-section.gallery-style-1 .uk-cover-background {
     margin: auto 5px;
-    background-size: contain; background-repeat: no-repeat; background-color:#191919;
+    background-size: contain; background-repeat: no-repeat; background-color:#edecec;
 }
 .featured-photos-section.gallery-style-1 .uk-grid > * { margin-bottom: 10px; }
 
