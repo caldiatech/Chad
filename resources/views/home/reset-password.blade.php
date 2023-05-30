@@ -22,7 +22,7 @@
                                         </div>
                                         <div class="uk-width-1-1 uk-padding-remove">
                                         {!! Form::password('password','',array('id'=>'password','required')) !!}
-                                        <table border=0>
+                                        <table>
                                             <tr>
                                                 <td style="padding-right:5px;" class="uk-text-small"> <i class="uk-icon uk-icon-check-circle icon-color" id="passveryweak"></i> at least 8 char</td>
                                                 <td style="padding-right:5px;" class="uk-text-small"> <i class="uk-icon uk-icon-check-circle icon-color" id="passweak"></i> an uppercase</td>
