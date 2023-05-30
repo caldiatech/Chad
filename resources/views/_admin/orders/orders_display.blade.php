@@ -149,7 +149,7 @@
                       </tr>
                 @endif
 @php
-$total = $cart[0]->subtotal + $data->fldCartTax;
+$total = $cart[0]->subtotal + $data->fldCartTax + $shipping_cost;
 @endphp
                  <tr>
                    <td colspan="1">&nbsp;</td>
