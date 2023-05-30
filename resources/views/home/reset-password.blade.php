@@ -21,27 +21,35 @@
                                          {!! Form::label('password', '* Password',array('style'=>'width:75px')); !!}
                                         </div>
                                         <div class="uk-width-1-1 uk-padding-remove">
-                                        {!! Form::password('password','',array('id'=>'password','required')) !!}
-                                        <table>
-                                            <tr>
-                                                <td style="padding-right:5px;" class="uk-text-small"> <i class="uk-icon uk-icon-check-circle icon-color" id="passveryweak"></i> at least 8 char</td>
-                                                <td style="padding-right:5px;" class="uk-text-small"> <i class="uk-icon uk-icon-check-circle icon-color" id="passweak"></i> an uppercase</td>
-                                                <td style="padding-right:5px;" class="uk-text-small"> <i class="uk-icon uk-icon-check-circle icon-color" id="passmedium"></i> a number</td>
-                                                <td style="padding-right:5px;" class="uk-text-small"> <i class="uk-icon uk-icon-check-circle icon-color" id="passstrong"></i> special char</td>
-                                            </tr>
-                                        </table>
-                                        @if($errors->resetpassword->first('password'))
-                                            <div class="uk-text-danger">{!!$errors->resetpassword->first('password')!!}</div>
-                                         @endif
-                                        </div>
-
+                                       
+                                        {!! Form::password('password',array('id'=>'password','required'=>'required','class'=>'form-control password-fld')) !!}
+                                        <table border=0>
+                                        <tr class="border-0">
+                                            <td style="padding-right:5px;" class="uk-text-small minsize"> <i class="uk-icon uk-icon-check-circle icon-color" id="passveryweak"></i> at least 8 char</td>
+                                            <td style="padding-right:5px;" class="uk-text-small capital"> <i class="uk-icon uk-icon-check-circle icon-color" id="passweak"></i> an uppercase</td>
+                                            <td style="padding-right:5px;" class="uk-text-small number"> <i class="uk-icon uk-icon-check-circle icon-color" id="passmedium"></i> a number</td>
+                                            <td style="padding-right:5px;" class="uk-text-small special"> <i class="uk-icon uk-icon-check-circle icon-color" id="passstrong"></i> special char</td>
+                                        </tr>
+                                    </table>
+                                    <div class="uk-text-danger password-errors password-fld-errors  uk-hidden"></div>
+                                     {{-- @if($errors->registration->first('password'))
+                                            <div class="uk-text-danger">{!!$errors->registration->first('password')!!}</div>
+                                    @endif --}}
+                                    </div>
                                     </div>
                                     <div class="uk-padding-small-top uk-grid uk-margin-remove">
                                         <div class="uk-width-1-1  line-height-text uk-padding-remove ">
+                                       
+
                                             {!! Form::label('password_confirmation', '* Confirm Password',array('style'=>'width:75px')); !!}
                                         </div>
                                         <div class="uk-width-1-1 uk-padding-remove">
-                                            {!! Form::password('password_confirmation','',array('id'=>'password','required')) !!}
+                                        {!! Form::password('password_confirmation',array('id'=>'password_confirmation','required','class'=>'form-control password-confirm-fld')) !!}
+
+                                        <div class="uk-text-danger password-confirm-errors password-errors  uk-hidden"></div>
+                                        {{-- @if($errors->registration->first('password_confirmation'))
+                                                <div class="uk-text-danger">{!!$errors->registration->first('password_confirmation')!!}</div>
+                                        @endif --}}
 
                                         </div>
 
