@@ -566,9 +566,9 @@
                             <tr class="border-top">
                                 <td colspan="2"><strong>ORDER TOTAL</strong></td>
                                 <td class="uk-text-right roboto">
-                                <?php 
+                                <?php
                                 // $order_total = $grand_total + $shipping_total;
-                                $order_total = (float)$grand_total + (float)$defaultShippingAmount + (float)$tax_total;
+                                $order_total = (float)$grand_total + (float)$defaultShippingAmount + (float)$tax_total + (float)$final_shipping_cost;
                                 
                                 // echo 'subtotal: '.$grand_total.'<br>';
                                 // echo 'discount: '.$cart[0]->coupon_amount.'<br>';
@@ -578,7 +578,7 @@
                                 // echo 'Total: '.$order_total.'<br>';
                                 ?>
                                  <strong><span id="Grandtotal">                                   
-                                   $ {!! is_numeric(number_format($order_total,2)) ? number_format($order_total,2) : 0.00 !!}
+                                   $ {!! number_format($order_total,2)!!}
                                   </span></strong>
 
                                 {!! Form::hidden('total',$sub_total,array('id'=>'total')) !!}
