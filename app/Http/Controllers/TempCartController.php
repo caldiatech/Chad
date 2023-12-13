@@ -939,8 +939,8 @@ class TempCartController extends BaseController
                     )
                 );
 
-        $xml_profile = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_DEVELOPMENT_SERVER);
-        //$xml_profile = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_PRODUCTION_SERVER);
+        //$xml_profile = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_DEVELOPMENT_SERVER);
+        $xml_profile = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_PRODUCTION_SERVER);
         $refId = date('ymdhis') . rand(1000,9999);
         $xml_profile->createCustomerProfileRequest($customer_profile);
 
@@ -963,8 +963,8 @@ class TempCartController extends BaseController
                         )
                     );
 
-             $xml_profile_update = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_DEVELOPMENT_SERVER);
-            //$xml_profile_update = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_PRODUCTION_SERVER);
+             //$xml_profile_update = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_DEVELOPMENT_SERVER);
+            $xml_profile_update = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_PRODUCTION_SERVER);
             // $refId = date('ymdhis') . rand(1000,9999);
             $xml_profile_update->updateCustomerProfileRequest($customer_profile_update);
 
@@ -1018,8 +1018,8 @@ class TempCartController extends BaseController
         Log::debug($one_time_charge);
         Log::debug('---------one_time_charge--------------');
 
-        $xml_charge = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_DEVELOPMENT_SERVER);
-        //$xml_charge = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_PRODUCTION_SERVER);
+        //$xml_charge = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_DEVELOPMENT_SERVER);
+        $xml_charge = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_PRODUCTION_SERVER);
         $refId = date('ymdhis') . rand(1000,9999);
         $xml_charge->createCustomerProfileTransactionRequest($one_time_charge); // authorizeAndCapture
 

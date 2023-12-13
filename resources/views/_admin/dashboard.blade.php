@@ -26,6 +26,7 @@
                                 <li><a href="{{url('/dnradmin/category')}}">Products</a></li>
                                 <li><a href="{{url('/dnradmin/coupon_code')}}">Coupon Code</a></li>
                                 <li><a href="{{url('/dnradmin/orders')}}">Orders</a></li>
+                                <li><a href="{{url('/dnradmin/uploadImages')}}">Upload Images</a></li>
                             </ul>
                         </div>
                     </li>
@@ -99,6 +100,12 @@
                                 <a class="uk-thumbnail th-box uk-text-center uk-width-1-1" href="{{url('/dnradmin/orders')}}">
                                     <i class="pe-7s-cart iconsizelarge"></i>
                                     <div class="uk-thumbnail-caption">Orders</div>
+                                </a>
+                            </div>
+                            <div class="uk-width-medium-1-4">
+                                <a class="uk-thumbnail th-box uk-text-center uk-width-1-1" href="{{url('/dnradmin/uploadImage')}}">
+                                    <i class="pe-7s-photo iconsizelarge"></i>
+                                    <div class="uk-thumbnail-caption">Upload Image</div>
                                 </a>
                             </div>
                         </div>

@@ -225,7 +225,7 @@ class ClientController extends Controller
 				// $ownerName = $settings->fldAdministratorSiteName == "" ? "Dog and Rooster" : $settings->fldAdministratorSiteName;
 
 				//$message->from(Input::get('email'), Input::get('firstname') . ' ' . Input::get('lastname'));
-				$message->from(EmailFrom, EmailFromName);
+				$message->from('chad@clarkincollection.com', 'ClarkinCollection.com');
 				// $message->to($ownerEmail,$ownerName);
 				$message->to(EmailTo3, EmailToName3);
 				//$message->cc(EmailTo2, EmailToName2);
@@ -241,7 +241,7 @@ class ClientController extends Controller
 				$ownerEmail = $settings->fldAdministratorEmail == "" ? "test1@dogandrooster.net" : $settings->fldAdministratorEmail;
 				$ownerName = $settings->fldAdministratorSiteName == "" ? "Dog and Rooster" : $settings->fldAdministratorSiteName;
 
-				$message->from(EmailFrom, EmailFromName);
+				$message->from('chad@clarkincollection.com', 'ClarkinCollection.com');
 				$message->to(Input::get('email'),Input::get('firstname') . ' ' . Input::get('lastname'));
 				$message->cc(EmailTo3, EmailToName3);
 				//$message->cc(EmailTo2, EmailToName2);

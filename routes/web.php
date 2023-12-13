@@ -130,6 +130,10 @@ Route::group(array('prefix' => '/dnradmin'), function()
     Route::post('/orders/edit/{id}', 'CartController@postEdit');
     Route::get('/orders/delete/{id}', 'CartController@getDelete');
     Route::get('/orders/display/{order_code}', 'CartController@getDisplay');
+    
+    //upload images
+    Route::get('/uploadImage', 'UploadImageController@index');
+
 
 
     Route::get('/commissions', 'CommissionController@getIndex');
@@ -401,7 +405,7 @@ define('HOME_SLIDE_IMAGE_PATH','uploads/home-sliders/');
 define('PHOTO_GALLERY_IMAGE_PATH','uploads/photo-gallery/');
 define('STAFF_IMAGE_PATH','upload/staff/');
 define('CATEGORY_IMAGE_PATH','upload/category/');
-define('PRODUCT_IMAGE_PATH','uploads/products/');
+define('PRODUCT_IMAGE_PATH','upload/products/');
 define('SLIDER_IMAGE_PATH','upload/slider/');
 define('MANAGER_IMAGE_PATH','upload/manager/');
 define('CUSTOMER_IMAGE_PATH','upload/customer/');

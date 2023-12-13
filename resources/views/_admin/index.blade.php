@@ -25,7 +25,7 @@
         <div class="uk-form-row sc">
             <input type="hidden" name="security" value="" id="security">
             <script language="javascript" type="text/javascript">showImage();</script> 
-            <i class="pe-7s-unlock secu-i"></i>
+            <i class="pe-7s-unlock secu-i" style="margin-top:5px !important;"></i>
             <input  class="pad-left" placeholder="Security Code" type="text" name="code" id="code" maxlength="7">    
         </div>
         

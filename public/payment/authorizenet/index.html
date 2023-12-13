@@ -1,0 +1,70 @@
+<html>
+<head>
+</head>
+<body>
+  <p class="send-instructions">Enter your number and we'll send you a link to download the app</p>
+  <form id="enter-phone-number" onsubmit="sendBranchLink(this); return false;" class="row">
+    <div class="large-12 columns">
+      <div class="row collapse">
+        <div class="small-7 medium-10 columns">
+          <input id="phone" type="tel" pattern="^\(?\+?[\d\(\-\s\)]+$" class="input-group-field" placeholder="(408) 219-0093" data-placeholder="">
+        </div>
+        <div class="small-5 medium-2 columns" style="position:relative;">
+          <div class="loader" style='display: none;position:absolute;'></div>
+          <input type="submit" class="button postfix send-button" value="Send Text">
+        </div>
+      </div>
+    </div>
+  </form>
+</body>
+<link href="//cdnjs.cloudflare.com/ajax/libs/intl-tel-input/11.1.3/css/intlTelInput.css" rel="stylesheet">
+<script src="//cdnjs.cloudflare.com/ajax/libs/intl-tel-input/11.1.3/js/intlTelInput.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/jquery.inputmask.bundle.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.3.4/phone-codes/phone.js"></script>
+<script>
+<script>
+  
+  $("#phone").intlTelInput({
+    initialCountry: "us",
+    utilsScript: "//cdnjs.cloudflare.com/ajax/libs/intl-tel-input/11.1.3/js/utils.js"
+  });
+
+  // Branch to send out download link to phone
+  (function(b,r,a,n,c,h,_,s,d,k){if(!b[n]||!b[n]._q){for(;s<_.length;)c(h,_[s++]);d=r.createElement(a);d.async=1;d.src="https://cdn.branch.io/branch-latest.min.js";k=r.getElementsByTagName(a)[0];k.parentNode.insertBefore(d,k);b[n]=h}})(window,document,"script","branch",function(b,r){b[r]=function(){b._q.push([r,arguments])}},{_q:[],_v:1},"addListener applyCode banner closeBanner creditHistory credits data deepview deepviewCta first getCode init link logout redeem referrals removeListener sendSMS setBranchViewData setIdentity track validateCode".split(" "), 0);
+
+  branch.init("key_live_blymZWvMqEbhcw5wK0DBshijyzaUBVDS");
+
+  function sendBranchLink(form) {
+
+    $('.loader').show();
+    $('.send-button').val(' ');
+    $('.send-button').prop('disabled', true);
+
+    const countryData = $('#phone').intlTelInput('getSelectedCountryData');
+    const dialcode = '+'+countryData.dialCode;
+    const phone = dialcode + form.phone.value;
+    const cleanedPhone = phone.replace(/[- )(]/g,'');
+    const linkData = {};
+    const options = {};
+    const callback = function(err, result) {
+        if (err) {
+            $('.send-instructions').addClass("error").text('Something went wrong, please try again.')
+            $('.loader').hide();
+            resetSendButton();
+        } else {
+
+          if ($('body').hasClass('attach-phone-number')) {
+            attachPhoneNumberToUser(cleanedPhone);
+          } else {
+            $('.send-instructions').addClass("success").text('Text message sent, please check your phone.')
+            $('.loader').hide();
+            resetSendButton();
+          }
+        }
+    };
+    branch.sendSMS(cleanedPhone, linkData, options, callback);
+    form.phone.value = "";
+  }
+  
+</script>
+</html>

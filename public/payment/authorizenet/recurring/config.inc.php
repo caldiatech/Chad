@@ -1,13 +1,13 @@
 <?php
     // // SANDBOX
     // // d3veloperDNR // P@ssword1
-    define('AUTHNET_LOGIN', '2TYs29jq'); 
-    define('AUTHNET_TRANSKEY', '3zw899C8868DUpp9');
+    //define('AUTHNET_LOGIN', '2TYs29jq');
+    //define('AUTHNET_TRANSKEY', '3zw899C8868DUpp9');
 
-    // // LIVE Client's
+     // LIVE Client's
     // chad_clarkin@yahoo.com | Authorize4425!
-    //define('AUTHNET_LOGIN', '39QwR4uty'); 
-    //define('AUTHNET_TRANSKEY', '4w375D5p2ZA6ZXrQ');
+    define('AUTHNET_LOGIN', '39QwR4uty'); 
+    define('AUTHNET_TRANSKEY', '9xUZK6mk6m9Sw66Y');
     //define('AUTHNET_TRANSKEY', '3J83m5rBB6V837yt');
 
     if (!function_exists('curl_init'))

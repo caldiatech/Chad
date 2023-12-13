@@ -17,7 +17,6 @@ class SettingsController extends Controller
 	public function dashboard() {
 		$pageTitle = "Dashboard";
 		$pages = Pages::orderby('fldPagesID')->get();
-
 		return view('_admin.dashboard', compact('pages', 'pageTitle'));
 	}
 

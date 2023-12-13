@@ -49,7 +49,7 @@
 
                                 <div class = "uk-width-large-1-2 uk-width-medium-1-2 uk-width-1-1  text-wrapper uk-margin-top" >
                                     {!! Form::label('password', '* Password',array( )); !!}
-                                    {!! Form::password('password','',array('id'=>'password','required','class'=>'form-control password-fld required','data-password'=>'password')) !!}
+                                    {!! Form::password('password',array('id'=>'password','required', 'class' => 'form-width-large')) !!}
                                     <table border=0>
                                         <tr>
                                             <td style="padding-right:5px;" class="uk-text-small minsize"> <i class="uk-icon uk-icon-check-circle icon-color" id="passveryweak"></i> at least 8 char</td>
@@ -66,13 +66,12 @@
 
                                  <div class = "uk-width-large-1-2 uk-width-medium-1-2 uk-width-1-1   uk-margin-top" >
                                     {!! Form::label('password_confirmation', '* Retype Password'); !!}
-                                    {!! Form::password('password_confirmation','',array('id'=>'password_confirmation','required','class'=>'form-control required','data-password'=>'password')) !!}
+                                    {!! Form::password('password_confirmation',array('id'=>'password_confirmation','required', 'class' => 'form-width-large')) !!}
                                     <div class="uk-text-danger password-confirm-errors password-errors  uk-hidden"></div>
                                     @if($errors->manager->first('password_confirmation'))
                                             <div class="uk-text-danger">{!!$errors->manager->first('password_confirmation')!!}</div>
                                     @endif
                                 </div >
-
                                 <div class = "uk-width-1-1 uk-margin-large-top">
                                   <div class="uk-text-success pos-rel uk-width-1-1 full-width please-wait uk-hidden ">Please Wait...</div>
                                  <input type="hidden" name="client_type" value="2">
