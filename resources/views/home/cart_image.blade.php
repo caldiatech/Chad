@@ -16,7 +16,7 @@ if(Session::has('couponAmount')){
         @if (session()->has('message'))
             <div id="" style="padding:15px;" class="uk-alert uk-text-center uk-text-large uk-alert-success uk-margin-large-bottom"><i class="uk-icon uk-icon-check-circle"></i> <strong>Success:</strong> Your shopping cart has been updated.</div><!-- text updated based on QAR -->
         @endif
-        {!! Form::open(array('url' => '/shopping-cart/update', 'method' => 'post', 'id' => 'pageform', 'class' => 'row-fluid bill-info')) !!}
+        {!! Form::open(array('url' => '/image-cart/update', 'method' => 'post', 'id' => 'pageform', 'class' => 'row-fluid bill-info')) !!}
 
         <table class="uk-table cart-order-list">
             <thead>
@@ -51,7 +51,7 @@ if(Session::has('couponAmount')){
                 ?>
                 <tr class="tr-{{$carts->fldProductIsVertical}}">
                     <td class="tp5 uk-vertical-align">
-                         <a href="{{url('shopping-cart/delete/'.$carts->temp_cart_id)}}" class="uk-vertical-align-middle" onClick="return confirm(&quot;Are you sure you want to remove this product from your shopping cart?\n\nPress OK to delete.\nPress Cancel to go back without deleting the product from your shopping cart.\n&quot;)"><i class="uk-icon-close"></i></a>
+                         <a href="{{url('image-cart/delete/'.$carts->temp_cart_id)}}" class="uk-vertical-align-middle" onClick="return confirm(&quot;Are you sure you want to remove this product from your shopping cart?\n\nPress OK to delete.\nPress Cancel to go back without deleting the product from your shopping cart.\n&quot;)"><i class="uk-icon-close"></i></a>
                     <td class="tp1 uk-vertical-align">
                         <div class="uk-position-relative uk-display-block uk-width-1-1">
                         	<div class="uk-width-large-4-10 uk-width-medium-1-2 uk-width-1-1 uk-float-left cart-image-holder">
@@ -65,19 +65,12 @@ if(Session::has('couponAmount')){
                             </div>
                             <div class="uk-width-large-6-10 uk-width-medium-1-2 uk-width-1-1 uk-float-left  cart-text-holder ">
                                 <h3 class="uk-h3 uk-margin-bottom-remove"><a href="{{url('products/details/'.$carts->fldProductSlug)}}" title="{{ $carts->product_name }}">{{ $carts->product_name }}</a></h3>
-				@if($carts->fldTempCartFrameDesc)
-                                <div class="cart-item-more-info"><span class="frame-label uk-text-small">Frame:</span> {{$carts->fldTempCartFrameDesc}}</div>
-                @endif
-                
-               
-                    <!-- <div class="cart-item-more-info"><span class="frame-label uk-text-small">Sequnce:</span>123</div>
-                    -->
-                                <div class="cart-item-more-info"><span class="frame-label uk-text-small">Border Size:</span> {{$carts->fldTempCartImageSize}}</div>
-				<!-- @if($carts->fldTempCartLinerDesc)
-                                	<div class="cart-item-more-info"><span class="frame-label uk-text-small">Liner:</span> {{ $carts->fldTempCartLinerDesc }} {{-- $carts->fldTempCartLinerSku --}}</div>
-				@endif -->
+                                @if($carts->fldTempCartFrameDesc)
+                                    <div class="cart-item-more-info"><span class="frame-label uk-text-small">Frame:</span> {{$carts->fldTempCartFrameDesc}}</div>
+                                @endif
+                                
                                 @if($carts->printName)
-                                	<div class="cart-item-more-info"><span class="frame-label uk-text-small">Print:</span> {{ $carts->printName }}</div>
+                                    <div class="cart-item-more-info"><span class="frame-label uk-text-small">Print:</span> {{ $carts->printName }}</div>
                                 @endif
                             </div>
                         </div>
@@ -105,7 +98,7 @@ if(Session::has('couponAmount')){
                         
                     </td>
                     <td  colspan="2" class="total-cart-price uk-text-right">   
-                        <a href="collection">{!! Form::button('Continue Shopping',array('class'=>'uk-button uk-button-grey uk-button-primary','name'=>'continue'))!!}</a> &nbsp; 
+                        <a href="{{ url('in-home') }}">{!! Form::button('Continue Shopping',array('class'=>'uk-button uk-button-grey uk-button-primary','name'=>'continue'))!!}</a> &nbsp; 
                         {!! Form::submit('UPDATE CART',array('class'=>'uk-button uk-button-grey uk-button-primary','name'=>'update'))!!}</td>
                 </tr>
             </tfoot>
@@ -118,8 +111,7 @@ if(Session::has('couponAmount')){
                     <div class="uk-grid uk-margin-remove normalize sub-total-div border-bottom border-bottom-small">
                         <div class="uk-width-3-10 uk-padding-remove uk-width-1-1">SUBTOTAL</div>  <div class="uk-width-7-10 uk-width-1-1 bold"><span class="subtotal-val">$ {{ number_format($cart[0]->subtotal,2) }}</span></div>
                     </div>
-                    <?php
-                    /*
+                    <?php /*
                     <div class="uk-grid uk-margin-remove  normalize shipping-div border-bottom border-bottom-small">
                         <div class="uk-width-3-10 uk-padding-remove uk-width-1-1">SHIPPING</div>
                         <div class="uk-width-7-10 uk-width-1-1">
@@ -149,17 +141,18 @@ if(Session::has('couponAmount')){
 
                         <? // print_r(Session::all()); ?>
                         <!-- INSERT COUPON SECTIO HERE -->
-                        
-                            <div class="coupon_wrapper">
+                        @if($cart[0]->is_custom == 1)
+                        <div class="coupon_wrapper">
                                 <div id="coupon_error" style="display:none; margin-bottom:10px; max-width: 288px;" class="uk-alert uk-alert-danger uk-alert-error">Invalid Code</div>
                                 <div id="coupon_error_success" style="display:none; margin-bottom:10px;  max-width: 288px;" class="uk-alert uk-alert-success"><strong>Success!</strong> Code is valid!</div>
                                 <div class="coupon_wrapper--couponbox">
-                                     {!! Form::text('coupon','',array('id'=>'coupon','placeholder'=>'Enter Code','class'=>'text text-small coupon-field')) !!}
+                                     {!! Form::text('Refer Code','',array('id'=>'Refer_Code','placeholder'=>'Enter Refer Code','class'=>'text text-small coupon-field')) !!}
                                     <button type="button" name="coupon_check" class="uk-button uk-button-grey uk-button-primary" onclick="checkCoupon({{ $cart[0]->subtotal }})">APPLY CODE</button>
                                 </div>
                                 <br>
-                                <strong>Note</strong>: Be sure to click the Apply Code Box to apply your Promo Code.
+                                <strong>Note</strong>: Be sure to click the Apply Code Box to apply your Refer Code.
                             </div>
+                        @endif
                             <div class="btn-group">
                                  {!! Form::hidden('total',$cart[0]->subtotal) !!}
                                 {!! Form::submit('Proceed to Checkout',array('class'=>'uk-button uk-button-grey uk-button-small uk-button-primary full-width text-uppercase','name'=>'checkout'))!!}
@@ -200,14 +193,13 @@ function formatNumber (num) {
 
 }
 		function checkCoupon(total) {
-
-			var code = document.getElementById("coupon").value;
+			var code = document.getElementById("Refer_Code").value;
             $(".uk-alert").hide();
-            $('#coupon').removeClass('uk-alert-danger');
+            $('#Refer_Code').removeClass('uk-alert-danger');
             if($.trim(code) != ''){
     			$.ajax({
     				type: "POST",
-    				url: "coupon-code/"+code+"/"+total,
+    				url: "refer-code/"+code+"/"+total,
     				data: $("#pageform").serialize(),
     				cache: false,
     				success: function(data){
@@ -235,17 +227,17 @@ function formatNumber (num) {
     				}
     		    });
             }  else{
-                $('#coupon').addClass('uk-alert-danger');
+                $('#Refer_Code').addClass('uk-alert-danger');
             }
 
 		}
 
-		$('#pageform').find('#coupon').keypress(function(e){
+		$('#pageform').find('#Refer_Code').keypress(function(e){
 
 		    if ( e.which == 13 ) // Enter key = keycode 13
 		    {
 				checkCoupon(100);
-        		$('#coupon').focus();  //Use whatever selector necessary to focus the 'next' input
+        		$('#Refer_Code').focus();  //Use whatever selector necessary to focus the 'next' input
 				return false;
 		    }
 
@@ -260,8 +252,6 @@ function formatNumber (num) {
 		  });
            loadScript("{!!url('_front/plugins/spinner/src/jquery.spinner.js')!!}", function(){  });
 		});
-
-
 
 	</script>
 @stop

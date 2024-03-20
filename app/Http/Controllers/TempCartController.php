@@ -29,7 +29,7 @@ use App\Models\ManagerCommission;
 use App\Models\Manager;
 use App\Models\ShopOwnerCommission;
 use App\Models\ShopOwner;
-
+use App\Models\userWallet;
 use View;
 use Input;
 use Hash;
@@ -260,7 +260,6 @@ class TempCartController extends BaseController
 		$category = Category::where('fldCategoryMainID','=',0)->orderby('fldCategoryPosition')->get();
 
 		$cartDisplay = TempCart::displayCart();
-		// print_r($cartDisplay);die();
 		$settings = Settings::first();
 		$google = Google::first();
 		$cart_count = TempCart::countCart();
@@ -271,9 +270,7 @@ class TempCartController extends BaseController
 
 
 
-	public function addShoppingCart(Request $request) {
-		//dd($request->all());
-		
+	public function addShoppingCart(Request $request) {	
 
 		 //dd($request->get('imageSize'));
 		// dd($request->all());
@@ -728,8 +725,6 @@ class TempCartController extends BaseController
 	public function payment() {
 
 		$data = Input::all();
-
-
 		$sessions = session()->all();
 		$class_client = new Client;
 
@@ -751,6 +746,7 @@ class TempCartController extends BaseController
 		$order_code = $client_id .date('Ymd').rand(1,400);
 		$temp_cart_class = new TempCart;
 		$temp_cart = $temp_cart_class->displayCart();
+		
         Log::debug('---------temp_cart--------------');
         Log::debug($temp_cart);
         Log::debug('---------temp_cart--------------');
@@ -782,10 +778,15 @@ class TempCartController extends BaseController
 
 
 		}
-
+		Session::put('is_custom', $temp_cart[0]['is_custom']);
 
 		if(isset($temp_cart[0]['grandtotal'])){
-			$grandtotal	= $discount_formula = $temp_cart[0]['grandtotal'];
+			if($temp_cart[0]['is_custom'] == 1){
+				$grandtotal	= $discount_formula = $data['grand_total'];
+			} else {
+				$grandtotal	= $discount_formula = $temp_cart[0]['grandtotal'];
+			}
+			
 			// $grandtotal	= $discount_formula = $subtotal_amount = $temp_cart[0]['subtotal'];
 			$subtotal_amount = $temp_cart[0]['subtotal'];
 			// grandtotal - removed the default 10$ discount when user uses a discount code
@@ -849,7 +850,12 @@ class TempCartController extends BaseController
         // Log::debug('---------sales_manager_commission_total 0.10 * P * (1 - d/100)--------------');
         // $sales_manager_commission_total = ($discount_formula - $shipping_amount) * 0.10;
         // $sales_manager_commission_total = $discount_formula * 0.10;
-        $sales_manager_commission_total = $discount_formula * 0.08;
+		if($temp_cart[0]['is_custom'] == 1){
+			$sales_manager_commission_total= $discount_formula * 0.1;
+		} else {
+        	$sales_manager_commission_total = $discount_formula * 0.08;
+		}
+
         Log::debug('---------sales_manager_commission_total--------------');
         Log::debug($sales_manager_commission_total);
 
@@ -863,7 +869,10 @@ class TempCartController extends BaseController
         // $shop_owner_commission_total = ($discount_formula - $shipping_amount) * 0.47;
         // $shop_owner_commission_total 	= $discount_formula * 0.47;
         // $shop_owner_commission_total 	= $discount_formula * 0.45;
-        $shop_owner_commission_total = ($discount_formula - $total_graphik_cost) * 0.50;
+		if($temp_cart[0]['is_custom'] == 0){
+			$shop_owner_commission_total = ($discount_formula - $total_graphik_cost) * 0.50;
+		}
+       
         Log::debug('---------shop_owner_commission_total--------------');
         Log::debug($shop_owner_commission_total);
 
@@ -939,8 +948,8 @@ class TempCartController extends BaseController
                     )
                 );
 
-        //$xml_profile = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_DEVELOPMENT_SERVER);
-        $xml_profile = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_PRODUCTION_SERVER);
+        $xml_profile = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_DEVELOPMENT_SERVER);
+        //$xml_profile = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_PRODUCTION_SERVER);
         $refId = date('ymdhis') . rand(1000,9999);
         $xml_profile->createCustomerProfileRequest($customer_profile);
 
@@ -963,8 +972,8 @@ class TempCartController extends BaseController
                         )
                     );
 
-             //$xml_profile_update = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_DEVELOPMENT_SERVER);
-            $xml_profile_update = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_PRODUCTION_SERVER);
+             $xml_profile_update = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_DEVELOPMENT_SERVER);
+            //$xml_profile_update = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_PRODUCTION_SERVER);
             // $refId = date('ymdhis') . rand(1000,9999);
             $xml_profile_update->updateCustomerProfileRequest($customer_profile_update);
 
@@ -1018,8 +1027,8 @@ class TempCartController extends BaseController
         Log::debug($one_time_charge);
         Log::debug('---------one_time_charge--------------');
 
-        //$xml_charge = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_DEVELOPMENT_SERVER);
-        $xml_charge = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_PRODUCTION_SERVER);
+        $xml_charge = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_DEVELOPMENT_SERVER);
+        //$xml_charge = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_PRODUCTION_SERVER);
         $refId = date('ymdhis') . rand(1000,9999);
         $xml_charge->createCustomerProfileTransactionRequest($one_time_charge); // authorizeAndCapture
 
@@ -1033,7 +1042,10 @@ class TempCartController extends BaseController
 
 			$direct_response = $xml_charge->directResponse;
 			$response = explode(',', $direct_response);
-
+			Log::debug('---------reponse from payment--------------');
+			Log::debug($response);
+			Log::debug($response[4]);
+			Log::debug('---------end reponse from payment--------------');
             $transactionID 	= $response[4]; // Payment Transaction ID
             $authCode 		= $response[6]; // Authorization Code
 
@@ -1049,11 +1061,10 @@ class TempCartController extends BaseController
             Session::flash('flash', Array('alert' => 'danger', 'msg' => $error_payment1));
             return back()->withInput();
         }
-
-
-		$shipping = ClientShipping::where('fldClientsShippingClientID','=',$client_id)->first();
 		$billing = ClientBilling::where('fldClientsBillingClientID','=',$client_id)->first();
 
+		if($temp_cart[0]['is_custom'] == 0){
+		$shipping = ClientShipping::where('fldClientsShippingClientID','=',$client_id)->first();
 		if(empty($shipping)) {
 			$shipping = new ClientShipping;
 			$shipping->fldClientsShippingClientID = $client_id;
@@ -1071,7 +1082,7 @@ class TempCartController extends BaseController
 		$shipping->fldClientsShippingPhone = Input::get('shipping_phone');
 		$shipping->fldClientsShippingEmail = Input::get('shipping_email');
 		$shipping->save();
-
+	}
 
 		if(empty($billing)) {
 			$billing = new ClientBilling;
@@ -1218,13 +1229,42 @@ class TempCartController extends BaseController
 			Session::forget('couponCode');
 
 			$cart = Cart::where('fldCartOrderNo','=',$order_code)->get();
+			$i = 1;
 			foreach($cart as $carts) {
 				$carts->fldCartStatus 	= $status;
 				$carts->fldCartTransID 	= $transactionID;
 				$carts->fldCartAuthID 	= $authCode;
 				$carts->save();
+				$userwalltData = userWallet::where('user_id',$client_id)->first();
+				if($carts->fldCartProductPrice == 8){ 
+					$credits = $i - 1;
+				} elseif($carts->fldCartProductPrice == 14){
+					$credits = 2 - $i;
+				}
+				elseif($carts->fldCartProductPrice == 20){
+					$credits = 3 - $i;
+				}
+				elseif($carts->fldCartProductPrice == 38){
+					$credits = 6 - $i;
+				}elseif($carts->fldCartProductPrice == 70){
+					$credits = 12 - $i;
+				} else {
+					$credits = 0;
+				}
+				if($credits !=0)
+				{
+				if(empty($userwalltData)){
+					$userwalltData = new UserWallet(); // Assuming UserWallet is your Eloquent model
+					$userwalltData->user_id = $client_id;
+					$userwalltData->amount = $credits;
+					$userwalltData->type = "raw";
+				} else {
+					$userwalltData->amount += $credits;
+				}
+				$userwalltData->save();
+				}
+				$i++;
 			}
-
 			return Redirect::to('thankyou/payment');
 		}
 	}
@@ -1239,7 +1279,7 @@ class TempCartController extends BaseController
 		foreach($cart as $carts) {
 			$cartSave = new Cart;
 
-			$cartSave->fldCartProductID = $carts->product_id;
+			$cartSave->fldCartProductID = ($carts->product_id != 0)? $carts->product_id : $carts->fldTempCartProductID;
 			$cartSave->fldCartClientID = $client_id;
 			$cartSave->fldCartProductName = $carts->fldTempCartProductName;
 			$cartSave->fldCartProductPrice = $carts->product_price;
@@ -1346,6 +1386,8 @@ class TempCartController extends BaseController
 
 		// $settings = Settings::first();
 		// Email User Buyer
+		$is_custome = Session::get('is_custom');
+		if($is_custome == 0){
 		Mail::send('home.email_checkout', $dataFields, function ($message) use($settings) {
 
 			$ownerEmail = $settings->fldAdministratorEmail == "" ? "test1@dogandrooster.net" : $settings->fldAdministratorEmail;
@@ -1367,6 +1409,19 @@ class TempCartController extends BaseController
 			//$message->bcc('officeassist@dogandrooster.com', 'DNR Admin 4');
             $message->subject("Clarkin: Your Order Details");
 		});
+	} else {
+		Mail::send('home.image_email_checkout', $dataFields, function ($message) use($settings) {
+
+			$ownerEmail = $settings->fldAdministratorEmail == "" ? "test1@dogandrooster.net" : $settings->fldAdministratorEmail;
+			$ownerName = $settings->fldAdministratorSiteName == "" ? "Dog and Rooster" : $settings->fldAdministratorSiteName;
+
+			$message->from(EmailFrom, EmailFromName);
+			$message->to(Input::get('email'),Input::get('firstname') . ' ' . Input::get('lastname'));
+			$message->bcc('buumber@gmail.com', 'Valuecom Dev');
+            $message->subject("Clarkin: Your Order Details");
+		});
+
+	}
 
 		// // Email Web Admin
 		Mail::send('home.email_checkout', $dataFields, function ($message) use($settings) {
@@ -1396,8 +1451,6 @@ class TempCartController extends BaseController
 			// if cart is empty redirect to image galleries
 			return redirect()->to('/image-galleries');
 		}
-
-
 		$menus = Pages::where('fldPagesMainID', '=', 0)->get();
 		$category = Category::where('fldCategoryMainID','=',0)->orderby('fldCategoryPosition')->get();
 
@@ -1408,10 +1461,33 @@ class TempCartController extends BaseController
 		$settings->site_name = "Checkout";
 		$freeshipping=false;$coupon_amount=0;
 		$stateName=isset($billing) ? $billing->fldClientsBillingState :  "";
-
-		$coupon_code=CouponCode::checkCouponCode(Session::get('couponCode'),$cart[0]->subtotal,$stateName);
-
+		$value = [];
+		if ($cart[0]['is_custom'] == 1) {
+				$coupon_code = Client::where('fldClientPromoCode','=',Session::get('couponCode'))->first();
+				$coupon_amount = 0;
+				$percentDiscount = 25;
+				$code = Session::get('couponCode');
+				$total =$cart[0]->subtotal;
+			if(empty($coupon_code)) {
+				$value[] = "error";
+			} else {
+				if($coupon_code->fldClientPromoCode != "") {
+					$value['total'] = $total;
+					$value['tax'] = 0;
+					$value[] = ($percentDiscount/100) * $total;
+					$coupon_amount =($percentDiscount/100) * $total;
+					$total1 = $total-(($percentDiscount/100) * $total);
+					$value = array('coupon_amount'=>$coupon_amount,'total'=>$total1,'freeshipping'=>'no','tax'=>0);
+								}
+				Session::put('couponAmount', $coupon_amount);
+			}
+			$coupon_code = json_encode($value);
+		} else {
+			$coupon_code=CouponCode::checkCouponCode(Session::get('couponCode'),$cart[0]->subtotal,$stateName);
+		}
+		// dd($coupon_code);
 		$coupon_code = json_decode($coupon_code);
+		//  dd($coupon_code);
 		$tax = "";
 		$client = array();
 		settype($client,'object');

@@ -1,132 +1,108 @@
 @extends('layouts._admin.base')
 
 @section('content')
-   {!! Form::open(array('url' => '/collection', 'method' => 'post', 'id' => 'pageform', 'class' => 'row-fluid bill-info')) !!}
-	<div class="uk-container uk-container-center uk-margin-medium-bottom">
-  <article id="main" role="main">
-    <div class="uk-grid">
-      <div class="uk-width-1-1 uk-margin-medium-bottom">
-        <div class="uk-grid">
-            <div class="uk-width-medium-6-10 filter-section uk-width-1-1 uk-width-medium-1-1 uk-margin-medium-top">
-           <div class="uk-button-dropdown" data-uk-dropdown>
-              <div class="uk-dropdown uk-dropdown-small">
-                <ul id="products_category" class="uk-nav uk-nav-dropdown bg-dark filter-btn">
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
+    <article>
+    <br>
+    <br>
+    @if(Session::has('success'))
+        <div class="uk-alert uk-alert-danger">{!!Session::get('success')!!}</div>
+    @endif
+    @if(Session::has('error'))
+        <div class="uk-alert uk-alert-danger">{!!Session::get('error')!!}</div>
+    @endif
+    <div id="page_control">
+      <div class="col2">
+       <a href="{{url('/dnradmin/add/CustomImage')}}"><img src="{!!url('_admin/assets/images/icons/icon_add.png')!!}"> Add Images</a>
+     </div>
     </div>
+    <br style="clear:both;" />
+      <input type='hidden' id='current_page' />
+	  <input type='hidden' id='show_per_page' />
+      <input type='hidden' id='number_of_items' />
+
+    <table id="page_manager" class="parennt-table uk-table-hover">
+      <thead>
+        <tr class="headers nodrag uk-table">
+          <th width="70" data-sort="int"> <span class="id">ID</span> <div class="sort"></div> </th>
+          <th width="150">Raw Image</th>
+          <th width="200" data-sort="string"><span class="id">Image Name</span> <div class="sort"></div></th>
+		  <th width="150" data-sort="int"><span class="id">Price Range</span> <div class="sort"></div></th>
+          <th width="120" data-sort="int"><span class="id">Thumbnail Image</span> <div class="sort"></div></th>
+
+          <th width="150" align="right">Action</th>
+        </tr>
+      </thead>
+
+      <tbody id="Searchresult">
+      				@if ($product->isEmpty())
+                    	<tr>
+                        	<td class="error" colspan="7" align="center"> No Record Found</td>
+                        </tr>
+                    @endif
+
+                        @foreach ($product as $products)
+
+                        <tr id="{{$products->Id}}">
+                           <td>{{ $products->Id }}</td>
+                           <td>
+                           @php
+                             $imagesize = 0;
+                             $imagesize = THUMB_IMAGE;
+                             @endphp
+                           		@if($products->orignal_image != "")
+                               <img src="{{ asset('storage/' . $products->orignal_image) }}" alt="Original Image">
+                                 <!-- <img src="http://127.0.0.1:8000/upload/products/blaze-of-glory/small/blaze-of-glory-5-21-21-web.jpg"> -->
+                                @else
+                                	{!! Html::image('http://placehold.it/75') !!}
+                                @endif
+                            </td>
+                           <td>{{ $products->image_name}} </td>
+                           <td>{{ '$ '.$products->price_range}} </td>
+                           <td>
+                           @if($products->thumbnail_image != "")
+                           <img src="{{ asset('storage/'. $products->thumbnail_image) }}" alt="Thumbnail Image">
+                           @else
+                                	{!! Html::image('http://placehold.it/75') !!}
+                            @endif
+                           </td>
+                           <td align="right">
+                              <a href="{!!url('dnradmin/CustomImage/edit/'.$products->Id)!!}"><i class="pe-7s-pen action-icon"></i></a>
+                              <a href="{!!url('dnradmin/CustomImage/delete/'.$products->Id)!!}" alt="Delete Image" onClick="return confirm(&quot;Are you sure you want to remove this Image?\n\nPress OK to delete.\nPress Cancel to go back without deleting the Product.\n&quot;)"><i class="pe-7s-trash action-icon del"></i></a>
+
+                           </td>
+                        </tr>
+
+                        @endforeach
+
+      </tbody>
+      @if (!$product->isEmpty())
+      <tfoot>
+        <th colspan="6" align="right" height="30">
+
+          	 <div id='page_navigation' class="pagination"></div>
+        </th>
+
+      </tfoot>
+     @endif
+    </table>
+     {!! Form::close() !!}
   </article>
-</div><!--container -->
-{!! Form::close() !!}
 
-<div class="gallery-style-1">
-  <div class="uk-grid oading-products"  id="products">
-        <div class="uk-width-1-1 product-container uk-margin-medium-bottom uk-margin-medium-top horizontal-count-1">
 
-    </div><!--row uk-grid-width-small-1-2 -->
-
-       <div class="uk-width-1-1 uk-margin-large-bottom uk-margin-large-top">
-      </div>
-  </div><!--row top5 -->
-</div><!--row gallery-style-1 -->
 @stop
 
 @section('headercodes')
-<style type="text/css" media="screen">
-.product-container{
-    margin: auto; width: 100%; max-width: 1800px;
-}
-div#products{ position: relative; overflow: hidden; }
-div#products.loading-products > .product-container:before {
-    content: 'Loading....';
-    text-align: center;
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: auto;
-    display: block;
-    right: -50%;
-    bottom: -50%;
-    margin: auto;
-    height: 22px;
-    z-index: 1;
-}
-
-figure.uk-overlay {
-    background-position: center center;
-    background-repeat: no-repeat;    background-size: contain;
-    background-color: #edecec;
-
-}
-/*.gallery-style-1 #products .product-container .product-list-item.product-list-item-0 figure.uk-overlay,
-.gallery-style-1 #products .product-container .product-list-item.product-list-item-1 figure.uk-overlay,
-.gallery-style-1 #products .product-container .product-list-item.product-list-item-2  figure.uk-overlay{
- min-height: 410px;
-}
-.gallery-style-1 #products .product-container .product-list-item{
-  width: 50%;
-}
-.gallery-style-1 #products .product-container .product-list-item.product-list-item-0 {
-    width: 80%;
-}
-.gallery-style-1 #products .product-container.horizontal-count-1 .product-list-item.product-list-item-0{
-  width: 90%;
-}
-.gallery-style-1 #products .product-container.horizontal-count-0 .product-list-item.product-list-item-0{
-  width: 100%;
-}
-.gallery-style-1 #products .product-container .product-list-item.product-list-item-1, .gallery-style-1 #products .product-container .product-list-item.product-list-item-2 {
-    width: 10%;
-}*/
-.uk-masonry-gallery .product-list-item img {
-    opacity: 0 !important;     width: 100%; height: auto;
-}
-
-</style>
-	<script>
-		var url = "{{ url('/') }}";
-	</script>
-
+  {!! Html::style('_admin/assets/css/pagination.css') !!}
 @stop
 
 @section('extracodes')
-<div class="">
-</div>
-{!! HTML::script('_front/plugins/uikit/js/components/grid.min.js') !!}
-{!! HTML::script('_front/assets/js/cart.js') !!}
-<script>
 
-    function zaOrder() {
-        window.location.replace("http://54.68.88.28/clarkin/collection/za");
-    }
-    function azOrder() {
-        window.location.replace("http://54.68.88.28/clarkin/collection");
-    }
-
-  $(window).load(function(){
-    $(document).ready(function(){
-      $('#products').removeClass('loading-products');
-    });
-  });
-    $(document).ready(function(){
-        $('a[data-uk-modal]').on({
-            'show.uk.modal': function(){
-                console.log("Modal is visible.");
-            },
-
-            'hide.uk.modal': function(){
-                console.log("Element is not visible.");
-            }
-        });
-
-        // function changeURL(slug) {
-        //     alert(slug);
-        // }
-
-    });
-</script>
+    {!! Html::script('_admin/manager/tinymce/tiny_mce.js') !!}
+    {!! Html::script('_admin/assets/js/cufon_avantgarde.js') !!}
+    {!! Html::script('_admin/assets/js/jquery-latest.min.js') !!}
+    {!! Html::script('_admin/assets/js/FilterPagination/filter.js') !!}
+    {!! Html::script('_admin/manager/tinymce/styles/mods2.js') !!}
+    {!! Html::script('_admin/assets/js/jquery.tablednd.js') !!}
+    {!! Html::script('_admin/assets/js/stupidtable.min.js') !!}
+    {!! Html::script('_admin/assets/js/sorted.js') !!}
 @stop

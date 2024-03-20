@@ -133,6 +133,12 @@ Route::group(array('prefix' => '/dnradmin'), function()
     
     //upload images
     Route::get('/uploadImage', 'UploadImageController@index');
+    Route::get('/add/CustomImage', 'UploadImageController@create');
+    Route::post('/add/CustomImage/store', 'UploadImageController@store');
+    Route::get('/CustomImage/edit/{id}', 'UploadImageController@edit');
+    Route::post('/CustomImage/update/{id}', 'UploadImageController@update');
+    Route::get('/CustomImage/delete/{id}', 'UploadImageController@destroy');
+
 
 
 
@@ -305,7 +311,15 @@ Route::group(array('prefix' => '/'), function() {
     Route::get('/product-api/{slug}', 'ProductController@getProductAPI');
     Route::post('/product-api/{slug}', 'ProductController@getProductAPI');
 
-
+    //
+    Route::get('/in-home', 'UploadImageController@inHome');
+    Route::get('/image/details/{id}', 'UploadImageController@details');
+    Route::post('/add/cart', 'UploadImageController@addToCart');
+    Route::get('/image-cart', 'UploadImageController@shoppingCartImage');
+    Route::post('/image-cart/update', 'UploadImageController@updateImageCart');
+    Route::get('/image-cart/delete/{id}', 'UploadImageController@deleteImageCart');
+    Route::post('/refer-code/{code}/{total}', 'UploadImageController@checkReferCode');
+    Route::get('/download-image/{id}', 'UploadImageController@download');
 
 
 
@@ -410,6 +424,7 @@ define('SLIDER_IMAGE_PATH','upload/slider/');
 define('MANAGER_IMAGE_PATH','upload/manager/');
 define('CUSTOMER_IMAGE_PATH','upload/customer/');
 define('SHOP_OWNER_IMAGE_PATH','upload/shop_owner/');
+define('CUSTOM_IMAGE_THUMBNAIL_PATH','upload/thumbnails/');
 
 
 define('PAGES_IMAGE_WIDTH','1200');

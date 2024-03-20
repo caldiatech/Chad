@@ -169,7 +169,7 @@ class ClientController extends Controller
 		   	}	else {
 
 			//generate Promo Code
-	   		// $promocode = 'CL'.Str::random(4);
+	   		$promocode = 'CL'.Str::random(4);
 
 			if(Input::get('invite_code') != "") {
 				$manager = Manager::where('fldManagerPromoCode','=',Input::get('invite_code'))->first();
@@ -197,7 +197,7 @@ class ClientController extends Controller
 			$password = Hash::make(Input::get('password'));
 			$clients->fldClientPassword = $password;
 			$clients->fldClientContact = Input::get('phone');
-			// $clients->fldClientPromoCode = strtoupper($promocode);
+			$clients->fldClientPromoCode = strtoupper($promocode);
 			$clients->fldClientInviteCode =  Input::get('invite_code');
 			$clients->fldClientInviteCodeType= $clientInviteCodeType;
 			$clients->fldClientInviteCodeID = $clientInviteCodeID;
