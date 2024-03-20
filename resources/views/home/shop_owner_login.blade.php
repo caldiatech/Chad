@@ -12,7 +12,6 @@
                 @if(Session::has('shop-owner-reset-success'))
                           <div class="uk-alert uk-alert-success"><strong>Success: </strong>Your password has been reset. You can now use your new password to login.</div>
                 @endif
-
                  @if(Session::has('error'))
                 <div class="uk-alert uk-alert-danger">{!!Session::get('error')!!}</div>
                 @endif
@@ -22,6 +21,7 @@
                         <div class="uk-width-large-1-1  line-height-text uk-width-medium-1-1  uk-width-small-1-1  uk-width-1-1 uk-padding-remove " style="max-width:110px; ">
                          {!! Form::label('email', 'Email Address * ',array('style'=>'')); !!}
                         </div>
+
                         <div class="uk-width-large-1-1  uk-width-medium-1-1  uk-width-small-1-1  uk-width-1-1 uk-padding-remove">
                           {!! Form::text('email','',array('id'=>'email','required',  'class' => 'form-width-large')) !!}
                 @if($errors->login->first('email'))
@@ -34,8 +34,11 @@
                         <div class="uk-width-large-1-1 line-height-text  uk-width-medium-1-1  uk-width-small-1-1  uk-width-1-1 uk-padding-remove " style="max-width:110px; ">
                             {!! Form::label('password', 'Password *',array('style'=>'')); !!}
                         </div>
+                        
                         <div class="uk-width-large-1-1   uk-width-medium-1-1  uk-width-small-1-1  uk-width-1-1 uk-padding-remove forcewidth">
-                            {!! Form::password('password','',array('id'=>'password','required', 'class' => 'form-width-large')) !!}
+                            {!! Form::password('password',array('id'=>'password','required', 'class' => 'form-width-large')) !!}
+                            
+                          
                 @if($errors->login->first('password'))
                <div class="uk-text-danger">{!!$errors->login->first('password')!!}</div>
               @endif

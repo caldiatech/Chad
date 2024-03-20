@@ -19,6 +19,7 @@ class TempCart extends Eloquent
 		$matParams = "";
 
 		$cartDisplay = self::leftJoin('tblProduct','tblTempCart.fldTempCartProductID','=','tblProduct.fldProductID')
+							->leftJoin('tblcustomeimage','tblTempCart.fldTempCartProductID','=','tblcustomeimage.Id')
 							->where('fldTempCartClientID','=',$client_id)
 							->where('fldTempCartOrderDate','=',$order_date)
 							->select('tblProduct.fldProductID as product_id','tblTempCart.fldTempCartID as temp_cart_id',
@@ -30,13 +31,11 @@ class TempCart extends Eloquent
 									 'tblTempCart.fldTempCartShippingPrice',
 									 'tblTempCart.fldTempCartImagePrice','tblTempCart.fldTempCartFrameInfo','tblTempCart.fldTempCartFramePrice',
 									 'tblTempCart.fldTempCartFrameDesc',
-
 									 'tblTempCart.frame_sequence',
-
 									 'tblTempCart.fldTempCartPaperInfo','tblTempCart.fldTempCartMat1Info',
 									 'tblTempCart.fldTempCartMat2Info','tblTempCart.fldTempCartMat3Info','tblTempCart.fldTempCartMat1Options',
 									 'tblTempCart.fldTempCartMat2Options','tblTempCart.fldTempCartMat3Options','tblTempCart.fldTempCartImageSize',
-									 'tblTempCart.fldTempCartMatBorderSize', 'tblTempCart.fldTempCartFinishkitInfo', 'tblTempCart.fldTempCartLinerDesc', 'tblTempCart.fldTempCartLinerSku')->get();
+									 'tblTempCart.fldTempCartMatBorderSize', 'tblTempCart.fldTempCartFinishkitInfo', 'tblTempCart.fldTempCartLinerDesc', 'tblTempCart.fldTempCartLinerSku','tblTempCart.is_custom','tblTempCart.fldTempCartProductID')->get();
 
 		$total = 0;	$subtotal=0;$ctr=0;
 
@@ -180,8 +179,5 @@ class TempCart extends Eloquent
 		$cart_count = TempCart::where('fldTempCartClientID','=',$client_id)->where('fldTempCartOrderDate','=',$order_date)->sum('fldTempCartQuantity');
 		return $cart_count;
 	}
-
 }
-
-
 ?>

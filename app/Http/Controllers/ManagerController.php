@@ -151,7 +151,7 @@ class ManagerController extends Controller
 
 		 	// Email Manager and Cc Web Admin + DNR Admin
 	  		Mail::send('home.email_manager_registration', $messageData, function ($message) use($settings) {
-				$message->from(EmailFrom, EmailFromName);
+				$message->from('chad@clarkincollection.com', 'ClarkinCollection.com');
 				$message->to(Input::get('email'),Input::get('firstname') . ' ' . Input::get('lastname'));
 				$message->cc(EmailTo3, EmailToName3);
 				//$message->cc(EmailTo2, EmailToName2);
@@ -231,7 +231,7 @@ class ManagerController extends Controller
 					// $ownerEmail = $settings->fldAdministratorEmail == "" ? "test1@dogandrooster.net" : $settings->fldAdministratorEmail;
 					// $ownerName = $settings->fldAdministratorSiteName == "" ? "Dog and Rooster" : $settings->fldAdministratorSiteName;
 
-					$message->from(EmailFrom, EmailFromName);
+					$message->from('chad@clarkincollection.com', 'ClarkinCollection.com');
 					$message->to($manager->fldManagerEmail, $manager->fldManagerFirstname . ' ' . $manager->fldManagerLastname);
 					$message->cc(EmailTo3, EmailToName3);
 					//$message->cc(EmailTo2, EmailToName2);
@@ -306,7 +306,7 @@ class ManagerController extends Controller
 		 	// Email Manager and Cc Web Admin + DNR Admin
 	  		Mail::send('home.email_manager_registration', $messageData, function ($message) use($settings) {
 
-				$message->from(EmailFrom, EmailFromName);
+				$message->from('chad@clarkincollection.com', 'ClarkinCollection.com');
 				$message->to(Input::get('email'),Input::get('firstname') . ' ' . Input::get('lastname'));
 				$message->cc(EmailTo3, EmailToName3);
 				//$message->cc(EmailTo2, EmailToName2);
@@ -484,11 +484,13 @@ class ManagerController extends Controller
 		//$cart = Cart::displayOrderHistoryDashboard($client_id);
 
 		$cart = ManagerCommission::displayOrdersCommission($manager_id);
+		$google = Google::first();
 		return View::make('dashboard.sales.index', array('manager_id'=>$manager_id,
 			 'manager' => $manager,
 			 'pages'=>$pages,
 			 'settings'=>$settings,
-			 'cart'=>$cart
+			 'cart'=>$cart,
+			 'google' => $google,
 			));
 	 }
 
@@ -502,11 +504,13 @@ class ManagerController extends Controller
 		$pages->category = "sales";
 		$pages->slug = "profile";
 		$settings = Settings::first();
+		$google = Google::first();
 
 		return View::make('dashboard.sales.profile', array('manager_id'=>$manager_id,
 													 'manager' => $manager,
 													 'pages'=>$pages,
-													 'settings'=>$settings));
+													 'settings'=>$settings,
+													 'google' => $google,));
 	 }
 
 	 public function profileEdit() {
@@ -548,8 +552,8 @@ class ManagerController extends Controller
 		} else {
 			$braintreeMerchant = "";
 		}
-
-     		return View::make('dashboard.sales.edit-profile', compact('manager_id','manager','pages','settings','birthDate','shipping','braintreeClient','braintreeMerchant'));
+		$google = Google::first();
+     		return View::make('dashboard.sales.edit-profile', compact('manager_id','manager','pages','settings','birthDate','shipping','braintreeClient','braintreeMerchant','google'));
 	 }
 
 	public function updateProfile() {
@@ -728,8 +732,8 @@ class ManagerController extends Controller
 		} else {
 			$braintreeMerchant = "";
 		}
-
-     		return View::make('dashboard.sales.accounts', compact('manager','pages','settings','birthDate','braintreeClient','braintreeMerchant'));
+		$google = Google::first();
+     		return View::make('dashboard.sales.accounts', compact('manager','pages','settings','birthDate','braintreeClient','braintreeMerchant','google'));
 	 }
 
 	public function updateAccounts() {
@@ -840,8 +844,8 @@ class ManagerController extends Controller
 		$pages->category = "sales";
 		$pages->slug = "settings";
 		$settings = Settings::first();
-
-     		return View::make('dashboard.sales.settings', compact('manager','pages','settings'));
+		$google = Google::first();
+     		return View::make('dashboard.sales.settings', compact('manager','pages','settings','google'));
 	 }
 
 	public function settingsUpdate() {
@@ -893,8 +897,8 @@ class ManagerController extends Controller
 		$interval = $datetime1->diff($datetime2);
 		$intervalDays = $interval->format('%a');
 	        $computeDaysLeft = 365 - (($intervalDays - 365));
-
-	     	return View::make('dashboard.sales.coupon-codes', compact('manager','pages','settings','computeDaysLeft'));
+			$google = Google::first();
+	     	return View::make('dashboard.sales.coupon-codes', compact('manager','pages','settings','computeDaysLeft','google'));
 	 }
 
 	public function salesActivities() {
@@ -909,8 +913,8 @@ class ManagerController extends Controller
 		$settings = Settings::first();
 
 		$cart = ManagerCommission::salesActivities($manager_id);
-
-		return View::make('dashboard.sales.sales-activities', compact('manager','pages','settings','cart'));
+		$google = Google::first();
+		return View::make('dashboard.sales.sales-activities', compact('manager','pages','settings','cart','google'));
 	 }
 
 	public function orderHistory() {
@@ -926,10 +930,10 @@ class ManagerController extends Controller
 
 		$dateFrom = date('Y-1-1');
 		$dateTo = date('Y-12-31');
-
+		$google = Google::first();
 		$cart = ManagerCommission::displayOrdersCommissionByDateOrderHistory($manager_id,$dateFrom,$dateTo);
 
-		return View::make('dashboard.sales.order-history', compact('manager','pages','settings','cart'));
+		return View::make('dashboard.sales.order-history', compact('manager','pages','settings','cart','google'));
 	 }
 
 	public static function orderDetails($orderNo) {
@@ -964,12 +968,12 @@ class ManagerController extends Controller
 		$pages->category = "sales";
 		$pages->slug = "sales-rep";
 		$settings = Settings::first();
-
+		$google = Google::first();
 		$salesrep = Manager::where('fldManagerType','=',2)
 							->where('fldManagerMainID','=',$manager_id)
 							->get();
 
-		return View::make('dashboard.sales.sales-rep', compact('manager','pages','settings','salesrep'));
+		return View::make('dashboard.sales.sales-rep', compact('manager','pages','settings','salesrep','google'));
 	}
 
 	public function salesRepNew() {
@@ -983,8 +987,8 @@ class ManagerController extends Controller
 		$pages->category = "sales";
 		$pages->slug = "sales-rep";
 		$settings = Settings::first();
-
-		return View::make('dashboard.sales.sales-rep-new', compact('manager','pages','settings'));
+		$google = Google::first();
+		return View::make('dashboard.sales.sales-rep-new', compact('manager','pages','settings','google'));
 	}
 
 	public function salesRepSave() {
@@ -1047,7 +1051,7 @@ class ManagerController extends Controller
 		if(!Session::has('manager_id')) { return Redirect::to('/sales-login');}
 		$manager_id = Session::get('manager_id');
 		$manager = Manager::find($manager_id);
-
+		$google = Google::first();
 		//check sales rep manager if valid
 		$salesRepManager = Manager::where('fldManagerID','=',$id)
 								->where('fldManagerMainID','=',$manager_id)
@@ -1063,7 +1067,7 @@ class ManagerController extends Controller
 			$pages->slug = "sales-rep";
 			$settings = Settings::first();
 
-			return View::make('dashboard.sales.sales-rep-edit', compact('manager','pages','settings','salesRep'));
+			return View::make('dashboard.sales.sales-rep-edit', compact('manager','pages','settings','salesRep','google'));
 		}
 	}
 

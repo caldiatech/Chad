@@ -169,7 +169,7 @@ class ClientController extends Controller
 		   	}	else {
 
 			//generate Promo Code
-	   		// $promocode = 'CL'.Str::random(4);
+	   		$promocode = 'CL'.Str::random(4);
 
 			if(Input::get('invite_code') != "") {
 				$manager = Manager::where('fldManagerPromoCode','=',Input::get('invite_code'))->first();
@@ -197,7 +197,7 @@ class ClientController extends Controller
 			$password = Hash::make(Input::get('password'));
 			$clients->fldClientPassword = $password;
 			$clients->fldClientContact = Input::get('phone');
-			// $clients->fldClientPromoCode = strtoupper($promocode);
+			$clients->fldClientPromoCode = strtoupper($promocode);
 			$clients->fldClientInviteCode =  Input::get('invite_code');
 			$clients->fldClientInviteCodeType= $clientInviteCodeType;
 			$clients->fldClientInviteCodeID = $clientInviteCodeID;
@@ -225,7 +225,7 @@ class ClientController extends Controller
 				// $ownerName = $settings->fldAdministratorSiteName == "" ? "Dog and Rooster" : $settings->fldAdministratorSiteName;
 
 				//$message->from(Input::get('email'), Input::get('firstname') . ' ' . Input::get('lastname'));
-				$message->from(EmailFrom, EmailFromName);
+				$message->from('chad@clarkincollection.com', 'ClarkinCollection.com');
 				// $message->to($ownerEmail,$ownerName);
 				$message->to(EmailTo3, EmailToName3);
 				//$message->cc(EmailTo2, EmailToName2);
@@ -241,7 +241,7 @@ class ClientController extends Controller
 				$ownerEmail = $settings->fldAdministratorEmail == "" ? "test1@dogandrooster.net" : $settings->fldAdministratorEmail;
 				$ownerName = $settings->fldAdministratorSiteName == "" ? "Dog and Rooster" : $settings->fldAdministratorSiteName;
 
-				$message->from(EmailFrom, EmailFromName);
+				$message->from('chad@clarkincollection.com', 'ClarkinCollection.com');
 				$message->to(Input::get('email'),Input::get('firstname') . ' ' . Input::get('lastname'));
 				$message->cc(EmailTo3, EmailToName3);
 				//$message->cc(EmailTo2, EmailToName2);

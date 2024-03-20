@@ -1,0 +1,356 @@
+a:hover{
+    text-decoration: none;
+}
+.col-flex{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.country-house .left-text h2{
+    text-transform: uppercase;
+    font-size: 2.75rem;
+    font-weight: 300;
+    letter-spacing: 5px;
+    margin-bottom: 35px;
+}
+.country-house .left-text p{
+    line-height: 25px;
+    font-size: 15px;
+    margin-bottom: 50px;
+}
+.country-house .left-text a{
+    padding: 13px 30px;
+    border: solid 1px #000;
+    text-transform: uppercase;
+    color: #000;
+    font-size: 15px;
+}
+.country-house .left-text a:hover{
+    text-decoration: none;
+
+}
+.country-house .right-images{
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+.country-house .right-images img{
+    width: 100%;
+}
+.country-house .right-images .overlay{
+    position: absolute;
+    top: 50px;
+    padding: 0 100px;
+}
+.carousel-slider{
+    padding: 0 80px;
+    margin-top: 80px;
+}
+.carousel-slider .carousel-inner .item{
+    text-align: center;
+}
+.carousel-slider .carousel-inner .item .overlay{
+    position: absolute;
+    top: 50px;
+    left: 0;
+    right: 0;
+    padding: 0 100px;
+}
+.carousel-slider .carousel-inner .item .overlay img{
+    width: 100%;
+}
+.carousel-slider .carousel-inner .item h2{
+    margin-top: 10px;
+}
+.carousel-slider .carousel-inner .item h2 a{
+    color: #000;
+    font-size: 20px;   
+}
+.carousel-slider .carousel-control span{
+    width: 40px;
+    height: 40px;
+    display: block;
+    background: #fff;
+    border-radius: 100%;
+    color: #000;
+    text-shadow: none;
+    line-height: 42px; 
+}
+.carousel-slider .carousel-control{
+    top: 50%;
+    width: auto;
+    padding: 0 20px;
+
+}
+.carousel-slider .carousel-control.left,.carousel-slider .carousel-control.right{
+    background-image: none;
+}
+.two-column-home{
+    margin-top: 80px;
+}
+.two-column-home .left{
+   position: relative;
+   display: flex;
+   justify-content: center;
+   flex-direction: column;
+}
+.two-column-home .left img{
+    width: 100%;
+}
+.two-column-home .left h2,.two-column-home .right h2{
+    margin-top: 0;
+ }
+.two-column-home .left h2 a,.two-column-home .right h2 a{
+    color: #000;
+    font-size: 16px;
+ }
+ .two-column-home .left .overlay{
+    position: absolute;
+    top: 50px;
+    padding: 0 100px;
+ }
+ .two-column-home .right img{
+    width: 100%;
+    height: 696px;
+    object-fit: cover;
+ }
+ .collection-block-combo{
+    margin-top: 80px;
+ }
+ .collection-block-combo .top-row{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ }
+ .collection-block-combo .top-row h2{
+    text-transform: uppercase;
+    font-size: 2.75rem;
+    font-weight: 300;
+    letter-spacing: 5px;
+    line-height: 35px;
+ }
+ .collection-block-combo .top-row .right-images{
+    position: relative; 
+    display: flex;
+    justify-content: center;
+    flex-direction: column;   
+ }
+ .collection-block-combo .top-row .right-images h3{
+    text-align: right;
+    margin-top: 0;
+ }
+ .collection-block-combo .top-row .right-images h3 a{
+    color: #000;
+    font-size: 16px;
+ }
+ .collection-block-combo .top-row .right-images img{
+    width: 100%;  
+ }
+ .collection-block-combo .top-row .right-images .overlay{
+    position: absolute;
+    top: 50px;
+    padding: 0 100px;
+ }
+ .collection-block-combo .bottom-row{
+    display: flex;
+
+ }
+ .collection-block-combo .bottom-row .left{
+    position: relative;   
+    cursor: pointer;
+ }
+ .collection-block-combo .bottom-row .left .overlay{
+    width: 100%;
+    height: 100%;    
+ }
+ .collection-block-combo .bottom-row .left .overlay h2{
+    position: absolute;
+    bottom: 20px;
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 16px;
+    left: 20px;
+ }
+ .collection-block-combo .bottom-row .left .overlay h2 a{
+    color: #fff;
+ }
+ .collection-block-combo .bottom-row .left img{
+    width: 100%;    
+ }
+ .collection-block-combo .bottom-row .center img{
+    width: 100%;    
+ }
+ .collection-block-combo .bottom-row .padding-right{
+    padding-right: 0;
+    margin-top: -42px;
+ }
+ .collection-block-combo .bottom-row .padding-left{
+    padding-left: 0;
+    margin-top: -42px;
+ }
+ .collection-block-combo .bottom-row .right{
+    align-items: center;
+    padding: 0 40px;
+    height: 100%;
+    display: flex;
+ }
+ .collection-block-combo .bottom-row .right p{
+    line-height: 25px;
+    font-size: 15px;
+ }
+ .collection-block-stacked{
+    margin: 40px;
+    background-color:#e7e4df;
+    padding: 120px;
+ }
+ .collection-block-stacked .top-row{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ }
+ .collection-block-stacked .top-row .left h2{
+    text-transform: uppercase;
+    font-size: 2.75rem;
+    font-weight: 300;
+    letter-spacing: 5px;
+    margin-bottom: 35px;
+ }
+ .collection-block-stacked .top-row .left p{
+    line-height: 25px;
+    font-size: 15px;
+    margin-bottom: 50px;
+ }
+ .collection-block-stacked .top-row .left a{
+    padding: 13px 30px;
+    border: solid 1px #000;
+    text-transform: uppercase;
+    color: #000;
+    font-size: 15px;
+ }
+ .collection-block-stacked .top-row .right-images {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+ }
+ .collection-block-stacked .top-row .right-images img {
+    width: 100%;
+ }
+ .collection-block-stacked .top-row .right-images .overlay {
+    position: absolute;
+    top: 50px;
+    padding: 0 100px;
+ }
+ .collection-block-stacked .top-row .right-images h3{
+    margin: 10px 0 50px 0;
+    text-align: right;
+ }
+ .collection-block-stacked .top-row .right-images h3 a{
+    color: #000;
+    font-size: 16px;
+ }
+ .collection-block-stacked .bottom-row{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+ }
+ .collection-block-stacked .bottom-row img{
+    width: auto;
+ }
+ .collection-block-stacked .bottom-row .overlay{
+    position: absolute;
+    top: 50px;
+    padding: 0 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 0;
+    right: 0;
+ }
+ .collection-block-stacked .bottom-row h2{
+    text-align: right;
+    margin-top:10px;
+ }
+ .collection-block-stacked .bottom-row h2 a{
+    color: #000;
+    font-size: 16px;
+ }
+
+ @media screen and (max-width:992px){
+    .col-flex{
+        display: block;
+    }
+    .country-house .right-images{
+        margin-top: 40px;
+    }
+    .country-house .right-images .overlay{
+        top: 20px;
+        padding: 0 20px;
+    }
+    .carousel-slider{
+        padding: 0;
+        margin-top: 40px;
+    }
+    .carousel-slider .carousel-inner .item .overlay{
+        top: 20px;
+        padding: 0 20px;
+    }
+    .two-column-home{
+        margin-top: 40px;
+    }
+    .two-column-home .left .overlay{
+        top: 20px;
+        padding: 0 20px;
+    }
+    .two-column-home .right img{
+        height: auto;
+    }
+    .collection-block-combo{
+        margin-top: 40px;
+    }
+    .collection-block-combo .top-row{
+        display: block;
+    }
+    .collection-block-combo .top-row .right-images .overlay{
+        top: 20px;
+        padding: 0 20px;
+    }
+    .collection-block-combo .bottom-row{
+        display: block;
+    }
+    .collection-block-combo .bottom-row .padding-right{
+        margin-top: 0;
+        padding-right: 15px;
+    }
+    .collection-block-combo .bottom-row .padding-left{
+        margin-top: 0;
+        padding-left: 15px;
+    }
+    .collection-block-combo .bottom-row .right{
+        padding: 0;
+        margin-top: 20px;
+    }
+    .collection-block-stacked{
+        margin: 15px;
+        padding: 0;
+    }
+    .collection-block-stacked .top-row{
+        display: block;
+    }
+    .collection-block-stacked .top-row .right-images{
+        margin-top: 40px;
+    }
+    .collection-block-stacked .top-row .right-images .overlay{
+        padding: 0 20px;
+        top: 20px;
+    }
+    .collection-block-stacked .bottom-row .overlay{
+        padding: 0 20px;
+        top: 20px;
+    }
+    .collection-block-stacked .bottom-row img{
+        width: 100%;
+    }
+
+ }

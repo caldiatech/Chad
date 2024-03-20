@@ -130,6 +130,16 @@ Route::group(array('prefix' => '/dnradmin'), function()
     Route::post('/orders/edit/{id}', 'CartController@postEdit');
     Route::get('/orders/delete/{id}', 'CartController@getDelete');
     Route::get('/orders/display/{order_code}', 'CartController@getDisplay');
+    
+    //upload images
+    Route::get('/uploadImage', 'UploadImageController@index');
+    Route::get('/add/CustomImage', 'UploadImageController@create');
+    Route::post('/add/CustomImage/store', 'UploadImageController@store');
+    Route::get('/CustomImage/edit/{id}', 'UploadImageController@edit');
+    Route::post('/CustomImage/update/{id}', 'UploadImageController@update');
+    Route::get('/CustomImage/delete/{id}', 'UploadImageController@destroy');
+
+
 
 
     Route::get('/commissions', 'CommissionController@getIndex');
@@ -301,7 +311,15 @@ Route::group(array('prefix' => '/'), function() {
     Route::get('/product-api/{slug}', 'ProductController@getProductAPI');
     Route::post('/product-api/{slug}', 'ProductController@getProductAPI');
 
-
+    //
+    Route::get('/in-home', 'UploadImageController@inHome');
+    Route::get('/image/details/{id}', 'UploadImageController@details');
+    Route::post('/add/cart', 'UploadImageController@addToCart');
+    Route::get('/image-cart', 'UploadImageController@shoppingCartImage');
+    Route::post('/image-cart/update', 'UploadImageController@updateImageCart');
+    Route::get('/image-cart/delete/{id}', 'UploadImageController@deleteImageCart');
+    Route::post('/refer-code/{code}/{total}', 'UploadImageController@checkReferCode');
+    Route::get('/download-image/{id}', 'UploadImageController@download');
 
 
 
@@ -401,11 +419,12 @@ define('HOME_SLIDE_IMAGE_PATH','uploads/home-sliders/');
 define('PHOTO_GALLERY_IMAGE_PATH','uploads/photo-gallery/');
 define('STAFF_IMAGE_PATH','upload/staff/');
 define('CATEGORY_IMAGE_PATH','upload/category/');
-define('PRODUCT_IMAGE_PATH','uploads/products/');
+define('PRODUCT_IMAGE_PATH','upload/products/');
 define('SLIDER_IMAGE_PATH','upload/slider/');
 define('MANAGER_IMAGE_PATH','upload/manager/');
 define('CUSTOMER_IMAGE_PATH','upload/customer/');
 define('SHOP_OWNER_IMAGE_PATH','upload/shop_owner/');
+define('CUSTOM_IMAGE_THUMBNAIL_PATH','upload/thumbnails/');
 
 
 define('PAGES_IMAGE_WIDTH','1200');

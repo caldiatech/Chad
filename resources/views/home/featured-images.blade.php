@@ -93,20 +93,20 @@
           $product_figure_html .= '<div class="sub-title roboto light-grey uk-margin-small-bottom">'.$product_subtitle.'</div>';
 
           if (isset($product_price_from) && $product_price_from > 0) {
-            //'<div class="price">From '
-              $product_figure_html .= '<div class="price"> ';
-                // if(is_numeric($product_price_from)){
-                //   $product_figure_html .= '<span class="bold">$'.number_format($product_price_from,2).'</span>';
-                // }else{
-                //   $product_figure_html .= '<span class="bold">$'.$product_price_from.'</span>';
-                // }
-                //if($product_price_to > 0 && $product_price_to != $product_price_from){
-                if($product_price_to > 0){
+            $product_figure_html .= '<div class="price">From ';
+             // $product_figure_html .= '<div class="price"> ';
+                if(is_numeric($product_price_from)){
+                  $product_figure_html .= '<span class="bold">$'.number_format($product_price_from,2).'</span>';
+                }else{
+                  $product_figure_html .= '<span class="bold">$'.$product_price_from.'</span>';
+                }
+                if($product_price_to > 0 && $product_price_to != $product_price_from){
+                //if($product_price_to > 0){
                   if(is_numeric($product_price_from)){
-                    //<span class="price-range-to">to</span>
+                    $product_figure_html .='<span class="price-range-to"> to </span>';
                     $product_figure_html .= '<span class="bold"> $'.number_format($product_price_to,2).'</span>';
                   }else{ 
-                    //<span class="price-range-to">to</span>
+                    $product_figure_html .='<span class="price-range-to"> to </span>';
                     $product_figure_html .= '<span class="bold"> $'.$product_price_to.'</span>';
                   }
                 }
@@ -153,7 +153,7 @@
                       if($lowest_price > 0 && $highest_price > 0){
 
                       }else if(isset($product_array_prices[$fldProductID])){
-                        $lowest_price = $product_array_prices[$fldProductID]; 
+                        $lowest_price = $product_array_prices[$fldProductID];
                         $highest_price = 0;
                       }
                       echo generate_product_figure($products->fldProductID, $products->fldProductName, $products->fldProductSubTitle, $products->fldProductSlug, $products->fldProductImage, $products->fldProductIsVertical, $lowest_price, $highest_price, $products->fldCategorySlug, $product_counter);
