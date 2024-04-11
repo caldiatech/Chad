@@ -47,11 +47,11 @@
 							<figcaption class="uk-overlay-panel  uk-overlay-background uk-overlay-slide-bottom uk-overlay-bottom">
 								<h3 class="">{{ $products->fldProductName }}</h3>
 								<div class="sub-title roboto light-grey uk-margin-small-bottom">{{ $products->fldProductSubTitle }}</div>
-								<!-- <div class="price fweight-100 light-grey light">From -->
-								<div class="price fweight-100 light-grey light">
+								<div class="price fweight-100 light-grey light">From
+								<!-- <div class="price fweight-100 light-grey light"> -->
 									@if( ($lowest_price > 0 && $highest_price > 0) && ($lowest_price != $highest_price))
-										<!-- <span class="bold white">${{ number_format(check_numeric($lowest_price),2) }}</span>
-										<span class="price fweight-100 light-grey light">To</span> -->
+										<span class="bold white">${{ number_format(check_numeric($lowest_price),2) }}</span>
+										<span class="price fweight-100 light-grey light">To</span>
 										<span class="bold white">${{ number_format(check_numeric($highest_price),2) }}</span>
 									@else
 										<span class="bold white">${{ number_format(check_numeric($fldProductPrice),2) }}</span>

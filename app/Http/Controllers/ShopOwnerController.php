@@ -41,9 +41,9 @@ class ShopOwnerController extends Controller
 			$commission = ShopOwnerCommission::calculateCommissionYearAdmin($shopOwners->fldShopOwnerID);
 			$shopOwners->fldShopOwnerCommission = $commission;
 		}
-
+		$google = Google::first();
 		$pageTitle = SHOPOWNER_MANAGEMENT;
-        return View::make('_admin.shop_owner.shop_owner', array('shopOwner' => $shopOwner,'administrator'=>$administrator,'shopClass'=>$shopClass,'pageTitle'=>$pageTitle));
+        return View::make('_admin.shop_owner.shop_owner', array('shopOwner' => $shopOwner,'administrator'=>$administrator,'shopClass'=>$shopClass,'pageTitle'=>$pageTitle , 'google'=>$google));
     }
 	
     public function getSales($shop_owner_id) {
@@ -157,7 +157,7 @@ class ShopOwnerController extends Controller
 
 		// Email Shop Owner / Cc Web Admin / BCC DNR Admin
   		Mail::send('home.emails.shop_owner.sign_up', $messageData, function ($message) {
-			$message->from(EmailFrom, EmailFromName);
+			$message->from('chad@clarkincollection.com', 'ClarkinCollection.com');
 			$message->to(Input::get('email'), Input::get('firstname').' '.Input::get('lastname'));
 			$message->cc(EmailTo3, EmailToName3);
 			//$message->cc(EmailTo2, EmailToName2);
@@ -326,7 +326,7 @@ class ShopOwnerController extends Controller
 
 			// Email Shop Owner / Cc Web Admin / BCC DNR Admin
 	  		Mail::send('home.emails.shop_owner.sign_up', $messageData, function ($message) {
-				$message->from(EmailFrom, EmailFromName);
+				$message->from('chad@clarkincollection.com', 'ClarkinCollection.com');
 				$message->to(Input::get('email'), Input::get('firstname').' '.Input::get('lastname'));
 				$message->cc(EmailTo3, EmailToName3);
 				//$message->cc(EmailTo2, EmailToName2);
@@ -382,7 +382,7 @@ class ShopOwnerController extends Controller
 							//$ownerEmail = $settings->fldAdministratorEmail == "" ? "test1@dogandrooster.net" : $settings->fldAdministratorEmail;
 							//$ownerName = $settings->fldAdministratorSiteName == "" ? "Dog and Rooster" : $settings->fldAdministratorSiteName;
 													
-							$message->from(EmailFrom, EmailFromName);
+							$message->from('chad@clarkincollection.com', 'ClarkinCollection.com');
 							$message->to(Input::get('email'))->subject("Forgot Password");									
 						});
 				  //end send mail
@@ -442,7 +442,7 @@ class ShopOwnerController extends Controller
 							//$ownerEmail = $settings->fldAdministratorEmail == "" ? "test1@dogandrooster.net" : $settings->fldAdministratorEmail;
 							//$ownerName = $settings->fldAdministratorSiteName == "" ? "Dog and Rooster" : $settings->fldAdministratorSiteName;
 													
-							$message->from(EmailFrom, EmailFromName);
+							$message->from('chad@clarkincollection.com', 'ClarkinCollection.com');
 							$message->to($shopOwner->fldShopOwnerEmail)->subject("Reset Password");									
 						});
 					Session::flash('shop-owner-reset-success',"Success.");
@@ -466,12 +466,13 @@ class ShopOwnerController extends Controller
 		$settings = Settings::first();
 
 		$cart = ShopOwnerCommission::displayOrdersCommission($shop_owner_id);		
-
+		$google = Google::first();
 		return View::make('dashboard.shop-owner.index', array('shop_owner_id'=>$shop_owner_id,
 													 'shopOwner' => $shopOwner,													 
 													 'pages'=>$pages,
 													 'settings'=>$settings,
-													 'cart'=>$cart
+													 'cart'=>$cart,
+													 'google' => $google
 													 ));
 	}
 
@@ -493,9 +494,9 @@ class ShopOwnerController extends Controller
 
 		$birthDate = [$birthMonth,$birthDay,$birthYear];
 
-		$shipping = ShopOwnerShipping::where('fldShopOwnerShippingClientID','=',$shop_owner_id)->first(); 
+		$shipping = ShopOwnerShipping::where('fldShopOwnerShippingClientID','=',$shop_owner_id)->first();
      	
-		require_once "public/payment/braintree/lib/Braintree.php";
+		require_once('../public/payment/braintree/lib/Braintree.php');
 		\Braintree_Configuration::environment(BRAINTREE_ENVIRONMENT);
 		\Braintree_Configuration::merchantId(BRAINTREE_MERCHANTID);
 		\Braintree_Configuration::publicKey(BRAINTREE_PUBLICKEY);
@@ -505,13 +506,14 @@ class ShopOwnerController extends Controller
 		} else {
 			$braintreeClient = "";
 		}
+		$braintreeMerchant = "";
 		if($shopOwner->fldShopOwnerBrainTreeMerchantID != "") {	
 			$braintreeMerchant = BraintreeInformation::findMerchant($shopOwner->fldShopOwnerBrainTreeMerchantID);
 		} else {
 			$braintreeClient = "";	
 		}		
-
-	     	return View::make('dashboard.shop-owner.edit-profile', compact('shop_owner_id','shopOwner','pages','settings','birthDate','shipping','braintreeClient','braintreeMerchant'));	 		
+		$google = Google::first();
+	     	return View::make('dashboard.shop-owner.edit-profile', compact('shop_owner_id','shopOwner','pages','settings','birthDate','shipping','braintreeClient','braintreeMerchant','google'));	 		
  		
 	 }
 
@@ -665,11 +667,12 @@ class ShopOwnerController extends Controller
 		$pages->category = "shop-owner";
 		$pages->slug = "profile";
 		$settings = Settings::first();
-
+		$google = Google::first();
 		return View::make('dashboard.shop-owner.profile', array('shop_owner_id'=>$shop_owner_id,
 													 'shopOwner' => $shopOwner,
 													 'pages'=>$pages,
-													 'settings'=>$settings));
+													 'settings'=>$settings,
+													'google' => $google));
 	 }
 
 	public function orderHistory() {
@@ -687,8 +690,8 @@ class ShopOwnerController extends Controller
 		$dateTo = date('Y-12-31');
 
 		$cart = ShopOwnerCommission::displayOrdersCommissionByDateOrderHistory($shop_owner_id,$dateFrom,$dateTo);
-		
-		return View::make('dashboard.shop-owner.order-history', compact('shopOwner','pages','settings','cart'));	 
+		$google = Google::first();
+		return View::make('dashboard.shop-owner.order-history', compact('shopOwner','pages','settings','cart','google'));	 
 	 }
 
 	 public static function orderDetails($orderNo) {
@@ -696,13 +699,13 @@ class ShopOwnerController extends Controller
 		
 	 	$orderInfo = ShopOwnerCommission::displayOrdersCommissionByOrderNo($shop_owner_id,$orderNo);
 
-	 	$orderInfo->orderDetails = $orderInfo->product_name . ' - ' . 
-	 							   Cart::getImageSize($orderInfo->fldCartImageSize) . ' - '. 								   
+	 	$orderInfo->orderDetails = $orderInfo->product_name . ' - ' .
+	 							   Cart::getImageSize($orderInfo->fldCartImageSize) . ' - '.
 								   Cart::getFrameAttributes($orderInfo->fldCartFrameDesc) . ' - '.
-								   Cart::getPaperInfo($orderInfo->fldCartPaperInfo) . ' - ' . 
-								   Cart::getMat($orderNo);			
+								   Cart::getPaperInfo($orderInfo->fldCartPaperInfo) . ' - ' .
+								   Cart::getMat($orderNo);
 		
-		$orderInfo->fldCartOrderDate = date('m/d/Y',strtotime($orderInfo->order_date));							   					 	
+		$orderInfo->fldCartOrderDate = date('m/d/Y',strtotime($orderInfo->order_date));
 		$orderInfo->imageFrame = Cart::getReturnFrameImage($orderNo,$orderInfo->fldProductSlug,$orderInfo->image);
 			
 	 	return $orderInfo;
@@ -838,8 +841,8 @@ class ShopOwnerController extends Controller
 		$pages->category = "shop-owner";
 		$pages->slug = "settings";
 		$settings = Settings::first();
-					
-     	return View::make('dashboard.shop-owner.settings', compact('shopOwner','pages','settings'));	 		
+		$google = Google::first();		
+     	return View::make('dashboard.shop-owner.settings', compact('shopOwner','pages','settings','google'));	 		
 	 }
 
 	 public function settingsUpdate() {

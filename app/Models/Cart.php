@@ -35,7 +35,6 @@ class Cart extends Eloquent
 					->get();
 
 		$total = 0;	$subtotal=0;$ctr=0;
-
 		if(count($cartDisplay) > 0){
 			foreach($cartDisplay as $cartDisplays) {
 				if($cartDisplays->gd_orderId != "") {

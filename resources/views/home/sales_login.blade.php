@@ -34,8 +34,10 @@
                         <div class="uk-width-large-1-1 line-height-text  uk-width-medium-1-1  uk-width-small-1-1  uk-width-1-1 uk-padding-remove " style="max-width:110px; ">
                             {!! Form::label('password', 'Password *',array('style'=>'')); !!}
                         </div>
+                        
                         <div class="uk-width-large-1-1   uk-width-medium-1-1  uk-width-small-1-1  uk-width-1-1 uk-padding-remove forcewidth">
-                            {!! Form::password('password','',array('id'=>'password','required', 'class' => 'form-width-large')) !!}
+                            {!! Form::password('password',array('id'=>'password','required', 'class' => 'form-width-large')) !!}
+                            
                 @if($errors->login->first('password'))
                <div class="uk-text-danger">{!!$errors->login->first('password')!!}</div>
               @endif

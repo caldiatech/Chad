@@ -8,6 +8,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title> {{ $pages->fldPagesMetaTitle != "" ? $pages->fldPagesMetaTitle : $settings->fldAdministratorSiteName }} </title>
+
   @if($pages->fldPagesMetaKeywords != "")
   <meta name="keywords" content="{{ $pages->fldPagesMetaKeywords }}"> @endif @if($pages->fldPagesMetaDescription != "")
   <meta name="description" content="{{ $pages->fldPagesMetaDescription }}"> @endif
@@ -17,6 +18,7 @@
   <link href="{!! asset('_front/assets/icons/favicon.png') !!}" type="image/png" rel="shortcut icon">
 
   {!! Html::style('_front/assets/css/bootstrap.min.css') !!}
+  {!! Html::style('_front/assets/css/style.css') !!}
   {!! Html::style('_front/plugins/uikit/css/uikit.min.css') !!}
   {!! Html::style('_front/assets/css/core.css')!!}
   {!! Html::script('_front/assets/js/jquery-1.9.1.min.js') !!}
