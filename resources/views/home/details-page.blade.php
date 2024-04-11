@@ -1,4 +1,5 @@
-<?php session_start();?>
+<?php
+ session_start();?>
 @extends('layouts._front.home') 
 @section('content')
 <style>
@@ -97,6 +98,12 @@
   </style>
  <div class="product-detail">
 <div class="container">
+    @if(Session::has('success'))
+        <div class="uk-alert uk-alert-success">{!!Session::get('success')!!}</div>
+    @endif
+    @if(Session::has('error'))
+        <div class="uk-alert uk-alert-danger">{!!Session::get('error')!!}</div>
+    @endif
 {!! Form::open(array('url' => '/add/cart', 'method' => 'post', 'class'=>'uk-form')); !!}
 
             <div class="col-md-5">
@@ -122,6 +129,20 @@
                         <input type="hidden" value="Ancestral" name="print_name">
                         <input type="hidden" value="{{$productImage['Id']}}" name="product_id">
                     </div>
+                    <?php
+                    $walletAmount = 0;
+                    if(Session::has('client_id')) {
+                        $walletAmount = \App\Models\userWallet::where('user_id', Session::get('client_id'))->value('amount');
+                    } else {
+                        $walletAmount = 0;
+                    }
+                    ?>
+                    @if(!empty($walletAmount))
+                    <div class="product-button">
+                        <input type="hidden" name="walletPurchase" value="1">
+                    {!! Form::button('Buy',array('name'=>'buy','class'=>'btn btn-primary','type' => 'submit'))!!} 
+                    </div>
+                    @else
                     <div class="product-price">
                         <h2>Price</h2>
                         <ul>
@@ -135,6 +156,7 @@
                     <div class="product-button">
                     {!! Form::button('Add to Cart',array('name'=>'addtoCart','class'=>'btn btn-primary','type' => 'submit'))!!} 
                     </div>
+                    @endif
                 </div>
             </div>
             {!! Form::close() !!}

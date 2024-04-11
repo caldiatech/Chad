@@ -28,17 +28,15 @@
                 <!-- Indicators -->           
                 <!-- Wrapper for slides -->
                 <div class="carousel-inner">
-                <div class="item active">
-                    <a href="{{ url('products/details/'.$productImage[0]['Id'])}}">
-                        <img src="{!! asset('_front/assets/images/img-2.jpg') !!}" style="width:100%;">
-                        <div class="overlay">
-                            <img src="{!! asset('_front/assets/images/img-1_1.png') !!}">
-                        </div>
-                    </a>
-                    <h2><a href="#">Autumn Jewel</a></h2>
-                </div>
-            
-                <div class="item">
+                    @foreach($productImage as $image)
+                    <div class="item active">
+                        <a href="{{ url('image/details/'.$image['Id'])}}">
+                            <img src="{!! asset('storage/'. $image['thumbnail_image']) !!}" style="width:100%;">
+                        </a>
+                        <h2><a href="#">{{$image['image_name']}}</a></h2>
+                    </div>
+                    @endforeach
+                <!-- <div class="item">
                     <a href="{{ url('products/details/'.$productImage[0]['Id']) }}">
                         <img src="{!! asset('_front/assets/images/img-3.jpg') !!}" style="width:100%;">
                         <div class="overlay">
@@ -56,7 +54,7 @@
                         </div>
                     </a>
                     <h2><a href="#">Autumn Jewel</a></h2>
-                </div>
+                </div> -->
                 </div>
             
                 <!-- Left and right controls -->

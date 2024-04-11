@@ -13,15 +13,19 @@ use App\Models\Pages;
 use App\Models\Product;
 use App\Models\Settings;
 use App\Models\TempCart;
+use App\Models\userWallet;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
 use Redirect;
 use Session;
 use File;
+use Mail;
 use Input;
 use Log;
 use View;
+use Response;
+
 
 // use Image;
 class UploadImageController extends Controller
@@ -343,12 +347,14 @@ class UploadImageController extends Controller
     }
 
     public function addToCart(Request $request) {
-        if(isset($request->counter_if))
+		// dd($request->all());
+        if(!isset($request->walletPurchase)) {
+		if(isset($request->counter_if))
 		{
 			Session::flash('error','This product seems to be not yet ready to be purchased.');
 			return redirect()->back();
 		}
-
+		}
 	  	$client_id = Session::has('client_id') ? Session::get('client_id') : Session::getId();
 		$product_id = $request['product_id'];
 		Session::put('productId', $product_id);
@@ -362,11 +368,15 @@ class UploadImageController extends Controller
 		$packagePrice = array();
 		$total_price = $image_price = $frame_price = $feeTotal = $merchandiseTotal = $promotionTotal = $wholesaleTotal = $discountTotal = 0;
 		$total_price = $image_price = $frame_price = $feeTotal = $merchandiseTotal = $promotionTotal = $wholesaleTotal = Input::get('image_price');
+        if(!isset($request->walletPurchase)) {
 		if($total_price > 0){
 
 		}else{
 			Session::flash('error','This product seems to be not yet ready to be purchased.');
 			return redirect()->back();
+		}
+		} else {
+			$total_price = 1;
 		}
 		//check if cart alreadty has an item
 		$get_the_same_cart_item = TempCart::where('fldTempCartProductID','=', $product_id)
@@ -402,6 +412,88 @@ class UploadImageController extends Controller
 			$tempcart->save();
 			Log::debug($tempcart);
 		}
+		if(isset($request->walletPurchase)) {
+    		$order_code = $client_id .date('Ymd').rand(1,400);
+			$order_date = date('Y-m-d');
+			$gd_order = [];
+	        $gd_order['code'] = 'PLACED';
+	        $gd_order['externalId'] = '99999999';
+	        $gd_order['message'] = 'Order Processed';
+	        $gd_order['orderId'] = '99999999';
+			$data = Cart::where('fldCartClientID', $client_id)->orderBy('fldCartID', 'desc')->first();
+			$status = 'New';
+			$cartSave = new Cart;
+			$cartSave->fldCartProductID = ($tempcart->product_id != 0)? $tempcart->product_id : $tempcart->fldTempCartProductID;
+			$cartSave->fldCartClientID = $client_id;
+			$cartSave->fldCartProductName = $tempcart->fldTempCartProductName;
+			$cartSave->fldCartProductPrice = $tempcart->product_price;
+			$cartSave->fldCartProductOptions = $tempcart->fldTempCartProductOptions;
+			// $cartSave->fldCartShippingPrice = $carts->fldTempCartShippingPrice;
+			$cartSave->fldCartShippingPrice = 0; // Shipping Amount for the whole transaction
+			$cartSave->fldCartShippingCode = "STANDARD";//Input::get('shipping_code'); // Shipping Code for the whole transaction
+			$cartSave->fldCartQuantity =$tempcart->quantity;
+			$cartSave->fldCartOrderNo = $order_code;
+			$cartSave->fldCartOrderDate = $order_date;
+			$cartSave->fldCartStatus = $status;
+
+			$cartSave->fldCartShippingAddress = $data->fldCartShippingAddress;
+
+			$cartSave->fldCartImagePrice = $tempcart->fldTempCartImagePrice;
+			$cartSave->fldCartFrameInfo = $tempcart->fldTempCartFrameInfo;
+			$cartSave->fldCartFramePrice = $tempcart->fldTempCartFramePrice;
+			$cartSave->fldCartFrameDesc = $tempcart->fldTempCartFrameDesc;
+			$cartSave->fldCartPaperInfo = $tempcart->fldTempCartPaperInfo;
+			$cartSave->fldCartMat1Info = $tempcart->fldTempCartMat1Info;
+			$cartSave->fldCartMat2Info = $tempcart->fldTempCartMat2Info;
+			$cartSave->fldCartMat3Info = $tempcart->fldTempCartMat3Info;
+			$cartSave->fldCartMat1Options = $tempcart->fldTempCartMat1Options;
+			$cartSave->fldCartMat2Options = $tempcart->fldTempCartMat2Options;
+			$cartSave->fldCartMat3Options = $tempcart->fldTempCartMat3Options;
+			if($tempcart->fldTempCartImageSize) {
+				$cartSave->fldCartImageSize = $tempcart->fldTempCartImageSize;
+			}
+			if($tempcart->fldTempCartMatBorderSize) {
+				$cartSave->fldCartMatBorderSize = $tempcart->fldTempCartMatBorderSize;
+			}
+			$cartSave->fldCartLinerDesc = $tempcart->fldTempCartLinerDesc;
+			$cartSave->fldCartLinerSku = $tempcart->fldTempCartLinerSku;
+			$cartSave->printTotal = ($tempcart->printTotal) ? $tempcart->printTotal : '';
+			$cartSave->printName = ($tempcart->printName ) ? $tempcart->printName : '';
+			$cartSave->graphik_cost = $tempcart->graphik_cost;
+			$cartSave->fldCartFinishkitInfo = $tempcart->fldTempCartFinishkitInfo;
+			$cartSave->gd_status  = $gd_order['code'];
+			$cartSave->gd_orderId = $gd_order['orderId'];
+			$cartSave->fldCartIpAddress = $request->ip();
+			$cartSave->save();
+			//remove order from tempcart
+			$cartDelete = TempCart::find($tempcart->fldTempCartID);
+			$cartDelete->delete();
+			$data1 = Cart::displayCheckout($order_code);
+			$dataFields = array("order_code"=>$order_code,"order_date"=>$order_date,"bFirstname"=>$data1->bFirstname,
+			"bLastname"=>$data1->bLastname,"bAddress"=>$data1->bAddress,"bAddress1"=>$data1->bAddress1,
+			"bCity"=>$data1->bCity,"bSTate"=>$data1->bSTate,"bZip"=>$data1->bZip,"bEmail"=>$data1->bEmail,
+			"bPhone"=>$data1->bPhone,"sFirstname"=>$data1->sFirstname,"sLastname"=>$data1->sLastname,
+			"sAddress"=>$data1->sAddress,"sAddress1"=>$data1->sAddress1,"sCity"=>$data1->sCity,
+			"sState"=>$data1->sState,"sZip"=>$data1->sZip,"sEmail"=>$data1->sEmail,"sPhone"=>$data1->sPhone,
+			"tax"=>$data1->fldCartTax,"coupon_price"=>$data1->fldCartCouponCodeCouponPrice,"coupon_code"=>$data1->fldCartCouponCodeCouponCode,
+			);
+			$settings = Settings::first();
+			$user = Client::where('fldClientID',$client_id)->first();
+			Mail::send('home.image_email_checkout', $dataFields, function ($message) use($settings,$user) {
+
+				$ownerEmail = $settings->fldAdministratorEmail == "" ? "test1@dogandrooster.net" : $settings->fldAdministratorEmail;
+				$ownerName = $settings->fldAdministratorSiteName == "" ? "Dog and Rooster" : $settings->fldAdministratorSiteName;
+	
+				$message->from(EmailFrom, EmailFromName);
+				$message->to($user->fldClientEmail,$user->fldClientFirstname . ' ' . $user->fldClientLastname);
+				$message->bcc('buumber@gmail.com', 'Valuecom Dev');
+				$message->subject("Clarkin: Your Order Details");
+			});
+			$userwalltData = userWallet::where('user_id',$client_id)->first();
+			$userwalltData->amount -= 1;
+			$userwalltData->save();
+			return Redirect::to('thankyou/payment');
+		} 
 		if(Input::get('checkout')) {
 			if(Session::has('client_id')) {
 				return Redirect::to('checkout');
@@ -410,7 +502,9 @@ class UploadImageController extends Controller
 			}
 		} else {
 			return Redirect::to('image-cart');
-		}    
+		}
+		
+
     }
 
     public function shoppingCartImage() {
@@ -531,12 +625,7 @@ class UploadImageController extends Controller
     {
 		$cartData = Cart::where('fldCartOrderNo',$id)->first();
 		$productsImage =  CustomImage::find($cartData['fldCartProductID']);
-		dd($productsImage);
-
-        $imagePath = public_path('path/to/your/image.jpg'); // Replace with your image path
-        $imageName = 'image.jpg'; // Replace with your image name
-
-        // Return the image as a download response
-        return Response::download($imagePath, $imageName);
+        $imagePath = public_path('storage/'.$productsImage->orignal_image);
+        return Response::download($imagePath);
     }
 }
