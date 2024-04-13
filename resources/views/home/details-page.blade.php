@@ -127,7 +127,7 @@
                     <div class="product-title">
                     {{$productImage['image_name']}}
                         <input type="hidden" value="Ancestral" name="print_name">
-                        <input type="hidden" value="{{$productImage['Id']}}" name="product_id">
+                        <input type="hidden" value="{{$productImage['id']}}" name="product_id">
                     </div>
                     <?php
                     $walletAmount = 0;
