@@ -327,7 +327,6 @@ class UploadImageController extends Controller
 			}
 
 		}
-		//dd($product_array_prices);
    		
         return view('home.details-page')->with(array('menus'=>$menus,
         'homeslide'=>$homeslide,
