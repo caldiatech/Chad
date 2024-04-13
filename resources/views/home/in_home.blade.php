@@ -30,7 +30,7 @@
                 <div class="carousel-inner">
                     @foreach($productImage as $image)
                     <div class="item active">
-                        <a href="{{ url('image/details/'.$image['Id'])}}">
+                        <a href="{{ url('image/details/'.$image['id'])}}">
                             <img src="{!! asset('storage/'. $image['thumbnail_image']) !!}" style="width:100%;">
                         </a>
                         <h2><a href="#">{{$image['image_name']}}</a></h2>
