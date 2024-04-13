@@ -14,7 +14,7 @@
                     <div class="col-md-1"></div>
                     <div class="col-md-7">
                         <div class="right-images">
-                            <a href="{{ url('image/details/'.$productImage[0]['Id'])}}">
+                            <a href="{{ url('image/details/'.$productImage[0]['id'])}}">
                                 <img src="{!! asset('storage/'. $productImage[0]['thumbnail_image']) !!}" style="height: 400px;">
                             </a>
                         </div>
