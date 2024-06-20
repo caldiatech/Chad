@@ -1,5 +1,5 @@
 @extends('layouts._front.category')
-
+ 
 @section('content')
    @php $nctr = 0; $products_modal_array = array(); $product_category_array = array();  $category_array = array(); $products_modal_string ='' ; @endphp
    {{-- Form::open(array('url' => '/images', 'method' => 'post', 'id' => 'pageform', 'class' => 'row-fluid bill-info')) --}}

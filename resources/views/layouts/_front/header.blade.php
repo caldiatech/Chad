@@ -3,7 +3,7 @@
     <div class="topnav">
         <div class="container-large">
             <div class="top-nav-right uk-float-right">
-		<span> <a href="https://instagram.com/cmclarkinimages"> clarkinimages &nbsp;<i class="uk-icon-instagram"></i></a></span>
+		<span> <a href="https://instagram.com/clarkinphotography"> clarkinphotography &nbsp;<i class="uk-icon-instagram"></i></a></span>
                 <span class="toplink-account">
                     @if(Session::has('client_id'))
                         <span> <a href="{!! url('dashboard/customer') !!}"> My Account <i class="uk-icon-caret-down"></i></a></span>

@@ -72,7 +72,10 @@
           $slide_ctr++;
           $slider_accordion[$slide_acc_ctr] = $slider_accordion_string; $slide_item_ctr++;
           $slide_item_array[$slide_acc_ctr]  = $slide_item_ctr;
-          if($slide_ctr == 4){
+          // if($slide_ctr == 4){
+          //   $slide_acc_ctr++; $slider_accordion_string = ''; $slide_ctr = 1;  $slide_item_ctr=0;
+          // }
+          if($slide_ctr == 7){
             $slide_acc_ctr++; $slider_accordion_string = ''; $slide_ctr = 1;  $slide_item_ctr=0;
           }
           ?> @endforeach
