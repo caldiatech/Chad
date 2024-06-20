@@ -266,6 +266,11 @@ function load_javascripts(){
 }
 	var client_frame_array = new Array('BWL2', 'GO4', 'GO6', 'PEC6', 'RSP3', 'SA9', 'WVL2', 'WVL3', 'WVL4', 'WVL5');
 	$(document).ready(function(){
+	// var qt=	$('#text-qty').val();
+	// var pr = $("#image_price").val().replace(',' , '');
+	// var tt = qt * pr;
+	// console.log(tt);
+	// $('#totalPrice').text(tt.toFixed(2));
 	  //frames_slider = UIkit.slideshow($('#frame_slider'), { });
 
 	 clicked_photo_option();
@@ -813,6 +818,7 @@ function load_javascripts(){
 	  $("#image_price").val(image_price_tofixed);
 
 	  $('#grandTotalL').text(grand_t);
+	  //console.log('here');
 
 
 	  $('#totalPrice').text(grand_t);
@@ -943,13 +949,11 @@ function load_javascripts(){
 		  $('#print_fee').val(print_price);
 		  $('#print_name').val(print_name);
           $('#print_id_add_cart').val(print_id_add_cart);
-
 		  if(print_price){
               totalQty = total + print_price;
 		  }else{
               totalQty = total;
 		  }
-
           $('#totalPrice').text(totalQty.toFixed(2));
           // $('#totalPrice').text(939);
 
@@ -974,17 +978,16 @@ function load_javascripts(){
 	  $('#text-qty').change(function () {
 		  var qty = $(this).val();
 		  var total = parseFloat($('#grandTotalL').text());
-
 		  var print_price = $('.prints_selection').find(':selected').data('price');
 
-          //ROI CHANGES
+          //ROI CHAtotalNGES
 		  if(print_price){
               totalQty = (total + print_price) * qty;
 		  }else{
               totalQty = total * qty;
 		  }
           //ROI CHANGES
-
+//console.log('here');
 
 		  $('#totalPrice').text(totalQty.toFixed(2));
 		  // $('#totalPrice').text(975);
@@ -1001,26 +1004,28 @@ function load_javascripts(){
 
 	  function updateTotalPrice() {
 
-		  var qty = $('#text-qty').val();
+			var qty = $('#text-qty').val();
 
-		  var print_price = $('.prints_selection').find(':selected').data('price') ? Number($('.prints_selection').find(':selected').data('price')) : 0;
-
-		  var price = parseFloat($("input[name='imageSize']:checked").attr('data-frame_cost'));
-
-		  if($('.OptionsFrames').find(':selected'))
-		  {
-		  	print_price = 0;
+			var print_price = $('.prints_selection').find(':selected').data('price') ? Number($('.prints_selection').find(':selected').data('price')) : 0;
+			var price = parseFloat($("input[name='imageSize']:checked").attr('data-frame_cost'));
+			
+			if(isNaN(price))
+			{
+				price = $("#image_price").val().replace(',' , '');
+			}
+			if($('.OptionsFrames').find(':selected'))
+			{
+				print_price = 0;
 			$('#print_fee').val(print_price);
-		  }
-		  console.log("price : ", price);
+			}
+			console.log("price : ", price);
+			totalPrice = (price + print_price) * qty;
 
-		  totalPrice = (price + print_price) * qty;
+			console.log("total price : ",totalPrice,price,print_price,qty);
 
-		  console.log("total price : ",totalPrice,price,print_price,qty);
-
-		  $("#totalPrice").text(totalPrice.toFixed(2));
-		  // $("#totalPrice").text(996);
-	  }
+			$("#totalPrice").text(totalPrice.toFixed(2));
+			// $("#totalPrice").text(996);
+		}
 	  //MARK CHANGES
 
 	  $('.btn-update-qty').click(function() {
@@ -1042,7 +1047,6 @@ function load_javascripts(){
 
 		  return false;
 		  //MARK CHANGES
-
 		  var total = parseFloat($('#grandTotalL').text());
 
           var print_price = $('.prints_selection').find(':selected').data('price');

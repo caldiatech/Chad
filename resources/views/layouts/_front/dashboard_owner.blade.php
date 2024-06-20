@@ -96,7 +96,7 @@
 <footer>
 <div class="wrap footer">
     <div class="footer-right">
-      <a class="dashboard-site-logo" href="{!!url()!!}">{!! HTML::image(url('_front/assets/images/clarkin-collections-logo-black.png'), 'Clarkin Collections', array('class' => 'site-img','width'=>'177', 'height'=>'43')) !!}</a>
+      <a class="dashboard-site-logo" href="">{!! HTML::image(url('_front/assets/images/clarkin-collections-logo-black.png'), 'Clarkin Collections', array('class' => 'site-img','width'=>'177', 'height'=>'43')) !!}</a>
     </div>
 </div>
 {!! HTML::script('_front/assets/js/plugins-dashboard.js') !!}
@@ -118,7 +118,7 @@ $(document).ready(function(){
     
     <div class="uk-offcanvas-bar">
       <div class="offcanvas-header">
-        <a class="dashboard-site-logo full-width uk-text-center" href="{!!url()!!}">{!! HTML::image(url('_front/assets/images/logo-clarkin-white.png'), 'Clarkin Collections', array('class' => 'dashboard-site-logo mauto hauto w100 uk-margin-large-top uk-margin-large-bottom uk-text-center','width'=>'156', 'height'=>'133','style'=>'max-width:156px')) !!}
+        <a class="dashboard-site-logo full-width uk-text-center" href="">{!! HTML::image(url('_front/assets/images/logo-clarkin-white.png'), 'Clarkin Collections', array('class' => 'dashboard-site-logo mauto hauto w100 uk-margin-large-top uk-margin-large-bottom uk-text-center','width'=>'156', 'height'=>'133','style'=>'max-width:156px')) !!}
         </a>
       </div>
       <ul class="uk-nav uk-nav-offcanvas  uk-nav-parent-icon"> 

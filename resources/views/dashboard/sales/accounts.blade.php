@@ -112,64 +112,7 @@
 	    </div> 
 	</section> 
 
-	<? /*
-	<section id="credit-card-info" class="section">
-    	<h2 class="section-header uk-h2"><i class="uk-icon-card ion ion-card uk-icon-justify"></i> <span class="title-text">Credit Card Information</span>
-    		 @if($manager->fldManagerBraintreeCustomerID != "")
-    			({{ $manager->fldManagerBraintreeCustomerID }})
-    		@endif	
-    	 <a href="javascript:void(0)" class=" white uk-float-right light" data-uk-toggle="{target:'#credit-card-info-panel'}"  class="icon-button-wrapper white uk-float-right light"><i class="uk-icon-justify uk-margin-small-left white uk-icon-angle-up"></i></a></h2>
-    	<div class="section-content" id="credit-card-info-panel">
-			<div class="uk-grid">
-        			<div class="uk-width-large-1-2 uk-width-1-2 ">
-        				{!! Form::label('cc_firstname', 'First Name',array('class'=>'lbl' )); !!}
-            			{!! Form::text('cc_firstname',isset($braintreeClient->firstName) ? $braintreeClient->firstName : "",array('id'=>'cc_firstname','class'=>'text')) !!}
-        			</div>
-        			<div class="uk-width-large-1-2 uk-width-1-2 ">
-        				{!! Form::label('cc_lastname', 'Last Name',array('class'=>'lbl' )); !!}
-            			{!! Form::text('cc_lastname',isset($braintreeClient->lastName) ? $braintreeClient->lastName : "",array('id'=>'cc_lastname','class'=>'text')) !!}
-        			</div>
-        			<div class="uk-vertical-divider full-width uk-margin"></div>
-        			<div class="uk-width-large-1-2 uk-width-1-2 ">
-        				{!! Form::label('cc_no', 'Credit Card Number (378282246310005)',array('class'=>'lbl' )); !!}
-            			{!! Form::text('cc_no',isset($braintreeClient->creditCards{0}->maskedNumber) ? $braintreeClient->creditCards{0}->maskedNumber : "",array('id'=>'cc_no','class'=>'text')) !!}
-        			</div>
-					<div class="uk-width-small-1-2 uk-width-1-1 ">
-    					{!! Form::label('cvv', 'CVV (1234)',array('class'=>'lbl' )); !!}
-						{!! Form::text('cvv',$manager->fldManagerCVV,array('id'=>'cvv','class'=>'text')) !!}
-    				</div>
-
-        			<div class="uk-vertical-divider full-width uk-margin"></div>
-        			<div class="uk-width-1-1">
-        				{!! Form::label('cc_exp_mm', 'Expiration Date',array('class'=>'lbl' )); !!}  
-        			</div>
-        			<div class="uk-width-small-1-3 uk-width-1-1">  
-        				          		
-                		{!! Form::label('cc_exp_mm', 'Month',array('class'=>'lbl small light' )); !!}
-            			<span class="select-wrapper">
-							{!! Form::selectMonth('cc_exp_mm', isset($braintreeClient->creditCards{0}->expirationMonth) ? $braintreeClient->creditCards{0}->expirationMonth : 12, ['class' => 'field']) !!}
-						</span>
-					</div>
-        			<div class="uk-width-small-1-3 uk-width-1-1">              		
-                		{!! Form::label('bcc_exp_yy', 'Year',array('class'=>'lbl small light' )); !!}
-            			<div class="input-append  spinner" data-trigger="spinner">
-                            <input type="text" value="{!! isset($braintreeClient->creditCards{0}->expirationYear) ? $braintreeClient->creditCards{0}->expirationYear : date('Y') !!}" name="bcc_exp_yy" id="bcc_exp_yy" data-max="{!!date('Y')!!}" data-min="1950" data-step="1">
-                            <div class="add-on"> 
-                              <a href="javascript:;" class="spin-up" data-spin="up"><i class="uk-icon-sort-up"></i></a>
-                              <a href="javascript:;" class="spin-down" data-spin="down"><i class="uk-icon-sort-down"></i></a>
-                            </div>
-                         </div>
-					</div>
-					<div class="uk-width-small-1-3 uk-width-1-1 ">
-    					{!! Form::label('invite_code', 'Invite Code',array('class'=>'lbl small light' )); !!}
-						{!! Form::text('invite_code',"",array('id'=>'invite_code','class'=>'text')) !!}
-    				</div>	
-        			<div class="uk-vertical-divider full-width uk-margin"></div>						
-
-        	</div>
-	    </div>
-	</section> 
-	*/ ?>
+	
 
 	    <div class="button-container button-container-bottom">
 	    	{!! Form::button(' <i class="uk-icon-save uk-icon-justify"></i> Save',array('class'=>'uk-button  uk-form-help-inline text-uppercase uk-text-bold uk-button-primary ','type'=>'submit','name'=>'submit'))!!} 

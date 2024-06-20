@@ -1,3 +1,6 @@
+------new -----------
+
+
 #homeslideshow.onstart .uk-slideshow {
 	height: 900px;
   }
@@ -41,13 +44,32 @@
 
   section.aw-accordion .slide-acc-item.slide-2 {
 	z-index: 2;
-	left: 33.33%;
+	left: 16.66%;
+	/*left: 33.33%;*/
   }
 
   section.aw-accordion .slide-acc-item.slide-3 {
 	z-index: 3;
-	left: 66.66%;
+	left: 33.33%;
+	/*left: 66.66%;*/
   }
+
+  /*=============================*/
+  	section.aw-accordion .slide-acc-item.slide-4 {
+		z-index: 4;
+		left: 50%;
+	}
+
+	section.aw-accordion .slide-acc-item.slide-5 {
+		z-index: 5;
+		left: 66.66%;
+	}
+
+	section.aw-accordion .slide-acc-item.slide-6 {
+		z-index: 6;
+		left: 83.33%;
+	}
+  /*=============================*/
 
   section.aw-accordion .slide-acc-item.active {
 	-webkit-transition: 1s ease-out;
@@ -74,6 +96,17 @@
 
 	transform: translate(20%,0,0);
   }
+
+
+/*================================*/
+	section.aw-accordion .slide-acc-item.left-50 {
+		-webkit-transform: translate3d(30%,0,0);
+		-moz-transform: translate(30%,0,0);
+		-ms-transform: translate(30%,0,0);
+		-o-transform: translate(30%,0,0);
+		transform: translate(30%,0,0);
+	}
+/*================================*/
 
   section.aw-accordion .slide-acc-item.left-33 {
 	-webkit-transform: translate3d(-25%,0,0);
@@ -114,6 +147,190 @@
 	font-weight: 300;
 	color: white;
   }
+
+  /*PRADIP STYLE START*/
+
+  /*First slide on hover */
+
+  /*First slide only "active class"*/
+
+  /*second slide add "left-49 class"*/
+  section.aw-accordion .slide-acc-item.left-49 {
+	-webkit-transform: translate3d(49.33%,0,0);
+	-moz-transform: translate3d(49.33%,0,0);
+	-ms-transform: translate3d(49.33%,0,0);
+	-o-transform: translate3d(49.33%,0,0);
+	transform: translate3d(49.33%,0,0);
+  }
+
+  /*third slide add "left-41 class"*/
+  section.aw-accordion .slide-acc-item.left-41 {
+	-webkit-transform: translate3d(40.33%,0,0);
+	-moz-transform: translate3d(40.33%,0,0);
+	-ms-transform: translate3d(40.33%,0,0);
+	-o-transform: translate3d(40.33%,0,0);
+	transform: translate3d(40.33%,0,0);
+  }
+
+  /*fourth slide add "left-50 class"*/
+  /*fifth slide add "left-66 class"*/
+  /*sixth slide add "left-83 class"*/
+
+
+  /*Second slide on hover */
+
+  /*First slide add "left-16 class"*/
+
+  /*second slide add "left-11 class"*/
+  section.aw-accordion .slide-acc-item.left-11 {
+	-webkit-transform: translate3d(-10.33%,0,0);
+	-moz-transform: translate3d(-10.33%,0,0);
+	-ms-transform: translate3d(-10.33%,0,0);
+	-o-transform: translate3d(-10.33%,0,0);
+	transform: translate3d(-10.33%,0,0);
+  }
+
+  /*third slide add "left-41 class"*/
+  /*fourth slide add "left-50 class"*/
+  /*fifth slide add "left-66 class"*/
+  /*sixth slide add "left-83 class"*/
+
+  /*Third slide on hover */
+
+  /*first slide no needed class any"*/
+  /*second slide add "left-16 class"*/
+  /*third slide add "left-33 class"*/
+  /*fourth slide add "left-50 class"*/
+  /*fifth slide add "left-66 class"*/
+  /*sixth slide add "left-83 class"*/
+
+  /*Fourth slide on hover */
+
+  /*first slide no needed class any"*/
+
+  /*second slide add "left-11 class"*/
+  section.aw-accordion .slide-acc-item.left-11 {
+	-webkit-transform: translate3d(-10.33%,0,0);
+	-moz-transform: translate3d(-10.33%,0,0);
+	-ms-transform: translate3d(-10.33%,0,0);
+	-o-transform: translate3d(-10.33%,0,0);
+	transform: translate3d(-10.33%,0,0);
+  }
+
+  /*Third slide add "left-21 class"*/
+  section.aw-accordion .slide-acc-item.left-21 {
+	-webkit-transform: translate3d(-20.33%,0,0);
+	-moz-transform: translate3d(-20.33%,0,0);
+	-ms-transform: translate3d(-20.33%,0,0);
+	-o-transform: translate3d(-20.33%,0,0);
+	transform: translate3d(-20.33%,0,0);
+  }
+
+  /*Fourth slide add "left-31 class"*/
+  section.aw-accordion .slide-acc-item.left-31 {
+	-webkit-transform: translate3d(-30.33%,0,0);
+	-moz-transform: translate3d(-30.33%,0,0);
+	-ms-transform: translate3d(-30.33%,0,0);
+	-o-transform: translate3d(-30.33%,0,0);
+	transform: translate3d(-30.33%,0,0);
+  }
+
+  /*fifth slide add "left-66 class"*/
+  /*sixth slide add "left-83 class"*/
+
+
+  /*Fifth slide on hover */
+
+  /*first slide no needed class any"*/
+
+  /*second slide add "left-11 class"*/
+  section.aw-accordion .slide-acc-item.left-11 {
+	-webkit-transform: translate3d(-10.33%,0,0);
+	-moz-transform: translate3d(-10.33%,0,0);
+	-ms-transform: translate3d(-10.33%,0,0);
+	-o-transform: translate3d(-10.33%,0,0);
+	transform: translate3d(-10.33%,0,0);
+  }
+
+  /*Third slide add "left-21 class"*/
+  section.aw-accordion .slide-acc-item.left-21 {
+	-webkit-transform: translate3d(-20.33%,0,0);
+	-moz-transform: translate3d(-20.33%,0,0);
+	-ms-transform: translate3d(-20.33%,0,0);
+	-o-transform: translate3d(-20.33%,0,0);
+	transform: translate3d(-20.33%,0,0);
+  }
+
+  /*Fourth slide add "left-31 class"*/
+  section.aw-accordion .slide-acc-item.left-31 {
+	-webkit-transform: translate3d(-30.33%,0,0);
+	-moz-transform: translate3d(-30.33%,0,0);
+	-ms-transform: translate3d(-30.33%,0,0);
+	-o-transform: translate3d(-30.33%,0,0);
+	transform: translate3d(-30.33%,0,0);
+  }
+
+  /*Fifth slide add "left-40 class"*/
+  section.aw-accordion .slide-acc-item.left-40 {
+	-webkit-transform: translate3d(-41%,0,0);
+	-moz-transform: translate3d(-41%,0,0);
+	-ms-transform: translate3d(-41%,0,0);
+	-o-transform: translate3d(-41%,0,0);
+	transform: translate3d(-41%,0,0);
+  }
+
+  /*sixth slide add "left-83 class"*/
+
+  /*Sixth slide on hover */
+
+  /*first slide no needed class any"*/
+
+  /*second slide add "left-11 class"*/
+  section.aw-accordion .slide-acc-item.left-11 {
+	-webkit-transform: translate3d(-10.33%,0,0);
+	-moz-transform: translate3d(-10.33%,0,0);
+	-ms-transform: translate3d(-10.33%,0,0);
+	-o-transform: translate3d(-10.33%,0,0);
+	transform: translate3d(-10.33%,0,0);
+  }
+
+  /*Third slide add "left-21 class"*/
+  section.aw-accordion .slide-acc-item.left-21 {
+	-webkit-transform: translate3d(-20.33%,0,0);
+	-moz-transform: translate3d(-20.33%,0,0);
+	-ms-transform: translate3d(-20.33%,0,0);
+	-o-transform: translate3d(-20.33%,0,0);
+	transform: translate3d(-20.33%,0,0);
+  }
+
+  /*Fourth slide add "left-31 class"*/
+  section.aw-accordion .slide-acc-item.left-31 {
+	-webkit-transform: translate3d(-30.33%,0,0);
+	-moz-transform: translate3d(-30.33%,0,0);
+	-ms-transform: translate3d(-30.33%,0,0);
+	-o-transform: translate3d(-30.33%,0,0);
+	transform: translate3d(-30.33%,0,0);
+  }
+
+  /*Fifth slide add "left-40 class"*/
+  section.aw-accordion .slide-acc-item.left-40 {
+	-webkit-transform: translate3d(-41%,0,0);
+	-moz-transform: translate3d(-41%,0,0);
+	-ms-transform: translate3d(-41%,0,0);
+	-o-transform: translate3d(-41%,0,0);
+	transform: translate3d(-41%,0,0);
+  }
+
+  /*Sixth slide add "left-53 class"*/
+  section.aw-accordion .slide-acc-item.left-53 {
+	-webkit-transform: translate3d(-53%,0,0);
+	-moz-transform: translate3d(-53%,0,0);
+	-ms-transform: translate3d(-53%,0,0);
+	-o-transform: translate3d(-53%,0,0);
+	transform: translate3d(-53%,0,0);
+  }
+  
+  /*PRADIP STYLE CLOSE*/
 
   .uk-overlay-panel.uk-overlay-center,
   section.aw-accordion .slide-acc-item::before,
@@ -265,6 +482,10 @@
 
   .home-action h2 {
 	line-height: 38px;
+
+	color: #ffcd76;
+	font-size: 38px;
+	font-weight: 400;
   }
 
   .strength_meter {

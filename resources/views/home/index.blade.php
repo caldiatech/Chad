@@ -47,11 +47,11 @@
 							<figcaption class="uk-overlay-panel  uk-overlay-background uk-overlay-slide-bottom uk-overlay-bottom">
 								<h3 class="">{{ $products->fldProductName }}</h3>
 								<div class="sub-title roboto light-grey uk-margin-small-bottom">{{ $products->fldProductSubTitle }}</div>
-								<!-- <div class="price fweight-100 light-grey light">From -->
-								<div class="price fweight-100 light-grey light">
+								<div class="price fweight-100 light-grey light">From
+								<!-- <div class="price fweight-100 light-grey light"> -->
 									@if( ($lowest_price > 0 && $highest_price > 0) && ($lowest_price != $highest_price))
-										<!-- <span class="bold white">${{ number_format(check_numeric($lowest_price),2) }}</span>
-										<span class="price fweight-100 light-grey light">To</span> -->
+										<span class="bold white">${{ number_format(check_numeric($lowest_price),2) }}</span>
+										<span class="price fweight-100 light-grey light">To</span>
 										<span class="bold white">${{ number_format(check_numeric($highest_price),2) }}</span>
 									@else
 										<span class="bold white">${{ number_format(check_numeric($fldProductPrice),2) }}</span>
@@ -107,13 +107,15 @@
 
 	var first_active = 0;
 	var this_current_slide = 1;
-	var array_remove_class = [16, 33, 66, 83];
+	var array_remove_class = [16, 33, 50, 66, 83, 41, 49, 11, 21, 31, 40, 53 ];
+	// var array_remove_class = [16, 33, 66, 83];
 	$('#homeslideshow .uk-slideshow li').css({
 		'opacity': 1
 	});
 	jQuery(document).ready(function () {
 		loadcssfile('{!!url("_front/assets/css/home.css")!!}', 'css');
-		var slidehometotalcount = 3;
+		// var slidehometotalcount = 3;
+		var slidehometotalcount = 6;
 		console.log(slidehometotalcount);
 
 		$('#homeslideshow .uk-slideshow').removeClass('onstart');
@@ -135,8 +137,10 @@
 		function init_accordion_slideshow() {
 			first_active = 0;
 			$(".slide-item-" + this_current_slide + " section.aw-accordion div.slide-acc-item").each(function () {
-				var item_width_active = 33.33;
-				var item_width_init = 33.33;
+				// var item_width_active = 33.33;
+				// var item_width_init = 33.33;
+				var item_width_active = 16.66;
+				var item_width_init = 16.66;
 				var this_slid_cc_item = $(this);
 				if (slidehometotalcount == 1) {
 					item_width_active = 100;
@@ -146,6 +150,8 @@
 				}
 
 				for (var removeclass = 0; removeclass < array_remove_class.length; removeclass++) {
+					console.log("forrrrrrrr");
+					console.log(array_remove_class[removeclass]);
 					this_slid_cc_item.removeClass('left-' + array_remove_class[removeclass]);
 				}
 				first_active++;
@@ -174,15 +180,56 @@
 
 					$(this).addClass('active');
 					$(this).siblings('div.slide-acc-item').removeClass('active');
+					// if (this_slide_hover.hasClass('slide-1')) {
+					// 	$('section.aw-accordion div.slide-acc-item.slide-2').addClass('left-66');
+					// 	$('section.aw-accordion div.slide-acc-item.slide-3').addClass('left-83');
+					// } else if (this_slide_hover.hasClass('slide-2')) {
+					// 	this_slide_hover.addClass('left-16');
+					// 	$('section.aw-accordion div.slide-acc-item.slide-3').addClass('left-83');
+					// } else if (this_slide_hover.hasClass('slide-3')) {
+					// 	this_slide_hover.addClass('left-33');
+					// 	$('section.aw-accordion div.slide-acc-item.slide-2').addClass('left-16');
+					// }
+
 					if (this_slide_hover.hasClass('slide-1')) {
-						$('section.aw-accordion div.slide-acc-item.slide-2').addClass('left-66');
-						$('section.aw-accordion div.slide-acc-item.slide-3').addClass('left-83');
+	       				 	$('section.aw-accordion div.slide-acc-item.slide-2').addClass('left-49');
+					    $('section.aw-accordion div.slide-acc-item.slide-3').addClass('left-41');
+					    $('section.aw-accordion div.slide-acc-item.slide-4').addClass('left-50');
+					    $('section.aw-accordion div.slide-acc-item.slide-5').addClass('left-66');
+					    $('section.aw-accordion div.slide-acc-item.slide-6').addClass('left-83');
+
 					} else if (this_slide_hover.hasClass('slide-2')) {
-						this_slide_hover.addClass('left-16');
-						$('section.aw-accordion div.slide-acc-item.slide-3').addClass('left-83');
+						this_slide_hover.addClass('left-11');
+					 	$('section.aw-accordion div.slide-acc-item.slide-1').addClass('left-16');
+					    $('section.aw-accordion div.slide-acc-item.slide-3').addClass('left-41');
+					    $('section.aw-accordion div.slide-acc-item.slide-4').addClass('left-50');
+					    $('section.aw-accordion div.slide-acc-item.slide-5').addClass('left-66');
+					    $('section.aw-accordion div.slide-acc-item.slide-6').addClass('left-83');
+
 					} else if (this_slide_hover.hasClass('slide-3')) {
 						this_slide_hover.addClass('left-33');
 						$('section.aw-accordion div.slide-acc-item.slide-2').addClass('left-16');
+					    $('section.aw-accordion div.slide-acc-item.slide-4').addClass('left-50');
+					    $('section.aw-accordion div.slide-acc-item.slide-5').addClass('left-66');
+					    $('section.aw-accordion div.slide-acc-item.slide-6').addClass('left-83');
+					} else if (this_slide_hover.hasClass('slide-4')) {
+						this_slide_hover.addClass('left-31');
+						$('section.aw-accordion div.slide-acc-item.slide-2').addClass('left-11');
+						$('section.aw-accordion div.slide-acc-item.slide-3').addClass('left-21');
+						$('section.aw-accordion div.slide-acc-item.slide-5').addClass('left-66');
+					    $('section.aw-accordion div.slide-acc-item.slide-6').addClass('left-83');
+					} else if (this_slide_hover.hasClass('slide-5')) {
+						this_slide_hover.addClass('left-40');
+						$('section.aw-accordion div.slide-acc-item.slide-2').addClass('left-11');
+						$('section.aw-accordion div.slide-acc-item.slide-3').addClass('left-21');
+						$('section.aw-accordion div.slide-acc-item.slide-4').addClass('left-31');
+						$('section.aw-accordion div.slide-acc-item.slide-6').addClass('left-83');
+					} else if (this_slide_hover.hasClass('slide-6')) {
+						this_slide_hover.addClass('left-53');
+						$('section.aw-accordion div.slide-acc-item.slide-2').addClass('left-11');
+						$('section.aw-accordion div.slide-acc-item.slide-3').addClass('left-21');
+						$('section.aw-accordion div.slide-acc-item.slide-4').addClass('left-31');
+					    $('section.aw-accordion div.slide-acc-item.slide-5').addClass('left-40');
 					}
 
 				},

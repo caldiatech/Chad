@@ -92,8 +92,6 @@ if(Session::has('couponAmount')){
                               <a data-spin="down" class="spin-down" href="javascript:;"><i class="uk-icon-sort-down"></i></a>
                             </div>
                           </div>
-
-
                         {!! Form::hidden('cartId[]',$carts->temp_cart_id) !!}
                     </td>
                     <td class="tp4 uk-vertical-align"><strong>${{ number_format($carts->total,2) }}</strong></td>
@@ -120,7 +118,8 @@ if(Session::has('couponAmount')){
                     <div class="uk-grid uk-margin-remove normalize sub-total-div border-bottom border-bottom-small">
                         <div class="uk-width-3-10 uk-padding-remove uk-width-1-1">SUBTOTAL</div>  <div class="uk-width-7-10 uk-width-1-1 bold"><span class="subtotal-val">$ {{ number_format($cart[0]->subtotal,2) }}</span></div>
                     </div>
-                    <?php /*
+                    <?php
+                    /*
                     <div class="uk-grid uk-margin-remove  normalize shipping-div border-bottom border-bottom-small">
                         <div class="uk-width-3-10 uk-padding-remove uk-width-1-1">SHIPPING</div>
                         <div class="uk-width-7-10 uk-width-1-1">
@@ -150,6 +149,7 @@ if(Session::has('couponAmount')){
 
                         <? // print_r(Session::all()); ?>
                         <!-- INSERT COUPON SECTIO HERE -->
+                        
                             <div class="coupon_wrapper">
                                 <div id="coupon_error" style="display:none; margin-bottom:10px; max-width: 288px;" class="uk-alert uk-alert-danger uk-alert-error">Invalid Code</div>
                                 <div id="coupon_error_success" style="display:none; margin-bottom:10px;  max-width: 288px;" class="uk-alert uk-alert-success"><strong>Success!</strong> Code is valid!</div>
@@ -160,7 +160,6 @@ if(Session::has('couponAmount')){
                                 <br>
                                 <strong>Note</strong>: Be sure to click the Apply Code Box to apply your Promo Code.
                             </div>
-
                             <div class="btn-group">
                                  {!! Form::hidden('total',$cart[0]->subtotal) !!}
                                 {!! Form::submit('Proceed to Checkout',array('class'=>'uk-button uk-button-grey uk-button-small uk-button-primary full-width text-uppercase','name'=>'checkout'))!!}
@@ -200,8 +199,6 @@ function formatNumber (num) {
     return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
 
 }
-
-
 		function checkCoupon(total) {
 
 			var code = document.getElementById("coupon").value;

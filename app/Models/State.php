@@ -28,7 +28,9 @@ class State extends Eloquent
 		$state = self::where('fldStateID','=',$state)->first();
 		$tax = 0;
 		if(!empty($state)){
+			if (!empty($state->fldStateTax)){
 			$tax = $total * ($state->fldStateTax);
+			}
 		}
 		return $tax;
 	}

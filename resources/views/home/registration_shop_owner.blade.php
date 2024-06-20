@@ -60,7 +60,7 @@
 
                                 <div class = "uk-width-large-1-2 uk-width-medium-1-2 uk-width-small-1-1 text-wrapper uk-margin-top" >
                                     {!! Form::label('password', '* Password',array( )); !!}
-                                    {!! Form::password('password','',array('id'=>'password','required','class'=>'form-control password-fld')) !!}
+                                    {!! Form::password('password',array('id'=>'password','required', 'class' => 'form-width-large password-fld')) !!}
                                     <table border=0>
                                         <tr>
                                             <td style="padding-right:5px;" class="uk-text-small minsize"> <i class="uk-icon uk-icon-check-circle icon-color" id="passveryweak"></i> at least 8 char</td>
@@ -76,7 +76,7 @@
 
                                  <div class = "uk-width-large-1-2 uk-width-small-1-2  uk-margin-top" >
                                     {!! Form::label('password_confirmation', '* Retype Password'); !!}
-                                    {!! Form::password('password_confirmation','',array('id'=>'password_confirmation','required','class'=>'form-control')) !!}
+                                    {!! Form::password('password_confirmation',array('id'=>'password_confirmation','required', 'class' => 'form-width-large password-fld')) !!}
 
                                     @if($errors->shop->first('password_confirmation'))
                                             <div class="uk-text-danger">{!!$errors->shop->first('password_confirmation')!!}</div>

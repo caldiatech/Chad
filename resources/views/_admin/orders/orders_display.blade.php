@@ -148,7 +148,9 @@
                          <td colspan="2">$ ( - {{ number_format($data->fldCartCouponCodeCouponPrice,2) }} )</td>
                       </tr>
                 @endif
-
+@php
+$total = $cart[0]->subtotal + $data->fldCartTax + $shipping_cost - $data->fldCartCouponCodeCouponPrice;
+@endphp
                  <tr>
                    <td colspan="1">&nbsp;</td>
                    <td colspan="2" class="uk-text-right uk-text-bold">GRAND TOTAL: </td>

@@ -105,6 +105,9 @@
                    
                    
 					<tr>
+            @php
+            $total = $subtotal + $data->shipping_amount - $data->coupon_price + $data->tax;
+            @endphp
                     	<td colspan='3' style='background:rgba(0,0,0,0.10);font:600 16px sans-serif;color:#555;text-align:right;text-transform:uppercase;text-shadow:none;padding:15px 10px;'>GRAND TOTAL:</td>
                         <td style='background:rgba(0,0,0,0.10);font:400 14px sans-serif;color:#555;text-align:left;text-transform:uppercase;text-shadow:none;padding:15px 10px;'>$ {{ number_format($total,2) }}</td>
                     </tr>

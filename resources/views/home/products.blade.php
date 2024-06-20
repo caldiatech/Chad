@@ -1,5 +1,5 @@
 @extends('layouts._front.category')
-
+ 
 @section('content')
    @php $nctr = 0; $products_modal_array = array(); $product_category_array = array();  $category_array = array(); $products_modal_string ='' ; @endphp
    {{-- Form::open(array('url' => '/images', 'method' => 'post', 'id' => 'pageform', 'class' => 'row-fluid bill-info')) --}}
@@ -93,20 +93,20 @@
           $product_figure_html .= '<div class="sub-title roboto light-grey uk-margin-small-bottom">'.$product_subtitle.'</div>';
 
           if (isset($product_price_from) && $product_price_from > 0) {
-            //<div class="price">From 
-              $product_figure_html .= '<div class="price">';
-                // if(is_numeric($product_price_from)){
-                //   $product_figure_html .= '<span class="bold">$'.number_format($product_price_from,2).'</span>';
-                // }else{
-                //   $product_figure_html .= '<span class="bold">$'.$product_price_from.'</span>';
-                // }
+            $product_figure_html .= '<div class="price">From '; 
+              //$product_figure_html .= '<div class="price">';
+                if(is_numeric($product_price_from)){
+                  $product_figure_html .= '<span class="bold">$'.number_format($product_price_from,2).'</span>';
+                }else{
+                  $product_figure_html .= '<span class="bold">$'.$product_price_from.'</span>';
+                }
 
                 if($product_price_to > 0 && $product_price_to != $product_price_from){
                   if(is_numeric($product_price_from)){
-                    //<span class="price-range-to">to</span>
+                    $product_figure_html .= '<span class="price-range-to"> to </span>';
                     $product_figure_html .= ' <span class="bold">$'.number_format($product_price_to,2).'</span>';
                   }else{
-                    // <span class="price-range-to">to</span>
+                    $product_figure_html .= '<span class="price-range-to"> to </span>';
                     $product_figure_html .= ' <span class="bold">$'.$product_price_to.'</span>';
                   }
                 }

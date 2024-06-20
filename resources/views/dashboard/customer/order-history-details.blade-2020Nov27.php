@@ -77,17 +77,17 @@
                     </td>
                     <td>
 
-                      @if($carts->fldCartFrameDesc)
+                      <!-- @if($carts->fldCartFrameDesc)
                         <strong>Frame:</strong> {{$carts->fldCartFrameDesc}} <br/>
-                      @endif
+                      @endif -->
 
                       @if($carts->fldCartImageSize)
                         <strong>Size:</strong> {{$carts->fldCartImageSize}} <br/>
                       @endif
 
-                      @if($carts->fldCartLinerDesc)
+                      <!-- @if($carts->fldCartLinerDesc)
                         <strong>Liner:</strong> {{$carts->fldCartLinerDesc}} <br/>
-                      @endif
+                      @endif -->
 
                       <? /* 
                       @if($carts->fldCartFrameInfo)

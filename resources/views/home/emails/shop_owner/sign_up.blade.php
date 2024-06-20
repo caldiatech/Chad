@@ -33,7 +33,7 @@
               </tr>
               <tr>
                 <td style="font:300 13px sans-serif;color:#555;text-shadow:none;line-height:18px;padding:10px 20px;">
-                  Name: {{ $firstname . ' ' . $lastname }} <br>                  
+                  Name: {{ $firstname . ' ' . $lastname }} <br>
                   Business Name: <strong>{{ $business_name }}</strong> <br>
                   Email: <a href="mailto:{{ $email }}" style="color:#666;text-decoration:none;border-bottom:dotted 1px #333;"> {{ $email }}</a> <br>                  
                 </td>

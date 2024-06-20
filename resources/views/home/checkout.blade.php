@@ -405,13 +405,14 @@
                     $finalizing = $discount_amount = $taxpercent = 0;
                     $tax_total = is_numeric($finalizing) ? $finalizing : 0.00;
 
-
                     $sub_total = $cart[0]->subtotal;
                     $discount_total = $cart[0]->grandtotal;
                     if(Session::has('couponCode')){
-                        $discount_amount = $cart[0]->coupon_amount;
+                        $discount_total = $coupon_code->total;
+                        //$discount_amount = $coupon_code->total;
                     }
                     $grand_total = $discount_total;
+
                 ?>
                 <div class="uk-width-large-1-2 uk-width-small-1-1">
                     <div class="order-total box-bordered padding-medium  uk-text-left">
@@ -426,13 +427,7 @@
                                 <?php 
                                 $subtotal_per_item = $carts->total;
                                 $shipping_per_item = $carts->fldTempCartShippingPrice * $carts->quantity;
-                                // $subtotal_per_item_without_shipping = $subtotal_per_item - $shipping_per_item;
                                 $subtotal_per_item_without_shipping = $subtotal_per_item; // client already separated the shipping cost
-                                // print_r($carts); 
-                                // echo $subtotal_per_item.'<br>';
-                                // echo $shipping_per_item.'<br>';
-                                // echo $subtotal_per_item_without_shipping;
-                                // echo '<hr>';
                                 $shipping_total += $shipping_per_item;
                                 $without_shipping_total += $subtotal_per_item_without_shipping;
                                 ?>
@@ -441,15 +436,9 @@
 
                                         <div class="full-width">
                                             <h4 class="uk-margin-remove">{!! $carts->product_name !!} ( {!! $carts->quantity !!} )</h4>
-					<p>{!! $carts->printName !!}</p>
+					                            <p>{!! $carts->printName !!}</p>
                                             <div class="grey ">{!! $carts->fldTempCartFrameDesc !!}</div>
                                             <div class="grey ">{!! $carts->fldTempCartImageSize !!}</div>
-                                            <!-- <div class="grey ">{!! $carts->fldTempCartLinerDesc !!}</div> -->
-
-                                            <!-- this will get all frame sequence 1/14/2021 -->
-                                            <!-- <div class="grey ">{!! $carts->frame_sequence !!}</div>
-                                            <input type="radio" name="hiddenFrameSequence[]" value="{{$carts->frame_sequence}}"> -->
-						
                                         </div>
                                     </td>
                                     <td class="uk-text-right">
@@ -457,27 +446,11 @@
                                         {!! number_format($subtotal_per_item_without_shipping,2) !!}</strong>
                                     </td>
                                 </tr>
-                                <?php /* <tr class="roboto">
-                                    <td colspan="2">Shipping</td>
-                                    <td class="uk-text-right">
-                                        <strong>$ {{ number_format($carts->fldTempCartShippingPrice * $carts->quantity,2) }} </strong>
-                                    </td>
-                                </tr> */ ?>
-
-                             @endforeach
-                            <?php
-                            // $cart[0]->subtotal = $cart[0]->subtotal - $shipping_total;
-                            /* <tr>
-                                <td colspan="3"><small>* Price includes Shipping fee</small></td>
-                            </tr> */ ?>
-                            
+                             @endforeach                            
                             <tr class="border-top">
                                 <td colspan="2"><strong>CART SUBTOTAL</strong></td>
                                 <td class="uk-text-right roboto"><strong>$<span id="subtotal">
-                                    <?php  /* @if(empty($cart[0]->subtotal)) <?php  $cart[0]->subtotal=$sub_total=0; ?> 
-                                    @endif {!! number_format($cart[0]->subtotal,2) !!}</span> */ ?>
                                     {{ number_format($without_shipping_total,2) }}
-
                                     @if(empty($coupon_code)) <?php settype($coupon_code,'object'); ?> @endif  </strong>
 
                                 @if(empty($coupon_code->freeshipping)) <?php $coupon_code->freeshipping='yes'; ?>  @endif
@@ -490,7 +463,12 @@
                             @if(Session::has('couponCode'))
                             <tr class="border-top">
                                 <td colspan="2"><strong>Discount</strong> <small>( {!! Session::get('couponCode').' | '.Session::get('couponSource').'-'.Session::get('couponSourceID') !!} )</small></td>
-                                <td class="uk-text-right roboto"><span id="coupon_amount">- <strong>@if(empty($cart[0]->coupon_amount))<?php $cart[0]->coupon_amount=0; ?> @endif $ {!! number_format($cart[0]->coupon_amount,2) !!}</span></strong></td>
+                                <td class="uk-text-right roboto"><span id="coupon_amount">- <strong>
+                                    @if(empty($cart[0]->coupon_amount))
+                                       $ {!! number_format($coupon_code->coupon_amount,2) !!} 
+                                    @else
+                                     $ {!! number_format($cart[0]->coupon_amount,2) !!}
+                                    @endif</span></strong></td>
                             </tr>
                             @endif
 
@@ -566,9 +544,9 @@
                             <tr class="border-top">
                                 <td colspan="2"><strong>ORDER TOTAL</strong></td>
                                 <td class="uk-text-right roboto">
-                                <?php 
+                                <?php
                                 // $order_total = $grand_total + $shipping_total;
-                                $order_total = (float)$grand_total + (float)$defaultShippingAmount + (float)$tax_total;
+                                $order_total = (float)$grand_total + (float)$defaultShippingAmount + (float)$tax_total + (float)$final_shipping_cost;
                                 
                                 // echo 'subtotal: '.$grand_total.'<br>';
                                 // echo 'discount: '.$cart[0]->coupon_amount.'<br>';
@@ -578,7 +556,7 @@
                                 // echo 'Total: '.$order_total.'<br>';
                                 ?>
                                  <strong><span id="Grandtotal">                                   
-                                   $ {!! is_numeric(number_format($order_total,2)) ? number_format($order_total,2) : 0.00 !!}
+                                   $ {!! number_format($order_total,2)!!}
                                   </span></strong>
 
                                 {!! Form::hidden('total',$sub_total,array('id'=>'total')) !!}
