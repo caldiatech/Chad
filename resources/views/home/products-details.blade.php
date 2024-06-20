@@ -225,7 +225,7 @@
 <div id="enlargedImage" class="uk-modal   product-type-{{$product->fldProductIsVertical}}">
 	<div class="uk-modal-dialog uk-modal-dialog-lightbox">
 		<a href="" class="uk-modal-close uk-close uk-close-alt"></a>
-		<img src="{!! url(PRODUCT_IMAGE_PATH.$product->fldProductSlug.'/'.$product->fldProductImage) !!}" alt="" id="modalImage"  onload="on_render_finish();">
+		<img src="{!! url(PRODUCT_IMAGE_PATH.$product->fldProductSlug.'/'.$product->fldProductImage) !!}" alt="" id="modalImage"  onload="on_render_finish(); checkImageHeight(this);">
 	</div>
 </div>
 
@@ -243,6 +243,14 @@ var frames_array = new Array(), frame_materials = new Array(), sortMeBy = {}, ge
 function on_render_finish(){
   $('.frame-style-box').removeClass('rendering-img');
 }
+
+function checkImageHeight(img) {
+    if (img.height >= 1500) {
+        img.style.height = 'auto';
+    } else {
+        img.style.height = '430px'; // Ensure height is not set if greater than 430px
+    }
+  }
 </script>
 @stop
 @section('extracodes')

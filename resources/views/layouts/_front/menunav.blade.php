@@ -5,7 +5,8 @@
         <li class='featured-images @if(isset($pages->fldPagesTitle) && ($pages->fldPagesTitle == "Featured Images")) uk-active @endif'>
             <a href="{{ url('featured-images') }}" >Featured Images</a>
         </li>
-        <li> <a href="{{ url('in-home') }}">In-Home</a></li>
+        <li class='featured-images @if(isset($pages->fldPagesTitle) && ($pages->fldPagesTitle == "Plans")) uk-active @endif'> <a href="{{ url('unedited-digital-files') }}">Unedited Digital Files</a></li>
+        <!-- <li> <a href="{{ url('in-home') }}">In-Home</a></li> -->
           <?php $mctr=0; ?>
         @foreach(App\Models\Pages::displayMenu() as $menus)
             <?php $mctr=$mctr+1;?>
