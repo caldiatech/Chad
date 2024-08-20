@@ -17,6 +17,18 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get("/home", "NewCollection\PagesController@homePage")->name('homePage');
+Route::get("/featured", "NewCollection\PagesController@featuredPage")->name('featuredPage');
+Route::get("/new-collection", "NewCollection\PagesController@collectionPage")->name('newCollectionPage');
+Route::get("/new-about", "NewCollection\PagesController@aboutPage")->name('newAboutPage');
+Route::get("/privacy-policy", "NewCollection\PagesController@privacyPolicyPage")->name('privacyPolicyPage');
+Route::get("/new-shipping", "NewCollection\PagesController@shippingPage")->name('newShippingPage');
+Route::get("/terms-of-use", "NewCollection\PagesController@termsUsePage")->name('termsUsePage');
+Route::get("/featured-details", "NewCollection\PagesController@featuredDetailsPage")->name('featuredDetailsPage');
+Route::get("/contact", "NewCollection\PagesController@contactPage")->name('contactPage');
+Route::get("/new-login", "NewCollection\PagesController@loginPage")->name('newLoginPage');
+Route::get("/register", "NewCollection\PagesController@registerPage")->name('registerPage');
+
 Route::group(array('prefix' => '/dnradmin'), function()
 {
 
