@@ -305,8 +305,8 @@ Route::group(array('prefix' => '/'), function() {
     Route::get('/image-galleries/{page}', 'ProductController@displayAll');*/
 
    /* Route::get('/images', 'ProductController@displayAll');*/
-    Route::get('/collection/{category}', 'ProductController@displayPerCategory'); // Added 12/05
-    Route::post('/collection/{category}', 'ProductController@displayPerCategory'); // Added 12/05
+    Route::get('/collection/{slug?}', 'ProductController@displayPerCategory'); // Added 12/05
+    Route::post('/collection/{slug?}', 'ProductController@displayPerCategory'); // Added 12/05
     Route::get('/collection', 'ProductController@displayAll');
     Route::post('/collection', 'ProductController@searchProduct');
 

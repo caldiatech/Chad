@@ -851,7 +851,8 @@ class ProductController extends Controller
 	}
 
 
-	public function displayPerCategory($slug) {
+	public function displayPerCategory(Request $request, $slug, $sort = null) {
+		$sort = $request->query('sort', $sort);
 
 		$google = Google::first();
 		$cart_count = TempCart::countCart();
@@ -865,34 +866,51 @@ class ProductController extends Controller
 		// settype($category_details, 'object');
 		$product_vertical = array();
 
-		if ($slug=='za') { // sort Z to A
+		if (is_null($slug)) {
 			settype($category_details, 'object');
-
+			$sortby = !is_null($sort) ? 'DESC' : 'ASC';
 			$product = Product::join('tblProductCategory','tblProductCategory.fldProductCategoryProductID','=','tblProduct.fldProductID')
 					   ->join('tblCategory','tblCategory.fldCategoryID','=','tblProductCategory.fldProductCategoryCategoryID')
-					   ->orderBY('fldProductName', 'DESC')
+					   ->orderBY('fldProductName', $sortby)
 					   ->paginate(50);
 
-			$category_details->fldCategoryName = "Products";
+			$category_details->fldCategoryName = "Products";	
 		} else {
 			$category_details= Category::where('fldCategorySlug','=',$slug)->first();
-
-			/*$product_vertical = Product::join('tblProductCategory','tblProductCategory.fldProductCategoryProductID','=','tblProduct.fldProductID')
-						   ->join('tblCategory','tblCategory.fldCategoryID','=','tblProductCategory.fldProductCategoryCategoryID')
-						   // ->orderBY('fldProductName')
-						   ->where('fldProductIsVertical',1)
-						   ->paginate(2);*/
-	   if(!empty($category_details)) {
-			$product = Product::leftJoin('tblProductCategory','tblProductCategory.fldProductCategoryProductID','=','tblProduct.fldProductID')
-								->where('tblProductCategory.fldProductCategoryCategoryID','=',$category_details->fldCategoryID)
-								->orderBY('fldProductName', 'DESC')
-								->paginate(50);
-	   } else {
-		Session::flash('error',"Category not found.");
-		return Redirect::to('/');
-	   }
-
+			$sortby = !is_null($sort) ? 'DESC' : 'ASC';
+			if(!empty($category_details)) {
+					$product = Product::leftJoin('tblProductCategory','tblProductCategory.fldProductCategoryProductID','=','tblProduct.fldProductID')
+										->where('tblProductCategory.fldProductCategoryCategoryID','=',$category_details->fldCategoryID)
+										->orderBY('fldProductName', $sortby)
+										->paginate(50);
+			} else {
+				Session::flash('error',"Category not found.");
+				return Redirect::to('/');
+			}	
 		}
+
+		// if ($slug=='za') { // sort Z to A
+		// 	settype($category_details, 'object');
+
+		// 	$product = Product::join('tblProductCategory','tblProductCategory.fldProductCategoryProductID','=','tblProduct.fldProductID')
+		// 			   ->join('tblCategory','tblCategory.fldCategoryID','=','tblProductCategory.fldProductCategoryCategoryID')
+		// 			   ->orderBY('fldProductName', 'DESC')
+		// 			   ->paginate(50);
+
+		// 	$category_details->fldCategoryName = "Products";
+		// } else {
+		// 	$category_details= Category::where('fldCategorySlug','=',$slug)->first();
+
+		// 	if(!empty($category_details)) {
+		// 			$product = Product::leftJoin('tblProductCategory','tblProductCategory.fldProductCategoryProductID','=','tblProduct.fldProductID')
+		// 								->where('tblProductCategory.fldProductCategoryCategoryID','=',$category_details->fldCategoryID)
+		// 								->orderBY('fldProductName', 'DESC')
+		// 								->paginate(50);
+		// 	} else {
+		// 		Session::flash('error',"Category not found.");
+		// 		return Redirect::to('/');
+		// 	}
+		// }
 
 		/* get prices */
 		$product_array_id = $product_array_prices = $product_array_highest_prices = $product_array_lowest_prices = array();

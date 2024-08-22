@@ -535,7 +535,7 @@ class PagesController extends Controller
 		} else if($pages->fldPagesID == 72) {
 			$slider = Slider::orderBy('fldSliderPosition')->get();
 
-			return View::make('home.pages')->with(array('pages' => $pages,
+			return View::make('home.about')->with(array('pages' => $pages,
    													'menus' => $menus,
    													'settings'=>$settings,
    													'google'=>$google,
