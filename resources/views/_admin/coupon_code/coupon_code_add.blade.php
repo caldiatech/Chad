@@ -44,7 +44,7 @@
                       </div>
                    </div>
 
-                    <div class="uk-grid">
+                   {{-- <div class="uk-grid">
                       <div class="uk-width-large-1-10 uk-width-small-1-1">Discount Price $</div>
                       <div class="uk-width-large-6-10 uk-width-small-1-1 ">
                           {!! Form::text('amount','',array('size'=>'50')) !!}
@@ -52,9 +52,9 @@
                               <div class="error">{!!$errors->couponcode->first('amount')!!}</div>
                            @endif
                       </div>
-                   </div>
+                   </div> --}}
 
-                   <!-- <div class="uk-grid">
+                   <div class="uk-grid">
                       <div class="uk-width-large-1-10 uk-width-small-1-1">Discount Percentage</div>
                       <div class="uk-width-large-6-10 uk-width-small-1-1 ">
                           {!! Form::text('percentage','',array('size'=>'50')) !!} %
@@ -62,7 +62,7 @@
                               <div class="error">{!!$errors->couponcode->first('percentage')!!}</div>
                            @endif
                       </div>
-                   </div> -->
+                   </div>
 
                    <div class="uk-grid">
                       <div class="uk-width-large-1-10 uk-width-small-1-1">Free Shipping</div>
