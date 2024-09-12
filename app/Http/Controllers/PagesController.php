@@ -555,7 +555,7 @@ class PagesController extends Controller
 					'footer'=>$footer,
 					'pageEditable'=>$pageEditable));
 			} else {
-				return View::make('home.pages')->with(array('pages' => $pages,
+				return View::make('home.pagesnew')->with(array('pages' => $pages,
 					'menus' => $menus,
 					'settings'=>$settings,
 					'google'=>$google,

@@ -21,7 +21,7 @@ Route::get("/home", "NewCollection\PagesController@homePage")->name('homePage');
 Route::get("/featured", "NewCollection\PagesController@featuredPage")->name('featuredPage');
 Route::get("/new-collection", "NewCollection\PagesController@collectionPage")->name('newCollectionPage');
 Route::get("/new-about", "NewCollection\PagesController@aboutPage")->name('newAboutPage');
-Route::get("/privacy-policy", "NewCollection\PagesController@privacyPolicyPage")->name('privacyPolicyPage');
+Route::get("/new-privacy-policy", "NewCollection\PagesController@privacyPolicyPage")->name('privacyPolicyPage');
 Route::get("/new-shipping", "NewCollection\PagesController@shippingPage")->name('newShippingPage');
 Route::get("/terms-of-use", "NewCollection\PagesController@termsUsePage")->name('termsUsePage');
 Route::get("/featured-details", "NewCollection\PagesController@featuredDetailsPage")->name('featuredDetailsPage');
