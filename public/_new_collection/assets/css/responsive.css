@@ -226,6 +226,10 @@
 	.login-register-left {
     	padding-right: 0px;
 	}
+
+	.feature-list-blog-title{
+		bottom: 0;
+	}
 }
 
 @media(max-width: 767.75px){

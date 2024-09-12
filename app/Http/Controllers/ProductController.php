@@ -704,7 +704,8 @@ class ProductController extends Controller
 	}
 
 
-	public function displayAll($slug="") {
+	public function displayAll(Request $request, $slug="", $sort = null) {		
+		$sort = $request->query('sort', $sort);
 
 		$menus = Pages::where('fldPagesMainID', '=', 0)->get();
 		$pages = Pages::where('fldPagesSlug', '=', 'collection')->first();
@@ -719,22 +720,28 @@ class ProductController extends Controller
 					   ->where('fldProductIsVertical',1)
 					   ->paginate(2);*/
 			$product_vertical = array();
+			$sortby = !is_null($sort) ? 'DESC' : 'ASC';
 
 			$product = Product::join('tblProductCategory','tblProductCategory.fldProductCategoryProductID','=','tblProduct.fldProductID')
 					   ->join('tblCategory','tblCategory.fldCategoryID','=','tblProductCategory.fldProductCategoryCategoryID')
-					   ->orderBY('fldProductName')
+					   ->orderBY('fldProductName', $sortby)
 					   ->paginate(12);
 
 			$category_details->fldCategoryName = "Products";
 
 		} else {
 			$category_details= Category::where('fldCategorySlug','=',$slug)->first();
-
+			$sortby = !is_null($sort) ? 'DESC' : 'ASC';
 			$product = Product::leftJoin('tblProductCategory','tblProductCategory.fldProductCategoryProductID','=','tblProduct.fldProductID')
 								->where('tblProductCategory.fldProductCategoryCategoryID','=',$category_details->fldCategoryID)
-								->orderBY('fldProductName')
+								->orderBY('fldProductName', $sortby)
 								->paginate(12);
 		}
+
+		// \Log::info('--------------------------------');
+		// \Log::info($product_vertical);
+		// \Log::info('product');
+		// \Log::info($product);
 
 		/* get prices */
 		$product_array_id = $product_array_prices = $product_array_highest_prices = $product_array_lowest_prices = array();
@@ -1035,7 +1042,7 @@ class ProductController extends Controller
 
 	}
 
-	public function searchProduct() {
+	public function searchProduct(Request $request) {
 		$search = Input::get('search');
 		$slug = "";
 
@@ -1584,6 +1591,7 @@ $itemID = $product->fldProductID;
 		$menus = Pages::where('fldPagesMainID', '=', 0)->get();
 		$pages = Pages::where('fldPagesSlug', '=', 'shipping')->first();
 		$category = Category::orderby('fldCategoryPosition')->get();
+		// dd($pages, $menus, $category);
 		return View::make('home.shipping-page', compact('pages','menus','category'));
 	}
 

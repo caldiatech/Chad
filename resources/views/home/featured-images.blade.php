@@ -89,7 +89,8 @@
                                         ?>
                                         <div class="col-md-4 col-sm-12 col-xs-12">
                                             <a href="{{ url('product/' . $products->fldProductSlug) }}" class="float-anchor"></a>
-                                            <div class="feature-list-blog" style="background:url('{{ $product_image_slug }}') no-repeat center center;" data-my-category="{{ $products->fldProductName }}" data-my-category2="{{ $lowest_price }}" data-uk-filter="{{ $products->fldCategorySlug }}">
+                                            <div class="feature-list-blog">
+                                                <div class="feature-list-blog-bg" style="background:url('{{ $product_image_slug }}') no-repeat center center;" data-my-category="{{ $products->fldProductName }}" data-my-category2="{{ $lowest_price }}" data-uk-filter="{{ $products->fldCategorySlug }}"></div>
                                                 <div class="feature-list-blog-title">
                                                     <h6>{{ $products->fldProductName }}</h6>
                                                     <p>

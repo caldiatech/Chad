@@ -21,9 +21,13 @@
                         </div>
                         <div class="main-menu">
                             <ul>
-                                <li><a href="{{ route('featuredPage')}}">Featured Images</a></li>
+                                {{-- <li><a href="{{ route('featuredPage')}}">Featured Images</a></li>
                                 <li><a href="{{ route('newAboutPage')}}">About</a></li>
                                 <li><a href="{{ route('newCollectionPage')}}">Collection</a></li>
+                                <li><a href="{{ route('contactPage')}}">Connect</a></li> --}}
+                                <li><a href="{{ url('/featured-images')}}">Featured Images</a></li>
+                                <li><a href="{{ url('/about')}}">About</a></li>
+                                <li><a href="{{ url('/collection')}}">Collection</a></li>
                                 <li><a href="{{ route('contactPage')}}">Connect</a></li>
                             </ul>
                         </div>

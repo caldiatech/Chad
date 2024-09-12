@@ -13,7 +13,7 @@
                 <div class="container">
                     <div class="feature-list-inner">
                     @php $nctr = 0; $products_modal_array = array(); $product_category_array = array();  $category_array = array(); $products_modal_string ='' ; @endphp
-                        {!! Form::open(array('url' => '/collection', 'method' => 'post', 'id' => 'pageform', 'class' => 'row-fluid bill-info')) !!}
+                         {!! Form::open(array('route' => 'searchProduct', 'method' => 'post', 'id' => 'pageform', 'class' => 'row-fluid bill-info')) !!}
                             <div class="feature-list-search">
                                 <div class="feature-list-search-left">
                                     {{--<ul id="products_category" class="uk-nav uk-nav-dropdown bg-dark filter-btn">
@@ -112,7 +112,8 @@
                                         ?>
                                         <div class="col-md-4 col-sm-12 col-xs-12">
                                             <a href="{{ url('product/' . $products->fldProductSlug) }}" class="float-anchor"></a>
-                                            <div class="feature-list-blog" style="background:url('{{ $product_image_slug }}') no-repeat center center;" data-my-category="{{ $products->fldProductName }}" data-my-category2="{{ $lowest_price }}" data-uk-filter="{{ $products->fldCategorySlug }}">
+                                            <div class="feature-list-blog">
+                                                <div class="feature-list-blog-bg" style="background:url('{{ $product_image_slug }}') no-repeat center center;" data-my-category="{{ $products->fldProductName }}" data-my-category2="{{ $lowest_price }}" data-uk-filter="{{ $products->fldCategorySlug }}"></div>
                                                 <div class="feature-list-blog-title">
                                                     <h6>{{ $products->fldProductName }}</h6>
                                                     <p>

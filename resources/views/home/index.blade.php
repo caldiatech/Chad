@@ -1,5 +1,5 @@
 <?php session_start(); ?>
-@extends('new_collection.layouts.app')
+@extends('layouts._front.new_collection.layouts.app')
     
 @section('content')
         <div class="main-part">

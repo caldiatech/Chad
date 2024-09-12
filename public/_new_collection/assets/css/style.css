@@ -395,6 +395,17 @@ textarea{
     text-align: center;
 }
 
+button.input-go {
+    position: absolute;
+    right: 0;
+    height: 100%;
+    width: 38px;
+    border: none;
+    top: 0;
+    background: url('../images/search.png') no-repeat left center;
+    padding: 0;
+}
+
 .feature-blog-row{
     margin-bottom: 69px;
 }
@@ -706,16 +717,24 @@ textarea{
     height: 100%;
     min-height: 320px;
     position: relative;
+    background-color: #ededed;
+    overflow: hidden;
+}
+
+.feature-list-show .col-xs-12:hover .feature-list-blog-title{
+    bottom: 0;
 }
 
 .feature-list-blog-title{
     position: absolute;
-    bottom: 0px;
+    bottom: -100%;
     left: 0px;
     padding: 9px 20px;
     background: #081E2E;
     color: #ffffff;
     width: 100%;
+    -webkit-transition: all 0.5s ease 0s;
+    transition: all 0.5s ease 0s;
 }
 
 .feature-list-blog-title h6{
@@ -743,6 +762,15 @@ textarea{
     z-index: 1;
 }
 
+.feature-list-blog-bg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-size: contain !important;
+}
+
 .pagination-wrap ul , .pagination-wrap ul li{
     list-style: none;
     padding: 0px;
@@ -757,7 +785,7 @@ textarea{
     gap: 8px;
 }
 
-.pagination-wrap ul li a{
+.pagination-wrap ul li a , .pagination-wrap ul li span{
     height: 35px;
     width: 35px;
     display: flex;
@@ -765,6 +793,10 @@ textarea{
     justify-content: center;
     color: #ffffff;
     background: #081E2E;
+}
+
+.pagination-wrap ul li span{
+    background: #EB9D38;
 }
 
 .pagination-wrap ul li.pagination-prev a{
