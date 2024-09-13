@@ -1,5 +1,4 @@
-@extends('layouts._front.new_collection.layouts.app')
-    
+@extends('layouts._front.products')
 @section('content')
 
 <?php
@@ -68,183 +67,169 @@
 
 ?>
 
-        <div class="main-part">
-            <section class="banner-part" style="background: url('{{ asset('_new_collection/assets/images/banner1.png') }}') no-repeat center center; background-size:cover;">
-                <div class="container">
-					<div class="banner-inner">
-						<h2>Featured Detail</h2>
-                    </div>
-                </div>
-            </section>
-			<section class="bread-crumb-part">
-                <div class="container">
-                    <div class="bread-crumb-inner">
-                        <ul>
-                            <li><a href="{{ url('collection') }}">Collection</a></li>
-                            @if(!empty($category_details))<li><a href="{{ url('collection/'.$category_details->fldCategorySlug) }}">{!! $category_details->fldCategoryName !!}</h2></a></li>@endif
-                            <li class="active"><a href="#">{!!$product->fldProductName!!}</a></li>
-                        </ul>
-                    </div>
-                </div>
-				@if(Session::has('error'))
-					<div class="uk-alert uk-alert-danger">{{ Session::get('error') }}</div>
-				@endif
-            </section>
+<div class="uk-container uk-container-center uk-margin-medium-bottom  uk-padding-remove product-detail-wrapper product-type-{{$fldProductIsVertical}}">
 
-			{!! Form::open(array('action' => 'TempCartController@addShoppingCart', 'method' => 'post')) !!}
-				<section class="feature-detail-part">
-					<div class="container">
-						<div class="feature-detail-inner">
-							<div class="row">							
-								<div class="col-md-5 col-sm-12 col-xs-12">
-									<div class="feature-detail-left parent-container">
-										<div class="slider slider-for">											
-											<div class="item-slider-for">
-												<a href="{!! url(PRODUCT_IMAGE_PATH.$product->fldProductSlug.'/'.$product->fldProductImage) !!}"><img src="{!! url(PRODUCT_IMAGE_PATH.$product->fldProductSlug.'/'.$product->fldProductImage) !!}" alt="" id="modalImage"  onload="on_render_finish();"></a>
-											</div>
-											<div class="item-slider-for">
-												<a href="{{ asset('_new_collection/assets/images/slider5.jpg') }}"><img src="{{ asset('_new_collection/assets/images/slider5.jpg') }}" alt=""></a>
-											</div>
-											<div class="item-slider-for">
-												<a href="{{ asset('_new_collection/assets/images/slider6.jpg') }}"><img src="{{ asset('_new_collection/assets/images/slider6.jpg') }}" alt=""></a>
-											</div>
-											<div class="item-slider-for">
-												<a href="{{ asset('_new_collection/assets/images/slider7.jpg') }}"><img src="{{ asset('_new_collection/assets/images/slider7.jpg') }}" alt=""></a>
-											</div>
-											<div class="item-slider-for">
-												<a href="{{ asset('_new_collection/assets/images/slider4.png') }}"><img src="{{ asset('_new_collection/assets/images/slider4.png') }}" alt=""></a>
-											</div>
-											<div class="item-slider-for">
-												<a href="{{ asset('_new_collection/assets/images/slider5.jpg') }}"><img src="{{ asset('_new_collection/assets/images/slider5.jpg') }}" alt=""></a>
-											</div>
-											<div class="item-slider-for">
-												<a href="{{ asset('_new_collection/assets/images/slider6.jpg') }}"><img src="{{ asset('_new_collection/assets/images/slider6.jpg') }}" alt=""></a>
-											</div>
-											<div class="item-slider-for">
-												<a href="{{ asset('_new_collection/assets/images/slider7.jpg') }}"><img src="{{ asset('_new_collection/assets/images/slider7.jpg') }}" alt=""></a>
-											</div>
-										</div>
-										<div class="slider slider-nav">
-											<div class="item-slider-nav">
-												<img src="{{ asset('_new_collection/assets/images/thumb1.png') }}" alt="">
-											</div>
-											<div class="item-slider-nav">
-												<img src="{{ asset('_new_collection/assets/images/thumb2.png') }}" alt="">
-											</div>
-											<div class="item-slider-nav">
-												<img src="{{ asset('_new_collection/assets/images/thumb3.png') }}" alt="">
-											</div>
-											<div class="item-slider-nav">
-												<img src="{{ asset('_new_collection/assets/images/thumb4.png') }}" alt="">
-											</div>
-											<div class="item-slider-nav">
-												<img src="{{ asset('_new_collection/assets/images/thumb1.png') }}" alt="">
-											</div>
-											<div class="item-slider-nav">
-												<img src="{{ asset('_new_collection/assets/images/thumb2.png') }}" alt="">
-											</div>
-											<div class="item-slider-nav">
-												<img src="{{ asset('_new_collection/assets/images/thumb3.png') }}" alt="">
-											</div>
-											<div class="item-slider-nav">
-												<img src="{{ asset('_new_collection/assets/images/thumb4.png') }}" alt="">
-											</div>
-										</div>
-									</div>
-								</div>
-								<?php
-									// $graphikAPI = \App\Models\GraphikDimension::displayAll(6); // for all frames
-									// print_r($graphikAPI);
+	<div id="div_prod_loading">
+		<!-- <h1 style="position: absolute; top: 40%; left: 50%; transform: translateX(-50%) translateY(-50%); background-color: #fff; opacity: 100;" id="h2_prod_loading">Please wait..</h1> -->
+  <article id="main" role="main">
+	<!--PAGE BREADCRUMB -->
+	<div class="uk-breadcrumb-wrapper  uk-margin-bottom  uk-width-1-1" >
+	  <ul class="uk-breadcrumb">
+		<li class="product-main-category"><a href="{{url('collection')}}">Collection</a></li>
 
-									// echo "<pre>";
-									// // print_r($graphikAPI);
-									// print_r($graphikAPI->frame);
-									// echo "</pre>";
-									// die();
+		@if(!empty($category_details))<li class="product-parent-category"><a href="{{url('collection/'.$category_details->fldCategorySlug)}}">{!!$category_details->fldCategoryName!!}</a></li>@endif
+		<li class="uk-active"><span>{!!$product->fldProductName!!}</span></li>
+	  </ul>
+	</div>
+	<!--END PAGE BREADCRUMB -->
+	@if(Session::has('error'))
+		  <div class="uk-alert uk-alert-danger">{{ Session::get('error') }}</div>
+	@endif
 
-									//$color = GraphikDimension::getColor($graphikAPI->frame);
-									// list($frameDesc,$frameWidth,$sku,$graphikAPI,$colorValue, $styleValue,$widthValue,$materialValue,$framePrice) = \App\Models\GraphikDimension::getGraphikAttribute($graphikAPI->frame);
-									$framePrice = 0;
-									$fldProductImagePrice = $fldProductPrice = check_numeric($product->fldProductImagePrice);
-								?>
-								{!! Form::hidden('image_price',isset($fldProductImagePrice) ? number_format($fldProductImagePrice,2) : number_format($fldProductPrice,2),['id'=>'image_price']) !!}
-								{!! Form::hidden('image_size_id',$product->fldProductImageID,['id'=>'image_size_id']) !!}
-								{!! Form::hidden('frame_info', null, ['id'=>'frame_info']) !!}
-								{!! Form::hidden('frame_border_size', null, ['id'=>'frame_border_size']) !!}
-								{!! Form::hidden('frame_price',$framePrice,['id'=>'frame_price']) !!}
-								{!! Form::hidden('frame_width',1.5,['id'=>'frame_width']) !!}
-								{!! Form::hidden('frame_desc', '',['id'=>'frame_desc']) !!}
-								{!! Form::hidden('paper_info', null, ['id'=>'paper_info']) !!}
-								{!! Form::hidden('mat1_info','',['id'=>'mat1_info']) !!}
-								{!! Form::hidden('mat2_info','',['id'=>'mat2_info']) !!}
-								{!! Form::hidden('mat3_info','',['id'=>'mat3_info']) !!}
-								{!! Form::hidden('mat1_options','',['id'=>'mat1_options']) !!}
-								{!! Form::hidden('mat2_options','',['id'=>'mat2_options']) !!}
-								{!! Form::hidden('mat3_options','',['id'=>'mat3_options']) !!}
-								{!! Form::hidden('finishkit','',['id'=>'hdn-finishkit']) !!}
-								{!! Form::hidden('finishkit_desc','',['id'=>'hdn-finishkit_desc']) !!}
-								{!! Form::hidden('product_id1',$product->fldProductID,['id'=>'product_id']) !!}
+	{!! Form::open(array('action' => 'TempCartController@addShoppingCart', 'method' => 'post',  'class' => 'uk-form-horizontal uk-form-row')) !!}
+	<div class="product-column-wrapper uk-position-relative">
+	  <div class="uk-grid">
+	  <!--MAIN CONTENTS-->
+	  <div class="uk-width-1-1 uk-width-small-5-10 uk-width-large-4-10 ">
+		<div class="frame-box-container">
+			<div class="frame-style-box frame-706x639">
+				 <a href="#enlargedImage" class="uk-overlay" data-uk-modal="{center:true}">
+				 <img src="{!! url(PRODUCT_IMAGE_PATH.$product->fldProductSlug.'/'.$product->fldProductImage) !!}" alt="" id="modalImage"  onload="on_render_finish();">
+				  <div class="uk-overlay-panel uk-overlay-icon"></div>
+				</a>
+			</div>
 
-								{!! Form::hidden('shipprocfee','',['id'=>'shipprocfee']) !!}
+			<?php
+			// $graphikAPI = \App\Models\GraphikDimension::displayAll(6); // for all frames
+			// print_r($graphikAPI);
 
-								{{--ROI--}}
-								{!! Form::hidden('print_fee','',['id'=>'print_fee']) !!}
-								{!! Form::hidden('print_name','',['id'=>'print_name']) !!}
-								{{--ROI--}}
-								{{-- Don Pablo  --}}
-								{!! Form::hidden('print_id_add_cart','',['id'=>'print_id_add_cart']) !!}
-								{{--  Don Pablo  --}}
+			// echo "<pre>";
+			// // print_r($graphikAPI);
+			// print_r($graphikAPI->frame);
+			// echo "</pre>";
+			// die();
 
-								{!! Form::hidden('total_price',number_format($fldProductImagePrice,2),['id'=>'total_price']) !!}
-									
-								<div class="col-md-7 col-sm-12 col-xs-12">
-									<div class="feature-detail-right">
-										<div class="feature-detail-right-inner">
-											{!! Form::hidden('product_id', $product->fldProductID, array('id' => 'product_id1')) !!}
-											{!! Form::hidden('product_id1',$product->fldProductID,array('id'=>'product_id1')) !!}
+			//$color = GraphikDimension::getColor($graphikAPI->frame);
+			// list($frameDesc,$frameWidth,$sku,$graphikAPI,$colorValue, $styleValue,$widthValue,$materialValue,$framePrice) = \App\Models\GraphikDimension::getGraphikAttribute($graphikAPI->frame);
+			$framePrice = 0;
+			$fldProductImagePrice = $fldProductPrice = check_numeric($product->fldProductImagePrice);
+			?>
+			{!! Form::hidden('image_price',isset($fldProductImagePrice) ? number_format($fldProductImagePrice,2) : number_format($fldProductPrice,2),['id'=>'image_price']) !!}
+			{!! Form::hidden('image_size_id',$product->fldProductImageID,['id'=>'image_size_id']) !!}
+			{!! Form::hidden('frame_info', null, ['id'=>'frame_info']) !!}
+			{!! Form::hidden('frame_border_size', null, ['id'=>'frame_border_size']) !!}
+			{!! Form::hidden('frame_price',$framePrice,['id'=>'frame_price']) !!}
+			{!! Form::hidden('frame_width',1.5,['id'=>'frame_width']) !!}
+			{!! Form::hidden('frame_desc', '',['id'=>'frame_desc']) !!}
+			{!! Form::hidden('paper_info', null, ['id'=>'paper_info']) !!}
+			{!! Form::hidden('mat1_info','',['id'=>'mat1_info']) !!}
+			{!! Form::hidden('mat2_info','',['id'=>'mat2_info']) !!}
+			{!! Form::hidden('mat3_info','',['id'=>'mat3_info']) !!}
+			{!! Form::hidden('mat1_options','',['id'=>'mat1_options']) !!}
+			{!! Form::hidden('mat2_options','',['id'=>'mat2_options']) !!}
+			{!! Form::hidden('mat3_options','',['id'=>'mat3_options']) !!}
+			{!! Form::hidden('finishkit','',['id'=>'hdn-finishkit']) !!}
+			{!! Form::hidden('finishkit_desc','',['id'=>'hdn-finishkit_desc']) !!}
+			{!! Form::hidden('product_id1',$product->fldProductID,['id'=>'product_id']) !!}
 
-											<h2>{{ $product->fldProductName }}</h2>
-											<h4>YOUR TOTAL: $ <span id="original_price"></span> <span id="totalPrice">Loading..</span></h4>
-											<div class="add-btn-wrap">
-												<div class="input-append spinner" data-trigger="spinner">
-													<input type="number" value="1" name="qty" data-max="1000" data-min="1" data-step="1" id="text-qty">
-													<div class="add-on">
-														<a href="javascript:;" class="spin-up btn-update-qty" data-spin="up"></a>
-														<a href="javascript:;" class="spin-down btn-update-qty" data-spin="down"></a>
-													</div>
-												</div>
-												{!! Form::button('Add to cart ',array('class'=>'btn-add-to-cart','type'=>'submit','name'=>'submit'))!!}
-											</div>
+			{!! Form::hidden('shipprocfee','',['id'=>'shipprocfee']) !!}
 
-											<div class="product-container">
-												@if (count($productOption) > 0)								
-													@include('home.product_details.frame')								
-												@else
-													NO AVAILABLE SIZES - NO DATA FOUND
-													<script type="text/javascript">
-														$("#frame-selection").hide();
-														$("#add-to-cart").hide();
-														$("#totalPrice").hide();
-														$("#original_price").text('{{number_format($fldProductPrice,2)}}');
-														
-													</script>
-												@endif
-											</div>
-										</div>
-									</div>
-								</div>							
+			{{--ROI--}}
+			{!! Form::hidden('print_fee','',['id'=>'print_fee']) !!}
+			{!! Form::hidden('print_name','',['id'=>'print_name']) !!}
+			{{--ROI--}}
+            {{-- Don Pablo  --}}
+			{!! Form::hidden('print_id_add_cart','',['id'=>'print_id_add_cart']) !!}
+			{{--  Don Pablo  --}}
+
+			{!! Form::hidden('total_price',number_format($fldProductImagePrice,2),['id'=>'total_price']) !!}
+			
+		</div>
+		<a href="#toggle-pice-details2" class="floatingPrice uk-hidden" data-uk-offcanvas="{mode:'slide'}">
+		  <img src="{{ url('_front/assets/images/detail.ico')}}">
+		  <span>Details</span>
+		</a>
+	  </div>
+	  <div class="uk-width-1-1 uk-width-small-5-10  uk-width-large-6-10   product-details-column">
+		{!! Form::hidden('product_id', $product->fldProductID, array('id' => 'product_id1')) !!}
+		{!! Form::hidden('product_id1',$product->fldProductID,array('id'=>'product_id1')) !!}
+
+		<h1>{{ $product->fldProductName }}</h1>
+		<div class="full-width your-total">
+
+		  <div class="uk-grid">
+			<div class="uk-width-large-1-2 uk-width-1-1 add-to-cart-section-label">
+			  <label class="lbl-your-total uk-text-large">YOUR TOTAL: </label>
+			  <span class="val-your-total roboto uk-text-bold uk-form-help-inline ">
+				{{-- $ <span id="original_price"></span> <span id="totalPrice">{{ isset($product->fldProductImagePrice) ? number_format($fldProductImagePrice,2) : number_format($fldProductPrice,2)  }}</span> --}}
+				$ <span id="original_price"></span> <span id="totalPrice">Loading..</span>
+			  </span>
+			</div>
+
+			<div class="uk-width-large-1-2 add-to-cart-section uk-width-1-1">
+			 <div class="uk-form-row">
+				  <div class="uk-grid uk-form-horizontal uk-text-right uk-margin-remove " id="add-to-cart">
+					<div class="uk-width-3-10 uk-padding-remove cart-number-picker">
+						 <div class="input-append uk-form-width-mini spinner" data-trigger="spinner">
+							<input type="text" value="1" name="qty" data-max="1000" data-min="1" data-step="1" id="text-qty">
+							<div class="add-on">
+							  <a href="javascript:;" class="spin-up btn-update-qty" data-spin="up"><i class="uk-icon-sort-up"></i></a>
+							  <a href="javascript:;" class="spin-down btn-update-qty" data-spin="down"><i class="uk-icon-sort-down"></i></a>
 							</div>
-						</div>
-						{{--<div class="uk-hidden">
-							@include('home.product_details.paper')
-							<input type="hidden" id="is_prod_vertical" value="{{$product->fldProductIsVertical}}">
-							<input type="hidden" id="count_product_option" value="{{count($productOption)}}">
-						</div>--}}
+						  </div>
 					</div>
-				</section>
-			{!! Form::close() !!}
-        </div>
-@endsection
+					<div class="uk-width-7-10 add-to-cart-button-wrapper uk-padding-small-left uk-float-right ">
+					   {!! Form::button('Add to cart <i class="uk-icon-check yellow"></i>',array('class'=>'uk-button full-width uk-form-help-inline uk-margin-remove uk-button-large uk-button-dark text-uppercase uk-text-bold uk-margin-small-left btn-add-to-cart','type'=>'submit','name'=>'submit'))!!}                    </div>
+				  </div>
+			  </div>
+			</div>
+		  </div>
+
+		  <div class="product-attributes-container">
+			@if (count($productOption) > 0)
+<!-- XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -->
+
+@include('home.product_details.frame')
+
+<!-- XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -->
+
+
+			@else
+				NO AVAILABLE SIZES - NO DATA FOUND
+				<script type="text/javascript">
+					$("#frame-selection").hide();
+					$("#add-to-cart").hide();
+					$("#totalPrice").hide();
+					$("#original_price").text('{{number_format($fldProductPrice,2)}}');
+					
+				</script>
+			@endif
+		  </div>
+
+		  <div class="uk-hidden">
+		   @include('home.product_details.paper')
+		   <input type="hidden" id="is_prod_vertical" value="{{$product->fldProductIsVertical}}">
+		   <input type="hidden" id="count_product_option" value="{{count($productOption)}}">
+		  </div>
+		</div>
+	  </div>
+	</div>
+	{!! Form::close() !!}
+	<!--END MAIN CONTENTS-->
+  </article>
+    </div>
+</div>
+
+
+<!-- This is the modal -->
+<div id="enlargedImage" class="uk-modal   product-type-{{$product->fldProductIsVertical}}">
+	<div class="uk-modal-dialog uk-modal-dialog-lightbox">
+		<a href="" class="uk-modal-close uk-close uk-close-alt"></a>
+		<img src="{!! url(PRODUCT_IMAGE_PATH.$product->fldProductSlug.'/'.$product->fldProductImage) !!}" alt="" id="modalImage"  onload="on_render_finish(); checkImageHeight(this);">
+	</div>
+</div>
+
+@stop
 @section('headercodes')
 <meta name="csrf-token" content="{{ csrf_token() }}">
 {!! Html::style('_front/plugins/swiper-4.1.6/dist/css/swiper.min.css') !!}
@@ -1631,8 +1616,8 @@ var newSrc = "https://pod.cloud.graphikservices.com/renderEMF/render?imgUrl={{'h
 	<?php } ?>
 	@endif
 
-{{--<div class="full-width">
+<div class="full-width">
 <?php /* <a href="#" data-uk-toggle="{target:'#toggle-pice-details'}" data-change-text="<i class='uk-icon-eye uk-icon-justify'></i> Hide Price Details"><i class='uk-icon-eye uk-icon-justify'></i> View Price Details</a> */ ?>
   @include('home.product_details.price_details')
-</div>--}}
+</div>
 @stop
