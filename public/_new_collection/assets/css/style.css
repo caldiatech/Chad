@@ -1285,7 +1285,7 @@ table tbody tr:nth-child(even) td{
     color: #081E2E;
 }
 
-.feature-detail-left .slick-track{
+.feature-detail-left .slider.slider-for .slick-track{
     display: flex;
     align-items: center;
     background-color: #ededed;
@@ -1293,4 +1293,14 @@ table tbody tr:nth-child(even) td{
 
 .product-container br {
     display: none;
+}
+
+.feature-detail-left .slider.slider-for .slick-slide{
+    height: 450px !important;
+}
+
+.feature-detail-left .item-slider-for img {
+    width: 100%;
+    object-fit: contain;
+    height: 100%;
 }

@@ -86,9 +86,9 @@
                         </ul>
                     </div>
                 </div>
-				@if(Session::has('error'))
+				{{--@if(Session::has('error'))
 					<div class="uk-alert uk-alert-danger">{{ Session::get('error') }}</div>
-				@endif
+				@endif--}}
             </section>
 
 			{!! Form::open(array('action' => 'TempCartController@addShoppingCart', 'method' => 'post')) !!}

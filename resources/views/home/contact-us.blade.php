@@ -23,10 +23,10 @@
                                 <div class="contact-box-left">
                                     <img src="{{ asset('_new_collection/assets/images/map.png') }}" alt="">
                                 </div>
-                            </div>
-                            {!! Form::open(array('url' => '/connect', 'method' => 'post',  'class' => '')); !!}
+                            </div>                            
                                 <div class="col-md-7 col-sm-12 col-xs-12">
                                     <div class="contact-box-right">
+                                    {!! Form::open(array('url' => '/connect', 'method' => 'post',  'class' => '')); !!}
                                         <div class="row">
                                             <div class="col-md-6 col-sm-12 col-xs-12">
                                                 <div class="form-field">
@@ -64,9 +64,9 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        {!! Form::close() !!}
                                     </div>
-                                </div>
-                            {!! Form::close() !!}
+                                </div>                            
                         </div>
                     </div>
                     <div class="contact-box-bottom">
