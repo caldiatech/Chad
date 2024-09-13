@@ -197,7 +197,7 @@ textarea{
     color: #000000;
 }
 
-.theme-btn{
+.theme-btn , .add-btn-wrap .btn-add-to-cart{
     display: inline-block;   
     width: auto;
     height: 60px;
@@ -214,7 +214,7 @@ textarea{
     border: none;
 }
 
-.theme-btn:hover{
+.theme-btn:hover , .add-btn-wrap .btn-add-to-cart:hover{
     color: #ffffff;
     background: #081E2E;
 }
@@ -945,7 +945,7 @@ table tbody tr:nth-child(even) td{
     color: #EB9D38;
 }
 
-.add-btn-wrap input[type="text"]{
+.add-btn-wrap input[type="text"] , .add-btn-wrap input[type="number"]{
     width: 82px;
     height: 50px;
     text-align: center;
@@ -962,12 +962,12 @@ table tbody tr:nth-child(even) td{
     border-bottom: 1px solid #EDEDED;
 }
 
-.add-btn-wrap .theme-btn{
+.add-btn-wrap .theme-btn , .add-btn-wrap .btn-add-to-cart{
     height: 50px;
     line-height: 50px;
 }
 
-.lbl-rdo {
+.lbl-rdo , .product-container .uk-width-1-1{
   display: block;
   position: relative;
   padding-left: 26px;
@@ -978,13 +978,13 @@ table tbody tr:nth-child(even) td{
   user-select: none;
 }
 
-.lbl-rdo input {
+.lbl-rdo input , .product-container .uk-width-1-1 input {
   position: absolute;
   opacity: 0;
   cursor: pointer;
 }
 
-.lbl-rdo .checkmark {
+.lbl-rdo .checkmark , .product-container .uk-width-1-1 .checkmark{
   position: absolute;
   top: 4px;
   left: 0;
@@ -994,17 +994,19 @@ table tbody tr:nth-child(even) td{
   border-radius: 50%;
 }
 
-.lbl-rdo .checkmark:after {
+.lbl-rdo .checkmark:after , .product-container .uk-width-1-1 .checkmark:after{
   content: "";
   position: absolute;
   display: none;
 }
 
-.lbl-rdo input:checked ~ .checkmark:after {
+.lbl-rdo input:checked ~ .checkmark:after,
+.product-container .uk-width-1-1 input:checked ~ .checkmark:after{
   display: block;
 }
 
-.lbl-rdo .checkmark:after {
+.lbl-rdo .checkmark:after , 
+.product-container .uk-width-1-1 .checkmark:after {
     top: 5px;
     left: 5.5px;
     width: 8px;
@@ -1281,4 +1283,14 @@ table tbody tr:nth-child(even) td{
 
 .login-register-right p a{
     color: #081E2E;
+}
+
+.feature-detail-left .slick-track{
+    display: flex;
+    align-items: center;
+    background-color: #ededed;
+}
+
+.product-container br {
+    display: none;
 }

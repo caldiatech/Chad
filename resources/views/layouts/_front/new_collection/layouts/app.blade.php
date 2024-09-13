@@ -33,7 +33,7 @@
   <body>
 
     <header>
-        @include('new_collection.layouts.header')
+        @include('layouts._front.new_collection.layouts.header')        
     </header>
 
     <main>
@@ -41,7 +41,7 @@
     </main>
     
     <footer>
-        @include('new_collection.layouts.footer')
+    @include('layouts._front.new_collection.layouts.footer')
     </footer>
     
     <script src="{{ asset('_new_collection/assets/js/jquery-3.5.1.slim.min.js') }}" type="text/javascript"></script>
