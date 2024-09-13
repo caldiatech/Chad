@@ -762,7 +762,7 @@ class PagesController extends Controller
 		$settings->site_name = "Forgot Password";
 		$cart_count = TempCart::countCart();
    		$pages = Pages::find(45);
-   		return View::make('home.forgot')->with(array('menus'=>$menus,
+   		return View::make('home.forgot-password')->with(array('menus'=>$menus,
    													 'category'=>$category,
    													 'settings'=>$settings,
    													 'google'=>$google,
