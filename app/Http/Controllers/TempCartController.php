@@ -30,6 +30,7 @@ use App\Models\Manager;
 use App\Models\ShopOwnerCommission;
 use App\Models\ShopOwner;
 use App\Models\userWallet;
+use App\Models\CustomImage;
 use View;
 use Input;
 use Hash;
@@ -260,9 +261,11 @@ class TempCartController extends BaseController
 		$category = Category::where('fldCategoryMainID','=',0)->orderby('fldCategoryPosition')->get();
 
 		$cartDisplay = TempCart::displayCart();
+		// dd($cartDisplay);
 		$settings = Settings::first();
 		$google = Google::first();
 		$cart_count = TempCart::countCart();
+		// dd($cart_count);
 
 		$settings->site_name = "Shopping Cart";
    		return View::make('home.cart')->with(array('pages'=>$pages, 'menus'=>$menus,'category'=>$category,'cart'=>$cartDisplay,'settings'=>$settings,'google'=>$google,'cart_count'=>$cart_count));
@@ -289,6 +292,7 @@ class TempCartController extends BaseController
 		// Log::debug($client_id);
 
 		$product_id = $request->get('product_id1');
+		
 		$product = Product::find($product_id);
 
 		$print_name = $request->get('print_name'); // MARK CHANGES
@@ -1176,14 +1180,16 @@ class TempCartController extends BaseController
 				// return back()->withInput();
 	   //      }
 
-
+	//    dd(session::all(),Session::has('couponSourceID'));
 			if (Session::has('couponSourceID')) {
 				$shop_owner_manager_id = 0;
 				if(Session::get('couponSource') == 'Shop') {
 					$class_shop_owner = new ShopOwner;
 				 	$shopOwner = $class_shop_owner->find(Session::get('couponSourceID'));
-				 	$shopOwnerCommission = ShopOwnerCommission::calculateCommission($shop_owner_commission_total,$shopOwner,$clientInfo,$order_code,1);
-				 	Log::debug('shopOwner');
+				 	// dd($shopOwner,Session::get('couponSourceID'));
+					$shopOwnerCommission = ShopOwnerCommission::calculateCommission($shop_owner_commission_total,$shopOwner,$clientInfo,$order_code,1);
+				 	// dd($shop_owner_commission_total,$shopOwner,$clientInfo,$order_code,$shopOwnerCommission);
+					Log::debug('shopOwner');
 				 	Log::debug($shopOwner);
 				 	if( $shopOwner->fldShopOwnerManagerID != null && $shopOwner->fldShopOwnerManagerID != '' ){
 				 		$shop_owner_manager_id =  $shopOwner->fldShopOwnerManagerID;
@@ -1211,7 +1217,7 @@ class TempCartController extends BaseController
 			// after successful payment transfer temp cart to cart
 			//save tempcart to cart
 			$this->__transferToCart($temp_cart, $order_code, $gd_order,$client_id);
-
+			// dd($temp_cart, $order_code, $gd_order,$client_id);
 			/*
 			if($clientInfo->fldClientInviteCode != "" && $clientInfo->fldClientInviteCodeType == 1) {
 			 	//compute manager comissions
@@ -1229,7 +1235,7 @@ class TempCartController extends BaseController
 			Session::forget('couponCode');
 
 			$cart = Cart::where('fldCartOrderNo','=',$order_code)->get();
-			$i = 1;
+
 			foreach($cart as $carts) {
 				$carts->fldCartStatus 	= $status;
 				$carts->fldCartTransID 	= $transactionID;
@@ -1237,17 +1243,17 @@ class TempCartController extends BaseController
 				$carts->save();
 				$userwalltData = userWallet::where('user_id',$client_id)->first();
 				if($carts->fldCartProductPrice == 8){ 
-					$credits = $i - 1;
+					$credits = 1;
 				} elseif($carts->fldCartProductPrice == 14){
-					$credits = 2 - $i;
+					$credits = 2;
 				}
 				elseif($carts->fldCartProductPrice == 20){
-					$credits = 3 - $i;
+					$credits = 3;
 				}
-				elseif($carts->fldCartProductPrice == 38){
-					$credits = 6 - $i;
-				}elseif($carts->fldCartProductPrice == 70){
-					$credits = 12 - $i;
+				elseif($carts->fldCartProductPrice == 35){
+					$credits = 6;
+				}elseif($carts->fldCartProductPrice == 65){
+					$credits = 12;
 				} else {
 					$credits = 0;
 				}
@@ -1263,9 +1269,21 @@ class TempCartController extends BaseController
 				}
 				$userwalltData->save();
 				}
-				$i++;
+				// $i++;
 			}
-			return Redirect::to('thankyou/payment');
+			$isUneditable = Session::get('isUneditable');
+
+			if ($isUneditable && now()->diffInMinutes($isUneditable['timestamp']) > 30) {
+				Session::forget('isUneditable');
+				$isUneditable = null;
+			}
+
+			if(isset($isUneditable['value']) == 1) {
+				return Redirect::to('unedited-digital-files');
+			}
+			else{
+				return Redirect::to('thankyou/payment');
+			}
 		}
 	}
 
@@ -1555,5 +1573,311 @@ class TempCartController extends BaseController
 
 		return $client_id;
 	}
+
+	public function addShoppingCartForUneditable(Request $request) {	
+
+		//dd($request->get('imageSize'));
+	   // dd($request->all());
+	   // print_r($request->all());
+	   // die('168');
+	   // Log::debug('Session::has(client_id)');
+	   // Log::debug(Session::has('client_id') );
+	   if(isset($request->counter_if))
+	   {
+		   Session::flash('error','This product seems to be not yet ready to be purchased.');
+		   return redirect()->back();
+	   }
+
+		 $client_id = Session::has('client_id') ? Session::get('client_id') : Session::getId();
+	   // Log::debug('client_id');
+	   // Log::debug($client_id);
+
+	   $product_id = $request->get('product_id1');
+	   
+	   $product = CustomImage::find($product_id);
+
+	   $print_name = $request->get('print_name'); // MARK CHANGES
+
+	   
+	//    $productOption = ProductOptions::leftJoin('tblOptionsAssets','tblOptionsAssets.fldOptionsAssetsID','=','tblProductOptions.fldProductOptionsAssetsID')
+	// 			   ->where('fldProductOptionsProductID','=',$product->fldProductID)
+	// 			   ->where('fldProductOptionsID', '=', $request->get('imageSize'))
+	// 			   ->select('fldProductOptionsPrice','fldProductOptionsID','fldOptionsAssetsWidth','fldOptionsAssetsHeight')
+	// 			   ->first();
+	//    if($productOption) {
+	// 	   $width = $productOption->fldOptionsAssetsWidth;
+	// 	   $height = $productOption->fldOptionsAssetsHeight;
+	//    } else {
+	// 	   //Added by Don Pablo
+	// 	   if ($request->get('print_id_add_cart') != "10001") {
+	// 		   $sizelistdata = \App\Models\SizeListModel::where('print_id',$request->get('print_id_add_cart'))->where('id',$request->get('imageSize'))->get();
+	// 		//    dd("iif",$sizelistdata);
+	// 		   if(count($sizelistdata) == 0)
+	// 			   {
+	// 				   Session::flash('error','This product seems to be not yet ready to be purchased.');
+	// 				   return redirect()->back();
+	// 			   }
+	// 		   $width = $sizelistdata[0]->width;
+	// 		   $height = $sizelistdata[0]->height;
+	// 	   } else {
+	// 		// dd("eeelse");
+	// 		   Session::flash('error','Missing frame size');
+	// 		   return Redirect::to('products/details/'.$product->fldProductSlug)->withInput();
+	// 	   }
+	//    }
+
+	   $qty = Input::get('qty');
+	   $frame_info = Input::get('frame_info');
+	   $frame_desc = Input::get('frame_desc');
+	   $frame_width = Input::get('frame_width');
+	   $frame_border_size = Input::get('frame_border_size');
+	   $liner_sku 	= Input::get('liner');
+
+	   $liner_description = '';
+	   if ($liner_sku == 'LN1BK') { $liner_description = 'Black Liner 1-1/4"'; }
+	   elseif ($liner_sku == 'LN1NT') { $liner_description = 'Natural Liner 1-1/4"'; }
+	   elseif ($liner_sku == 'LN1WT') { $liner_description = 'White Liner 1-1/4"'; }
+	   elseif ($liner_sku == 'LN2BK') { $liner_description = 'Black Liner 2"'; }
+	   elseif ($liner_sku == 'LN2NT') { $liner_description = 'Natural Liner 2"'; }
+	   elseif ($liner_sku == 'LN2WT') { $liner_description = 'White Liner 2"'; }
+	   elseif ($liner_sku == 'LN3BK') { $liner_description = 'Black Liner 3"'; }
+	   elseif ($liner_sku == 'LN3NT') { $liner_description = 'Natural Liner 3"'; }
+	   elseif ($liner_sku == 'LN3WT') { $liner_description = 'White Liner 3"'; }
+	   $liner_desc = $liner_description;
+	   $liner_sku = Input::get('liner_color_code');
+
+	   $packagePrice = array();
+	   $total_price = $image_price = $frame_price = $feeTotal = $merchandiseTotal = $promotionTotal = $wholesaleTotal = $discountTotal = 0;
+	   $total_price = $image_price = $frame_price = $feeTotal = $merchandiseTotal = $promotionTotal = $wholesaleTotal = Input::get('image_price');
+	   if($total_price > 0){
+
+	   }else{
+		   Session::flash('error','This product seems to be not yet ready to be purchased.');
+		   return redirect()->back();
+	   }
+	   //check if cart alreadty has an item
+	   $get_the_same_cart_item = TempCart::where('fldTempCartProductID','=', $product_id)
+										 ->where('fldTempCartFrameInfo','=',$frame_info)
+										 ->where('fldTempCartImageSize', '=', $frame_border_size)
+										 ->where('printName', '=', $print_name) // MARK CHANGES
+										 ->where('fldTempCartLinerDesc', '=', $liner_description) // MARK CHANGES
+										 ->where('fldTempCartClientID', '=', $client_id)->first();
+	   Log::debug('get_the_same_cart_item');
+	   Log::debug($get_the_same_cart_item);
+
+	   // $a_liner = config('constants.liner');
+	   // $o_liner = $a_liner[0];
+	   // Log::debug('o_liner');
+	   // Log::debug($o_liner);
+	   // dd($get_the_same_cart_item);
+	   // dd($request->all());
+	   //if(count($get_the_same_cart_item) > 0){
+	   if(!empty($get_the_same_cart_item)){
+			   $tempcart = TempCart::find($get_the_same_cart_item->fldTempCartID);
+			   $qty = ($qty == "" || $qty <0) ? $qty=1 : $qty;
+			   $tempcart->fldTempCartQuantity = $tempcart->fldTempCartQuantity + $qty;
+			   $tempcart->save();
+	   }else{
+
+
+		   $paper_info = Input::get('paper_info').';'.Input::get('print_on');
+		   $finishkit_info = Input::get('finishkit_desc');
+		   $mat1_info = Input::get('mat1_info');
+		   $mat2_info = Input::get('mat2_info');
+		   $mat3_info = Input::get('mat3_info');
+
+		   $mat1_options = (Input::has('option1')) ? json_encode(Input::get('option1')) : "";
+		   $mat2_options = (Input::has('option2')) ? json_encode(array_merge([$request->get('offset2')], $request->get('option2'))) : "";
+		   $mat3_options = (Input::has('option3')) ? json_encode(array_merge([$request->get('offset3')], $request->get('option3'))) : "";
+		   list($mats, $mat_options) = ProductOptions::setMatOptions($request);
+		   // dd($mats);
+		   $paperSku = explode(';', Input::get('paper_info'));
+
+		   // canvas data
+		   $paperType = $request->get('print_on');
+		   $wrap_options = $request->get('wrap_options');
+		   $matType = Input::get('mat_type');
+		   $borderStyle = $paper_options = "";
+		   $error = false;
+
+
+		   if($frame_info == "") {
+			   Session::flash('error',"Please select frame to continue.");
+			   $error = true;
+		   }
+		   /*
+		   *selecting mat removed as requested
+			else if($matType == 1) {
+			   if($mat1_info == "") {
+				   Session::flash('error',"Please select single top mat color.");
+				   $error = true;
+			   }
+		   } else if($matType == 2) {
+			   if($mat2_info == "") {
+				   Session::flash('error',"Please select double mat color.");
+				   $error = true;
+			   }
+		   } else if($matType == 3) {
+			   if($mat3_info == "") {
+				   Session::flash('error',"Please select triple mat color.");
+				   $error = true;
+			   }
+		   }
+		   if($error == true) {
+			   return Redirect::to('products/details/'.$product->fldProductSlug)->withInput();
+		   }
+		   if($wrap_options == "GW")
+			   $borderStyle = $request->get('gw_options');
+		   else
+			   $borderStyle = $request->get('mw_options');
+		   if($paperType == 'canvas')
+			   $paper_options = json_encode([
+				   'wrap_options'  => $wrap_options,
+				   'borderStyle'	=> $borderStyle,
+			   ]);
+		   else
+		   */
+
+
+		   $fldCartImageSize 		= Input::get('imageSize');
+		   $matborder_whole 		= Input::get('matborder_whole');
+		   $matborder_fractions 	= Input::get('matborder_fractions');
+		   $mats_width 			= $matborder_whole + $matborder_fractions;
+		   $shipping_proc_fee 		= Input::get('shipprocfee');
+		   $graphik_cost 			= Input::get('defaultcost');
+		   $frame_sequence			= Input::get('frame_sequence');
+
+		   // REQUEST AGAIN THE PACKAGE PRICE TO PREVENT MARK-UP CHANGED MANUALLY
+		   /*
+		   *remove api
+		   $xmlbld = new SoapXmlBuilder;
+		   $xmlbld->setImageElem($width, $height, $product->fldProductName, url(PRODUCT_IMAGE_PATH.$product->fldProductSlug.'/'.MEDIUM_IMAGE.$product->fldProductImage), $borderStyle);
+		   if(Input::has('paper_info'))
+			   $xmlbld->setPaperElem($paperSku[0], $paperType, $wrap_options);
+		   else
+			   $xmlbld->setPaperElem(Input::get('photo_paper'), $paperType, $wrap_options);
+		   if($frame_info){
+			   $xmlbld->setFrameElem($frame_info);
+		   }
+		   if($mats) {
+			   $xmlbld->setMatElem($mats, $mats_width, $mat_options);
+		   }
+		   if($request->has('finishkit')) {
+			   $xmlbld->setFinishElem($request->get('finishkit'));
+		   }
+		   // dd($xmlbld->buildBody('getProductGroupPrice', 'pricingGroupRequest'));
+		   $packagePrice = $xmlbld->curlExec('getProductGroupPrice', 'pricingGroupRequest');
+		   //print_r($packagePrice);die();
+		   if(isset($packagePrice->soapBody)){
+			   if($packagePrice->soapBody->soapFault->faultstring != "") {
+				   Session::flash('error',"There is an error in frame options. Please try again.");
+				   return Redirect::to('products/details/'.$product->fldProductSlug)->withInput();
+			   }
+		   }
+		   //$packagePrice = json_decode(json_encode($packagePrice['PricedProductPackage']));
+		   if(count($packagePrice) > 0) {
+				  $frame_price 		= ($frame_info) ? $packagePrice->frame->priceData->markUpPrice : 0;
+				  $feeTotal 			= $packagePrice->packagePriceData->feeTotal;
+				  $merchandiseTotal 	= $packagePrice->packagePriceData->merchandiseTotal;
+				  $promotionTotal 	= $packagePrice->packagePriceData->promotionTotal;
+				  $wholesaleTotal 	= $packagePrice->packagePriceData->wholesaleTotal;
+				  $discountTotal 		= $packagePrice->packagePriceData->discountTotal;
+				  $image_price  		= $image_price_temp = 0;
+				  if(isset($productOption->fldProductOptionsPrice)){
+					  $image_price_temp  		= floatval($productOption->fldProductOptionsPrice);
+				  }
+				  $image_price = number_format($image_price_temp,2);
+			   $total_price		= $image_price + $discountTotal;
+		   }*/
+
+		   //ROI
+		   if($request->print_fee){
+			   $total_price = $total_price + $request->print_fee;
+		   }
+		   //ROI
+
+		   $order_date = date('Y-m-d');
+
+		   // $cart = TempCart::where('fldTempCartProductID','=',$product_id)
+		   // 					->where('fldTempCartClientID','=',$client_id)
+		   // 					->where('fldTempCartOrderDate','=',$order_date)
+		   // 					->first();
+		   // removed checking cart
+		   // always new because of a lot of options
+		   // if(empty($cart)) {
+		   $tempcart = new TempCart;
+		   $tempcart->fldTempCartClientID 		= $client_id;
+		   $tempcart->fldTempCartQuantity 		= $qty ?? 1;
+		   $tempcart->fldTempCartProductID 	= $product_id;
+
+		//    $products = Product::where('fldProductID','=',$product_id)->first();
+		   $products = CustomImage::where('id','=',$product_id)->first();
+		   $tempcart->fldTempCartProductName 	= $products->image_name;
+
+		   $tempcart->fldTempCartProductPrice 	= $total_price;
+		   // $tempcart->fldTempCartShippingPrice	= $shipping_proc_fee;
+		   $tempcart->fldTempCartOrderDate 	= $order_date;
+		   $tempcart->fldTempCartImagePrice 	= $image_price;
+		   // $tempcart->fldTempCartLinerDesc 	= $o_liner['title'];
+		   // $tempcart->fldTempCartLinerSku 		= $o_liner['sku'];
+		   $tempcart->fldTempCartLinerDesc 	= $liner_desc;
+		   $tempcart->fldTempCartLinerSku 		= $liner_sku ?? 0;
+		   $tempcart->fldTempCartFrameInfo 	= $frame_info;
+		   $tempcart->fldTempCartFramePrice 	= $frame_price;
+		   $tempcart->fldTempCartFrameDesc 	= $frame_desc;
+		   $tempcart->fldTempCartPaperInfo 	= $paper_info;
+		   $tempcart->fldTempCartPaperOptions 	= $paper_options;
+		   $tempcart->fldTempCartFinishkitInfo = $finishkit_info;
+		   $tempcart->fldTempCartMat1Info 		= $mat1_info;
+		   $tempcart->fldTempCartMat2Info 		= $mat2_info;
+		   $tempcart->fldTempCartMat3Info 		= $mat3_info;
+		   $tempcart->fldTempCartMat1Options 	= $mat1_options;
+		   $tempcart->fldTempCartMat2Options 	= $mat2_options;
+		   $tempcart->fldTempCartMat3Options 	= $mat3_options;
+		   $tempcart->fldTempCartImageSize 	= $frame_border_size;
+		   //$tempcart->fldTempCartMatBorderSize = $matborder_whole + $matborder_fractions;
+		   $tempcart->fldTempCartMatBorderSize = $frame_width;
+		   // graphika amounts
+		   $tempcart->feeTotal 		= $feeTotal;
+		   $tempcart->merchandiseTotal = $merchandiseTotal;
+		   $tempcart->promotionTotal 	= $promotionTotal;
+		   $tempcart->wholesaleTotal 	= $wholesaleTotal;
+		   $tempcart->discountTotal 	= $discountTotal;
+		   $tempcart->frame_sequence 	= $frame_sequence;
+
+		   if ($frame_info=='') { // PRINT ONLY
+			   // fldTempCartProductID and frame_sequence
+			   $graphik = ProductCost::where('product_id','=',$product_id)->where('sequence','=',$frame_sequence)->first();
+			   // dd($graphik);
+			   // $graphik_cost = $graphik->framelow_cost - 125;
+			   $graphik_cost = $graphik->framelow_cost ?? 0;
+		   }
+		   $tempcart->graphik_cost 	= $graphik_cost ?? 1;
+
+		   $tempcart->printTotal 	= ($request->print_fee) ? $request->print_fee : '';
+		   $tempcart->printName	= ($request->print_name) ? $request->print_name : '';
+		//    dd($tempcart);
+		   $tempcart->save();
+		   Log::debug($tempcart);
+	   }
+
+	   Session::forget('couponSource');
+	   Session::forget('couponSourceID');
+	   Session::forget('couponCode');
+	   Session::forget('couponAmount');
+
+	   if(Input::get('checkout')) {
+		   if(Session::has('client_id')) {
+			   return Redirect::to('checkout');
+		   } else {
+			   return Redirect::to('login');
+		   }
+	   } else if(Input::get('continue')){
+		   $category = Category::orderBy('fldCategoryPosition')->first();
+		   return Redirect::to('products/display/'.$category->fldCategorySlug);
+	   } else {
+		   return Redirect::to('shopping-cart');
+	   }
+   }
 
 }

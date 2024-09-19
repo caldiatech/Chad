@@ -18,11 +18,14 @@ use App\Models\GraphikDimension;
 use App\Models\ProductCost;
 use App\Models\Prints;
 use App\Models\SizeListModel;
+use App\Models\Client;
+use App\Models\CustomImage;
+use App\Models\UneditedText;
+use App\Models\userWallet;
 use Illuminate\Support\Arr;
 use App\SoapXmlBuilder;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-
 use View;
 use Input;
 use Hash;
@@ -850,6 +853,97 @@ class ProductController extends Controller
 		return View::make('home.featured-images', compact('pages','menus','category','category_details','product','google','settings','footer','cart_count','slug','product_vertical','product_array_prices','product_array_highest_prices','product_array_lowest_prices'));
 	}
 
+	public function uneditedDigitalFiles() {
+		// $menus = Pages::where('fldPagesMainID', '=', 0)->get();
+		// $pages = Pages::where('fldPagesSlug', '=', 'collection')->first();
+		// $category = Category::orderby('fldCategoryPosition')->get();
+		// $google = Google::first();
+		// $cart_count = TempCart::countCart();
+		// $settings = Settings::first();
+		// $footer = Footer::first();
+		// $slug = "";
+
+		// settype($category_details, 'object');
+
+		// $product_vertical = array();
+		// $rowImgs = CustomImage::orderBY('id')->paginate(12);
+		// return View::make('home.row-files',compact('pages','menus','category','category_details','rowImgs','google','cart_count','settings','footer','slug','product_vertical'));
+
+		// Session::put('isUneditable', ['value' => 1, 'timestamp' => now()]);
+
+		// if(!Session::has('client_id'))
+		// { 
+		// 	// $isUneditable = 1;
+		// 	$menus = Pages::where('fldPagesMainID', '=', 0)->get();
+		// 	$category = Category::where('fldCategoryMainID','=',0)->orderby('fldCategoryPosition')->get();
+		// 	$settings = Settings::first();
+		// 	$google = Google::first();
+		// 	$settings->site_name = "Login";
+		// 	$cart_count = TempCart::countCart();
+
+		// 	$slug = 'login';
+		// 	$pages = Pages::where('fldPagesSlug', '=', $slug)->first();
+
+		// 		return View::make('home.login')->with(array('pages' => $pages,
+		// 													'menus'=>$menus,
+		// 													'category'=>$category,
+		// 													'settings'=>$settings,
+		// 													'google'=>$google,
+		// 													'cart_count'=>$cart_count,
+		// 													// 'isUneditable'=>$isUneditable
+		// 												));
+		// }
+		// else{
+		// 	$client_id = Session::get('client_id');
+		// 	$client = Client::find($client_id);
+		// 	$userwalltData = userWallet::where('user_id',$client_id)->first();
+			
+		// 	if($userwalltData){
+				$menus = Pages::where('fldPagesMainID', '=', 0)->get();
+				$pages = Pages::where('fldPagesSlug', '=', 'collection')->first();
+				settype($pages, 'object');
+				$pages->fldPagesTitle = "Plans";
+				$pages->fldPagesSlug = "plans";
+				$category = Category::orderby('fldCategoryPosition')->get();
+				$google = Google::first();
+				$cart_count = TempCart::countCart();
+				$settings = Settings::first();
+				$footer = Footer::first();
+				$slug = "";
+
+				settype($category_details, 'object');
+
+				$product_vertical = array();
+				
+				$rowImgs = CustomImage::orderBY('id')->paginate(12);
+				// $rowImgs = CustomImage::orderBY('id')->get();
+				// return View::make('home.row-files', compact('pages','menus','category','category_details','product','rowImgs','google','settings','footer','cart_count','slug','product_vertical','product_array_prices','product_array_highest_prices','product_array_lowest_prices'));
+				// dd($rowImgs);
+				return View::make('home.row-files',compact('pages','menus','category','category_details','rowImgs','google','cart_count','settings','footer','slug','product_vertical'));
+
+			// }
+			// else{
+			// 	settype($pages, 'object');
+			// 	$pages->fldPagesTitle = "Plans";
+			// 	$pages->category = "customer";
+			// 	$pages->slug = "plans";
+			// 	$settings = Settings::first();
+			// 	$cart_count = TempCart::countCart();
+	
+			// 	// $cart = Cart::displayOrderHistoryDashboard($client_id);
+	
+			// 	return View::make('home.plans_and_credits.plans', array('client_id'=>$client_id,
+			// 												'client' => $client,
+			// 												//  'cart'=>$cart,
+			// 												'pages'=>$pages,
+			// 												'settings'=>$settings,
+			// 												'cart_count'=>$cart_count
+			// 												));
+			// 	// return Redirect::to('/plans');
+			// }
+			//$cart = Cart::displayOrderHistory($client_id);
+		// }
+	}
 
 	public function displayPerCategory($slug) {
 
@@ -1234,7 +1328,7 @@ $itemID = $product->fldProductID;
 		/*echo '<pre>';
 		print_r($graphikAPI);
 		echo '</pre>';*/
-		dd($graphikAPI);
+		// dd($graphikAPI);
 		$graphikAPICount = count($graphikAPI->frame);
 
 
@@ -1567,6 +1661,144 @@ $itemID = $product->fldProductID;
 		$pages = Pages::where('fldPagesSlug', '=', 'shipping')->first();
 		$category = Category::orderby('fldCategoryPosition')->get();
 		return View::make('home.shipping-page', compact('pages','menus','category'));
+	}
+
+	public function creditDetails($id) {
+		Session::put('isUneditable', ['value' => 1, 'timestamp' => now(),'image_id' => $id]);
+		if(!Session::has('client_id'))
+		{ 
+			$isUneditable = 1;
+			$menus = Pages::where('fldPagesMainID', '=', 0)->get();
+			$category = Category::where('fldCategoryMainID','=',0)->orderby('fldCategoryPosition')->get();
+			$settings = Settings::first();
+			$google = Google::first();
+			$settings->site_name = "Login";
+			$cart_count = TempCart::countCart();
+
+			$slug = 'login';
+			$pages = Pages::where('fldPagesSlug', '=', $slug)->first();
+			$uneditedText = UneditedText::first();
+			// dd($uneditedText);
+				return View::make('home.login')->with(array('pages' => $pages,
+															'menus'=>$menus,
+															'category'=>$category,
+															'settings'=>$settings,
+															'google'=>$google,
+															'cart_count'=>$cart_count,
+															'isUneditable' => $isUneditable,
+															'uneditedText' => $uneditedText,
+															// 'isUneditable'=>$isUneditable
+														));
+		}
+		else{
+
+			$client_id = Session::get('client_id');
+			$client = Client::find($client_id);
+			$userWalletData = userWallet::where('user_id',$client_id)->get();
+			$totalCredit = 0;
+
+			foreach ($userWalletData as $wallet) {
+				$totalCredit = $userWalletData->sum('amount');
+			}
+			// dd($userWalletData);
+			if($totalCredit > 0){
+
+			$pages = Pages::where('fldPagesMainID', '=', 0)->get();
+			$pages->fldPagesTitle = "Credit Detail";
+			$category = Category::where('fldCategoryMainID','=',0)->orderby('fldCategoryPosition')->get();
+			// $product = Product::where('fldProductSlug','=',$slug)->first();
+			$product = CustomImage::where('Id',$id)->first();
+
+			// $category_details = Category::leftJoin('tblProductCategory','tblProductCategory.fldProductCategoryCategoryID','=','tblCategory.fldCategoryID')
+			// 							->where('tblProductCategory.fldProductCategoryProductID','=',$product->fldProductID)
+			// 							->first();
+
+			// $productImage = AdditionalProduct::where('fldAdditionalProductProductID','=',$product->fldProductID)->get();
+			// $google = Google::first();
+			$cart_count = TempCart::countCart();
+			// //$productOptions = ProductOptions::displayOptions($product->fldProductID);
+			// $settings = Settings::first();
+			// $footer = Footer::first();
+
+			// // $productOption = ProductOptions::leftJoin('tblOptionsAssets','tblOptionsAssets.fldOptionsAssetsID','=','tblProductOptions.fldProductOptionsAssetsID')
+			// // 						->where('fldProductOptionsProductID','=',$product->fldProductID)
+			// // 						->select('fldProductOptionsPrice','fldProductOptionsID','fldOptionsAssetsWidth','fldOptionsAssetsHeight','fldOptionsAssetsWidthFraction','fldOptionsAssetsHeightFraction')
+			// // 						->get();
+
+			// //old
+			// // $productOption = ProductOptions::leftJoin('tblOptionsAssets','tblOptionsAssets.fldOptionsAssetsID','=','tblProductOptions.fldProductOptionsAssetsID')
+			// // 						->where('fldProductOptionsProductID','=',$product->fldProductID)
+			// // 						->select('fldProductOptionsAssetsID','fldProductOptionsPrice','fldProductOptionsPricePrint','fldProductOptionsID','fldOptionsAssetsWidth','fldOptionsAssetsHeight','fldOptionsAssetsWidthFraction','fldOptionsAssetsHeightFraction')
+			// // 						// ->orderBy('fldOptionsAssetsWidth','ASC')
+			// // 						->orderBy('tblOptionsAssets.fldOptionsAssetsPosition','ASC')
+			// // 						->get();
+
+			// //new
+			// $productOption = ProductOptions::leftJoin('tblOptionsAssets','tblOptionsAssets.fldOptionsAssetsID','=','tblProductOptions.fldProductOptionsAssetsID')
+			// ->where('fldProductOptionsProductID','=',$product->fldProductID)
+			// ->select('fldProductOptionsAssetsID','fldProductOptionsPrice','fldProductOptionsID','fldOptionsAssetsWidth','fldOptionsAssetsHeight','fldOptionsAssetsWidthFraction','fldOptionsAssetsHeightFraction','fldProductOptionsPricePrint')
+			// // ->orderBy('fldOptionsAssetsWidth','ASC')
+			// ->orderBy('tblOptionsAssets.fldOptionsAssetsPosition','ASC')
+			// ->get();
+
+			// $defaultcosts = ProductCost::where('product_id','=',$product->fldProductID)->orderBy('sequence','ASC')->get();
+
+			// // echo count($productOption).'<br>';
+			// // foreach ($productOption as $option) {
+			// // 	echo $option->fldOptionsAssetsWidth.': '.$option->fldProductOptionsPrice.'<br>';
+			// // }
+
+			// //get the product options assets
+			// if(count($productOption) > 0) {
+			// 	$product->fldProductImageHeight = $productOption{0}->fldOptionsAssetsHeight;
+			// 	$product->fldProductImageWidth = $productOption{0}->fldOptionsAssetsWidth;
+			// 	$product->fldProductImagePrice = $productOption{0}->fldProductOptionsPrice;
+			// 	$product->fldProductImageID = $productOption{0}->fldProductOptionsID;
+			// } else {
+			// 	$product->fldProductImageHeight = 8;
+			// 	$product->fldProductImageWidth = 11;
+			// 	$product->fldProductImageID = 0;
+			// }
+			// //dd($product);
+			// $itemID = $product->fldProductID;
+				return View::make('home.plans_and_credits.credits-details')
+				->with(array('pages' => $pages,
+																	'category' => $category,
+																	// 'category_details' => $category_details,
+																	'product' => $product,
+				// 													'productImage' => $productImage,
+				// 													'google'=>$google,
+																	'cart_count'=>$cart_count,
+				// 													'settings'=>$settings,
+				// 														'footer'=>$footer,
+				// 														'defaultcosts'=>$defaultcosts,
+				// 													'productOption' =>$productOption,
+																	// 'itemID'	=> $itemID
+																	// 'totalCredit' => $totalCredit,
+																));
+			}
+			else{
+				settype($pages, 'object');
+				$pages->fldPagesTitle = "Plans";
+				$pages->category = "customer";
+				$pages->slug = "plans";
+				$settings = Settings::first();
+				$cart_count = TempCart::countCart();
+	
+				// $cart = Cart::displayOrderHistoryDashboard($client_id);
+	
+				return View::make('home.plans_and_credits.plans', array('client_id'=>$client_id,
+															'client' => $client,
+															//  'cart'=>$cart,
+															'pages'=>$pages,
+															'settings'=>$settings,
+															'cart_count'=>$cart_count
+															));
+				// return Redirect::to('/plans');
+			}
+			$cart = Cart::displayOrderHistory($client_id);
+		}
+
 	}
 
 }

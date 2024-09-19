@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use Illuminate\Routing\Controller;
 use App\Models\Settings;
 use App\Models\Pages;
+use App\Models\UneditedText;
+use Illuminate\Http\Request;
 
 use View;
 use Input;
@@ -226,5 +228,42 @@ class SettingsController extends Controller
 	public function logoutseo() {
 		Session::flush();
 		return Redirect::to('dnrseo/');
+	}
+
+	public function uneditedTextCreate()
+	{
+		$pageTitle = "Dashboard";
+		$uneditedText = UneditedText::first();
+		return view('_admin.unedited_text', compact('pageTitle', 'uneditedText'));
+	}
+
+	public function uneditedTextAdd(Request $request)
+	{
+		$rules   = UneditedText::rules(0);
+		$validator = Validator::make(Input::all(), $rules);
+
+		if ($validator->fails()) {
+		   return Redirect::to('dnradmin/unedited-text-addedit')->withInput()->withErrors($validator,'uneditedText');
+		} 
+		else
+		{
+			$uneditedText = UneditedText::first();
+			if(empty($uneditedText))
+			{
+				$uneditedText = new UneditedText();
+				$msg = 'saved';
+			}
+			else{
+				$uneditedText = UneditedText::find($uneditedText->id);
+				$msg = 'updated';
+			}
+
+			$uneditedText->text = $request->text;
+			$uneditedText->save();
+			$message = 'Unedited text successfully '.$msg;
+
+			Session::flash('success',$message);
+			return Redirect::to('dnradmin/unedited-text-create');
+		}
 	}
 }

@@ -211,7 +211,7 @@ class CouponCodeController extends Controller
 		} else {			
 
 			Session::put('couponSource', 'Coupon Code Module');
-			Session::put('couponCode', $code);   
+			Session::put('couponCode', $code);
 			if($coupon->fldCouponCodeAmount != "") {
 				$value[] = $coupon->fldCouponCodeAmount;
 				$value[] = $total - $coupon->fldCouponCodeAmount;

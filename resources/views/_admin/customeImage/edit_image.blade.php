@@ -2,7 +2,7 @@
 
 @section('content')
 <article>
-    {!! Form::open(array('url' => '/dnradmin/CustomImage/update/'.$product->Id, 'method' => 'post', 'id' => 'pageform', 'files' =>
+    {!! Form::open(array('url' => '/dnradmin/CustomImage/update/'.$product->id, 'method' => 'post', 'id' => 'pageform', 'files' =>
     true,'class'=>'uk-form')); !!}
     @if(Session::has('success'))
         <div class="uk-alert uk-alert-success">{!!Session::get('success')!!}</div>

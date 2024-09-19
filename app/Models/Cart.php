@@ -14,7 +14,7 @@ class Cart extends Eloquent
 	public $timestamps = false;
 
 	static function displayCart($order_code) {
-
+		// dd($order_code);
 		$cartDisplay = self::leftJoin('tblProduct','fldProductID','=','fldCartProductID')
 					->select('tblProduct.fldProductSlug as fldProductSlug',
 						'tblProduct.fldProductID as product_id',
@@ -33,7 +33,7 @@ class Cart extends Eloquent
 						'tblCart.fldCartMatBorderSize', 'tblCart.gd_status', 'tblCart.gd_orderId', 'tblCart.fldCartFinishkitInfo', 'tblCart.fldCartLinerDesc', 'tblCart.fldCartLinerSku','tblCart.printTotal','tblCart.printName')
 					->where('tblCart.fldCartOrderNo','=',$order_code)
 					->get();
-
+		// dd($cartDisplay);
 		$total = 0;	$subtotal=0;$ctr=0;
 		if(count($cartDisplay) > 0){
 			foreach($cartDisplay as $cartDisplays) {
@@ -47,7 +47,6 @@ class Cart extends Eloquent
 					$cartDisplays->gd_status = "";
 					$cartDisplays->gd_orderId = "";
 				}
-
 
 
 				//******for product options***********//
@@ -66,6 +65,7 @@ class Cart extends Eloquent
 															  ->where('fldOptionsAssetsID','=',$productOptions)
 															  ->where('fldProductOptionsProductID','=',$cartDisplays->product_id)
 															  ->first();
+
 						if(!empty($productOptionsPrice)) {
 							$optionPrice = 	$productOptionsPrice->option_price != 0 ? " ( + ".number_format($productOptionsPrice->option_price,2).")": "";
 
@@ -82,8 +82,9 @@ class Cart extends Eloquent
 				}
 				//******END for product options***********//
 
+				$total =  ((int) $cartDisplays->quantity * (int) $cartDisplays->product_price);
+				$total =  $total + $totalOptionPrice;
 
-				$total =  ($cartDisplays->quantity * $cartDisplays->product_price)+$totalOptionPrice;
 				// $total =  ($cartDisplays->quantity * $cartDisplays->product_price)+$totalOptionPrice + $cartDisplays->fldCartShippingPrice;
                 $subtotal = $subtotal + $total;
 				$cartDisplay[$ctr]['total'] = $total;
