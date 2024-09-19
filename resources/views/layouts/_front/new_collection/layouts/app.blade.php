@@ -28,7 +28,11 @@
 
     @section('headercodes')
     @show 
-    
+    <?php 
+      if(!isset($cart_count)){
+        $cart_count = 0;
+      }
+    ?>
   </head>
   <body>
 

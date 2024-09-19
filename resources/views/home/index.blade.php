@@ -71,8 +71,7 @@
 								<div class="row">
 									<div class="col-md-6 col-sm-12 col-xs-12 align-self-center">
 										<div class="feature-inner-left">
-											<img src="{{ PRODUCT_IMAGE_PATH.$products->fldProductSlug.'/'.LARGE_IMAGE.$products->fldProductImage }}" alt="{{ $products->fldProductName }}">
-										</div>
+											<img src="{{ url(PRODUCT_IMAGE_PATH.$products->fldProductSlug.'/'.MEDIUM_IMAGE.$products->fldProductImage) }}" alt="{{ $products->fldProductName }}">										</div>
 									</div>
 									<div class="col-md-6 col-sm-12 col-xs-12 align-self-center">
 										<div class="feature-inner-right">
