@@ -1,12 +1,26 @@
-<?php session_start(); ?>
+<?php session_start(); 
+$data =  session('isUneditable');
+$isUneditable = $data['value'] ?? null;
+
+if ($data && now()->diffInMinutes($data['timestamp']) > 30) {
+    session()->forget('isUneditable');
+    $data = null;
+}
+
+
+?>
 @extends('layouts._front.template-1')
 
 @section('content')
   <div class="uk-width-1-1">
     <div class="uk-container uk-container-center">
       <article id="main" role="main" class="uk-block uk-text-contrast">
+        @if(isset($isUneditable) && isset($uneditedText) && $isUneditable == 1 )
+            <h3><center>{{ $uneditedText->text }}</center></h3>
+        @endif
         <div class="uk-grid">
           <div class="uk-width-medium-2-3 uk-width-small-1-1">
+
             <div class="uk-container">
                 <h1 class="uk-h2 text-uppercase uk-text-contrast">{{ $pages->fldPagesTitle }}</h1>
                 <p class="uk-margin-bottom-remove uk-padding-bottom-remove">{!!$pages->fldPagesSubTitle!!}</p>
@@ -19,6 +33,7 @@
                 @endif
                  {!! Form::open(array('url' => '/login', 'method' => 'post',  'class' => 'row-fluid account-login input-100')) !!}
                 <div class="formbox">
+                <input type="hidden" name="isUneditable" value="{{ isset($isUneditable) ? $isUneditable : 0 }}">
                     <div class="uk-padding-small-top uk-grid uk-margin-remove">
                         <div class="uk-width-large-1-1  line-height-text uk-width-medium-1-1  uk-width-small-1-1  uk-width-1-1 uk-padding-remove " style="max-width:110px; ">
                          {!! Form::label('email', 'Email Address * ',array('style'=>'')); !!}
@@ -97,7 +112,7 @@
                         {!!$pages->fldPagesDescription!!}
                         {!! Html::link('registration', "Create an Account",array('class'=>'uk-button uk-button-primary')) !!}
 
-                        @if($cart_count > 0)
+                        @if($cart_count > 0 && $isUneditable !== 1)
                             </br></br>
                             {!! Html::link('guest-checkout', "Checkout as Guest",array('class'=>'uk-button uk-button-primary')) !!}
                         @endif

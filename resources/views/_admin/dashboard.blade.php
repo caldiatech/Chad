@@ -66,6 +66,13 @@
                                     <div class="uk-thumbnail-caption">Clients</div>
                                 </a>
                             </div>
+
+                            <div class="uk-width-medium-1-4">
+                                <a class="uk-thumbnail th-box uk-text-center uk-width-1-1" href="{{url('/dnradmin/unedited-text-create')}}">
+                                    <i class="pe-7s-users iconsizelarge"></i>
+                                    <div class="uk-thumbnail-caption">Unedited Image Text</div>
+                                </a>
+                            </div>
                         </div>
                     </div>
 

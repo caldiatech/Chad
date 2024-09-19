@@ -38,7 +38,7 @@ class UploadImageController extends Controller
     public function index()
     {
         $pageTitle = "Custom Photo";
-        $product = CustomImage::orderby('Id')->get();
+        $product = CustomImage::orderby('id')->get();
 		return view('_admin.photoUpload', compact('pageTitle','product'));
     }
 
@@ -61,9 +61,13 @@ class UploadImageController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust max file size as needed
-			'uploadRAWFile' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        // $request->validate([
+        //     'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust max file size as needed
+		// 	'uploadRAWFile' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        // ]);
+		$request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif',
+			'uploadRAWFile' => 'required|image|mimes:jpeg,png,jpg,gif',
         ]);
 
         $data = $request->all();
@@ -75,9 +79,16 @@ class UploadImageController extends Controller
 		$uploadedImage = $request->file('image');
         // Create a thumbnail from the original image
         $thumbnailPath = public_path('uploads' . DIRECTORY_SEPARATOR . 'thumbnails' . DIRECTORY_SEPARATOR . 'thumb_' . $uploadedImage->hashName());
-        $thumbnail = Image::make($uploadedImage)->resize(150, 150, function ($constraint) {
+        $thumbnail = Image::make($uploadedImage)->resize(450, 450, function ($constraint) {
             $constraint->aspectRatio();
+			// $constraint->upsize(); 
         });
+
+		$thumbnail->fit(450, 450, function ($constraint) {
+			$constraint->upsize(); 
+		});
+		// $thumbnail->crop(150, 150);
+		
         if (!file_exists(dirname($thumbnailPath))) {
             mkdir(dirname($thumbnailPath), 0755, true);
         }
@@ -90,7 +101,8 @@ class UploadImageController extends Controller
 
         $imageCustom = new CustomImage();
         $imageCustom['image_name'] = $data['name'];
-        $imageCustom['price_range'] = $data['startPrice'].'-'.$data['endPrice'];
+        // $imageCustom['price_range'] = $data['startPrice'].'-'.$data['endPrice'];
+        $imageCustom['price_range'] = $data['credit_options'];
         $imageCustom['orignal_image'] = $originalImagePath;
         $imageCustom['thumbnail_image'] = $thumbnailFileName;
         $imageCustom['description'] = $data['description'];
@@ -126,7 +138,7 @@ class UploadImageController extends Controller
     public function edit($id)
     {
         $pageTitle = "Update Image";
-        $product = CustomImage::where('Id',$id)->first();
+        $product = CustomImage::where('id',$id)->first();
 		return view('_admin.customeImage.edit_image', compact('pageTitle','product'));
     }
 
@@ -163,22 +175,29 @@ class UploadImageController extends Controller
 
     // Save the thumbnail to the storage (public disk)
          Storage::disk('public')->put($thumbnailFileName, $thumbnail->stream());
-         $imageCustom = CustomImage::where('Id',$id)->first();
+         /*$imageCustom = CustomImage::where('id',$id)->first();
          $imageCustom['image_name'] = $data['name'];
          $imageCustom['price_range'] = $data['startPrice'].'-'.$data['endPrice'];
          $imageCustom['orignal_image'] = $originalImagePath;
          $imageCustom['thumbnail_image'] = $thumbnailFileName;
          $imageCustom['description'] = $data['description'];
-         $imageCustom->save();
+         $imageCustom->save();*/
+
+         $imageCustom = CustomImage::where('id',$id)->update(['image_name'=>$data['name'],'price_range'=>$data['startPrice'].'-'.$data['endPrice'],'orignal_image'=>$originalImagePath,'thumbnail_image'=>$thumbnailFileName,'description'=>$data['description']]);
+
         } else {
         // $thumbnail->save($thumbnailPath);
-        $imageCustom = CustomImage::where('Id',$id)->first();
-        $imageCustom['image_name'] = $data['name'];
-        $imageCustom['price_range'] = $data['startPrice'].'-'.$data['endPrice'];
+
+        /*$imageCustom = CustomImage::where('id',$id)->first();
+        $imageCustom->image_name = $data['name'];
+        $imageCustom->price_range = $data['startPrice'].'-'.$data['endPrice'];
         $imageCustom['orignal_image'] = $imageCustom['orignal_image'];
         $imageCustom['thumbnail_image'] = $imageCustom['thumbnail_image'];
-        $imageCustom['description'] = $data['description'];
-        $imageCustom->save();
+        $imageCustom->description = $data['description'];
+        $imageCustom->save();*/
+
+        $imageCustom = CustomImage::where('id',$id)->update(['image_name'=>$data['name'],'price_range'=>$data['startPrice'].'-'.$data['endPrice'],'description'=>$data['description']]);
+
     }
         if($imageCustom){
             Session::flash('success',"Image data updated successfully.");
@@ -199,13 +218,13 @@ class UploadImageController extends Controller
     {
         if(!Session::has('dnradmin_id')) { return Redirect::to('dnradmin/');}
 
-		$addProductsImages = CustomImage::where('Id','=',$id)->first();
+		$addProductsImages = CustomImage::where('id','=',$id)->first();
 		 $image1 = $addProductsImages->originalImagePath;
 		 $image2 = $addProductsImages->thumbnailFileName;
 		 File::delete($image1);
 		File::delete($image2);
 	
-		$addProductsImages->delete();
+		CustomImage::where('id','=',$id)->delete();
         Session::flash('success',"Image deleted successfully.");
         return Redirect::to('/dnradmin/uploadImage');
     }
@@ -327,6 +346,7 @@ class UploadImageController extends Controller
 			}
 
 		}
+		//dd($product_array_prices);
    		
         return view('home.details-page')->with(array('menus'=>$menus,
         'homeslide'=>$homeslide,
@@ -355,7 +375,7 @@ class UploadImageController extends Controller
 		}
 		}
 	  	$client_id = Session::has('client_id') ? Session::get('client_id') : Session::getId();
-		$product_id = $request['product_id'];
+		$product_id = $request['product_id'] ?? null;
 		Session::put('productId', $product_id);
 		$productImage = CustomImage::find($product_id);
 		$print_name = $request->get('print_name'); // MARK CHANGES
@@ -396,7 +416,7 @@ class UploadImageController extends Controller
 			$tempcart->fldTempCartQuantity 		= $qty;
 			$tempcart->fldTempCartProductID 	= $product_id;
 			$productsImage =  CustomImage::find($product_id);
-			$tempcart->fldTempCartProductName 	= $productsImage->image_name;
+			$tempcart->fldTempCartProductName 	= $productsImage->image_name ?? 'Credit';
 
 			$tempcart->fldTempCartProductPrice 	= $total_price;
 			$tempcart->fldTempCartOrderDate 	= $order_date;
@@ -523,7 +543,7 @@ class UploadImageController extends Controller
 		$cart_count = TempCart::countCart();
 
 		$settings->site_name = "Shopping Cart";
-   		return View::make('home.cart_image')->with(array('pages'=>$pages, 'menus'=>$menus,'category'=>$category,'cart'=>$cartDisplay,'settings'=>$settings,'google'=>$google,'cart_count'=>$cart_count));
+   		return View::make('home.cart_image')->with(array('pages'=>$pages, 'menus'=>$menus,'category'=>$category,'cart'=>$cartDisplay,'settings'=>$settings,'google'=>$google,'cart_count'=>$cart_count,'credits'=>'Credits'));
 	}
 
     public function updateImageCart() {
@@ -594,30 +614,47 @@ class UploadImageController extends Controller
 
 
     public function checkReferCode($code,$total) {
-
-		$value = array();
-		$percentDiscount = 25;
-		$coupon = Client::where('fldClientPromoCode','=',$code)->first();
-		$coupon_amount = 0;
-		if(empty($coupon)) {
-			$value[] = "error";
-			if(Session::has('couponCode')) { 
-			   Session::forget('couponSource');
-			   Session::forget('couponSourceID');
-			   Session::forget('couponCode');
-			}
-			
-		} else {
-			Session::put('couponSource', 'Coupon Code Module');
-			Session::put('couponCode', $code);
-			if($coupon->fldClientPromoCode != "") {
-				$value[] = ($percentDiscount/100) * $total;
-				$coupon_amount =($percentDiscount/100) * $total;
-				$value[] = $total-(($percentDiscount/100) * $total);
-			}
-			Session::put('couponAmount', $coupon_amount);
-		}
-
+        $value = array();
+        if(Session::has('couponSource') && Session::has('couponCode')) {
+            $value[] = "already_applied";
+        } else {
+            $percentDiscount = 25;
+            $coupon = Client::where('fldClientPromoCode','=',$code)->first();
+            $coupon_amount = 0;
+            if(empty($coupon)) {
+                $value[] = "error";
+                if(Session::has('couponCode')) { 
+                   Session::forget('couponSource');
+                   Session::forget('couponSourceID');
+                   Session::forget('couponCode');
+                }
+            } else {
+                if(Session::get('client_id') != $coupon->fldClientID) {
+                    Session::put('couponSource', 'Coupon Code Module');
+                    Session::put('couponCode', $code);
+                    if($coupon->fldClientPromoCode != "") {
+                        $value[] = ($percentDiscount/100) * $total;
+                        $coupon_amount =($percentDiscount/100) * $total;
+                        $value[] = $total-(($percentDiscount/100) * $total);
+                        $qty = 0;
+                        $cartDt = TempCart::displayCart();
+                        foreach ($cartDt as $key => $value1) {
+                            $qty += (int) $value1['product_price'];
+                        }
+                        $cup_amt = (10/100) * $total;
+                        $userWallet = new userWallet;
+                        $userWallet->user_id = $coupon->fldClientID;
+                        $userWallet->amount = $qty;
+                        $userWallet->is_discount = $cup_amt;
+                        $userWallet->type = 'raw';
+                        $userWallet->save();
+                    }
+                    Session::put('couponAmount', $coupon_amount);
+                } else {
+                    $value[] = "same_user_coupon";
+                }
+            }
+        }
 		print json_encode($value);
 	}
 	public function download($id)

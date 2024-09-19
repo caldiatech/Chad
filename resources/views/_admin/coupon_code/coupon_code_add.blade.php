@@ -8,8 +8,6 @@
         </div>
     </div>
     
-  	 
-    
    {!! Form::open(array('url' => '/dnradmin/coupon_code/new', 'method' => 'post', 'id' => 'pageform', 'files' => true,'class'=>'uk-form')); !!}
     @if (Session::has('success'))
            <div class="uk-alert uk-alert-success">{!!Session::get('success')!!}</div>

@@ -3,8 +3,12 @@
 @section('content')
 <?php
 $discount_amount = $sub_total = $grand_total = 0;
+$coupon_code = '';
 if(Session::has('couponAmount')){
     $discount_amount = Session::get('couponAmount');
+}
+if(Session::has('couponCode')){
+    $coupon_code = Session::get('couponCode');
 }
 ?>
    @include("home.includes.shoppingcartnav")
@@ -54,7 +58,8 @@ if(Session::has('couponAmount')){
                          <a href="{{url('image-cart/delete/'.$carts->temp_cart_id)}}" class="uk-vertical-align-middle" onClick="return confirm(&quot;Are you sure you want to remove this product from your shopping cart?\n\nPress OK to delete.\nPress Cancel to go back without deleting the product from your shopping cart.\n&quot;)"><i class="uk-icon-close"></i></a>
                     <td class="tp1 uk-vertical-align">
                         <div class="uk-position-relative uk-display-block uk-width-1-1">
-                        	<div class="uk-width-large-4-10 uk-width-medium-1-2 uk-width-1-1 uk-float-left cart-image-holder">
+                            {{-- @if($carts->product_name !== 'Credit') --}}
+                            <div class="uk-width-large-4-10 uk-width-medium-1-2 uk-width-1-1 uk-float-left cart-image-holder">
                             @if($carts->fldTempCartFrameInfo != "")
                                 {!! Html::image('https://pod.cloud.graphikservices.com/renderEMF/render?imgUrl=https://clarkincollection.com/new/'.PRODUCT_IMAGE_PATH.$carts->fldProductSlug.'/'.SMALL_IMAGE.$carts->image.'&imgHI='.$image_height.'&imgWI='.$image_width.'&maxW=200&maxH=200&m1b=1&off=0.375&sku='.$carts->fldTempCartFrameInfo.'&frameW='.$carts->fldTempCartMatBorderSize) !!}
 
@@ -63,6 +68,7 @@ if(Session::has('couponAmount')){
                                 {!! Html::image(PRODUCT_IMAGE_PATH.$carts->fldProductSlug.'/'.SMALL_IMAGE.$carts->image) !!}
                             @endif
                             </div>
+                            {{-- @endif --}}
                             <div class="uk-width-large-6-10 uk-width-medium-1-2 uk-width-1-1 uk-float-left  cart-text-holder ">
                                 <h3 class="uk-h3 uk-margin-bottom-remove"><a href="{{url('products/details/'.$carts->fldProductSlug)}}" title="{{ $carts->product_name }}">{{ $carts->product_name }}</a></h3>
                                 @if($carts->fldTempCartFrameDesc)
@@ -75,7 +81,11 @@ if(Session::has('couponAmount')){
                             </div>
                         </div>
                     </td>
-                    <td class="tp2 uk-vertical-align"><strong>${{ $carts->product_price }}</strong></td>
+                    @if($carts->is_custom == 1)
+                        <td class="tp2 uk-vertical-align"><strong>Credit {{ $carts->product_price }}</strong></td>
+                    @elseif($carts->is_custom == 0)
+                        <td class="tp2 uk-vertical-align"><strong>${{ $carts->product_price }}</strong></td>
+                    @endif
                     <td class="tp3 uk-vertical-align">
 
                         <div data-trigger="spinner" class="input-append uk-form-width-mini spinner lighter" style="max-width:100px;">
@@ -130,7 +140,12 @@ if(Session::has('couponAmount')){
                     </div>
 
                     <div class="uk-grid uk-margin-remove  normalize sub-total-div border-bottom border-bottom-small" id="">
-                        <div class="uk-width-3-10  uk-padding-remove  uk-width-1-1">TOTAL</div>  <div class="uk-width-7-10 uk-width-1-1 bold total-cart-price payment">$ <span id="Grandtotal">{{ number_format($cart[0]->grandtotal,2) }}</span></div>
+                        <div class="uk-width-3-10  uk-padding-remove  uk-width-1-1">TOTAL</div>  <div class="uk-width-7-10 uk-width-1-1 bold total-cart-price payment">$ <span id="Grandtotal">
+                            @php 
+                                $gtotal = $cart[0]->grandtotal - $discount_amount;
+                            @endphp
+                            {{ number_format($gtotal,2) }}
+                        </span></div>
                     </div>
 
 
@@ -146,8 +161,8 @@ if(Session::has('couponAmount')){
                                 <div id="coupon_error" style="display:none; margin-bottom:10px; max-width: 288px;" class="uk-alert uk-alert-danger uk-alert-error">Invalid Code</div>
                                 <div id="coupon_error_success" style="display:none; margin-bottom:10px;  max-width: 288px;" class="uk-alert uk-alert-success"><strong>Success!</strong> Code is valid!</div>
                                 <div class="coupon_wrapper--couponbox">
-                                     {!! Form::text('Refer Code','',array('id'=>'Refer_Code','placeholder'=>'Enter Refer Code','class'=>'text text-small coupon-field')) !!}
-                                    <button type="button" name="coupon_check" class="uk-button uk-button-grey uk-button-primary" onclick="checkCoupon({{ $cart[0]->subtotal }})">APPLY CODE</button>
+                                     {!! Form::text('Refer Code',$coupon_code,array('id'=>'Refer_Code','placeholder'=>'Enter Refer Code','class'=>'text text-small coupon-field')) !!}
+                                    <button type="button" name="coupon_check" class="uk-button uk-button-grey uk-button-primary btnApplyCoupon" onclick="checkCoupon({{ $cart[0]->subtotal }})">APPLY CODE</button>
                                 </div>
                                 <br>
                                 <strong>Note</strong>: Be sure to click the Apply Code Box to apply your Refer Code.
@@ -186,72 +201,80 @@ tr:nth-child(even) { background: #CCCCCC; }
     .tr-1 .cart-text-holder { padding-top: 10%; }
 }
 </style>
-	<script language="javascript">
+    <script language="javascript">
 
 function formatNumber (num) {
     return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
 
 }
-		function checkCoupon(total) {
-			var code = document.getElementById("Refer_Code").value;
+        function checkCoupon(total) {
+            var code = document.getElementById("Refer_Code").value;
             $(".uk-alert").hide();
             $('#Refer_Code').removeClass('uk-alert-danger');
             if($.trim(code) != ''){
-    			$.ajax({
-    				type: "POST",
-    				url: "refer-code/"+code+"/"+total,
-    				data: $("#pageform").serialize(),
-    				cache: false,
-    				success: function(data){
+                $.ajax({
+                    type: "POST",
+                    url: "refer-code/"+code+"/"+total,
+                    data: $("#pageform").serialize(),
+                    cache: false,
+                    success: function(data){
 
-    					var items = JSON.parse(data);
-    					if(items[0] == "error") {
-    						$("#coupon_error").show();
-    						var itemVal = 0;
-    						$("#coupon_amount").text("$ "+parseFloat(itemVal).toFixed(2));
-    						$("#Grandtotal").text(""+ formatNumber(parseFloat(total).toFixed(2)));
-    					} else if(items[0] == "Free Shipping") {
-    						$("#coupon_error").hide();
+                        var items = JSON.parse(data);
+                        if(items[0] == "error") {
+                            $("#coupon_error").show();
+                            var itemVal = 0;
+                            $("#coupon_amount").text("$ "+parseFloat(itemVal).toFixed(2));
+                            $("#Grandtotal").text(""+ formatNumber(parseFloat(total).toFixed(2)));
+                        } else if(items[0] == "Free Shipping") {
+                            $("#coupon_error").hide();
                             $("#coupon_code").show();
 
-    						var itemVal = 0;
-    						$("#coupon_amount").text("Free Shipping"); $("#coupon_error_success").show();
-    						$("#Grandtotal").text(""+formatNumber(parseFloat(total).toFixed(2)));
-    					} else {
-    						$("#coupon_error").hide();	$("#coupon_error_success").show();
+                            var itemVal = 0;
+                            $("#coupon_amount").text("Free Shipping"); $("#coupon_error_success").show();
+                            $("#Grandtotal").text(""+formatNumber(parseFloat(total).toFixed(2)));
+                        } else if(items[0] == "already_applied") {
+                            $(".btnApplyCoupon").attr("disabled","disabled");
+                        } else if(items[0] == "same_user_coupon") {
+                            $("#coupon_error").html("You can not use your own coupon");
+                            $("#coupon_error").show();
+                            $(".btnApplyCoupon").removeAttr("disabled");
+                        } else {
+                            $("#coupon_error").hide();  $("#coupon_error_success").show();
                             $("#coupon_code").show();
-    						$("#coupon_amount").text(" - $"+parseFloat(items[0]).toFixed(2));
-    						$("#Grandtotal").text(" "+formatNumber(parseFloat(items[1]).toFixed(2)));
-
-    					}
-    				}
-    		    });
+                            $("#coupon_amount").text(" - $"+parseFloat(items[0]).toFixed(2));
+                            $("#Grandtotal").text(" "+formatNumber(parseFloat(items[1]).toFixed(2)));
+                            $(".btnApplyCoupon").attr("disabled","disabled");
+                        }
+                    }
+                });
             }  else{
                 $('#Refer_Code').addClass('uk-alert-danger');
             }
 
-		}
+        }
 
-		$('#pageform').find('#Refer_Code').keypress(function(e){
+        $('#pageform').find('#Refer_Code').keypress(function(e){
 
-		    if ( e.which == 13 ) // Enter key = keycode 13
-		    {
-				checkCoupon(100);
-        		$('#Refer_Code').focus();  //Use whatever selector necessary to focus the 'next' input
-				return false;
-		    }
+            if ( e.which == 13 ) // Enter key = keycode 13
+            {
+                checkCoupon(100);
+                $('#Refer_Code').focus();  //Use whatever selector necessary to focus the 'next' input
+                return false;
+            }
 
-		});
+        });
 
-		$(document).ready(function() {
-		  $(window).keydown(function(event){
-			if(event.keyCode == 13) {
-			  event.preventDefault();
-			  return false;
-			}
-		  });
+        $(document).ready(function() {
+            $(".btnApplyCoupon").removeAttr("disabled");
+            checkCoupon(100);
+          $(window).keydown(function(event){
+            if(event.keyCode == 13) {
+              event.preventDefault();
+              return false;
+            }
+          });
            loadScript("{!!url('_front/plugins/spinner/src/jquery.spinner.js')!!}", function(){  });
-		});
+        });
 
-	</script>
+    </script>
 @stop
