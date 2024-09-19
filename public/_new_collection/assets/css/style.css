@@ -68,14 +68,18 @@ body{
     padding: 0px;
     font-size: 16px;
     color: #000000;
-    font-family: 'Poppins';
+    font-family: 'Poppins' !important;
     font-weight: 400;
     line-height: 26px;
 }
 
+footer a , .wrap.content , .uk-button-primary, .uk-button-primary:visited{
+    font-family: 'Poppins' !important;
+}
+
 h1 , h2 , h3 , h4 , h5 , h6{
     font-weight: 300;
-    font-family: 'Poppins';
+    font-family: 'Poppins' !important;
     color: #202020;
     margin: 0 0 30px 0;
 }
@@ -846,22 +850,23 @@ blockquote p:last-child{
     margin-bottom: 67px;
 }
 
-table{
+table , table.uk-table.cart-order-list{
     width: 100%;
+    font-family: 'Poppins' !important;
 }
 
-table thead th{
+table thead th , table.uk-table.cart-order-list th{
     background: #081E2E;
     color: #ffffff;
     font-weight: 600;
     padding: 15px 20px;
 }
 
-table tbody td{
+table tbody td , table.uk-table.cart-order-list td{
     padding: 15px 20px;
 }
 
-table tbody tr:nth-child(even) td{
+table tbody tr:nth-child(even) td , table.uk-table.cart-order-list tbody tr:nth-child(even) td{
     background: #B0D1E9;
 }
 
@@ -1303,4 +1308,140 @@ table tbody tr:nth-child(even) td{
     width: 100%;
     object-fit: contain;
     height: 100%;
+}
+
+.wrap.content.uk-block.bg-white .uk-margin-large-top:first-child {
+    margin-top: 180px !important;
+}
+
+.uk-panel-circle .uk-border-circle.uk-container-center{
+    margin-bottom: 15px;
+}
+
+.cart-hdr{
+    border-bottom: none;
+}
+
+footer {
+    background-color: transparent;
+    padding: 0;
+}
+
+footer a {
+    font-size: 18px;
+    font-weight: 400;
+    padding: 0;
+}
+
+.input-append .add-on, .input-prepend .add-on {
+    height: 50px;
+    top: 0px;
+}
+
+.input-append .add-on, .input-prepend .add-on{
+    line-height: 50px;
+}
+
+.spinner .add-on a.spin-down i {
+    top: -18px;
+}
+
+.spinner .add-on a.spin-up i {
+    top: -11px;
+}
+
+.cart-order-list .uk-icon-close:hover {
+    color: #ffffff;
+}
+
+.uk-button-grey:focus, .uk-button-grey:hover {
+    background-color: #EB9D38;
+    color: #ffffff !important;
+}
+
+tr:nth-child(even) {
+   background: transparent;
+}
+
+div#checkout-page form {
+    margin-top: 0 !important;
+}
+
+.uk-table.uk-table-small th, .uk-table.uk-table-small  td {
+    padding: 15px 15px;
+}
+
+.uk-table .full-width h4 {
+    font-size: 18px;
+}
+
+.roboto{
+    font-family: 'Poppins' !important;
+}
+
+.next-btns .uk-tab > li a {
+    line-height: 40px;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.uk-form input:not([type]), .uk-form input[type=text], .uk-form input[type=password], .uk-form input[type=email], .uk-form input[type=url], .uk-form input[type=search], .uk-form input[type=tel], .uk-form input[type=number], .uk-form input[type=datetime], .uk-form input[type=datetime-local], .uk-form input[type=date], .uk-form input[type=month], .uk-form input[type=time], .uk-form input[type=week], .uk-form input[type=color], .uk-form select, .uk-form textarea {
+    height: 42px;
+    padding: 4px 15px;
+    outline: none !important;
+}
+
+.form-control:focus{
+    box-shadow: none !important;
+}
+
+.next-btns .uk-tab > li, .next-btns .uk-tab > li.uk-active {
+    width: 45%;
+}
+
+.next-btns.place-an-order .uk-tab {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.next-btns.place-an-order .uk-tab li {
+    width: 100%;
+    margin-left: 0;
+}
+
+button#checkoutButton {
+    width: 100%;
+}
+
+.thank-you-page h1, .thank-you-page h2 {
+    color: #fff;
+    margin: 0 !important;
+    font-family: 'Poppins' !important;
+}
+
+.uk-width-1-1.uk-text-center.uk-margin-large-top.thank-you-page {
+    padding: 220px 0 100px 0;
+}
+
+@media(max-width:620px){
+    table tbody td, table.uk-table.cart-order-list td {
+        padding: 35px 15px 15px;
+    }
+
+    table.uk-table tbody td:after{
+        padding: 0 15px;
+    }
+
+    .uk-button-primary, .uk-button-primary:visited{
+        font-size: 11px;
+    }
+
+    input[type="submit"], input[type="clear"], input.text, .uk-button{
+        max-width: unset;
+    }
+
+    table.uk-table tbody td.tp5.uk-vertical-align {
+        top: 5px;
+        background: transparent !important;
+    }
 }

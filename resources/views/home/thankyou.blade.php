@@ -5,7 +5,7 @@
 <div class="uk-container uk-container-center uk-margin-medium-bottom">
     <article id="main" role="main">
         <div class="uk-grid">
-            <div class="uk-width-1-1 uk-text-center uk-margin-large-top uk-margin-large-bottom ">
+            <div class="uk-width-1-1 uk-text-center uk-margin-large-top uk-margin-large-bottom thank-you-page">
                 @if(isset($pages))
                     <h1 class="uk-margin-large-top uk-margin-large-bottom"> {{ $pages->fldPagesTitle }} </h1>
     

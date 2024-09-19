@@ -403,7 +403,7 @@ $count = 0;
         @endif
     </tbody>
 </table>
-
+<input type="text" id="liner_color_code" name="liner_color_code" value="BK" style="display:none;">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <!-- Latest compiled and minified CSS -->
 <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"> -->

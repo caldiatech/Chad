@@ -102,7 +102,7 @@
 											<div class="item-slider-for">
 												<a href="{!! url(PRODUCT_IMAGE_PATH.$product->fldProductSlug.'/'.$product->fldProductImage) !!}"><img src="{!! url(PRODUCT_IMAGE_PATH.$product->fldProductSlug.'/'.$product->fldProductImage) !!}" alt="" id="modalImage"  onload="on_render_finish();"></a>
 											</div>
-											<div class="item-slider-for">
+											{{--<div class="item-slider-for">
 												<a href="{{ asset('_new_collection/assets/images/slider5.jpg') }}"><img src="{{ asset('_new_collection/assets/images/slider5.jpg') }}" alt=""></a>
 											</div>
 											<div class="item-slider-for">
@@ -122,9 +122,9 @@
 											</div>
 											<div class="item-slider-for">
 												<a href="{{ asset('_new_collection/assets/images/slider7.jpg') }}"><img src="{{ asset('_new_collection/assets/images/slider7.jpg') }}" alt=""></a>
-											</div>
+											</div>--}}
 										</div>
-										<div class="slider slider-nav">
+										{{--<div class="slider slider-nav">
 											<div class="item-slider-nav">
 												<img src="{{ asset('_new_collection/assets/images/thumb1.png') }}" alt="">
 											</div>
@@ -149,7 +149,7 @@
 											<div class="item-slider-nav">
 												<img src="{{ asset('_new_collection/assets/images/thumb4.png') }}" alt="">
 											</div>
-										</div>
+										</div>--}}
 									</div>
 								</div>
 								<?php

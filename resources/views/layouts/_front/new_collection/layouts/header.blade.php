@@ -16,22 +16,22 @@
                         @if(Session::has('client_id'))
                             <a href="{!! url('dashboard/customer') !!}">
                                 <img src="{{ asset('_new_collection/assets/images/user.svg') }}" alt="">
-                                My Account <i class="uk-icon-caret-down"></i>
+                                My Account
                             </a>
                         @elseif(Session::has('manager_id'))
                             <a href="{!! url('dashboard/sales') !!}">
                                 <img src="{{ asset('_new_collection/assets/images/user.svg') }}" alt="">
-                                My Account <i class="uk-icon-caret-down"></i>
+                                My Account
                             </a>
                         @elseif(Session::has('shop_owner_id'))
                             <a href="{!! url('dashboard/shop-owner') !!}">
                                 <img src="{{ asset('_new_collection/assets/images/user.svg') }}" alt="">
-                                My Account <i class="uk-icon-caret-down"></i>
+                                My Account
                             </a>
                         @else
                             <a href="{!! url('login') !!}">
                                 <img src="{{ asset('_new_collection/assets/images/user.svg') }}" alt="">
-                                Login &nbsp;<i class="uk-icon-user"></i>
+                                Login &nbsp;
                             </a>
                         @endif
                     </li>
