@@ -727,7 +727,6 @@ class TempCartController extends BaseController
 
 
 	public function payment() {
-
 		$data = Input::all();
 		$sessions = session()->all();
 		$class_client = new Client;
@@ -952,8 +951,8 @@ class TempCartController extends BaseController
                     )
                 );
 
-        $xml_profile = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_DEVELOPMENT_SERVER);
-        //$xml_profile = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_PRODUCTION_SERVER);
+        // $xml_profile = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_DEVELOPMENT_SERVER);
+        $xml_profile = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_PRODUCTION_SERVER);
         $refId = date('ymdhis') . rand(1000,9999);
         $xml_profile->createCustomerProfileRequest($customer_profile);
 
@@ -976,8 +975,8 @@ class TempCartController extends BaseController
                         )
                     );
 
-             $xml_profile_update = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_DEVELOPMENT_SERVER);
-            //$xml_profile_update = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_PRODUCTION_SERVER);
+            // $xml_profile_update = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_DEVELOPMENT_SERVER);
+            $xml_profile_update = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_PRODUCTION_SERVER);
             // $refId = date('ymdhis') . rand(1000,9999);
             $xml_profile_update->updateCustomerProfileRequest($customer_profile_update);
 
@@ -1031,8 +1030,8 @@ class TempCartController extends BaseController
         Log::debug($one_time_charge);
         Log::debug('---------one_time_charge--------------');
 
-        $xml_charge = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_DEVELOPMENT_SERVER);
-        //$xml_charge = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_PRODUCTION_SERVER);
+        // $xml_charge = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_DEVELOPMENT_SERVER);
+        $xml_charge = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_PRODUCTION_SERVER);
         $refId = date('ymdhis') . rand(1000,9999);
         $xml_charge->createCustomerProfileTransactionRequest($one_time_charge); // authorizeAndCapture
 
@@ -1241,7 +1240,7 @@ class TempCartController extends BaseController
 				$carts->fldCartTransID 	= $transactionID;
 				$carts->fldCartAuthID 	= $authCode;
 				$carts->save();
-				$userwalltData = userWallet::where('user_id',$client_id)->first();
+				// $userwalltData = userWallet::where('user_id',$client_id)->first();
 				if($carts->fldCartProductPrice == 8){ 
 					$credits = 1;
 				} elseif($carts->fldCartProductPrice == 14){
@@ -1257,32 +1256,19 @@ class TempCartController extends BaseController
 				} else {
 					$credits = 0;
 				}
-				if($credits !=0)
-				{
-				if(empty($userwalltData)){
-					$userwalltData = new UserWallet(); // Assuming UserWallet is your Eloquent model
-					$userwalltData->user_id = $client_id;
-					$userwalltData->amount = $credits;
-					$userwalltData->type = "raw";
-				} else {
-					$userwalltData->amount += $credits;
-				}
-				$userwalltData->save();
-				}
-				// $i++;
-			}
-			$isUneditable = Session::get('isUneditable');
-
-			if ($isUneditable && now()->diffInMinutes($isUneditable['timestamp']) > 30) {
-				Session::forget('isUneditable');
-				$isUneditable = null;
-			}
-
-			if(isset($isUneditable['value']) == 1) {
-				return Redirect::to('unedited-digital-files');
-			}
-			else{
-				return Redirect::to('thankyou/payment');
+				// if($credits !=0)
+				// {
+				// if(empty($userwalltData)){
+				// 	$userwalltData = new UserWallet(); // Assuming UserWallet is your Eloquent model
+				// 	$userwalltData->user_id = $client_id;
+				// 	$userwalltData->amount = $credits;
+				// 	$userwalltData->type = "raw";
+				// } else {
+				// 	$userwalltData->amount += $credits;
+				// }
+				// $userwalltData->save();
+				// }
+				$i++;
 			}
 		}
 	}

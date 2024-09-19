@@ -386,7 +386,7 @@ class ClientController extends Controller
 
 		if(empty($clients)) {
 			Session::flash('error-forgot',"Email Address not found.");
-			return Redirect::to('login');
+			return Redirect::to('forgot-password');
 		} else {
 			$clients->fldClientHashSecurity = Session::getId();
 			$clients->save();

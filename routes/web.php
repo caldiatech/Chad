@@ -17,6 +17,18 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get("/home", "NewCollection\PagesController@homePage")->name('homePage');
+Route::get("/featured", "NewCollection\PagesController@featuredPage")->name('featuredPage');
+Route::get("/new-collection", "NewCollection\PagesController@collectionPage")->name('newCollectionPage');
+Route::get("/new-about", "NewCollection\PagesController@aboutPage")->name('newAboutPage');
+Route::get("/new-privacy-policy", "NewCollection\PagesController@privacyPolicyPage")->name('privacyPolicyPage');
+Route::get("/new-shipping", "NewCollection\PagesController@shippingPage")->name('newShippingPage');
+Route::get("/terms-of-use", "NewCollection\PagesController@termsUsePage")->name('termsUsePage');
+Route::get("/featured-details", "NewCollection\PagesController@featuredDetailsPage")->name('featuredDetailsPage');
+Route::get("/contact", "NewCollection\PagesController@contactPage")->name('contactPage');
+Route::get("/new-login", "NewCollection\PagesController@loginPage")->name('newLoginPage');
+Route::get("/register", "NewCollection\PagesController@registerPage")->name('registerPage');
+
 Route::group(array('prefix' => '/dnradmin'), function()
 {
 
@@ -296,10 +308,10 @@ Route::group(array('prefix' => '/'), function() {
     Route::get('/image-galleries/{page}', 'ProductController@displayAll');*/
 
    /* Route::get('/images', 'ProductController@displayAll');*/
-    Route::get('/collection/{category}', 'ProductController@displayPerCategory'); // Added 12/05
-    Route::post('/collection/{category}', 'ProductController@displayPerCategory'); // Added 12/05
+    Route::get('/collection/{slug}', 'ProductController@displayPerCategory'); // Added 12/05
+    Route::post('/collection/{slug}', 'ProductController@displayPerCategory'); // Added 12/05
     Route::get('/collection', 'ProductController@displayAll');
-    Route::post('/collection', 'ProductController@searchProduct');
+    Route::post('/collection', 'ProductController@searchProduct')->name('searchProduct');
 
     Route::get('/shipping-page', 'ProductController@getShippingIndex');
 
