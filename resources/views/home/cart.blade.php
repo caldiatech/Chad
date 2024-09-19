@@ -82,7 +82,11 @@ if(Session::has('couponAmount')){
                             </div>
                         </div>
                     </td>
-                    <td class="tp2 uk-vertical-align"><strong>${{ $carts->product_price }}</strong></td>
+                    @if($carts->is_custom == 1)
+                        <td class="tp2 uk-vertical-align"><strong>Credit {{ $carts->product_price }}</strong></td>
+                    @elseif($carts->is_custom == 0)
+                        <td class="tp2 uk-vertical-align"><strong>${{ $carts->product_price }}</strong></td>
+                    @endif
                     <td class="tp3 uk-vertical-align">
 
                         <div data-trigger="spinner" class="input-append uk-form-width-mini spinner lighter" style="max-width:100px;">
@@ -200,7 +204,7 @@ function formatNumber (num) {
 
 }
 		function checkCoupon(total) {
-
+            console.log('total=========', total);
 			var code = document.getElementById("coupon").value;
             $(".uk-alert").hide();
             $('#coupon').removeClass('uk-alert-danger');
@@ -213,6 +217,7 @@ function formatNumber (num) {
     				success: function(data){
 
     					var items = JSON.parse(data);
+                        console.log('items', items);
     					if(items[0] == "error") {
     						$("#coupon_error").show();
     						var itemVal = 0;

@@ -36,8 +36,10 @@
                     </div>
 
                     <div class="uk-grid">
-                        <div class="uk-width-large-2-10 uk-width-small-1-1">Price Range $</div>
-                        <div class="uk-width-large-6-10 uk-width-small-1-1 ">{!!
+                        {{-- <div class="uk-width-large-2-10 uk-width-small-1-1">Price Range $</div> --}}
+                        <div class="uk-width-large-2-10 uk-width-small-1-1">Credit</div>
+                        <div class="uk-width-large-6-10 uk-width-small-1-1 ">
+                        {{-- {!!
                             Form::text('startPrice','',array('size'=>'50','class'=>'required','style' => 'width: 30%;','placeholder'=>'starting price')) !!}  -  {!!
                             Form::text('endPrice','',array('size'=>'50','class'=>'required','style' => 'width: 30%;','placeholder'=>'ending price')) !!}
                             @if($errors->has('startPrice'))
@@ -46,14 +48,25 @@
                             @if($errors->has('endPrice'))
                                 <div class="error">{{ $errors->first('endPrice') }}</div>
                             @endif
-                          
+                           --}}
+                           <select class="required" id="credit_options" name="credit_options" required>
+                                <option value="" selected disabled>Select credit</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="6">6</option>
+                                <option value="12">12</option>
+                            </select>
+                            @if($errors->has('credit_options'))
+                                <div class="error">{{ $errors->first('credit_options') }}</div>
+                            @endif
                         </div>
                     </div>
 
                     <div class="uk-grid">
                         <div class="uk-width-large-1-2 uk-width-small-1-1  uk-padding-remove">
                             <ul>
-                                <li>Image</li>
+                                <li>Edited Image (thumbnail)</li>
                                 <li class="boxfields">
                                     <div class="fileinput fileinput-new" data-provides="fileinput">
                                         <div class="fileinput-preview thumbnail" data-trigger="fileinput"
@@ -68,12 +81,12 @@
                                                 data-dismiss="fileinput">Remove</a>
                                         </div>
                                     </div>
-                                    <br><strong>Formats</strong>: png, gif, jpg &bull; <strong>Max Size</strong>: 2MB
+                                    {{-- <br><strong>Formats</strong>: png, gif, jpg &bull; <strong>Max Size</strong>: 2MB
                                     &bull; <strong>Min Dimension</strong>: <span
                                         id="dimension">{{ PRODUCT_IMAGE_WIDTH }}px x {{ PRODUCT_IMAGE_HEIGHT }}px</span>
                                     @if($errors->has('image'))
                                             <div class="error">{{ $errors->first('image') }}</div>
-                                    @endif
+                                    @endif --}}
                                 </li>
                             </ul>
                         </div>
@@ -81,7 +94,7 @@
                             <div class="uk-grid option-section-wrapper">
                                 <div class="uk-width-small-1-1 product-options-section ">
                                     <ul id="">
-                                        <li>Unedited Thumbnail</li>
+                                        <li>Unedited Image (thumbnail)</li>
                                         <li class="boxfields">
                                             <div class="uk-display-block"></div>
                                             <div id="uneditedThumbnail"></div>
@@ -108,12 +121,12 @@
                                                 data-dismiss="fileinput">Remove</a>
                                         </div>
                                     </div>
-                                    <br><strong>Formats</strong>: png, gif, jpg &bull; <strong>Max Size</strong>: 2MB
+                                    {{-- <br><strong>Formats</strong>: png, gif, jpg &bull; <strong>Max Size</strong>: 2MB
                                     &bull; <strong>Min Dimension</strong>: <span
                                         id="dimension">{{ PRODUCT_IMAGE_WIDTH }}px x {{ PRODUCT_IMAGE_HEIGHT }}px</span>
                                     @if($errors->has('image'))
                                             <div class="error">{{ $errors->first('image') }}</div>
-                                    @endif
+                                    @endif --}}
                                 </li>
                             </ul>
                         </div>

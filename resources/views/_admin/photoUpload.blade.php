@@ -50,14 +50,15 @@
                              $imagesize = THUMB_IMAGE;
                              @endphp
                            		@if($products->orignal_image != "")
-                               <img src="{{ asset('storage/' . $products->orignal_image) }}" alt="Original Image">
+                               <img src="{{ asset('storage/' . $products->orignal_image) }}" alt="Original Image" style="height:300px">
                                  <!-- <img src="http://127.0.0.1:8000/upload/products/blaze-of-glory/small/blaze-of-glory-5-21-21-web.jpg"> -->
                                 @else
                                 	{!! Html::image('http://placehold.it/75') !!}
                                 @endif
                             </td>
                            <td>{{ $products->image_name}} </td>
-                           <td>{{ '$ '.$products->price_range}} </td>
+                           {{-- <td>{{ '$ '.$products->price_range}} </td> --}}
+                           <td>{{ 'Credit '.$products->price_range}} </td>
                            <td>
                            @if($products->thumbnail_image != "")
                            <img src="{{ asset('storage/'. $products->thumbnail_image) }}" alt="Thumbnail Image">
@@ -66,8 +67,8 @@
                             @endif
                            </td>
                            <td align="right">
-                              <a href="{!!url('dnradmin/CustomImage/edit/'.$products->Id)!!}"><i class="pe-7s-pen action-icon"></i></a>
-                              <a href="{!!url('dnradmin/CustomImage/delete/'.$products->Id)!!}" alt="Delete Image" onClick="return confirm(&quot;Are you sure you want to remove this Image?\n\nPress OK to delete.\nPress Cancel to go back without deleting the Product.\n&quot;)"><i class="pe-7s-trash action-icon del"></i></a>
+                              <a href="{{url('dnradmin/CustomImage/edit/'.$products->id)}}"><i class="pe-7s-pen action-icon"></i></a>
+                              <a href="{{url('dnradmin/CustomImage/delete/'.$products->id)}}" alt="Delete Image" onClick="return confirm(&quot;Are you sure you want to remove this Image?\n\nPress OK to delete.\nPress Cancel to go back without deleting the Product.\n&quot;)"><i class="pe-7s-trash action-icon del"></i></a>
 
                            </td>
                         </tr>
