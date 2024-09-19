@@ -16,6 +16,7 @@ use App\Models\BraintreeInformation;
 use App\Models\Product;
 use App\Models\Manager;
 use App\Models\ShopOwner;
+use Illuminate\Http\Request;
 use Auth;
 
 use View;
@@ -189,7 +190,7 @@ class ClientController extends Controller
 				$clientInviteCodeID = "";
 				$clientInviteCodeType = "";
 			}
-
+			
 			$clients = new Client;
 			$clients->fldClientFirstname = Input::get('firstname');
 			$clients->fldClientLastname = Input::get('lastname');
@@ -237,42 +238,74 @@ class ClientController extends Controller
 			});
 
 			// Email Client (User)
-			Mail::send('home.email_registration_client', $messageData, function ($message) use($settings){
-				$ownerEmail = $settings->fldAdministratorEmail == "" ? "test1@dogandrooster.net" : $settings->fldAdministratorEmail;
-				$ownerName = $settings->fldAdministratorSiteName == "" ? "Dog and Rooster" : $settings->fldAdministratorSiteName;
+			// if($previousUrl == 'unedited-digital-files'){
+				$isUneditable = Session::get('isUneditable');
 
-				$message->from('chad@clarkincollection.com', 'ClarkinCollection.com');
-				$message->to(Input::get('email'),Input::get('firstname') . ' ' . Input::get('lastname'));
-				$message->cc(EmailTo3, EmailToName3);
-				//$message->cc(EmailTo2, EmailToName2);
-				$message->bcc('buumber@gmail.com', 'valuecom dev');
-				//$message->bcc('dennis@dogandrooster.com', 'DNR Admin 1');
-				//$message->bcc('appteam@dogandrooster.com', 'DNR Admin 2');
-				//$message->bcc('programmer1@dogandrooster.com', 'DNR Admin 3');
-				$message->subject("Clarkin: Your Access Information");
-			});
+				if ($isUneditable && now()->diffInMinutes($isUneditable['timestamp']) > 30) {
+					Session::forget('isUneditable');
+					$isUneditable = null;
+				}
+
+
+			if(isset($isUneditable['value']) == 1) {
+				$messageData['promocode'] = strtoupper($promocode);
+				Mail::send('home.email_registration_uneditable_client', $messageData, function ($message) use($settings){
+					$ownerEmail = $settings->fldAdministratorEmail == "" ? "test1@dogandrooster.net" : $settings->fldAdministratorEmail;
+					$ownerName = $settings->fldAdministratorSiteName == "" ? "Dog and Rooster" : $settings->fldAdministratorSiteName;
+	
+					$message->from('chad@clarkincollection.com', 'ClarkinCollection.com');
+					$message->to(Input::get('email'),Input::get('firstname') . ' ' . Input::get('lastname'));
+					$message->cc(EmailTo3, EmailToName3);
+					//$message->cc(EmailTo2, EmailToName2);
+					$message->bcc('buumber@gmail.com', 'valuecom dev');
+					//$message->bcc('dennis@dogandrooster.com', 'DNR Admin 1');
+					//$message->bcc('appteam@dogandrooster.com', 'DNR Admin 2');
+					//$message->bcc('programmer1@dogandrooster.com', 'DNR Admin 3');
+					$message->subject("Clarkin: Your Access Information");
+				});
+			}
+			else{
+				Mail::send('home.email_registration_client', $messageData, function ($message) use($settings){
+					$ownerEmail = $settings->fldAdministratorEmail == "" ? "test1@dogandrooster.net" : $settings->fldAdministratorEmail;
+					$ownerName = $settings->fldAdministratorSiteName == "" ? "Dog and Rooster" : $settings->fldAdministratorSiteName;
+	
+					$message->from('chad@clarkincollection.com', 'ClarkinCollection.com');
+					$message->to(Input::get('email'),Input::get('firstname') . ' ' . Input::get('lastname'));
+					$message->cc(EmailTo3, EmailToName3);
+					//$message->cc(EmailTo2, EmailToName2);
+					$message->bcc('buumber@gmail.com', 'valuecom dev');
+					//$message->bcc('dennis@dogandrooster.com', 'DNR Admin 1');
+					//$message->bcc('appteam@dogandrooster.com', 'DNR Admin 2');
+					//$message->bcc('programmer1@dogandrooster.com', 'DNR Admin 3');
+					$message->subject("Clarkin: Your Access Information");
+				});
+			}
 
 			//create session client id
 			Session::put('client_id', $clients->fldClientID);
+			$image_id = $isUneditable['image_id'] ?? null;
+			if(isset($isUneditable['value']) == 1) {
+				return Redirect::to('/credit/details/'.$image_id);
+			} else {
+				if(count($cart)==0) {
+						Session::flash('success',"Registration successful!.");
+					return Redirect::to('/dashboard/customer');
+				} else {
+					//update the tempcart with the new clients id based on clients table
+					$cart = TempCart::where('fldTempCartClientID','=',$client_id)->where('fldTempCartOrderDate','=',$order_date)
+								->update(array('fldTempCartClientID'=>$clients->fldClientID));
 
-		  	if(count($cart)==0) {
-					Session::flash('success',"Registration successful!.");
-		  		return Redirect::to('/dashboard/customer');
-		  	} else {
-			  	//update the tempcart with the new clients id based on clients table
-			  	$cart = TempCart::where('fldTempCartClientID','=',$client_id)->where('fldTempCartOrderDate','=',$order_date)
-			  			     ->update(array('fldTempCartClientID'=>$clients->fldClientID));
-
-			  	//redirect to check out page
-			  	return Redirect::to('/checkout');
-		  	}
+					//redirect to check out page
+					return Redirect::to('/checkout');
+				}
+			}
 
 	   }
 	 }
    }
 
 	//For login page functionality
-    public function checkAccess() {
+    public function checkAccess(Request $request) {
 		$email = Input::get('email');
 		// $clients = Client::where('fldClientEmail','=',$email)->first();
 		$clients 	= Client::where('fldClientEmail','=',$email)
@@ -304,22 +337,31 @@ class ClientController extends Controller
 					  $cart = TempCart::where('fldTempCartClientID','=',$client_id)->where('fldTempCartOrderDate','=',$order_date)->get();
 					  //print_r($cart);die();
 					  Session::put('client_id', $clients->fldClientID);
-					  if(count($cart)==0) {
+					//   $previousUrl = url()->previous();
 
-					  	  //redirect to order list page
-						  return Redirect::to('/dashboard/customer');
-					  } else {
-						 //update the tempcart with the new clients id based on clients table
-						 $cart = TempCart::where('fldTempCartClientID','=',$client_id)
-						 				 ->where('fldTempCartOrderDate','=',$order_date)
-						 				 ->update(array('fldTempCartClientID'=>$clients->fldClientID));
-						  //Session::forget('client_id');
-						  //create session client id
-						  //echo $clients->id;	die();
+					//   if(str_contains($previousUrl, 'unedited-digital-files')) {
+						$data =  session('isUneditable');
+						$image_id = $data['image_id'] ?? null;
+						if($request->isUneditable == 1) {
+						  return Redirect::to('/credit/details/'.$image_id);
+					  	} else {
+							if(count($cart)==0) {
+
+								//redirect to order list page
+								return Redirect::to('/dashboard/customer');
+							} else {
+								//update the tempcart with the new clients id based on clients table
+								$cart = TempCart::where('fldTempCartClientID','=',$client_id)
+												->where('fldTempCartOrderDate','=',$order_date)
+												->update(array('fldTempCartClientID'=>$clients->fldClientID));
+								//Session::forget('client_id');
+								//create session client id
+								//echo $clients->id;	die();
 
 
-						  return Redirect::to('/checkout');
-					  }
+								return Redirect::to('/checkout');
+							}
+						}
 				} else {
 
 

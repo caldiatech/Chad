@@ -34,6 +34,9 @@ Route::group(array('prefix' => '/dnradmin'), function()
 
     Route::get("/dashboard", "SettingsController@dashboard");
 
+    Route::get("/unedited-text-create", "SettingsController@uneditedTextCreate");
+    Route::post("/unedited-text-addedit", "SettingsController@uneditedTextAdd");
+
  	Route::get('/sub-category/{category}/{product_id}', 'CategoryController@displaySubCategory');
  	Route::get('/', 'SettingsController@displayLogin');
  	Route::post('/', 'SettingsController@login');
@@ -313,6 +316,8 @@ Route::group(array('prefix' => '/'), function() {
     Route::get('/shipping-page', 'ProductController@getShippingIndex');
 
     Route::get('/featured-images', 'ProductController@featuredImages');
+    Route::get('/unedited-digital-files', 'ProductController@uneditedDigitalFiles');
+    Route::get('/credit/details/{id}', 'ProductController@creditDetails');
 
     Route::get('/products/test-price', 'ProductController@displayFramePricing');
 
@@ -350,6 +355,7 @@ Route::group(array('prefix' => '/'), function() {
     Route::get('/checkout', 'TempCartController@checkout');
     Route::post('/checkout', 'TempCartController@payment');
     Route::get('/get-client-by-email', 'ClientController@get_client_by_email');
+    Route::post('/shopping-cart-uneditable/new', 'TempCartController@addShoppingCartForUneditable');
 
     Route::get('/guest-checkout', 'TempCartController@guestCheckout');
     Route::post('/guest-checkout', 'TempCartController@payment');
@@ -362,7 +368,7 @@ Route::group(array('prefix' => '/'), function() {
     Route::get('/display-shipping-options', 'ShippingController@fetchShipping'); // 2019 Aug 15 - display shipping options for guest checkout or no shipping address
     Route::get('/shipping-display/{city}/{state}/{country}/{zip}/{weight}/{total}', 'ShippingController@displayShipping');
     Route::get('/shipping-display-new/{address}/{city}/{state}/{country}/{zip}/{total}', 'ShippingController@displayShippingGraphic');
-
+   
     Route::get('/dashboard/{category}', 'PagesController@dashboard');
     Route::get('/dashboard/{category}/{slug}', 'PagesController@dashboard');
 
@@ -437,6 +443,7 @@ define('MANAGER_IMAGE_PATH','upload/manager/');
 define('CUSTOMER_IMAGE_PATH','upload/customer/');
 define('SHOP_OWNER_IMAGE_PATH','upload/shop_owner/');
 define('CUSTOM_IMAGE_THUMBNAIL_PATH','upload/thumbnails/');
+define('CUSTOM_IMAGE_PATH','storage/');
 
 
 define('PAGES_IMAGE_WIDTH','1200');
