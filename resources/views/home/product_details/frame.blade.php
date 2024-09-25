@@ -397,13 +397,35 @@ $count = 0;
                 @endif
             @endforeach
             @if($counter_if == 0)
-                Not available right now.
-                <input type="text" hidden name="counter_if">
-              @endif
+                <div class="mb-2">
+                    <span class="text-danger">Not available right now.</span>
+                    <input type="text" hidden name="counter_if">
+                </div>
+            @endif
         @endif
     </tbody>
 </table>
 <input type="text" id="liner_color_code" name="liner_color_code" value="BK" style="display:none;">
+
+<div class="full-width bg-grey uk-margin uk-margin-large-top" id="toggle-frame-details">
+    <div class="full-width padding-small border-bottom">
+            <!-- <span class="light frame-description-lbl uk-display-inline-block uk-margin-small-right frame-details-lbl notPrint">Frame: &nbsp;</span> <span class="bold text-uppercase  frame-description-text uk-display-inline-block uk-margin-right frame-details-val removeFrameVal notPrint"></span>
+            <span class="light frame-color-lbl uk-display-inline-block uk-margin-small-right frame-details-lbl frame-details-lbl notPrint"> Color: &nbsp;</span> <span class="bold text-uppercase  frame-color-text uk-display-inline-block uk-margin-right frame-details-val removeFrameVal notPrint"></span>
+            <span class="light frame-style-lbl uk-margin-small-right frame-details-lbl frame-details-lbl notPrint">Style: &nbsp;</span> 
+            <span class="bold text-uppercase  frame-style-text uk-display-inline-block frame-details-val removeStyleSpan notPrint"></span>  
+            <span class="light frame-liner-lbl uk-display-inline-block uk-margin-small-right frame-details-lbl removeLinerOnPrints">Liner: &nbsp;</span>
+            <span class="bold text-uppercase  frame-liner-text uk-display-inline-block frame-details-val">Black Linen Liner</span>
+        <span class="bold text-uppercase  frame-liner-text uk-display-inline-block frame-details-val removeLinerVal removeLinerOnPrints"></span> -->
+
+            <span class="light frame-print-lbl uk-display-inline-block uk-margin-small-right frame-details-lbl uk-hidden">Print: &nbsp;</span>
+            <span class="bold text-uppercase  frame-print-text uk-display-inline-block frame-details-val uk-hidden removePrintsVal"></span>
+
+            <span class="light photo-size-lbl uk-display-inline-block uk-margin-small-right frame-details-lbl">Photo Size: &nbsp;</span>
+            <span class="bold text-uppercase  photo-size-text uk-display-inline-block frame-details-val"></span>
+            <span class="light photo-size-lbl uk-display-inline-block uk-margin-small-right frame-details-lbl">&nbsp;</span>
+            <!-- <span class="uk-display-inline-block frame-details-val">*Photo Size For Print. Add 8-10 inches for Frame and Liner.</span> -->
+    </div>
+</div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <!-- Latest compiled and minified CSS -->
 <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css"> -->

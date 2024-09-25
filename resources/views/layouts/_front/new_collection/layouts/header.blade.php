@@ -5,7 +5,7 @@
                 <ul>
                     <!-- Instagram Link -->
                     <li>
-                        <a href="https://instagram.com/clarkinphotography">
+                        <a  target="_blank" href="https://instagram.com/clarkinphotography">
                             <img src="{{ asset('_new_collection/assets/images/instagram.svg') }}" alt="">
                             clarkinphotography
                         </a>
@@ -51,7 +51,7 @@
         <div class="container">
             <div class="header-bottom-inner">
                 <div class="logo">
-                    <img src="{{ url('_front/assets/images/logo.png') }}" alt="">
+                    <a href="{!!url('/')!!}"><img src="{{ url('_front/assets/images/logo.png') }}" alt=""></a>                    
                 </div>
                 <div class="humbarger-menu humbarger-menu-on">
                     <div class="burger burger-squeeze"><div class="burger-lines"></div></div>

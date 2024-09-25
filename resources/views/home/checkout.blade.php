@@ -553,8 +553,8 @@
                                     $cup_amt = $cup_amt1 = Session::get('couponAmount');
                                 }
                                 // $order_total = $grand_total + $shipping_total;
-                                $order_total = (float)$grand_total + (float)$defaultShippingAmount + (float)$tax_total + (float)$final_shipping_cost - (float)$cup_amt;
-                                
+                                // $order_total = (float)$grand_total + (float)$defaultShippingAmount + (float)$tax_total + (float)$final_shipping_cost - (float)$cup_amt;
+                                $order_total = (float)$grand_total + (float)$defaultShippingAmount + (float)$tax_total + (float)$final_shipping_cost;                               
                                 // echo 'subtotal: '.$grand_total.'<br>';
                                 // echo 'discount: '.$cart[0]->coupon_amount.'<br>';
                                 // echo 'shipping: '.$defaultShippingAmount.'<br>';
@@ -1452,6 +1452,32 @@
 
   <script>
     $(document).ready(function($) {
+        $('#address').on('input', function() {
+            var maxLength = 60;
+            var addressValue = $(this).val();
+
+            if (addressValue.length > maxLength) {
+                $('#billingAddressError').show().text('Address cannot exceed ' + maxLength + ' characters');
+                $(this).val(addressValue.substring(0, maxLength));
+            } else {
+                $('#billingAddressError').hide();
+            }
+        });
+
+        // $('#address').on('input', function() {
+        //     var maxLength = 60;
+        //     var addressValue = $(this).val();
+            
+        //     var alphabeticCharacters = addressValue.replace(/[^a-zA-Z]/g, '');
+            
+        //     if (alphabeticCharacters.length > maxLength) {
+        //         $('#billingAddressError').show().text('Address cannot exceed ' + maxLength + ' alphabetic characters');
+        //         var excessAlphabetic = alphabeticCharacters.length - maxLength;
+        //         $(this).val(addressValue.substring(0, addressValue.length - excessAlphabetic));
+        //     } else {
+        //         $('#billingAddressError').hide();
+        //     }
+        // });
 
         // 
         $(document).on('click',"#shipping-selection .shipping-option",function () {

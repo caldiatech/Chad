@@ -950,11 +950,11 @@ table tbody tr:nth-child(even) td , table.uk-table.cart-order-list tbody tr:nth-
     color: #EB9D38;
 }
 
-.add-btn-wrap input[type="text"] , .add-btn-wrap input[type="number"]{
+.add-btn-wrap input[type="text"], .add-btn-wrap input[type="number"] {
     width: 82px;
     height: 50px;
     text-align: center;
-    padding: 0 15px;
+    padding: 0 28px 0 15px;
 }
 
 .add-btn-wrap{
@@ -1421,6 +1421,83 @@ button#checkoutButton {
 
 .uk-width-1-1.uk-text-center.uk-margin-large-top.thank-you-page {
     padding: 220px 0 100px 0;
+}
+
+a.spin-up.btn-update-qty {
+    position: absolute;
+    right: 0;
+    top: 8px;
+    width: 24px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+a.spin-down.btn-update-qty {
+    position: absolute;
+    right: 0;
+    bottom: 8px;
+    width: 24px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.add-on img {
+    width: 10px;
+}
+
+.add-on {
+    position: absolute;
+    top: 0;
+    right: 3px;
+}
+
+.input-append.spinner {
+    position: relative;
+}
+
+div#toggle-frame-details {
+    margin-top: 25px;
+}
+
+/* span.light.frame-print-lbl.uk-display-inline-block.uk-margin-small-right.frame-details-lbl.uk-hidden{
+    min-width: 48%;
+    display: inline-block;
+    float: left;
+    padding: 10px;
+    background-color: #ededed;
+}
+
+span.light.photo-size-lbl.uk-display-inline-block.uk-margin-small-right.frame-details-lbl{
+    min-width: 48%;
+    display: inline-block;
+    float: left;
+    padding: 10px;
+    background-color: #ededed;
+}
+
+span.bold.text-uppercase.photo-size-text.uk-display-inline-block.frame-details-val {
+    min-width: 50%;
+    display: inline-block;
+    margin-left: auto;
+    float: right;
+    margin: 10px 0;
+} */
+
+.full-width.padding-small.border-bottom span {
+    display: inline-block;
+    min-width: 48%;
+    padding: 10px;
+}
+
+.full-width.padding-small.border-bottom {
+    display: inline-block;
+    width: 100%;
+    border-top: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color)!important;
+    padding-top: 30px;
 }
 
 @media(max-width:620px){

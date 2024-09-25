@@ -263,10 +263,34 @@ function formatNumber (num) {
 			  return false;
 			}
 		  });
-           loadScript("{!!url('_front/plugins/spinner/src/jquery.spinner.js')!!}", function(){  });
+            function loadScript(src, callback) {
+                var script = document.createElement('script');
+                script.type = 'text/javascript';
+                script.src = src;
+                script.onload = callback;
+                document.head.appendChild(script);
+            }
+
+            loadScript("{!!url('_front/plugins/spinner/src/jquery.spinner.js')!!}", function(){  });
 		});
 
-
-
+        // function loadScript(url, callback){
+        //     var script = document.createElement("script");
+        //     script.type = "text/javascript";
+        //     if (script.readyState) {  // for IE
+        //         script.onreadystatechange = function(){
+        //             if (script.readyState === "loaded" || script.readyState === "complete") {
+        //                 script.onreadystatechange = null;
+        //                 callback();
+        //             }
+        //         };
+        //     } else {  // for others
+        //         script.onload = function(){
+        //             callback();
+        //         };
+        //     }
+        //     script.src = url;
+        //     document.getElementsByTagName("head")[0].appendChild(script);
+        // }
 	</script>
 @stop

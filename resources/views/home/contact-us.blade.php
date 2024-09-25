@@ -60,7 +60,7 @@
                                             </div>
                                             <div class="col-md-12 col-sm-12 col-xs-12">
                                                 <div class="form-field">
-                                                    <button type="submit" name="send" class="theme-btn">Add to cart</button>
+                                                    <button type="submit" name="send" class="theme-btn">SEND</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -117,8 +117,16 @@
 
 @section('extracodes')
 <script type="text/javascript">
+function loadScript(src, callback) {
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = src;
+    script.onload = callback;
+    document.head.appendChild(script);
+}
+
 $(document).ready(function() {
-    loadScript("{!!url('_front/assets/js/mask.js')!!}", function(){
+    loadScript("{!! url('_front/assets/js/mask.js') !!}", function() {
         $('.phone_us').mask('(000) 000-0000');
     });
 });

@@ -29,7 +29,7 @@
                                     <span>OR</span>
                                 </div> --}}
                                 @if(Session::has('error'))
-                                    <div class="uk-alert uk-alert-danger">{{ Session::get('error') }}</div>
+                                    <div class="text-danger">{{ Session::get('error') }}</div>
                                 @endif
                                 <!-- Registration Form -->
                                 <div class="my-4">
@@ -75,7 +75,7 @@
                                                 </tr>
                                             </table> -->
                                                 <div>Note : Please enter the at least 8 char, an uppercase, a number and special char.</div>                                                                                 
-                                                <div class="text-danger password-errors password-fld-errors  uk-hidden"></div>
+                                                <div class="text-danger password-errors password-fld-errors uk-hidden"></div>
                                         </div>
 
                                         <!-- Password Confirmation Field -->
@@ -127,8 +127,24 @@
             var first_password = $('#'+form_id+' #password').val();
             var pwd_confirm = $('#'+form_id+' #password_confirmation').val();
 
+            $('form#'+form_id+' .password-errors').each(function(){
+                $(this).html(""); $(this).removeClass('uk-hidden');
+            });
+
             if (($.trim(first_password) == '') || ($.trim(pwd_confirm) == '')) {
                 // Password validation error
+
+                if($.trim(first_password) == ''){
+                    $('form#'+form_id+' .password-fld-errors').html("Please Type Password.");
+                }
+                if($.trim(pwd_confirm) == ''){
+                    $('form#'+form_id+' .password-confirm-errors').html("Please ReType Password.");
+                }
+
+                $('form#'+form_id+' .password-errors').each(function(){
+                    $(this).removeClass('uk-hidden');
+                });
+
                 isvalid = false;
                 return false;
             } else if ($('#'+form_id+' .strength_meter [data-meter]').hasClass('pw-strong')) {
@@ -153,14 +169,14 @@
 
         $(document).ready(function($) {
             // Phone validation
-            // $('.phone_us').mask('(000) 000-0000', {
-            //     onComplete: function(cep) {
-            //         isphone_valid = 1;
-            //     }, 
-            //     onInvalid: function(cep) {
-            //         isphone_valid = 0;
-            //     }
-            // });
+            $('.phone_us').mask('(000) 000-0000', {
+                onComplete: function(cep) {
+                    isphone_valid = 1;
+                }, 
+                onInvalid: function(cep) {
+                    isphone_valid = 0;
+                }
+            });
 
             // Password strength meter
             $('#password').strength({

@@ -32,11 +32,11 @@
                                     @endif
 
                                     @if(Session::has('reset-success'))
-                                        <div class="uk-alert uk-alert-success"><strong>Success: </strong>Your password has been reset. You can now use your new password to login.</div>
+                                        <div class="text-success"><strong>Success: </strong>Your password has been reset. You can now use your new password to login.</div>
                                     @endif
 
                                     @if(Session::has('error'))
-                                        <div class="uk-alert uk-alert-danger">{!!Session::get('error')!!}</div>
+                                        <div class="text-danger">{!!Session::get('error')!!}</div>
                                     @endif
                                     {{--<div class="social-link">
                                         <a href="#"><img src="{{ asset('_new_collection/assets/images/google.png') }}" alt="">Login with Google</a>

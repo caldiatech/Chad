@@ -1,17 +1,31 @@
 <!doctype html>
-<html lang="en">
+<html  class="no-js no-svg" lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="{!! asset('_front/assets/icons/Icon.png') !!}" rel="apple-touch-icon">
+    <link href="{!! asset('_front/assets/icons/favicon.png') !!}" type="image/png" rel="shortcut icon">
+    
     @if(isset($pages->fldPagesMetaKeywords) && $pages->fldPagesMetaKeywords != "")
       <meta name="keywords" content="{{ $pages->fldPagesMetaKeywords }}">
     @endif
+
     @if(isset($pages->fldPagesMetaDescription) && $pages->fldPagesMetaDescription != "")
       <meta name="description" content="{{ $pages->fldPagesMetaDescription }}">
     @endif
-    @if(isset($pages->fldPagesMetaTitle) && $pages->fldPagesName != "")
-      <title>{{ isset($pages->fldPagesMetaTitle) && $pages->fldPagesMetaTitle != "" ? $pages->fldPagesMetaTitle  : $pages->fldPagesName .' | '. SITENAME }}</title>
+
+    @if(request()->is('featured-images') && isset($category_details->fldCategoryName) && $category_details->fldCategoryName != "")
+      <title>{!! $category_details->fldCategoryName !!}</title>
+    @elseif(request()->is('collection') && isset($category_details->fldCategoryName) && $category_details->fldCategoryName != "")
+        <title>{!! $category_details->fldCategoryName !!}</title>
+    @elseif(request()->is('login') && isset($pages) &&  $pages->fldPagesName != "")
+        <title>{!! $pages->fldPagesName !!}</title>
+    @elseif(isset($pages->fldPagesMetaTitle) && $pages->fldPagesName != "")
+        <title>{{ $pages->fldPagesMetaTitle != "" ? $pages->fldPagesMetaTitle : $pages->fldPagesName . ' | ' . SITENAME }}</title>
+    @else
+        <title>{{ $settings->site_name }}</title>
     @endif
+
     <link href="{{ asset('_new_collection/assets/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('_new_collection/assets/css/owl.carousel.css') }}" rel="stylesheet">
     <link href="{{ asset('_new_collection/assets/css/owl.theme.default.css') }}" rel="stylesheet">
@@ -21,6 +35,7 @@
     <link href="{{ asset('_new_collection/assets/css/slick.css') }}" rel="stylesheet">
     <link href="{{ asset('_new_collection/assets/css/slick-theme.css') }}" rel="stylesheet">
     <link href="{{ asset('_new_collection/assets/css/magnific-popup.css') }}" rel="stylesheet">
+    <link href="{{ asset('_front/assets/icons/Icon.png') }}" rel="apple-touch-icon">
 
     {{--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.24.3/css/uikit.min.css" integrity="sha512-BjGOyprHlya/wCYnK0WJ70UXIKjgkEjQalzciPBoXfYfUXupeyo/WtwxbtQvoZVVxHs0rNmMKIXkK6djsBSf3w==" crossorigin="anonymous" referrerpolicy="no-referrer" />--}}
     

@@ -207,10 +207,10 @@
 											<h4>YOUR TOTAL: $ <span id="original_price"></span> <span id="totalPrice">Loading..</span></h4>
 											<div class="add-btn-wrap">
 												<div class="input-append spinner" data-trigger="spinner">
-													<input type="number" value="1" name="qty" data-max="1000" data-min="1" data-step="1" id="text-qty">
+													<input type="text" value="1" name="qty" data-max="1000" data-min="1" data-step="1" id="text-qty">
 													<div class="add-on">
-														<a href="javascript:;" class="spin-up btn-update-qty" data-spin="up"></a>
-														<a href="javascript:;" class="spin-down btn-update-qty" data-spin="down"></a>
+														<a href="javascript:;" class="spin-up btn-update-qty" data-spin="up"><img src="{{ asset('_new_collection/assets/images/up-arrow.png') }}" alt=""></a>
+														<a href="javascript:;" class="spin-down btn-update-qty" data-spin="down"><img src="{{ asset('_new_collection/assets/images/down-arrow.png') }}" alt=""></a>
 													</div>
 												</div>
 												{!! Form::button('Add to cart ',array('class'=>'btn-add-to-cart','type'=>'submit','name'=>'submit'))!!}
@@ -289,17 +289,17 @@ function load_javascripts(){
 }
 	var client_frame_array = new Array('BWL2', 'GO4', 'GO6', 'PEC6', 'RSP3', 'SA9', 'WVL2', 'WVL3', 'WVL4', 'WVL5');
 	$(document).ready(function(){
-	// var qt=	$('#text-qty').val();
-	// var pr = $("#image_price").val().replace(',' , '');
-	// var tt = qt * pr;
-	// console.log(tt);
-	// $('#totalPrice').text(tt.toFixed(2));
-	  //frames_slider = UIkit.slideshow($('#frame_slider'), { });
+		// var qt=	$('#text-qty').val();
+		// var pr = $("#image_price").val().replace(',' , '');
+		// var tt = qt * pr;
+		// console.log(tt);
+		// $('#totalPrice').text(tt.toFixed(2));
+	 	 //frames_slider = UIkit.slideshow($('#frame_slider'), { });
 
-	 clicked_photo_option();
-	 if($('#count_product_option').val() > 0){
-	  loadFrameSlider(2);
-	 }
+		clicked_photo_option();
+		if($('#count_product_option').val() > 0){
+		loadFrameSlider(2);
+		}
 
 	  //getGraphikFrames();
 	  function getFrameWidthSelectionValues(this_value){
@@ -509,14 +509,24 @@ function load_javascripts(){
 
 	  load_only_once++;
 
-	  loadScript("{!!url('_front/plugins/spinner/src/jquery.spinner.js')!!}", function(){
-		$('#customize-spinner').spinner('changed',function(e, newVal, oldVal){
-			alert(newVal + ' ' + $("#size_height").val())
+		function loadScript(src, callback) {
+			var script = document.createElement('script');
+			script.type = 'text/javascript';
+			script.src = src;
+			script.onload = callback;
+			document.head.appendChild(script);
+		}
+
+		loadScript("{!! url('_front/plugins/spinner/src/jquery.spinner.js') !!}", function() {
+			// Initialize the spinner when the script is loaded
+			$('#customize-spinner').spinner('changed', function(e, newVal, oldVal) {
+				alert(newVal + ' ' + $("#size_height").val());
+			});
+			$('#customize-spinner-height').spinner('changed', function(e, newVal, oldVal) {
+				alert(newVal + ' ' + $("#size_width").val());
+			});
 		});
-		 $('#customize-spinner-height').spinner('changed',function(e, newVal, oldVal){
-			  alert(newVal + ' ' + $("#size_width").val())
-		});
-	  });
+
 		load_javascripts();
 	   // $('#frameDetails').hide();
 
