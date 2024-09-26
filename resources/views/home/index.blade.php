@@ -10,7 +10,7 @@
 							<div class="item-inner">
 								<div class="container">
 									<div class="item-inner-info">
-										<h2>{{ $slide->fldHomeSlideName }}</h2>
+										<h2 class="text-uppercase">{{ $slide->fldHomeSlideName }}</h2>
 										@php
 											if ($slide->fldHomeSlideLinks != '' && $slide->fldHomeSlideLinkText != '') {
 												$homeslide_href = $slide->fldHomeSlideLinks;

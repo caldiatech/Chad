@@ -72,7 +72,7 @@
             <section class="banner-part" style="background: url('{{ asset('_new_collection/assets/images/banner1.png') }}') no-repeat center center; background-size:cover;">
                 <div class="container">
 					<div class="banner-inner">
-						<h2>Featured Detail</h2>
+						<h2 class="text-uppercase">Featured Detail</h2>
                     </div>
                 </div>
             </section>
