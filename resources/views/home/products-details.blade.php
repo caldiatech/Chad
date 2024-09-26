@@ -1,4 +1,4 @@
-@extends('layouts._front.new_collection.layouts.app')
+@extends('layouts._front.new_collection.layouts.detailsapp')
     
 @section('content')
 

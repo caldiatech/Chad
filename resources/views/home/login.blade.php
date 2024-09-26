@@ -38,6 +38,10 @@
                                     @if(Session::has('error'))
                                         <div class="text-danger">{!!Session::get('error')!!}</div>
                                     @endif
+
+                                    @if(Session::has('forgot-success'))
+                                        <div class="text-success"><strong>Success: </strong>Your reset password link has been send in mail.</div>
+                                    @endif
                                     {{--<div class="social-link">
                                         <a href="#"><img src="{{ asset('_new_collection/assets/images/google.png') }}" alt="">Login with Google</a>
                                         <a href="#"><img src="{{ asset('_new_collection/assets/images/facebook.png') }}" alt="">Login with Facebook</a>

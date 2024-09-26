@@ -1,4 +1,4 @@
-@extends('layouts._front.new_collection.layouts.app')
+@extends('layouts._front.new_collection.layouts.categoryapp')
     
 @section('content')
         <div class="main-part">
