@@ -20,7 +20,7 @@
                             </div>
                         </div>
                     @else
-                        {!! $pages->fldPagesDescription !!}
+                        <div class=""><h2>{!! $pages->fldPagesDescription !!}</h2></div>
                     @endif
                 @endif
 

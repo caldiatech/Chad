@@ -447,7 +447,11 @@ class ClientController extends Controller
 		$validator = Validator::make(Input::all(), $rules);
 
 		if ($validator->fails()) {
-			return Redirect::to('new-password/'.$hash)->withInput()->withErrors($validator,'resetpassword');
+
+			if ($validator->messages()->first('password') == 'The password confirmation does not match.') {
+				return Redirect::to('new-password/'.$hash)->withInput()->withErrors($validator, 'resetpassword');
+			}
+			return Redirect::to('new-password/'.$hash);
 		} else {
 				$clients = Client::where('fldClientID','=',$client_id)->first();
 

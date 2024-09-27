@@ -61,20 +61,20 @@
                                         </div>
 
                                         <!-- Password Field -->
-                                        <div class="form-field">
+                                        <div class="form-field text-wrapper">
                                             <img class="form-icon" src="{{ asset('_new_collection/assets/images/lock.png') }}" alt="">
                                             {!! Form::label('password', 'Password *', ['class' => 'float-lbl']) !!}
                                             {!! Form::password('password', ['id' => 'password', 'required' => 'required', 'class' => 'form-control password-fld', 'placeholder' => '***********']) !!}
                                             <!-- <a href="#" class="show-pass"><img src="{{ asset('_new_collection/assets/images/eye.png') }}" alt=""></a> -->
-                                            <!-- <table border=0>
+                                            <table border=0>
                                                 <tr class="border-0">
-                                                    <td style="padding-right:5px;" class="uk-text-small minsize"> <i class="uk-icon uk-icon-check-circle icon-color" id="passveryweak"></i> at least 8 char</td>
-                                                    <td style="padding-right:5px;" class="uk-text-small capital"> <i class="uk-icon uk-icon-check-circle icon-color" id="passweak"></i> an uppercase</td>
-                                                    <td style="padding-right:5px;" class="uk-text-small number"> <i class="uk-icon uk-icon-check-circle icon-color" id="passmedium"></i> a number</td>
-                                                    <td style="padding-right:5px;" class="uk-text-small special"> <i class="uk-icon uk-icon-check-circle icon-color" id="passstrong"></i> special char</td>
+                                                    <td style="padding-right:5px;" class="uk-text-small minsize"> <img src="{{ asset('_new_collection/assets/images/checkicon.png') }}" alt="" id="passveryweak"><span> at least 8 char</span></td>
+                                                    <td style="padding-right:5px;" class="uk-text-small capital"> <img src="{{ asset('_new_collection/assets/images/checkicon.png') }}" alt="" id="passweak"> <span> an uppercase</span></td>
+                                                    <td style="padding-right:5px;" class="uk-text-small number"> <img src="{{ asset('_new_collection/assets/images/checkicon.png') }}" alt="" id="passmedium"><span> a number</span></td>
+                                                    <td style="padding-right:5px;" class="uk-text-small special"> <img src="{{ asset('_new_collection/assets/images/checkicon.png') }}" alt="" id="passstrong"><span> special char</span></td>
                                                 </tr>
-                                            </table> -->
-                                                <div>Note : Please enter the at least 8 char, an uppercase, a number and special char.</div>                                                                                 
+                                            </table>
+                                                <!-- <div id="passwordError" class="uk-hidden mt-2 text-danger"></div>                                                                                  -->
                                                 <div class="text-danger password-errors password-fld-errors uk-hidden"></div>
                                         </div>
 
@@ -89,8 +89,8 @@
 
                                         <!-- Submit Button -->
                                         <div class="form-field">
-                                            <!-- <button class="theme-btn" type="submit">REGISTER</button> -->
-                                            {!! Form::submit('Register',array('name'=>'register','class'=>'theme-btn'))!!}
+                                            <button class="theme-btn" name='register' type="submit">REGISTER</button>
+                                           
                                         </div>
 
                                         <p>Already have an account? <a href="{{ url('login') }}">Login</a></p>
@@ -105,9 +105,51 @@
     </div>
 @endsection
 
+@section('headercodes')
+   <style>
+        .strength_meter{
+            margin-top: 7px;
+            height: 23px;
+            width: 197px;
+            /* background: silver; */
+        
+        }
+
+        .strength_meter div{
+            height: 23px;
+            width: 100%;
+            height: auto;
+            color: black;
+            font-weight: 500;
+            line-height: 23px;
+            margin-top: 15px;
+        }
+
+        .pw-veryweak p span{
+            color: red;
+        border-color: #F04040!important
+        }
+
+        .pw-weak p span{
+        color: orange;
+        border-color: #FF853C!important;
+        }
+
+        .pw-medium p span{
+        color: aquamarine;
+        border-color: #FC0!important;
+        }
+
+        .pw-strong p span{
+        color: green;
+        border-color: #8DFF1C!important;
+        }
+   </style>
+@stop
 @section('extracodes')
     {!! Html::script('_front/assets/js/mask.js') !!}
-    {!! Html::script('_front/plugins/password/strength.js') !!}
+    {{--{!! Html::script('_front/plugins/password/strength.js') !!}--}}
+    <script src="{{ asset('_new_collection/assets/js/strength.js') }}" type="text/javascript"></script>
     <script>
         var form_id = 'registration_form'; 
         // var isphone_valid = 0;
@@ -159,8 +201,13 @@
                 $('.password-fld-errors').html("Password Weak.");
             }
 
-            if (requireds_flds_empty || isvalid == false ) {
+            if(isvalid == false){
+                requireds_flds_empty = 1;
+            }
+
+            if (requireds_flds_empty) {
                 return false;
+
             } else {
                 $('.please-wait').removeClass('uk-hidden');
                 $('form#'+form_id).submit();
@@ -180,7 +227,7 @@
 
             // Password strength meter
             $('#password').strength({
-                strengthClass: 'strength required',
+                strengthClass: 'strength',
                 strengthMeterClass: 'strength_meter',
                 strengthButtonClass: 'button_strength',
                 strengthButtonText: 'Show Password',

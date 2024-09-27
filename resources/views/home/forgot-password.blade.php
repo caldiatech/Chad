@@ -31,16 +31,16 @@
                                             <label class="float-lbl">Email</label>
                                             <input type="email" name="email" id="username" placeholder="abc@domain.com" required>
                                         </div> 
-                                        <div class="form-field form-field-flex">
-                                                <div class="forgot-pass">
-                                                    <a href="{{ url('/login')}}">Back to Login?</a>
-                                                </div>
-                                        </div>
                                         @if($errors->login->first('email'))
                                             <div class="text-danger">{!!$errors->login->first('username')!!}</div>
                                         @endif                                                                              
                                         <div class="form-field">
                                             <button type="submit" name="login" class="theme-btn">Forgot Password</button>
+                                        </div>
+                                        <div class="form-field form-field-flex">
+                                            <div class="forgot-pass">
+                                                <a href="{{ url('/login')}}">Back to Login?</a>
+                                            </div>
                                         </div>
                                     {!! Form::close() !!}
                                 </div>
