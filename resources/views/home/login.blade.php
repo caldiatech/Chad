@@ -26,9 +26,9 @@
                                         <span>Welcome to</span>
                                         Clarkin Collection
                                     </h2>
-                                    @if(!empty($pages->fldPagesDescription))
+                                    {{--@if(!empty($pages->fldPagesDescription))
                                         {!!$pages->fldPagesDescription!!}
-                                    @endif
+                                    @endif--}}
 
                                     @if(Session::has('reset-success'))
                                         <div class="text-success"><strong>Success: </strong>Your password has been reset. You can now use your new password to login.</div>
