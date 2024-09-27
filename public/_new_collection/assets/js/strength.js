@@ -105,8 +105,6 @@
 
              $('input[type="password"][data-password="'+thisid+'"]').bind('keyup keydown', function(event) {
                 thisval = $('input[type="password"][data-password="'+thisid+'"]').val();
-                console.log(thisval);
-                console.log(thisval, thisid);
                 $('input[type="password"][data-password="'+thisid+'"]').val(thisval);
                 check_strength(thisval,thisid);
 

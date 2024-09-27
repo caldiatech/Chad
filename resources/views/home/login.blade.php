@@ -22,13 +22,12 @@
                             </div>
                             <div class="col-md-6 col-sm-12 col-xs-12 align-self-center">
                                 <div class="login-register-right">
+                                    <h2>
+                                        <span>Welcome to</span>
+                                        Clarkin Collection
+                                    </h2>
                                     @if(!empty($pages->fldPagesDescription))
                                         {!!$pages->fldPagesDescription!!}
-                                    @else
-                                        <h2>
-                                            <span>Welcome to</span>
-                                            Clarkin Collection
-                                        </h2>
                                     @endif
 
                                     @if(Session::has('reset-success'))
