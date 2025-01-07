@@ -17,6 +17,8 @@ use App\Models\Product;
 use App\Models\Manager;
 use App\Models\ShopOwner;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+
 use Auth;
 
 use View;
@@ -306,6 +308,27 @@ class ClientController extends Controller
 
 	//For login page functionality
     public function checkAccess(Request $request) {
+    	$request->validate([
+	        'email' => 'required|email',
+	        'password' => 'required',
+	        'g-recaptcha-response' => 'required',
+	    ]);
+
+	    // Verify reCAPTCHA response with Google
+	    $recaptchaSecret = env('RECAPTCHA_SECRET_KEY'); // Add your secret key to .env
+	    $recaptchaResponse = $request->input('g-recaptcha-response');
+	    
+	    $verificationResponse = Http::post('https://www.google.com/recaptcha/api/siteverify', [
+	        'secret' => $recaptchaSecret,
+	        'response' => $recaptchaResponse,
+	        'remoteip' => $request->ip(),
+	    ]);
+
+	    $verificationData = $verificationResponse->json();
+
+	    if (!$verificationData['success']) {
+	        return back()->withErrors(['captcha' => 'reCAPTCHA verification failed. Please try again.']);
+	    }
 		$email = Input::get('email');
 		// $clients = Client::where('fldClientEmail','=',$email)->first();
 		$clients 	= Client::where('fldClientEmail','=',$email)

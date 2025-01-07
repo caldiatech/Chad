@@ -462,7 +462,8 @@ class PagesController extends Controller
 
 		//$product = Product::join('tblProductOptions','fldProductOptionsProductID', '=', 'fldProductID')->where('fldProductIsFeatured','=',1)->groupBy('fldProductOptionsProductID')->orderBy('fldProductPosition')->take(4)->get();
 
-		$product = Product::where('fldProductIsFeatured','=',1)->orderBy('fldProductPosition')->take(4)->get();
+		$product = Product::where('fldProductIsFeatured', 1)->orderBy('fldProductID', 'desc')->take(4)->get();
+				//dd($product);
 
 		/* get prices */
 		$product_array_id = $product_array_prices = $product_array_highest_prices = $product_array_lowest_prices = array();
@@ -491,7 +492,7 @@ class PagesController extends Controller
 			}
 
 		}
-		//dd($product_array_prices);
+		//dd($product);
    		return View::make('home.index')->with(array('menus'=>$menus,
    													'homeslide'=>$homeslide,
    													'homeslideFirst'=>$homeslideFirst,

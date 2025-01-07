@@ -81,6 +81,7 @@
                         {!! Form::close() !!}
                         <div class="feature-list-show">
                             <div class="row">
+
                                 @if (count($product) > 0)
                                     @foreach($product as $products)
                                         <?php

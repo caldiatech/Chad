@@ -1,6 +1,15 @@
 <?php session_start(); ?>
 @extends('layouts._front.new_collection.layouts.app')
-    
+    <style type="text/css">
+        .g-recaptcha {
+    display: block !important;
+    visibility: visible !important;
+    height: auto !important;
+    width: auto !important;
+}
+    </style>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
 @section('content')
        <div class="main-part">
             <section class="login-register-part">
@@ -41,6 +50,11 @@
                                     @if(Session::has('forgot-success'))
                                         <div class="text-success"><strong>Success: </strong>Your reset password link has been send in mail.</div>
                                     @endif
+                                    @if ($errors->has('captcha'))
+    <div class="alert alert-danger">
+        {{ $errors->first('captcha') }}
+    </div>
+@endif
                                     {{--<div class="social-link">
                                         <a href="#"><img src="{{ asset('_new_collection/assets/images/google.png') }}" alt="">Login with Google</a>
                                         <a href="#"><img src="{{ asset('_new_collection/assets/images/facebook.png') }}" alt="">Login with Facebook</a>
@@ -61,6 +75,8 @@
                                                 <input type="password" name="password" placeholder="***********" required>
                                                 <!-- <a href="#" class="show-pass"><img src="{{ asset('_new_collection/assets/images/eye.png') }}" alt=""></a> -->
                                             </div>
+                                                    <div class="g-recaptcha" data-sitekey="6LdB66MqAAAAAEJaIIxgEzYBFJ8aVL3ghIiO_U2v"></div>
+
                                             <div class="form-field form-field-flex">
                                                 <!-- <div class="check-group">
                                                     <label class="lbl-check">Remember me
@@ -94,3 +110,35 @@
             </section>
         </div>
 @endsection
+    <script src="{{ asset('_new_collection/assets/js/jquery-3.5.1.slim.min.js') }}" type="text/javascript"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#login-form').on('submit', function (e) {
+            e.preventDefault(); // Prevent form submission
+
+            var recaptchaResponse = grecaptcha.getResponse();
+
+            if (recaptchaResponse.length === 0) {
+                alert("Please complete the reCAPTCHA.");
+                return false; // Stop the form submission
+            }
+
+            // If reCAPTCHA is completed, proceed with the form submission
+            var form = $(this);
+            $.ajax({
+                url: form.attr('action'),
+                method: form.attr('method'),
+                data: form.serialize() + '&g-recaptcha-response=' + recaptchaResponse,
+                success: function (response) {
+                    // Handle successful login
+                    console.log(response);
+                },
+                error: function (xhr) {
+                    // Handle validation or server error
+                    console.error(xhr.responseText);
+                }
+            });
+        });
+    });
+</script>

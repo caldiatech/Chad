@@ -211,12 +211,23 @@ class ProductController extends Controller
 			}
             
 			$onFeatured = Input::get('isOnFeatured');
-			if ($onFeatured == 0){
+			if ($onFeatured == 1){
 				$counter_featured = 0;
 			} else {
 				// $count_featured = Product::where('fldProductFeaturedPage','!=', 0)->count();
 				$count_featured = Product::where('fldProductFeaturedPage','!=', 0)->max('fldProductFeaturedPage');
 				$counter_featured = $count_featured + $onFeatured;
+			}
+			//generate slug
+			$pageCount = Product::where('fldProductName','=',Input::get('name'))->count();
+			//$slug = $pageCount == 0 ? Str::slug($products->fldPagesName,'-') : Str::slug($products->fldPagesName."-".$pageCount,'-');
+			$slug = $pageCount == 0 ? Str::slug(Input::get('name'),'-') : Str::slug(Input::get('name')."-".$pageCount,'-');
+			
+			$isFeatured = Input::get('isFeatured');
+			if ($isFeatured == 1){
+				$isFeaturedImage = Product::uploadSingleImage(Input::file('isFeaturedImage'),$slug);
+			} else {
+				$isFeaturedImage = '';
 			}
 
 			$products = new Product;
@@ -230,6 +241,7 @@ class ProductController extends Controller
 			// $products->fldProductFeaturedPage 	= (empty(Input::get('isOnFeatured')))? 0: 1;
 			$products->fldProductFeaturedPage 	= $counter_featured;
 			$products->fldProductIsFeatured 	= Input::get('isFeatured');
+			$products->ProductFeaturedPagImagee = $isFeaturedImage;
 			$products->fldProductPosition 		= $newPosition;
 			$products->shipping_proc_fee1 		= Input::get('shipping_cost1');
 			$products->shipping_proc_fee2 		= Input::get('shipping_cost2');
@@ -240,10 +252,7 @@ class ProductController extends Controller
 			if (Input::get('shipping_cost7') > 0) { $products->shipping_proc_fee7 		= Input::get('shipping_cost7'); }
 			if (Input::get('shipping_cost8') > 0) { $products->shipping_proc_fee8 		= Input::get('shipping_cost8'); }
 
-			//generate slug
-			$pageCount = Product::where('fldProductName','=',Input::get('name'))->count();
-			//$slug = $pageCount == 0 ? Str::slug($products->fldPagesName,'-') : Str::slug($products->fldPagesName."-".$pageCount,'-');
-			$slug = $pageCount == 0 ? Str::slug(Input::get('name'),'-') : Str::slug(Input::get('name')."-".$pageCount,'-');
+			
 
 			$products->fldProductSlug = $slug;
 			$products->save();
@@ -376,11 +385,7 @@ class ProductController extends Controller
 
    	public function postEdit($id) {
 
-   		// echo "<pre>";
-   		// print_r(Input::all());
-   		// die('Ln328');
-
-		// Shipping Fee
+   			// Shipping Fee
 		$shippingfee = \App\Models\ShippingFee::orderby('fldShippingSequence', 'ASC')->get();
 		foreach ($shippingfee as $key => $value) {
 			// echo 'key: '.$key.' | value: '.$value.'<br>';
@@ -516,6 +521,13 @@ class ProductController extends Controller
 				}
 			}
 
+			$isFeatured = Input::get('isFeatured');
+			if ($isFeatured == 1){
+				$isFeaturedImage = Product::uploadSingleImage(Input::file('isFeaturedImage'),$slug);
+			} else {
+				$isFeaturedImage = '';
+			}
+
 			$products->fldProductName 			= Input::get('name');
 			$products->fldProductSubTitle 		= Input::get('sub_title');
 			$products->fldProductPrice 			= Input::get('price');
@@ -525,6 +537,7 @@ class ProductController extends Controller
 			$products->fldProductIsNew 			= Input::get('isNew');
 			$products->fldProductIsFeatured 	= Input::get('isFeatured');
 			$products->fldProductFeaturedPage 	= $counter_featured;
+			$products->ProductFeaturedPagImagee = $isFeaturedImage;
 			//$products->shipping_proc_fee1 		= Input::get('shipping_cost1');
 			//$products->shipping_proc_fee2 		= Input::get('shipping_cost2');
 			//$products->shipping_proc_fee3 		= Input::get('shipping_cost3');
@@ -1685,7 +1698,7 @@ $itemID = $product->fldProductID;
 		$menus = Pages::where('fldPagesMainID', '=', 0)->get();
 		$pages = Pages::where('fldPagesSlug', '=', 'shipping')->first();
 		$category = Category::orderby('fldCategoryPosition')->get();
-		// dd($pages, $menus, $category);
+		//dd($pages, $menus, $category);
 		return View::make('home.shipping-page', compact('pages','menus','category'));
 	}
 

@@ -27,7 +27,7 @@
     <footer>
         @include('new_collection.layouts.footer')
     </footer>
-    
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script src="{{ asset('_new_collection/assets/js/jquery-3.5.1.slim.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('_new_collection/assets/js/popper.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('_new_collection/assets/js/bootstrap.min.js') }}" type="text/javascript"></script>

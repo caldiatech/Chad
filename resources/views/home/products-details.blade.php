@@ -234,7 +234,21 @@
 									</div>
 								</div>							
 							</div>
+							@if(!empty($product->ProductFeaturedPagImagee))
+							<div class="row" style="margin-top: -15%;">
+								<div class="col-md-5 col-sm-12 col-xs-12">
+									<div class="feature-detail-left parent-container">
+											<div class="slider slider-for">											
+												<div class="item-slider-for">
+													<a href="{!! url(PRODUCT_IMAGE_PATH.$product->fldProductSlug.'/'.$product->ProductFeaturedPagImagee) !!}"><img src="{!! url(PRODUCT_IMAGE_PATH.$product->fldProductSlug.'/'.$product->ProductFeaturedPagImagee) !!}" alt="" id="modalImage"  onload="on_render_finish();"></a>
+												</div>
+											</div>
+									</div>
+								</div>
+							</div>
+							@endif
 						</div>
+						
 						{{--<div class="uk-hidden">
 							@include('home.product_details.paper')
 							<input type="hidden" id="is_prod_vertical" value="{{$product->fldProductIsVertical}}">
