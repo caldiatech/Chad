@@ -7,14 +7,15 @@
                     <li><a href="{{ url('/about') }}">About</a></li>
                     {{-- <li><a href="{{ route('newCollectionPage') }}">Collection</a></li> --}}
                     <li><a href="{{ url('/collection') }}">Collection</a></li>
-                    {{-- <li><a href="{{ route('privacyPolicyPage') }}">Privacy Policy</a></li> --}}
-                    <li><a href="{{ url('/privacy-policy')}}">Privacy Policy</a></li>
                     {{-- <li><a href="{{ route('newShippingPage') }}">Shipping</a></li> --}}
                     <li><a href="{{ url('/shipping-page') }}">Shipping</a></li>
+                    {{-- li><a href="{{ route('contactPage') }}">Contact Us</a></li> --}}
+                    <li><a href="{{ url('/connect') }}">Contact Us</a></li>
+                    {{-- <li><a href="{{ route('privacyPolicyPage') }}">Privacy Policy</a></li> --}}
+                    <li><a href="{{ url('/privacy-policy')}}">Privacy Policy</a></li>
                     {{-- <li><a href="{{ route('termsUsePage') }}">Terms of Use</a></li> --}}
                     <li><a href="{{ url('/terms-and-conditions') }}">Terms of Use</a></li>                        
-                    {{-- li><a href="{{ route('contactPage') }}">Contact Us</a></li> --}}
-                    <li><a href="{{ url('/connect') }}">Connect</a></li>
+
                 </ul>
                 <span>copyright @2024 Clarkin</span>
             </div>

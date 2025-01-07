@@ -10,7 +10,7 @@
 							<div class="item-inner">
 								<div class="container">
 									<div class="item-inner-info">
-										<h2>{{ $slide->fldHomeSlideName }}</h2>
+										<h2 class="text-uppercase">{{ $slide->fldHomeSlideName }}</h2>
 										@php
 											if ($slide->fldHomeSlideLinks != '' && $slide->fldHomeSlideLinkText != '') {
 												$homeslide_href = $slide->fldHomeSlideLinks;
@@ -71,7 +71,8 @@
 								<div class="row">
 									<div class="col-md-6 col-sm-12 col-xs-12 align-self-center">
 										<div class="feature-inner-left">
-											<img src="{{ PRODUCT_IMAGE_PATH.$products->fldProductSlug.'/'.LARGE_IMAGE.$products->fldProductImage }}" alt="{{ $products->fldProductName }}">
+											<img src="{{ url(PRODUCT_IMAGE_PATH.$products->fldProductSlug.'/'.$products->ProductFeaturedPagImagee) }}" 
+											alt="{{ $products->fldProductName }}">	
 										</div>
 									</div>
 									<div class="col-md-6 col-sm-12 col-xs-12 align-self-center">
@@ -85,7 +86,7 @@
 											</h6>
 											<h3>{{ $products->fldProductName }}</h3>
 											<p>{{ $products->fldProductSubTitle }}</p>
-											<p>{{ $products->fldProductDescription }}</p>
+											<p>{!! $products->fldProductDescription !!}</p>
 											<a href="{{ url('products/details/'.$products->fldProductSlug) }}" class="theme-btn theme-btn-arrow">
 												<span>EXPLORE COLLECTION</span>
 												<img src="{{ asset('_new_collection/assets/images/arrow.png') }}" alt="arrow">

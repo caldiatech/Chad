@@ -93,6 +93,32 @@
                           {!! Form::checkbox('isFeatured',1,$products->fldProductIsFeatured == 1 ? true : false, ['class'=>'check-select']) !!}
                       </div>
                    </div>
+                   <div class="uk-width-large-1-2 uk-width-small-1-1  uk-padding-remove" id="FeaturedHomePageImage" style="display: none;">
+                            <ul>
+                                <li>Featured - Home Page Image</li>
+                                <li class="boxfields">
+                                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                                        <div class="fileinput-preview thumbnail" data-trigger="fileinput"
+                                            style="width: 200px; height: 150px;"></div>
+                                        <div>
+                                            <span class="btn btn-default btn-file"><span class="fileinput-new">Select
+                                                    image</span>
+                                                <span class="fileinput-exists">Change</span><input type="file"
+                                                    name="isFeaturedImage" required="required"
+                                                    onchange="image_changed()"></span>
+                                            <a href="#" class="btn btn-default fileinput-exists"
+                                                data-dismiss="fileinput">Remove</a>
+                                        </div>
+                                    </div>
+                                    <br><strong>Formats</strong>: png, gif, jpg &bull; <strong>Max Size</strong>: 2MB
+                                    &bull; <strong>Min Dimension</strong>: <span
+                                        id="dimension">{{ PRODUCT_IMAGE_WIDTH }}px x {{ PRODUCT_IMAGE_HEIGHT }}px</span>
+                                    @if($errors->product->first('image'))
+                                        <div class="error">{!!$errors->product->first('image')!!}</div>
+                                    @endif
+                                </li>
+                            </ul>
+                        </div>
                     <div class="uk-grid">
                       <div class="uk-width-large-2-10 uk-width-small-1-1">On Featured Images Page</div>
                       <div class="uk-width-large-6-10 uk-width-small-1-1 ">
@@ -176,7 +202,7 @@
                      </div>
 
 
-                    <div class="uk-grid uk-hidden">
+                    <div class="uk-grid">
                         <div class="uk-width-large-1-1 uk-width-small-1-1">
                             <ul>
                                <li>Description</li>
@@ -505,6 +531,19 @@
 
             });
 
+        });
+        $(document).ready(function() {
+            // Listen for change event on the checkbox
+            $('.check-select').on('change', function() {
+                console.log('here',$(this).is(':checked'));
+                if ($(this).is(':checked')) {
+                    // Show the div when checkbox is checked
+                    $('#FeaturedHomePageImage').show();
+                } else {
+                    // Hide the div when checkbox is unchecked
+                    $('#FeaturedHomePageImage').hide();
+                }
+            });
         });
     </script>
 

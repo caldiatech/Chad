@@ -36,6 +36,9 @@
                                             <input type="password" name="password" placeholder="***********">
                                             <a href="#" class="show-pass"><img src="{{ asset('_new_collection/assets/images/eye.png') }}" alt=""></a>
                                         </div>
+                                        <div class="form-field">
+                                            <div class="g-recaptcha" data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"></div>
+                                        </div>
                                         <div class="form-field form-field-flex">
                                             <div class="check-group">
                                                 <label class="lbl-check">Remember me

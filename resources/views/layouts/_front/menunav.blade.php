@@ -1,6 +1,6 @@
 <ul>
                                 <li class='featured-images @if(isset($pages->fldPagesTitle) && ($pages->fldPagesTitle == "Featured Images")) active @endif'>
-                                    <a href="{{ url('featured-images') }}">Featured Images</a>
+                                    <a href="{{ url('featured-images') }}">FEATURED IMAGES</a>
                                 </li>
                                 
                                 <?php $mctr = 0; ?>
@@ -9,7 +9,7 @@
                                     @if(isset($menus['subpage']))
                                         <li class="dropdown @if(isset($pages->fldPagesSlug) && ($menus['slug'] == $pages->fldPagesSlug)) active @endif">
                                             <a href="{{ URL::asset($menus['isCMS'] == 1 ? url("/".$menus['slug']) : $menus['filename'],$menus['pagename']) }}" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">
-                                                {{ $menus['pagename'] }}
+                                                {{ strtoupper($menus['pagename']) }}
                                                 <i class="uk-icon-angle-down"></i>
                                             </a>
                                             <ul class="dropdown-menu">
@@ -28,7 +28,7 @@
                                         </li>
                                     @else
                                         <li class='{{$menus["slug"]}} {{ $mctr > 7 ? "hidden" : "" }} @if(isset($pages->fldPagesSlug) && ($menus['slug'] == $pages->fldPagesSlug)) active @endif'>
-                                            <a href="{{ URL::asset($menus['slug']) }}">{{ $menus['pagename'] }}</a>
+                                            <a href="{{ URL::asset($menus['slug']) }}">{{ strtoupper($menus['pagename']) }}</a>
                                         </li>
                                     @endif
                                 @endforeach

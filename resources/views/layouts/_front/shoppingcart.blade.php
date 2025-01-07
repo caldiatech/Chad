@@ -74,14 +74,14 @@
 <!-- FOOTER END-->
 
     <!-- New JS -->
-    <script src="{{ asset('_new_collection/assets/js/jquery-3.5.1.slim.min.js') }}" type="text/javascript"></script>
+    <!-- <script src="{{ asset('_new_collection/assets/js/jquery-3.5.1.slim.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('_new_collection/assets/js/popper.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('_new_collection/assets/js/bootstrap.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('_new_collection/assets/js/owl.carousel.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('_new_collection/assets/js/aos.js') }}" type="text/javascript"></script>
     <script src="{{ asset('_new_collection/assets/js/script.js') }}" type="text/javascript"></script>
     <script src="{{ asset('_new_collection/assets/js/slick.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('_new_collection/assets/js/jquery.magnific-popup.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('_new_collection/assets/js/jquery.magnific-popup.min.js') }}" type="text/javascript"></script> -->
 
 @section('extracodes')
 @show

@@ -5,7 +5,7 @@
     <section class="banner-part" style="background: url('{{ url(PAGES_IMAGE_PATH.$pages->fldPagesImage)}}') no-repeat center center; background-size:cover;">
         <div class="container">
             <div class="banner-inner">
-                <h2>{!! $pages->fldPagesTitle == "" ? $pages->fldPagesName : $pages->fldPagesTitle !!}</h2>
+                <h2 class="text-uppercase">{!! $pages->fldPagesTitle == "" ? $pages->fldPagesName : $pages->fldPagesTitle !!}</h2>
                 @if($pages->fldPagesSubTitle != '')<h2 class="sub-title">{!! $pages->fldPagesSubTitle !!}</h2>@endif                       
             </div>
         </div>
@@ -50,7 +50,7 @@
                                             </div>
                                             <div class="col-md-12 col-sm-12 col-xs-12">
                                                 <div class="form-field">
-                                                    <input type="text" id="phone" name="phone" class=" phone_us" placeholder="Phone Number">
+                                                    <input type="text" id="phone" name="phone" class=" phone_us" placeholder="Phone Number *" required>
                                                 </div>
                                             </div>
                                             <div class="col-md-12 col-sm-12 col-xs-12">
@@ -60,7 +60,7 @@
                                             </div>
                                             <div class="col-md-12 col-sm-12 col-xs-12">
                                                 <div class="form-field">
-                                                    <button type="submit" name="send" class="theme-btn">Add to cart</button>
+                                                    <button type="submit" name="send" class="theme-btn">SEND</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -117,8 +117,16 @@
 
 @section('extracodes')
 <script type="text/javascript">
+function loadScript(src, callback) {
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = src;
+    script.onload = callback;
+    document.head.appendChild(script);
+}
+
 $(document).ready(function() {
-    loadScript("{!!url('_front/assets/js/mask.js')!!}", function(){
+    loadScript("{!! url('_front/assets/js/mask.js') !!}", function() {
         $('.phone_us').mask('(000) 000-0000');
     });
 });

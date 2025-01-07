@@ -432,18 +432,33 @@ define('XLARGE_IMAGE','x-large/');
 // define('MANAGER_IMAGE_PATH','public/uploads/manager/');
 // define('CUSTOMER_IMAGE_PATH','public/uploads/customer/');
 // define('SHOP_OWNER_IMAGE_PATH','public/uploads/shop_owner/');
+
+// stage
+// define('PAGES_IMAGE_PATH','uploads/pages/');
+// define('HOME_SLIDE_IMAGE_PATH','uploads/home-sliders/');
+// define('PHOTO_GALLERY_IMAGE_PATH','uploads/photo-gallery/');
+// define('STAFF_IMAGE_PATH','upload/staff/');
+// define('CATEGORY_IMAGE_PATH','upload/category/');
+// define('PRODUCT_IMAGE_PATH','upload/products/');
+// define('SLIDER_IMAGE_PATH','upload/slider/');
+// define('MANAGER_IMAGE_PATH','upload/manager/');
+// define('CUSTOMER_IMAGE_PATH','upload/customer/');
+// define('SHOP_OWNER_IMAGE_PATH','upload/shop_owner/');
+// define('CUSTOM_IMAGE_THUMBNAIL_PATH','upload/thumbnails/');
+// define('CUSTOM_IMAGE_PATH','storage/');
+
+//live
 define('PAGES_IMAGE_PATH','uploads/pages/');
 define('HOME_SLIDE_IMAGE_PATH','uploads/home-sliders/');
 define('PHOTO_GALLERY_IMAGE_PATH','uploads/photo-gallery/');
 define('STAFF_IMAGE_PATH','upload/staff/');
 define('CATEGORY_IMAGE_PATH','upload/category/');
-define('PRODUCT_IMAGE_PATH','upload/products/');
+define('PRODUCT_IMAGE_PATH','uploads/products/');
 define('SLIDER_IMAGE_PATH','upload/slider/');
 define('MANAGER_IMAGE_PATH','upload/manager/');
 define('CUSTOMER_IMAGE_PATH','upload/customer/');
 define('SHOP_OWNER_IMAGE_PATH','upload/shop_owner/');
 define('CUSTOM_IMAGE_THUMBNAIL_PATH','upload/thumbnails/');
-define('CUSTOM_IMAGE_PATH','storage/');
 
 
 define('PAGES_IMAGE_WIDTH','1200');

@@ -1,11 +1,11 @@
-@extends('layouts._front.new_collection.layouts.app')
+@extends('layouts._front.new_collection.layouts.categoryapp')
     
 @section('content')
         <div class="main-part">
             <section class="banner-part" style="background: url('{{ url(PAGES_IMAGE_PATH.$pages->fldPagesImage)}}') no-repeat center center; background-size:cover;">
                 <div class="container">
                     <div class="banner-inner">
-                        <h2>{!! $slug == "" ? $pages->fldPagesTitle == "" ? $pages->fldPagesName : $pages->fldPagesTitle : $category_details->fldCategoryName !!}</h2>
+                        <h2 class="text-uppercase">{!! $slug == "" ? $pages->fldPagesTitle == "" ? $pages->fldPagesName : $pages->fldPagesTitle : $category_details->fldCategoryName !!}</h2>
                     </div>
                 </div>
             </section>
@@ -81,6 +81,7 @@
                         {!! Form::close() !!}
                         <div class="feature-list-show">
                             <div class="row">
+
                                 @if (count($product) > 0)
                                     @foreach($product as $products)
                                         <?php

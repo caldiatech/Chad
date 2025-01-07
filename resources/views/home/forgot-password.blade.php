@@ -15,12 +15,12 @@
                                 <div class="login-register-right">
                                     <h2 class="mb-4" >Forgot Password</h2>
                                     @if(Session::has('forgot-success'))
-                                        <div class="uk-alert full-width uk-alert-success mb-3">Your password reset link has been sent to your email on file. Please check your inbox for this email. If you do not receive it please make sure to check your Spam or Junk folders.</div>
+                                        <div class="uk-alert full-width text-success mb-3">Your password reset link has been sent to your email on file. Please check your inbox for this email. If you do not receive it please make sure to check your Spam or Junk folders.</div>
                                     @endif
 
                                     @if(Session::has('error-forgot'))
                                         <div id="forgotPass">
-                                        <div class="uk-alert  full-width  uk-alert-danger mb-3"><strong>Error!</strong> {!!Session::get('error-forgot')!!}</div>
+                                        <div class="uk-alert  full-width text-danger mb-3"><strong>Error!</strong> {!!Session::get('error-forgot')!!}</div>
                                     @else
                                         <div id="forgotPass" class="uk-hidden">
                                     @endif
@@ -30,9 +30,17 @@
                                             <img class="form-icon" src="{{ asset('_new_collection/assets/images/mail-line.png') }}" alt="">
                                             <label class="float-lbl">Email</label>
                                             <input type="email" name="email" id="username" placeholder="abc@domain.com" required>
-                                        </div>                                                                                
+                                        </div> 
+                                        @if($errors->login->first('email'))
+                                            <div class="text-danger">{!!$errors->login->first('username')!!}</div>
+                                        @endif                                                                              
                                         <div class="form-field">
                                             <button type="submit" name="login" class="theme-btn">Forgot Password</button>
+                                        </div>
+                                        <div class="form-field form-field-flex">
+                                            <div class="forgot-pass">
+                                                <a href="{{ url('/login')}}">Back to Login?</a>
+                                            </div>
                                         </div>
                                     {!! Form::close() !!}
                                 </div>
