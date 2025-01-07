@@ -25,6 +25,9 @@
 		    						<div class="uk-vertical-divider full-width uk-margin"></div>
 		    						<div class="uk-width-small-1-2 max-width-200 uk-width-1-1 normal">Email Address</div>
 		    						<div class="uk-width-small-1-2 uk-width-1-1">{{ $client->fldClientEmail }}</div>	
+									<div class="uk-vertical-divider full-width uk-margin"></div>
+									<div class="uk-width-small-1-2 max-width-200 uk-width-1-1 normal">Promo Code</div>
+		    						<div class="uk-width-small-1-2 uk-width-1-1">{{ $client->fldClientPromoCode }}</div>	
 								</div>
 	    					</div>
 	    					

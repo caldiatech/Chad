@@ -44,6 +44,7 @@
                       </div>
                    </div>
 
+
                   <!--  <div class="uk-grid">
                       <div class="uk-width-large-1-10 uk-width-small-1-1">Discount Price $</div>
                       <div class="uk-width-large-6-10 uk-width-small-1-1 ">
@@ -52,6 +53,7 @@
                               <div class="error">{!!$errors->couponcode->first('amount')!!}</div>
                            @endif
                       </div>
+
                    </div> -->
 
                    <div class="uk-grid">

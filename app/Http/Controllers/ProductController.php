@@ -18,11 +18,14 @@ use App\Models\GraphikDimension;
 use App\Models\ProductCost;
 use App\Models\Prints;
 use App\Models\SizeListModel;
+use App\Models\Client;
+use App\Models\CustomImage;
+use App\Models\UneditedText;
+use App\Models\userWallet;
 use Illuminate\Support\Arr;
 use App\SoapXmlBuilder;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-
 use View;
 use Input;
 use Hash;
@@ -208,12 +211,23 @@ class ProductController extends Controller
 			}
             
 			$onFeatured = Input::get('isOnFeatured');
-			if ($onFeatured == 0){
+			if ($onFeatured == 1){
 				$counter_featured = 0;
 			} else {
 				// $count_featured = Product::where('fldProductFeaturedPage','!=', 0)->count();
 				$count_featured = Product::where('fldProductFeaturedPage','!=', 0)->max('fldProductFeaturedPage');
 				$counter_featured = $count_featured + $onFeatured;
+			}
+			//generate slug
+			$pageCount = Product::where('fldProductName','=',Input::get('name'))->count();
+			//$slug = $pageCount == 0 ? Str::slug($products->fldPagesName,'-') : Str::slug($products->fldPagesName."-".$pageCount,'-');
+			$slug = $pageCount == 0 ? Str::slug(Input::get('name'),'-') : Str::slug(Input::get('name')."-".$pageCount,'-');
+			
+			$isFeatured = Input::get('isFeatured');
+			if ($isFeatured == 1){
+				$isFeaturedImage = Product::uploadSingleImage(Input::file('isFeaturedImage'),$slug);
+			} else {
+				$isFeaturedImage = '';
 			}
 
 			$products = new Product;
@@ -227,6 +241,7 @@ class ProductController extends Controller
 			// $products->fldProductFeaturedPage 	= (empty(Input::get('isOnFeatured')))? 0: 1;
 			$products->fldProductFeaturedPage 	= $counter_featured;
 			$products->fldProductIsFeatured 	= Input::get('isFeatured');
+			$products->ProductFeaturedPagImagee = $isFeaturedImage;
 			$products->fldProductPosition 		= $newPosition;
 			$products->shipping_proc_fee1 		= Input::get('shipping_cost1');
 			$products->shipping_proc_fee2 		= Input::get('shipping_cost2');
@@ -237,10 +252,7 @@ class ProductController extends Controller
 			if (Input::get('shipping_cost7') > 0) { $products->shipping_proc_fee7 		= Input::get('shipping_cost7'); }
 			if (Input::get('shipping_cost8') > 0) { $products->shipping_proc_fee8 		= Input::get('shipping_cost8'); }
 
-			//generate slug
-			$pageCount = Product::where('fldProductName','=',Input::get('name'))->count();
-			//$slug = $pageCount == 0 ? Str::slug($products->fldPagesName,'-') : Str::slug($products->fldPagesName."-".$pageCount,'-');
-			$slug = $pageCount == 0 ? Str::slug(Input::get('name'),'-') : Str::slug(Input::get('name')."-".$pageCount,'-');
+			
 
 			$products->fldProductSlug = $slug;
 			$products->save();
@@ -372,11 +384,7 @@ class ProductController extends Controller
 
    	public function postEdit($id) {
 
-   		// echo "<pre>";
-   		// print_r(Input::all());
-   		// die('Ln328');
-
-		// Shipping Fee
+   			// Shipping Fee
 		$shippingfee = \App\Models\ShippingFee::orderby('fldShippingSequence', 'ASC')->get();
 		foreach ($shippingfee as $key => $value) {
 			// echo 'key: '.$key.' | value: '.$value.'<br>';
@@ -512,6 +520,13 @@ class ProductController extends Controller
 				}
 			}
 
+			$isFeatured = Input::get('isFeatured');
+			if ($isFeatured == 1){
+				$isFeaturedImage = Product::uploadSingleImage(Input::file('isFeaturedImage'),$slug);
+			} else {
+				$isFeaturedImage = '';
+			}
+
 			$products->fldProductName 			= Input::get('name');
 			$products->fldProductSubTitle 		= Input::get('sub_title');
 			$products->fldProductPrice 			= Input::get('price');
@@ -521,6 +536,7 @@ class ProductController extends Controller
 			$products->fldProductIsNew 			= Input::get('isNew');
 			$products->fldProductIsFeatured 	= Input::get('isFeatured');
 			$products->fldProductFeaturedPage 	= $counter_featured;
+			$products->ProductFeaturedPagImagee = $isFeaturedImage;
 			//$products->shipping_proc_fee1 		= Input::get('shipping_cost1');
 			//$products->shipping_proc_fee2 		= Input::get('shipping_cost2');
 			//$products->shipping_proc_fee3 		= Input::get('shipping_cost3');
@@ -703,7 +719,8 @@ class ProductController extends Controller
 	}
 
 
-	public function displayAll($slug="") {
+	public function displayAll(Request $request, $slug="", $sort = null) {		
+		$sort = $request->query('sort', $sort);
 
 		$menus = Pages::where('fldPagesMainID', '=', 0)->get();
 		$pages = Pages::where('fldPagesSlug', '=', 'collection')->first();
@@ -718,22 +735,28 @@ class ProductController extends Controller
 					   ->where('fldProductIsVertical',1)
 					   ->paginate(2);*/
 			$product_vertical = array();
+			$sortby = !is_null($sort) ? 'DESC' : 'ASC';
 
 			$product = Product::join('tblProductCategory','tblProductCategory.fldProductCategoryProductID','=','tblProduct.fldProductID')
 					   ->join('tblCategory','tblCategory.fldCategoryID','=','tblProductCategory.fldProductCategoryCategoryID')
-					   ->orderBY('fldProductName')
+					   ->orderBY('fldProductName', $sortby)
 					   ->paginate(12);
 
 			$category_details->fldCategoryName = "Products";
 
 		} else {
 			$category_details= Category::where('fldCategorySlug','=',$slug)->first();
-
+			$sortby = !is_null($sort) ? 'DESC' : 'ASC';
 			$product = Product::leftJoin('tblProductCategory','tblProductCategory.fldProductCategoryProductID','=','tblProduct.fldProductID')
 								->where('tblProductCategory.fldProductCategoryCategoryID','=',$category_details->fldCategoryID)
-								->orderBY('fldProductName')
+								->orderBY('fldProductName', $sortby)
 								->paginate(12);
 		}
+
+		// \Log::info('--------------------------------');
+		// \Log::info($product_vertical);
+		// \Log::info('product');
+		// \Log::info($product);
 
 		/* get prices */
 		$product_array_id = $product_array_prices = $product_array_highest_prices = $product_array_lowest_prices = array();
@@ -849,8 +872,100 @@ class ProductController extends Controller
 		return View::make('home.featured-images', compact('pages','menus','category','category_details','product','google','settings','footer','cart_count','slug','product_vertical','product_array_prices','product_array_highest_prices','product_array_lowest_prices'));
 	}
 
+	public function uneditedDigitalFiles() {
+		// $menus = Pages::where('fldPagesMainID', '=', 0)->get();
+		// $pages = Pages::where('fldPagesSlug', '=', 'collection')->first();
+		// $category = Category::orderby('fldCategoryPosition')->get();
+		// $google = Google::first();
+		// $cart_count = TempCart::countCart();
+		// $settings = Settings::first();
+		// $footer = Footer::first();
+		// $slug = "";
 
-	public function displayPerCategory($slug) {
+		// settype($category_details, 'object');
+
+		// $product_vertical = array();
+		// $rowImgs = CustomImage::orderBY('id')->paginate(12);
+		// return View::make('home.row-files',compact('pages','menus','category','category_details','rowImgs','google','cart_count','settings','footer','slug','product_vertical'));
+
+		// Session::put('isUneditable', ['value' => 1, 'timestamp' => now()]);
+
+		// if(!Session::has('client_id'))
+		// { 
+		// 	// $isUneditable = 1;
+		// 	$menus = Pages::where('fldPagesMainID', '=', 0)->get();
+		// 	$category = Category::where('fldCategoryMainID','=',0)->orderby('fldCategoryPosition')->get();
+		// 	$settings = Settings::first();
+		// 	$google = Google::first();
+		// 	$settings->site_name = "Login";
+		// 	$cart_count = TempCart::countCart();
+
+		// 	$slug = 'login';
+		// 	$pages = Pages::where('fldPagesSlug', '=', $slug)->first();
+
+		// 		return View::make('home.login')->with(array('pages' => $pages,
+		// 													'menus'=>$menus,
+		// 													'category'=>$category,
+		// 													'settings'=>$settings,
+		// 													'google'=>$google,
+		// 													'cart_count'=>$cart_count,
+		// 													// 'isUneditable'=>$isUneditable
+		// 												));
+		// }
+		// else{
+		// 	$client_id = Session::get('client_id');
+		// 	$client = Client::find($client_id);
+		// 	$userwalltData = userWallet::where('user_id',$client_id)->first();
+			
+		// 	if($userwalltData){
+				$menus = Pages::where('fldPagesMainID', '=', 0)->get();
+				$pages = Pages::where('fldPagesSlug', '=', 'collection')->first();
+				settype($pages, 'object');
+				$pages->fldPagesTitle = "Plans";
+				$pages->fldPagesSlug = "plans";
+				$category = Category::orderby('fldCategoryPosition')->get();
+				$google = Google::first();
+				$cart_count = TempCart::countCart();
+				$settings = Settings::first();
+				$footer = Footer::first();
+				$slug = "";
+
+				settype($category_details, 'object');
+
+				$product_vertical = array();
+				
+				$rowImgs = CustomImage::orderBY('id')->paginate(12);
+				// $rowImgs = CustomImage::orderBY('id')->get();
+				// return View::make('home.row-files', compact('pages','menus','category','category_details','product','rowImgs','google','settings','footer','cart_count','slug','product_vertical','product_array_prices','product_array_highest_prices','product_array_lowest_prices'));
+				// dd($rowImgs);
+				return View::make('home.row-files',compact('pages','menus','category','category_details','rowImgs','google','cart_count','settings','footer','slug','product_vertical'));
+
+			// }
+			// else{
+			// 	settype($pages, 'object');
+			// 	$pages->fldPagesTitle = "Plans";
+			// 	$pages->category = "customer";
+			// 	$pages->slug = "plans";
+			// 	$settings = Settings::first();
+			// 	$cart_count = TempCart::countCart();
+	
+			// 	// $cart = Cart::displayOrderHistoryDashboard($client_id);
+	
+			// 	return View::make('home.plans_and_credits.plans', array('client_id'=>$client_id,
+			// 												'client' => $client,
+			// 												//  'cart'=>$cart,
+			// 												'pages'=>$pages,
+			// 												'settings'=>$settings,
+			// 												'cart_count'=>$cart_count
+			// 												));
+			// 	// return Redirect::to('/plans');
+			// }
+			//$cart = Cart::displayOrderHistory($client_id);
+		// }
+	}
+
+	public function displayPerCategory(Request $request, $slug, $sort = null) {
+		$sort = $request->query('sort', $sort);
 
 		$google = Google::first();
 		$cart_count = TempCart::countCart();
@@ -864,34 +979,51 @@ class ProductController extends Controller
 		// settype($category_details, 'object');
 		$product_vertical = array();
 
-		if ($slug=='za') { // sort Z to A
+		if (is_null($slug)) {
 			settype($category_details, 'object');
-
+			$sortby = !is_null($sort) ? 'DESC' : 'ASC';
 			$product = Product::join('tblProductCategory','tblProductCategory.fldProductCategoryProductID','=','tblProduct.fldProductID')
 					   ->join('tblCategory','tblCategory.fldCategoryID','=','tblProductCategory.fldProductCategoryCategoryID')
-					   ->orderBY('fldProductName', 'DESC')
+					   ->orderBY('fldProductName', $sortby)
 					   ->paginate(50);
 
-			$category_details->fldCategoryName = "Products";
+			$category_details->fldCategoryName = "Products";	
 		} else {
 			$category_details= Category::where('fldCategorySlug','=',$slug)->first();
-
-			/*$product_vertical = Product::join('tblProductCategory','tblProductCategory.fldProductCategoryProductID','=','tblProduct.fldProductID')
-						   ->join('tblCategory','tblCategory.fldCategoryID','=','tblProductCategory.fldProductCategoryCategoryID')
-						   // ->orderBY('fldProductName')
-						   ->where('fldProductIsVertical',1)
-						   ->paginate(2);*/
-	   if(!empty($category_details)) {
-			$product = Product::leftJoin('tblProductCategory','tblProductCategory.fldProductCategoryProductID','=','tblProduct.fldProductID')
-								->where('tblProductCategory.fldProductCategoryCategoryID','=',$category_details->fldCategoryID)
-								->orderBY('fldProductName', 'DESC')
-								->paginate(50);
-	   } else {
-		Session::flash('error',"Category not found.");
-		return Redirect::to('/');
-	   }
-
+			$sortby = !is_null($sort) ? 'DESC' : 'ASC';
+			if(!empty($category_details)) {
+					$product = Product::leftJoin('tblProductCategory','tblProductCategory.fldProductCategoryProductID','=','tblProduct.fldProductID')
+										->where('tblProductCategory.fldProductCategoryCategoryID','=',$category_details->fldCategoryID)
+										->orderBY('fldProductName', $sortby)
+										->paginate(50);
+			} else {
+				Session::flash('error',"Category not found.");
+				return Redirect::to('/');
+			}	
 		}
+
+		// if ($slug=='za') { // sort Z to A
+		// 	settype($category_details, 'object');
+
+		// 	$product = Product::join('tblProductCategory','tblProductCategory.fldProductCategoryProductID','=','tblProduct.fldProductID')
+		// 			   ->join('tblCategory','tblCategory.fldCategoryID','=','tblProductCategory.fldProductCategoryCategoryID')
+		// 			   ->orderBY('fldProductName', 'DESC')
+		// 			   ->paginate(50);
+
+		// 	$category_details->fldCategoryName = "Products";
+		// } else {
+		// 	$category_details= Category::where('fldCategorySlug','=',$slug)->first();
+
+		// 	if(!empty($category_details)) {
+		// 			$product = Product::leftJoin('tblProductCategory','tblProductCategory.fldProductCategoryProductID','=','tblProduct.fldProductID')
+		// 								->where('tblProductCategory.fldProductCategoryCategoryID','=',$category_details->fldCategoryID)
+		// 								->orderBY('fldProductName', 'DESC')
+		// 								->paginate(50);
+		// 	} else {
+		// 		Session::flash('error',"Category not found.");
+		// 		return Redirect::to('/');
+		// 	}
+		// }
 
 		/* get prices */
 		$product_array_id = $product_array_prices = $product_array_highest_prices = $product_array_lowest_prices = array();
@@ -1016,7 +1148,7 @@ class ProductController extends Controller
 
 	}
 
-	public function searchProduct() {
+	public function searchProduct(Request $request) {
 		$search = Input::get('search');
 		$slug = "";
 
@@ -1233,7 +1365,7 @@ $itemID = $product->fldProductID;
 		/*echo '<pre>';
 		print_r($graphikAPI);
 		echo '</pre>';*/
-		dd($graphikAPI);
+		// dd($graphikAPI);
 		$graphikAPICount = count($graphikAPI->frame);
 
 
@@ -1565,7 +1697,146 @@ $itemID = $product->fldProductID;
 		$menus = Pages::where('fldPagesMainID', '=', 0)->get();
 		$pages = Pages::where('fldPagesSlug', '=', 'shipping')->first();
 		$category = Category::orderby('fldCategoryPosition')->get();
+		//dd($pages, $menus, $category);
 		return View::make('home.shipping-page', compact('pages','menus','category'));
+	}
+
+	public function creditDetails($id) {
+		Session::put('isUneditable', ['value' => 1, 'timestamp' => now(),'image_id' => $id]);
+		if(!Session::has('client_id'))
+		{ 
+			$isUneditable = 1;
+			$menus = Pages::where('fldPagesMainID', '=', 0)->get();
+			$category = Category::where('fldCategoryMainID','=',0)->orderby('fldCategoryPosition')->get();
+			$settings = Settings::first();
+			$google = Google::first();
+			$settings->site_name = "Login";
+			$cart_count = TempCart::countCart();
+
+			$slug = 'login';
+			$pages = Pages::where('fldPagesSlug', '=', $slug)->first();
+			$uneditedText = UneditedText::first();
+			// dd($uneditedText);
+				return View::make('home.login')->with(array('pages' => $pages,
+															'menus'=>$menus,
+															'category'=>$category,
+															'settings'=>$settings,
+															'google'=>$google,
+															'cart_count'=>$cart_count,
+															'isUneditable' => $isUneditable,
+															'uneditedText' => $uneditedText,
+															// 'isUneditable'=>$isUneditable
+														));
+		}
+		else{
+
+			$client_id = Session::get('client_id');
+			$client = Client::find($client_id);
+			$userWalletData = userWallet::where('user_id',$client_id)->get();
+			$totalCredit = 0;
+
+			foreach ($userWalletData as $wallet) {
+				$totalCredit = $userWalletData->sum('amount');
+			}
+			// dd($userWalletData);
+			if($totalCredit > 0){
+
+			$pages = Pages::where('fldPagesMainID', '=', 0)->get();
+			$pages->fldPagesTitle = "Credit Detail";
+			$category = Category::where('fldCategoryMainID','=',0)->orderby('fldCategoryPosition')->get();
+			// $product = Product::where('fldProductSlug','=',$slug)->first();
+			$product = CustomImage::where('Id',$id)->first();
+
+			// $category_details = Category::leftJoin('tblProductCategory','tblProductCategory.fldProductCategoryCategoryID','=','tblCategory.fldCategoryID')
+			// 							->where('tblProductCategory.fldProductCategoryProductID','=',$product->fldProductID)
+			// 							->first();
+
+			// $productImage = AdditionalProduct::where('fldAdditionalProductProductID','=',$product->fldProductID)->get();
+			// $google = Google::first();
+			$cart_count = TempCart::countCart();
+			// //$productOptions = ProductOptions::displayOptions($product->fldProductID);
+			// $settings = Settings::first();
+			// $footer = Footer::first();
+
+			// // $productOption = ProductOptions::leftJoin('tblOptionsAssets','tblOptionsAssets.fldOptionsAssetsID','=','tblProductOptions.fldProductOptionsAssetsID')
+			// // 						->where('fldProductOptionsProductID','=',$product->fldProductID)
+			// // 						->select('fldProductOptionsPrice','fldProductOptionsID','fldOptionsAssetsWidth','fldOptionsAssetsHeight','fldOptionsAssetsWidthFraction','fldOptionsAssetsHeightFraction')
+			// // 						->get();
+
+			// //old
+			// // $productOption = ProductOptions::leftJoin('tblOptionsAssets','tblOptionsAssets.fldOptionsAssetsID','=','tblProductOptions.fldProductOptionsAssetsID')
+			// // 						->where('fldProductOptionsProductID','=',$product->fldProductID)
+			// // 						->select('fldProductOptionsAssetsID','fldProductOptionsPrice','fldProductOptionsPricePrint','fldProductOptionsID','fldOptionsAssetsWidth','fldOptionsAssetsHeight','fldOptionsAssetsWidthFraction','fldOptionsAssetsHeightFraction')
+			// // 						// ->orderBy('fldOptionsAssetsWidth','ASC')
+			// // 						->orderBy('tblOptionsAssets.fldOptionsAssetsPosition','ASC')
+			// // 						->get();
+
+			// //new
+			// $productOption = ProductOptions::leftJoin('tblOptionsAssets','tblOptionsAssets.fldOptionsAssetsID','=','tblProductOptions.fldProductOptionsAssetsID')
+			// ->where('fldProductOptionsProductID','=',$product->fldProductID)
+			// ->select('fldProductOptionsAssetsID','fldProductOptionsPrice','fldProductOptionsID','fldOptionsAssetsWidth','fldOptionsAssetsHeight','fldOptionsAssetsWidthFraction','fldOptionsAssetsHeightFraction','fldProductOptionsPricePrint')
+			// // ->orderBy('fldOptionsAssetsWidth','ASC')
+			// ->orderBy('tblOptionsAssets.fldOptionsAssetsPosition','ASC')
+			// ->get();
+
+			// $defaultcosts = ProductCost::where('product_id','=',$product->fldProductID)->orderBy('sequence','ASC')->get();
+
+			// // echo count($productOption).'<br>';
+			// // foreach ($productOption as $option) {
+			// // 	echo $option->fldOptionsAssetsWidth.': '.$option->fldProductOptionsPrice.'<br>';
+			// // }
+
+			// //get the product options assets
+			// if(count($productOption) > 0) {
+			// 	$product->fldProductImageHeight = $productOption{0}->fldOptionsAssetsHeight;
+			// 	$product->fldProductImageWidth = $productOption{0}->fldOptionsAssetsWidth;
+			// 	$product->fldProductImagePrice = $productOption{0}->fldProductOptionsPrice;
+			// 	$product->fldProductImageID = $productOption{0}->fldProductOptionsID;
+			// } else {
+			// 	$product->fldProductImageHeight = 8;
+			// 	$product->fldProductImageWidth = 11;
+			// 	$product->fldProductImageID = 0;
+			// }
+			// //dd($product);
+			// $itemID = $product->fldProductID;
+				return View::make('home.plans_and_credits.credits-details')
+				->with(array('pages' => $pages,
+																	'category' => $category,
+																	// 'category_details' => $category_details,
+																	'product' => $product,
+				// 													'productImage' => $productImage,
+				// 													'google'=>$google,
+																	'cart_count'=>$cart_count,
+				// 													'settings'=>$settings,
+				// 														'footer'=>$footer,
+				// 														'defaultcosts'=>$defaultcosts,
+				// 													'productOption' =>$productOption,
+																	// 'itemID'	=> $itemID
+																	// 'totalCredit' => $totalCredit,
+																));
+			}
+			else{
+				settype($pages, 'object');
+				$pages->fldPagesTitle = "Plans";
+				$pages->category = "customer";
+				$pages->slug = "plans";
+				$settings = Settings::first();
+				$cart_count = TempCart::countCart();
+	
+				// $cart = Cart::displayOrderHistoryDashboard($client_id);
+	
+				return View::make('home.plans_and_credits.plans', array('client_id'=>$client_id,
+															'client' => $client,
+															//  'cart'=>$cart,
+															'pages'=>$pages,
+															'settings'=>$settings,
+															'cart_count'=>$cart_count
+															));
+				// return Redirect::to('/plans');
+			}
+			$cart = Cart::displayOrderHistory($client_id);
+		}
+
 	}
 
 }

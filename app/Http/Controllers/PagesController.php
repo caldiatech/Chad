@@ -462,7 +462,8 @@ class PagesController extends Controller
 
 		//$product = Product::join('tblProductOptions','fldProductOptionsProductID', '=', 'fldProductID')->where('fldProductIsFeatured','=',1)->groupBy('fldProductOptionsProductID')->orderBy('fldProductPosition')->take(4)->get();
 
-		$product = Product::where('fldProductIsFeatured','=',1)->orderBy('fldProductPosition')->take(4)->get();
+		$product = Product::where('fldProductIsFeatured', 1)->orderBy('fldProductID', 'desc')->take(4)->get();
+				//dd($product);
 
 		/* get prices */
 		$product_array_id = $product_array_prices = $product_array_highest_prices = $product_array_lowest_prices = array();
@@ -491,7 +492,7 @@ class PagesController extends Controller
 			}
 
 		}
-		//dd($product_array_prices);
+		//dd($product);
    		return View::make('home.index')->with(array('menus'=>$menus,
    													'homeslide'=>$homeslide,
    													'homeslideFirst'=>$homeslideFirst,
@@ -535,7 +536,7 @@ class PagesController extends Controller
 		} else if($pages->fldPagesID == 72) {
 			$slider = Slider::orderBy('fldSliderPosition')->get();
 
-			return View::make('home.pages')->with(array('pages' => $pages,
+			return View::make('home.about')->with(array('pages' => $pages,
    													'menus' => $menus,
    													'settings'=>$settings,
    													'google'=>$google,
@@ -555,7 +556,7 @@ class PagesController extends Controller
 					'footer'=>$footer,
 					'pageEditable'=>$pageEditable));
 			} else {
-				return View::make('home.pages')->with(array('pages' => $pages,
+				return View::make('home.pagesnew')->with(array('pages' => $pages,
 					'menus' => $menus,
 					'settings'=>$settings,
 					'google'=>$google,
@@ -762,7 +763,7 @@ class PagesController extends Controller
 		$settings->site_name = "Forgot Password";
 		$cart_count = TempCart::countCart();
    		$pages = Pages::find(45);
-   		return View::make('home.forgot')->with(array('menus'=>$menus,
+   		return View::make('home.forgot-password')->with(array('menus'=>$menus,
    													 'category'=>$category,
    													 'settings'=>$settings,
    													 'google'=>$google,

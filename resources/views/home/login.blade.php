@@ -1,117 +1,144 @@
 <?php session_start(); ?>
-@extends('layouts._front.template-1')
+@extends('layouts._front.new_collection.layouts.app')
+    <style type="text/css">
+        .g-recaptcha {
+    display: block !important;
+    visibility: visible !important;
+    height: auto !important;
+    width: auto !important;
+}
+    </style>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
 @section('content')
-  <div class="uk-width-1-1">
-    <div class="uk-container uk-container-center">
-      <article id="main" role="main" class="uk-block uk-text-contrast">
-        <div class="uk-grid">
-          <div class="uk-width-medium-2-3 uk-width-small-1-1">
-            <div class="uk-container">
-                <h1 class="uk-h2 text-uppercase uk-text-contrast">{{ $pages->fldPagesTitle }}</h1>
-                <p class="uk-margin-bottom-remove uk-padding-bottom-remove">{!!$pages->fldPagesSubTitle!!}</p>
-                @if(Session::has('reset-success'))
-                          <div class="uk-alert uk-alert-success"><strong>Success: </strong>Your password has been reset. You can now use your new password to login.</div>
-                @endif
+       <div class="main-part">
+            <section class="login-register-part">
+                <div class="container">
+                    <div class="login-register-inner">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12 col-xs-12 align-self-center">
+                                <div class="login-register-left">
+                                    <?php
+                                        $bgloginregister_style = '';
 
-                 @if(Session::has('error'))
-                <div class="uk-alert uk-alert-danger">{!!Session::get('error')!!}</div>
-                @endif
-                 {!! Form::open(array('url' => '/login', 'method' => 'post',  'class' => 'row-fluid account-login input-100')) !!}
-                <div class="formbox">
-                    <div class="uk-padding-small-top uk-grid uk-margin-remove">
-                        <div class="uk-width-large-1-1  line-height-text uk-width-medium-1-1  uk-width-small-1-1  uk-width-1-1 uk-padding-remove " style="max-width:110px; ">
-                         {!! Form::label('email', 'Email Address * ',array('style'=>'')); !!}
-                        </div>
-                        <div class="uk-width-large-1-1  uk-width-medium-1-1  uk-width-small-1-1  uk-width-1-1 uk-padding-remove">
-                          {!! Form::text('email','',array('id'=>'email','required',  'class' => 'form-width-large')) !!}
-                {{-- @if($errors->login->first('email'))
-                 <div class="uk-text-danger">{!!$errors->login->first('email')!!}</div>
-              @endif --}}
-                        </div>
-                      
-                    </div>
-                    <div class="uk-padding-small-top uk-grid uk-margin-remove">
-                        <div class="uk-width-large-1-1 line-height-text  uk-width-medium-1-1  uk-width-small-1-1  uk-width-1-1 uk-padding-remove " style="max-width:110px; ">
-                            {!! Form::label('password', 'Password *',array('style'=>'')); !!}
-                        </div>
-                        
-                        <div class="uk-width-large-1-1   uk-width-medium-1-1  uk-width-small-1-1  uk-width-1-1 uk-padding-remove forcewidth">
-                            {!! Form::password('password',array('id'=>'password','required', 'class' => 'form-width-large')) !!}
-                            
-                            {{-- @if($errors->login->first('password'))
-               <div class="uk-text-danger">{!!$errors->login->first('password')!!}</div>
-              @endif --}}
-                        </div>
+                                        if(!empty($pages->fldPagesImage) && $pages->fldPagesImage != ''){
+                                        $bgloginregister_style = url('uploads/pages/'.$pages->fldPagesImage);
+                                        }
+                                    ?>
+                                    <img src="{{ asset('_new_collection/assets/images/Illustration.png') }}" alt="">
+                                    {{-- <img src="{{$bgloginregister_style}}" alt=""> --}}
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-sm-12 col-xs-12 align-self-center">
+                                <div class="login-register-right">
+                                    <h2>
+                                        <span>Welcome to</span>
+                                        Clarkin Collection
+                                    </h2>
+                                    {{--@if(!empty($pages->fldPagesDescription))
+                                        {!!$pages->fldPagesDescription!!}
+                                    @endif--}}
 
-                       
-                
-                    </div>
-                    <div class="uk-padding-small-top">
-                         {!! Form::submit('Login',array('name'=>'login','class'=>'uk-margin-top uk-button uk-button-primary widauto'))!!}
-                    </div>
-                </div>
-                 {!! Form::close() !!}
-                <div class="uk-text-contrast">
-                    <a href="javascript:void(0)" class="full-width clearauto widauto uk-display-inline-block uk-text-contrast uk-margin-top uk-margin-medium-bottom" data-uk-toggle="{target:'#forgotPass', animation:'uk-animation-slide-left, uk-animation-slide-right'}">I can't access my account, please help.</a>
-                @if(Session::has('forgot-success'))
-                          <div class="uk-alert full-width uk-alert-success">Your password reset link has been sent to your email on file. Please check your inbox for this email. If you do not receive it please make sure to check your Spam or Junk folders.</div>
-                    @endif
+                                    @if(Session::has('reset-success'))
+                                        <div class="text-success"><strong>Success: </strong>Your password has been reset. You can now use your new password to login.</div>
+                                    @endif
 
-                    @if(Session::has('error-forgot'))
-                        <div id="forgotPass">
-                          <div class="uk-alert  full-width  uk-alert-danger"><strong>Error!</strong> {!!Session::get('error-forgot')!!}</div>
-                    @else
-                        <div id="forgotPass" class="uk-hidden">
-                    @endif
-                            {!! Form::open(array('url' => '/forgot-password', 'method' => 'post',  'class' => 'form-width-large row-fluid account-login input-100')) !!}
-                  <p class="uk-text-danger uk-margin-bottom-remove uk-padding-remove-bottom uk-text-contrast uk-display-block clearauto uk-width-1-1">To reset your password, enter the email address you use to sign in to Clarkin. </p>
-                                  <div class="formbox">
-                                        <div class="uk-padding-small-top uk-grid uk-margin-remove">
-                                            <div class="uk-width-large-1-1  line-height-text uk-width-medium-1-1  uk-width-small-1-1  uk-width-1-1 uk-padding-remove " style="max-width:110px; ">
-                                             {!! Form::label('username', 'Email Address  *',array('style'=>'width:75px')); !!}
-                                            </div>
-                                            <div class="uk-width-large-1-1   uk-width-medium-1-1  uk-width-small-1-1  uk-width-1-1 uk-padding-remove">
-                                            {!! Form::text('email','',array('id'=>'username','required',  'class' => 'form-width-large')) !!}
-                                            {{-- @if($errors->login->first('email'))
-                                                <div class="uk-text-danger">{!!$errors->login->first('username')!!}</div>
-                                             @endif --}}
-                                            </div>
+                                    @if(Session::has('error'))
+                                        <div class="text-danger">{!!Session::get('error')!!}</div>
+                                    @endif
 
-                                        </div>
-
-                                        <div class="uk-padding-small-top">
-                                             {!! Form::submit('Forgot Password',array('name'=>'login','class'=>'uk-margin-top uk-button uk-button-primary widauto  uk-margin-large-bottom'))!!}
-                                        </div>
+                                    @if(Session::has('forgot-success'))
+                                        <div class="text-success"><strong>Success: </strong>Your reset password link has been send in mail.</div>
+                                    @endif
+                                    @if ($errors->has('captcha'))
+    <div class="alert alert-danger">
+        {{ $errors->first('captcha') }}
+    </div>
+@endif
+                                    {{--<div class="social-link">
+                                        <a href="#"><img src="{{ asset('_new_collection/assets/images/google.png') }}" alt="">Login with Google</a>
+                                        <a href="#"><img src="{{ asset('_new_collection/assets/images/facebook.png') }}" alt="">Login with Facebook</a>
                                     </div>
-                             {!! Form::close() !!}
-                        </div>
-                        </div>
-                </div>
-    <!--                            </div>-->
-            </div>
-            <div class="uk-width-medium-1-3 uk-width-small-1-1">
-                <hr class="uk-article-divider uk-margin-large-bottom divshow">
-                <div class=" uk-block box-bordered">
-                    <div class="uk-container">                         
-                        {!!$pages->fldPagesDescription!!}
-                        {!! Html::link('registration', "Create an Account",array('class'=>'uk-button uk-button-primary')) !!}
+                                    <div class="or-condition">
+                                        <span>OR</span>
+                                    </div>--}}                                   
+                                    <div class="my-4">
+                                        {!! Form::open(array('url' => '/login', 'method' => 'post',  'class' => 'row-fluid account-login input-100')) !!}
+                                            <div class="form-field">
+                                                <img class="form-icon" src="{{ asset('_new_collection/assets/images/mail-line.png') }}" alt="">
+                                                <label class="float-lbl">Email *</label>
+                                                <input type="email" name="email" placeholder="abc@domain.com" required>
+                                            </div>
+                                            <div class="form-field">
+                                                <img class="form-icon" src="{{ asset('_new_collection/assets/images/lock.png') }}" alt="">
+                                                <label class="float-lbl">Password *</label>
+                                                <input type="password" name="password" placeholder="***********" required>
+                                                <!-- <a href="#" class="show-pass"><img src="{{ asset('_new_collection/assets/images/eye.png') }}" alt=""></a> -->
+                                            </div>
+                                                    <div class="g-recaptcha" data-sitekey="6LdB66MqAAAAAEJaIIxgEzYBFJ8aVL3ghIiO_U2v"></div>
 
-                        @if($cart_count > 0)
-                            </br></br>
-                            {!! Html::link('guest-checkout', "Checkout as Guest",array('class'=>'uk-button uk-button-primary')) !!}
-                        @endif
-
+                                            <div class="form-field form-field-flex">
+                                                <!-- <div class="check-group">
+                                                    <label class="lbl-check">Remember me
+                                                        <input type="checkbox">
+                                                        <span class="checkmark"></span>
+                                                    </label>
+                                                </div> -->
+                                                <div class="forgot-pass">
+                                                    <a href="{{ url('/forgot-password')}}">Forgot Password?</a>
+                                                </div>
+                                            </div>
+                                            <div class="form-field">
+                                                <button type="submit" name="login" class="theme-btn">LOGIN</button>
+                                            </div>
+                                            <p>
+                                                Don’t have an account? 
+                                                <a href="{{ url('/registration') }}">Register</a>
+                                            </p>
+                                            @if($cart_count > 0)
+                                                <p>
+                                                    {!! Html::link('guest-checkout', "Checkout as Guest",array('class'=>'uk-button uk-button-primary')) !!}
+                                                </p>  
+                                            @endif                                                                       
+                                        {!! Form::close() !!}
+                                    </div>
+                                </div>                                        
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </section>
         </div>
-      </div>
-    </article>
-  </div><!--uk-container -->
-</div><!--wid11 -->
-@stop
+@endsection
+    <script src="{{ asset('_new_collection/assets/js/jquery-3.5.1.slim.min.js') }}" type="text/javascript"></script>
 
-@section('headercodes')
+<script>
+    $(document).ready(function () {
+        $('#login-form').on('submit', function (e) {
+            e.preventDefault(); // Prevent form submission
 
-@stop
+            var recaptchaResponse = grecaptcha.getResponse();
+
+            if (recaptchaResponse.length === 0) {
+                alert("Please complete the reCAPTCHA.");
+                return false; // Stop the form submission
+            }
+
+            // If reCAPTCHA is completed, proceed with the form submission
+            var form = $(this);
+            $.ajax({
+                url: form.attr('action'),
+                method: form.attr('method'),
+                data: form.serialize() + '&g-recaptcha-response=' + recaptchaResponse,
+                success: function (response) {
+                    // Handle successful login
+                    console.log(response);
+                },
+                error: function (xhr) {
+                    // Handle validation or server error
+                    console.error(xhr.responseText);
+                }
+            });
+        });
+    });
+</script>

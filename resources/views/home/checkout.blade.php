@@ -465,7 +465,9 @@
                             <tr class="border-top">
                                 <td colspan="2"><strong>Discount</strong> <small>( {!! Session::get('couponCode').' | '.Session::get('couponSource').'-'.Session::get('couponSourceID') !!} )</small></td>
                                 <td class="uk-text-right roboto"><span id="coupon_amount">- <strong>
-                                    @if(empty($cart[0]->coupon_amount))
+                                    @if(Session::has('couponAmount'))
+                                        $ {!! number_format(Session::get('couponAmount'),2) !!}
+                                    @elseif(empty($cart[0]->coupon_amount))
                                        $ {!! number_format($coupon_code->coupon_amount,2) !!} 
                                     @else
                                      $ {!! number_format($cart[0]->coupon_amount,2) !!}
@@ -546,9 +548,14 @@
                                 <td colspan="2"><strong>ORDER TOTAL</strong></td>
                                 <td class="uk-text-right roboto">
                                 <?php
+                                $cup_amt = 0;
+                                $cup_amt1 = $cart[0]->coupon_amount;
+                                if(Session::has('couponAmount')) {
+                                    $cup_amt = $cup_amt1 = Session::get('couponAmount');
+                                }
                                 // $order_total = $grand_total + $shipping_total;
-                                $order_total = (float)$grand_total + (float)$defaultShippingAmount + (float)$tax_total + (float)$final_shipping_cost;
-                                
+                                // $order_total = (float)$grand_total + (float)$defaultShippingAmount + (float)$tax_total + (float)$final_shipping_cost - (float)$cup_amt;
+                                $order_total = (float)$grand_total + (float)$defaultShippingAmount + (float)$tax_total + (float)$final_shipping_cost;                               
                                 // echo 'subtotal: '.$grand_total.'<br>';
                                 // echo 'discount: '.$cart[0]->coupon_amount.'<br>';
                                 // echo 'shipping: '.$defaultShippingAmount.'<br>';
@@ -564,7 +571,8 @@
 
                                 @if(empty(Session::get('couponCode')))<?php Session::get('couponCode',''); ?>@endif
                                 {!! Form::hidden('coupon_code',Session::get('couponCode')) !!}
-                                {!! Form::hidden('coupon_price',$cart[0]->coupon_amount,array('id'=>'coupon_price')) !!}
+                                
+                                {!! Form::hidden('coupon_price',$cup_amt1,array('id'=>'coupon_price')) !!}
 
                                 {!! Form::hidden('shipping_rate_val','',array('id'=>'shipping_rate_val')) !!}
                                 {{-- Form::hidden('shipping_amount',$shipping_total,array('id'=>'shipping_amount')) --}}
@@ -1445,6 +1453,32 @@
 
   <script>
     $(document).ready(function($) {
+        $('#address').on('input', function() {
+            var maxLength = 60;
+            var addressValue = $(this).val();
+
+            if (addressValue.length > maxLength) {
+                $('#billingAddressError').show().text('Address cannot exceed ' + maxLength + ' characters');
+                $(this).val(addressValue.substring(0, maxLength));
+            } else {
+                $('#billingAddressError').hide();
+            }
+        });
+
+        // $('#address').on('input', function() {
+        //     var maxLength = 60;
+        //     var addressValue = $(this).val();
+            
+        //     var alphabeticCharacters = addressValue.replace(/[^a-zA-Z]/g, '');
+            
+        //     if (alphabeticCharacters.length > maxLength) {
+        //         $('#billingAddressError').show().text('Address cannot exceed ' + maxLength + ' alphabetic characters');
+        //         var excessAlphabetic = alphabeticCharacters.length - maxLength;
+        //         $(this).val(addressValue.substring(0, addressValue.length - excessAlphabetic));
+        //     } else {
+        //         $('#billingAddressError').hide();
+        //     }
+        // });
 
         // 
         $(document).on('click',"#shipping-selection .shipping-option",function () {

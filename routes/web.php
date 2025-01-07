@@ -17,10 +17,25 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get("/home", "NewCollection\PagesController@homePage")->name('homePage');
+Route::get("/featured", "NewCollection\PagesController@featuredPage")->name('featuredPage');
+Route::get("/new-collection", "NewCollection\PagesController@collectionPage")->name('newCollectionPage');
+Route::get("/new-about", "NewCollection\PagesController@aboutPage")->name('newAboutPage');
+Route::get("/new-privacy-policy", "NewCollection\PagesController@privacyPolicyPage")->name('privacyPolicyPage');
+Route::get("/new-shipping", "NewCollection\PagesController@shippingPage")->name('newShippingPage');
+Route::get("/terms-of-use", "NewCollection\PagesController@termsUsePage")->name('termsUsePage');
+Route::get("/featured-details", "NewCollection\PagesController@featuredDetailsPage")->name('featuredDetailsPage');
+Route::get("/contact", "NewCollection\PagesController@contactPage")->name('contactPage');
+Route::get("/new-login", "NewCollection\PagesController@loginPage")->name('newLoginPage');
+Route::get("/register", "NewCollection\PagesController@registerPage")->name('registerPage');
+
 Route::group(array('prefix' => '/dnradmin'), function()
 {
 
     Route::get("/dashboard", "SettingsController@dashboard");
+
+    Route::get("/unedited-text-create", "SettingsController@uneditedTextCreate");
+    Route::post("/unedited-text-addedit", "SettingsController@uneditedTextAdd");
 
  	Route::get('/sub-category/{category}/{product_id}', 'CategoryController@displaySubCategory');
  	Route::get('/', 'SettingsController@displayLogin');
@@ -293,14 +308,16 @@ Route::group(array('prefix' => '/'), function() {
     Route::get('/image-galleries/{page}', 'ProductController@displayAll');*/
 
    /* Route::get('/images', 'ProductController@displayAll');*/
-    Route::get('/collection/{category}', 'ProductController@displayPerCategory'); // Added 12/05
-    Route::post('/collection/{category}', 'ProductController@displayPerCategory'); // Added 12/05
+    Route::get('/collection/{slug}', 'ProductController@displayPerCategory'); // Added 12/05
+    Route::post('/collection/{slug}', 'ProductController@displayPerCategory'); // Added 12/05
     Route::get('/collection', 'ProductController@displayAll');
-    Route::post('/collection', 'ProductController@searchProduct');
+    Route::post('/collection', 'ProductController@searchProduct')->name('searchProduct');
 
     Route::get('/shipping-page', 'ProductController@getShippingIndex');
 
     Route::get('/featured-images', 'ProductController@featuredImages');
+    Route::get('/unedited-digital-files', 'ProductController@uneditedDigitalFiles');
+    Route::get('/credit/details/{id}', 'ProductController@creditDetails');
 
     Route::get('/products/test-price', 'ProductController@displayFramePricing');
 
@@ -338,6 +355,7 @@ Route::group(array('prefix' => '/'), function() {
     Route::get('/checkout', 'TempCartController@checkout');
     Route::post('/checkout', 'TempCartController@payment');
     Route::get('/get-client-by-email', 'ClientController@get_client_by_email');
+    Route::post('/shopping-cart-uneditable/new', 'TempCartController@addShoppingCartForUneditable');
 
     Route::get('/guest-checkout', 'TempCartController@guestCheckout');
     Route::post('/guest-checkout', 'TempCartController@payment');
@@ -350,7 +368,7 @@ Route::group(array('prefix' => '/'), function() {
     Route::get('/display-shipping-options', 'ShippingController@fetchShipping'); // 2019 Aug 15 - display shipping options for guest checkout or no shipping address
     Route::get('/shipping-display/{city}/{state}/{country}/{zip}/{weight}/{total}', 'ShippingController@displayShipping');
     Route::get('/shipping-display-new/{address}/{city}/{state}/{country}/{zip}/{total}', 'ShippingController@displayShippingGraphic');
-
+   
     Route::get('/dashboard/{category}', 'PagesController@dashboard');
     Route::get('/dashboard/{category}/{slug}', 'PagesController@dashboard');
 
@@ -414,6 +432,22 @@ define('XLARGE_IMAGE','x-large/');
 // define('MANAGER_IMAGE_PATH','public/uploads/manager/');
 // define('CUSTOMER_IMAGE_PATH','public/uploads/customer/');
 // define('SHOP_OWNER_IMAGE_PATH','public/uploads/shop_owner/');
+
+// stage
+// define('PAGES_IMAGE_PATH','uploads/pages/');
+// define('HOME_SLIDE_IMAGE_PATH','uploads/home-sliders/');
+// define('PHOTO_GALLERY_IMAGE_PATH','uploads/photo-gallery/');
+// define('STAFF_IMAGE_PATH','upload/staff/');
+// define('CATEGORY_IMAGE_PATH','upload/category/');
+// define('PRODUCT_IMAGE_PATH','upload/products/');
+// define('SLIDER_IMAGE_PATH','upload/slider/');
+// define('MANAGER_IMAGE_PATH','upload/manager/');
+// define('CUSTOMER_IMAGE_PATH','upload/customer/');
+// define('SHOP_OWNER_IMAGE_PATH','upload/shop_owner/');
+// define('CUSTOM_IMAGE_THUMBNAIL_PATH','upload/thumbnails/');
+// define('CUSTOM_IMAGE_PATH','storage/');
+
+//live
 define('PAGES_IMAGE_PATH','uploads/pages/');
 define('HOME_SLIDE_IMAGE_PATH','uploads/home-sliders/');
 define('PHOTO_GALLERY_IMAGE_PATH','uploads/photo-gallery/');

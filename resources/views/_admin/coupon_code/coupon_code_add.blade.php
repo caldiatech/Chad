@@ -8,8 +8,6 @@
         </div>
     </div>
     
-  	 
-    
    {!! Form::open(array('url' => '/dnradmin/coupon_code/new', 'method' => 'post', 'id' => 'pageform', 'files' => true,'class'=>'uk-form')); !!}
     @if (Session::has('success'))
            <div class="uk-alert uk-alert-success">{!!Session::get('success')!!}</div>
@@ -44,14 +42,16 @@
                       </div>
                    </div>
 
-                    <!-- <div class="uk-grid">
-                      <div class="uk-width-large-1-10 uk-width-small-1-1">Discount Price $</div>
+
+                  <div class="uk-grid">
+                      <!-- <div class="uk-width-large-1-10 uk-width-small-1-1">Discount Price $</div>
                       <div class="uk-width-large-6-10 uk-width-small-1-1 ">
                           {!! Form::text('amount','',array('size'=>'50')) !!}
                           @if($errors->couponcode->first('amount'))
                               <div class="error">{!!$errors->couponcode->first('amount')!!}</div>
                            @endif
                       </div>
+
                    </div> -->
 
                    <div class="uk-grid">

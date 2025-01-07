@@ -27,13 +27,26 @@
  {{ $google->google_analytics != "" ? $google->google_analytics : "" }}
  {{ $google->google_conversion != "" ? $google->google_conversion : "" }}
 
+    <!-- New css -->
+    <link href="{{ asset('_new_collection/assets/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('_new_collection/assets/css/owl.carousel.css') }}" rel="stylesheet">
+    <link href="{{ asset('_new_collection/assets/css/owl.theme.default.css') }}" rel="stylesheet">
+    <link href="{{ asset('_new_collection/assets/css/aos.css') }}" rel="stylesheet">
+    <link href="{{ asset('_new_collection/assets/css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('_new_collection/assets/css/responsive.css') }}" rel="stylesheet">
+    <link href="{{ asset('_new_collection/assets/css/slick.css') }}" rel="stylesheet">
+    <link href="{{ asset('_new_collection/assets/css/slick-theme.css') }}" rel="stylesheet">
+    <link href="{{ asset('_new_collection/assets/css/magnific-popup.css') }}" rel="stylesheet">
 </head>
 <body>
 <div id="container">
 	<!-- HEADER START-->
-    <div class="wrap header">
+    {{--<div class="wrap header">
 		    @include("layouts._front.header")
-    </div>
+    </div>--}}
+    <header>
+        @include('layouts._front.new_collection.layouts.header')        
+    </header>
     <!-- HEADER END-->
 
     <!-- CONTENTS START-->
@@ -51,10 +64,24 @@
 
 </div><!-- #container -->
 <!-- FOOTER START-->
-<div class="wrap footer">
-    @include("layouts._front.footer")
-</div>
+  {{-- <div class="wrap footer">
+      @include("layouts._front.footer")
+  </div> --}}
+
+  <footer>
+    @include('layouts._front.new_collection.layouts.footer')
+  </footer>
 <!-- FOOTER END-->
+
+    <!-- New JS -->
+    <!-- <script src="{{ asset('_new_collection/assets/js/jquery-3.5.1.slim.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('_new_collection/assets/js/popper.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('_new_collection/assets/js/bootstrap.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('_new_collection/assets/js/owl.carousel.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('_new_collection/assets/js/aos.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('_new_collection/assets/js/script.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('_new_collection/assets/js/slick.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('_new_collection/assets/js/jquery.magnific-popup.min.js') }}" type="text/javascript"></script> -->
 
 @section('extracodes')
 @show
