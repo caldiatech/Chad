@@ -343,7 +343,6 @@ class ProductController extends Controller
 		$category = Category::orderby("fldCategoryPosition")->get();
 		$productsCategory = ProductCategory::where('fldProductCategoryProductID','=',$id)->get();
 		$cat = ProductCategory::where('fldProductCategoryProductID','=',$id)->first();
-		
 		$maincat = Category::where('fldCategoryID','=',$cat->fldProductCategoryCategoryID)->first();
 		foreach($productsCategory as $productsCategories) {
 			$pCategories[] = $productsCategories->fldProductCategoryCategoryID;

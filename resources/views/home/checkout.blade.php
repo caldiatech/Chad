@@ -209,7 +209,8 @@
         $getMaxShip7, $getMaxShip8
     );
 
-    $final_shipping_cost = $get_max + $added_cost;
+    // $final_shipping_cost = $get_max + $added_cost;
+    $final_shipping_cost = 0;
 
     //echo "Final Shipping Cost : " . $final_shipping_cost."<br>";
     //echo "Get Max : " . $get_max."<br>";

@@ -8,7 +8,7 @@
         </div>
     </div>
 
-
+    yyyyyyyyyyyyyyyyyyyy
 
    {{ Form::open(array('url' => '/dnradmin/coupon_code/new', 'method' => 'post', 'id' => 'pageform', 'files' => true)); }}
     @if($success == 1)

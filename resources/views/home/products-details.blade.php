@@ -244,13 +244,25 @@ function on_render_finish(){
   $('.frame-style-box').removeClass('rendering-img');
 }
 
-function checkImageHeight(img) {
+{{-- function checkImageHeight(img) {
     if (img.height >= 1500) {
         img.style.height = 'auto';
     } else {
         img.style.height = '430px'; // Ensure height is not set if greater than 430px
     }
-  }
+  } --}}
+  function checkImageHeight(img) {
+    if (img.height >= 1500) {
+        img.style.height = 'auto';
+    } 
+
+    if (img.width > img.height) {
+		document.querySelector('.uk-modal-dialog').style.maxWidth = '100%';
+		document.querySelector('.uk-modal-dialog').style.width = '100%'
+    }
+}
+
+
 </script>
 @stop
 @section('extracodes')

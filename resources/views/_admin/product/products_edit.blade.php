@@ -109,7 +109,7 @@
                                     <div class="fileinput fileinput-new" data-provides="fileinput">
                                         <div class="fileinput-new thumbnail">
                                             @if($products->fldProductImage != "")
-                                                <img src="{{url(PRODUCT_IMAGE_PATH.$products->fldProductSlug.'/medium/'.$products->fldProductImage)}}" width="{{$image_width}}" height="{{$image_height}}" id="uploadedImage" class="{{$c_size_class}}">
+                                                <img src="{{url(PRODUCT_IMAGE_PATH.$products->fldProductSlug.'/medium/'.$products->fldProductImage)}}" id="uploadedImage" class="{{$c_size_class}}">
                                             @endif
                                         </div>
                                         <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;"></div>

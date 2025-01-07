@@ -419,7 +419,7 @@ define('HOME_SLIDE_IMAGE_PATH','uploads/home-sliders/');
 define('PHOTO_GALLERY_IMAGE_PATH','uploads/photo-gallery/');
 define('STAFF_IMAGE_PATH','upload/staff/');
 define('CATEGORY_IMAGE_PATH','upload/category/');
-define('PRODUCT_IMAGE_PATH','upload/products/');
+define('PRODUCT_IMAGE_PATH','uploads/products/');
 define('SLIDER_IMAGE_PATH','upload/slider/');
 define('MANAGER_IMAGE_PATH','upload/manager/');
 define('CUSTOMER_IMAGE_PATH','upload/customer/');
@@ -474,14 +474,18 @@ define('CLIENT_MANAGEMENT','Client');
 
 define('COMMISSIONS','Commissions');
 
-define('EmailFrom','no-reply@clarkincollection.com');
+define('EmailFrom','noreply@clarkincollection.com');
+// define('EmailFrom','no-reply@clarkincollection.com');
 // define('EmailFrom','no-reply@dogandrooster.com');
 define('EmailFromName','Clarkin No-Reply');
 
-define('EmailTo','fulfillment@graphikdimensions.com');
+// define('EmailTo','fulfillment@graphikdimensions.com');
+define('EmailTo','chad@clarkincollection.com');
+// define('EmailTo','no-reply@clarkincollection.com');
 // define('EmailTo','dennis+123@dogandrooster.com');
 define('EmailToName','Fulfill Clarkin');
-define('EmailTo2','mcarl@graphikdimensions.com');
+define('EmailTo2','no-reply@clarkincollection.com');
+// define('EmailTo2','mcarl@graphikdimensions.com');
 // define('EmailTo2','test1@dogandrooster.net');
 define('EmailToName2','Admin Clarkin');
 

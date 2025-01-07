@@ -5,7 +5,6 @@
 <div class="full-layout smaller-padd-grid featured-photos-section gallery-style-1 test">
 	<div class="uk-width-1-1">
 		<h2 class="text-uppercase uk-text-center">{!!$pages->fldPagesSubTitle!!}</h2>
-
 		<div class="uk-grid">
 			<?php
 				$row_column_counter = 0; $row_counter = 0;

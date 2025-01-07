@@ -102,12 +102,12 @@
                                     <div class="uk-thumbnail-caption">Orders</div>
                                 </a>
                             </div>
-                            <div class="uk-width-medium-1-4">
+                            <!-- <div class="uk-width-medium-1-4">
                                 <a class="uk-thumbnail th-box uk-text-center uk-width-1-1" href="{{url('/dnradmin/uploadImage')}}">
                                     <i class="pe-7s-photo iconsizelarge"></i>
                                     <div class="uk-thumbnail-caption">Upload Image</div>
                                 </a>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
 
