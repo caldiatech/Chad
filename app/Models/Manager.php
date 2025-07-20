@@ -15,6 +15,21 @@ class Manager extends Eloquent
     protected $table = 'tblManager';
     protected $primaryKey = 'fldManagerID';
     public $timestamps = false;
+	protected $fillable = [
+		'fldManagerFirstname',
+		'fldManagerLastname',
+		'fldManagerEmail',
+		'fldManagerPassword',
+		'fldManagerPhoneNo',
+		'fldManagerGender',
+		'fldManagerBirthDate',
+		'fldManagerAddress',
+		'fldManagerPromoCode',
+		'fldManagerStatus',
+		'fldManagerType',
+		'fldManagerMainID',
+	];
+
 
     public static function rules($id) {
 
@@ -25,7 +40,6 @@ class Manager extends Eloquent
 		        'email'            => 'required|email|unique:tblManager,fldManagerEmail',
 		        'password'         => 'required|min:8|regex:/^.*(?=.{1,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\x]).*$/',
 		        'address'          => 'max:255'
-
 			];
 		} else {
 			$rules = [

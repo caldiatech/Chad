@@ -8,6 +8,8 @@ use App\Models\Pages;
 use App\Models\Google;
 use App\Models\Footer;
 use App\Models\TempCart;
+use App\Models\Category;
+use App\Models\Manager;
 use View;
 use Input;
 use Hash;
@@ -15,6 +17,8 @@ use Redirect;
 use Session;
 use Image;
 use File;
+use Validator;
+use Mail;
 
 class StaffController extends Controller
 {
@@ -26,9 +30,10 @@ class StaffController extends Controller
 		$staff = Staff::orderby('fldStaffPosition')->get();        
 		$administrator = Settings::where('fldAdministratorID','=',Session::get('dnradmin_id'))->first();
 		$staffClass = 'class=active';
+		$pageTitle = 'Staff';
         return View::make('_admin.staff.staff', array('staff' => $staff,
         											  'administrator'=>$administrator,
-        											  'staffClass'=>$staffClass));
+        											  'staffClass'=>$staffClass,'pageTitle'=>$pageTitle));
     }
 	
   
@@ -52,9 +57,11 @@ class StaffController extends Controller
 	   	
 		$administrator = Settings::where('fldAdministratorID','=',Session::get('dnradmin_id'))->first();        
 		$staffClass = 'class=active';
+		$pageTitle = 'Add New Staff';
    		return View::make('_admin.staff.staff_add',array(
    														 'administrator'=>$administrator,
-   														 'staffClass'=>$staffClass));
+   														 'staffClass'=>$staffClass,
+														 'pageTitle' =>$pageTitle));
    } 
    
    public function getUpdatePosition() {
@@ -245,5 +252,98 @@ class StaffController extends Controller
 													'footer'=>$footer,
 													'cart_count'=>$cart_count));
 	}
-	
+
+	public function affiliateLogin() {
+		$email = Input::get('email');
+
+		$manager = Manager::where('fldManagerEmail','=',$email)->first();
+
+		$menus = Pages::where('fldPagesMainID', '=', 0)->get();
+		$category = Category::where('fldCategoryMainID','=',0)->orderby('fldCategoryPosition')->get();
+
+        $rules   	= Manager::rulesLogin();
+		$validator 	= Validator::make(Input::all(), $rules);
+
+		if ($validator->fails()) {
+
+			return Redirect::to(path: 'affiliate-login')->withInput()->withErrors($validator,'login');
+
+		} else if(empty($manager)) {
+
+			Session::flash('error',"Account does not exist. Please register.");
+			return Redirect::to(path: 'affiliate-login');
+
+		} else {
+
+			//check if the username and password is same
+			if (Hash::check(Input::get('password'), $manager->fldManagerPassword)) {
+				// Check if status is 2 (Active)
+				if ($manager->fldManagerStatus == 2) { // Active
+					Session::put('manager_id', $manager->fldManagerID);
+					return Redirect::to('/dashboard/sales');
+				} else { // Pending status
+					Session::flash('error',"Account Pending Activation. Please contact administrator.");
+					return Redirect::to(path: 'affiliate-login');
+				}
+
+			} else { // Wrong Password
+				Session::flash('error',"Invalid username or password.");
+				return Redirect::to(path: 'affiliate-login');
+			}
+		}
+	}
+	public function affiliateRegistration() {
+		$rules   = Manager::rulesRegistration();
+		$validator = Validator::make(Input::all(), $rules);
+
+	    if ($validator->fails()) {
+		    return Redirect::to('affiliate-registration')->withInput()->withErrors($validator,'manager');
+		} else {
+			$inviteCode = Input::get('invite_code');
+			$password   = Hash::make(Input::get('password'));
+			$fldManagerMainID = Manager::where('fldManagerPromoCode', $inviteCode)
+				->value('fldManagerID');
+			if($fldManagerMainID) {
+				$manager = new Manager([
+					'fldManagerFirstname' => Input::get('firstname'),
+					'fldManagerLastname'  => Input::get('lastname'),
+					'fldManagerEmail'     => Input::get('email'),
+					'fldManagerPassword'  => $password,
+					'fldManagerPhoneNo'   => Input::get('phone'),
+					'fldManagerStatus'    => 1,
+					'fldManagerType'      => 2,
+					'fldManagerMainID'    => $fldManagerMainID,
+				]);
+
+				$manager->save();
+			} else {
+				Session::flash('error',"Invite Code does not exist.");
+				return Redirect::to(path: 'affiliate-registration');
+			}
+			//send email to owner
+			$messageData = array(
+				'firstname' => Input::get('firstname'),
+				'lastname' => Input::get('lastname'),
+				'email' => Input::get('email'),
+				'status' => 1,
+				'phone'=>Input::get('phone'),
+				'password' => Input::get('password')
+			);
+
+			$settings = Settings::first();
+
+		 	// Email Manager and Cc Web Admin + DNR Admin
+	  		Mail::send('home.email_manager_registration', $messageData, function ($message) use($settings) {
+
+				$message->from('chad@clarkincollection.com', 'ClarkinCollection.com');
+				$message->to(Input::get('email'),Input::get('firstname') . ' ' . Input::get('lastname'));
+				$message->cc(EmailTo3, EmailToName3);
+				$message->bcc('chad@clarkincollection.com', 'Valuecom Dev');
+				$message->subject("Welcome to Clarkin");
+			});
+
+		   Session::flash('success',"You have been successfully registered. Our representative will contact you as soon as possible.");
+		   return Redirect::to(path: 'affiliate-registration');
+		}
+	}
 }
