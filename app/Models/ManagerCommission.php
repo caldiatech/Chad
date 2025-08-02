@@ -33,6 +33,7 @@ class ManagerCommission extends Eloquent
 
 		if ($managerSales = Manager::find($manager->fldManagerMainID)) {
 			$managerCommission = number_format($commission * 0.25, 2);
+			$managerCom->fldManagerCommissionUserType = 1;
 			self::managerComission($managerCommission, $managerSales, $clientInfo, $orderCode, $userType);
 		}
 
