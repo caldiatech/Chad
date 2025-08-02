@@ -15,6 +15,20 @@ class Manager extends Eloquent
     protected $table = 'tblManager';
     protected $primaryKey = 'fldManagerID';
     public $timestamps = false;
+	protected $fillable = [
+		'fldManagerFirstname',
+		'fldManagerLastname',
+		'fldManagerEmail',
+		'fldManagerPassword',
+		'fldManagerPhoneNo',
+		'fldManagerGender',
+		'fldManagerBirthDate',
+		'fldManagerAddress',
+		'fldManagerPromoCode',
+		'fldManagerStatus',
+		'fldManagerType',
+		'fldManagerMainID',
+	];
 
     public static function rules($id) {
 
