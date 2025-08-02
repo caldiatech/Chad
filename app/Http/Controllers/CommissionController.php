@@ -57,7 +57,7 @@ class CommissionController extends Controller
 							tblManager.fldManagerID AS ID,
 							tblManagerCommission.fldManagerCommissionOrderCode AS orderCode,
 							CASE 
-								WHEN tblManager.fldManagerType = 4 THEN "affiliate"
+								WHEN tblManagerCommission.fldManagerCommissionUserType = 4 THEN "affiliate"
 								ELSE "manager"
 							END AS type,
 							tblManager.fldManagerFirstname AS firstName,

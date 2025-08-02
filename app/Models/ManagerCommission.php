@@ -83,7 +83,7 @@ class ManagerCommission extends Eloquent
 			//save information to manager commission table
 			$managerCom = new ManagerCommission;
 				$managerCom->fldManagerCommissionManagerID = $manager->fldManagerID;
-				$managerCom->fldManagerCommissionUserType = $userType;
+				$managerCom->fldManagerCommissionUserType = 2;
 				$managerCom->fldManagerCommissionUserID = $clientInfo->fldClientID;
 				$managerCom->fldManagerCommissionOrderCode = $orderCode;
 				$managerCom->fldManagerCommissionDate = date('Y-m-d');
