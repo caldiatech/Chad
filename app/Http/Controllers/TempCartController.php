@@ -1218,7 +1218,7 @@ class TempCartController extends BaseController
 				 	Log::debug('this_manager_id');
 				 	Log::debug($this_manager_id);
 				 	$manager = Manager::find($this_manager_id);
-				 	$managerCommission = ManagerCommission::calculateCommission($sales_manager_commission_total,$manager,$clientInfo,$order_code,1);
+				 	$managerCommission = ManagerCommission::calculateCommission($sales_manager_commission_total,$manager,$clientInfo,$order_code,2);
 					//dd($managerCommission);
 				}
 				if( ( Session::get('couponSource') == 'Affilate' ) || ( $shop_owner_manager_id > 0 )) {

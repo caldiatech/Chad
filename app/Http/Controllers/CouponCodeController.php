@@ -176,36 +176,51 @@ class CouponCodeController extends Controller
 					$value[] = "error";			  
 					if(Session::has('couponCode')) { 
 						Session::forget('couponSource');
-						Session::forget('couponSourceID');
+						Session::forget(keys: 'couponSourceID');
 						Session::forget('couponCode');
 					}
 				} else {
 					// Commission to Shop Owner
-					Session::put('couponSource', 'Shop');
+					Session::put('couponSource', value: 'Shop');
 					Session::put('couponSourceID', $couponSO->fldShopOwnerID);
 					Session::put('couponCode', $code);
 					$coupon_amount = ($percentDiscount/100) * $total;
 					$value[] = $coupon_amount;
 					$value[] = $total-(($percentDiscount/100) * $total);
 					$value[] = 'so';
-					Session::put('couponAmount', $coupon_amount); 
+					Session::put('couponAmount', value: $coupon_amount); 
 				}
 
 			} else {
 				// Commission to Manager
-				Session::put('couponSource', 'Manager');
-				Session::put('couponSourceID', $couponMgr->fldManagerID);
-				Session::put('couponCode', $code);  
+				if($couponMgr->fldManagerMainID == 0 && $couponMgr->fldManagerType == 1){
+					Session::put('couponSource', value: 'Manager');
+					Session::put('couponSourceID', value: $couponMgr->fldManagerID);
+					Session::put('couponCode', $code);  
 
-				$coupon_amount = ($percentDiscount/100) * $total;
-				Log::debug($percentDiscount);
-				Log::debug('('.$percentDiscount.'/100 ) * '.$total);
-				Log::debug($coupon_amount);
-				$value[] = $coupon_amount;
-				$value[] = $total-(($percentDiscount/100) * $total);
-				$value[] = 'sm';
-				Session::put('couponAmount', $coupon_amount); 
-				// $value[] = 'Manager Promo Code';
+					$coupon_amount = ($percentDiscount/100) * $total;
+					Log::debug($percentDiscount);
+					Log::debug('('.$percentDiscount.'/100 ) * '.$total);
+					Log::debug($coupon_amount);
+					$value[] = $coupon_amount;
+					$value[] = $total-(($percentDiscount/100) * $total);
+					$value[] = 'sm';
+					Session::put('couponAmount', $coupon_amount); 
+					// $value[] = 'Manager Promo Code';
+				} else {
+					Session::put('couponSource', value: 'Affilate');
+					Session::put('couponSourceID', value: $couponMgr->fldManagerID);
+					Session::put('couponCode', $code);
+
+					$coupon_amount = ($percentDiscount/100) * $total;
+					Log::debug($percentDiscount);
+					Log::debug('('.$percentDiscount.'/100 ) * '.$total);
+					Log::debug($coupon_amount);
+					$value[] = $coupon_amount;
+					$value[] = $total-(($percentDiscount/100) * $total);
+					$value[] = 'sm';
+					Session::put('couponAmount', $coupon_amount); 
+				}
 			}
 
 		} else {			
