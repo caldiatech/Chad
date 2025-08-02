@@ -20,7 +20,7 @@ class ManagerCommission extends Eloquent
 		$commission = $amount;
 		Log::debug('amount');
 		Log::debug($amount);
-		Log::debug('commission');
+		Log::debug(message: 'commission');
 		Log::debug($commission);
 		$managerCom = new ManagerCommission;
 		$managerCom->fldManagerCommissionManagerID = $manager->fldManagerID;
@@ -30,6 +30,11 @@ class ManagerCommission extends Eloquent
 		$managerCom->fldManagerCommissionDate = date('Y-m-d');
 		$managerCom->fldManagerCommissionAmount = $commission;
 		$managerCom->save();
+
+		if ($managerSales = Manager::find($manager->fldManagerMainID)) {
+			$managerCommission = number_format($commission * 0.25, 2);
+			self::managerComission($managerCommission, $managerSales, $clientInfo, $orderCode, $userType);
+		}
 
 		/*
 		require_once "public/payment/braintree/lib/Braintree.php";

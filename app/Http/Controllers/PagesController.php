@@ -1,112 +1,110 @@
 <?php
 namespace App\Http\Controllers;
 
-use Illuminate\Routing\Controller;
-use App\Models\Settings;
+use App\Models\Category;
+use App\Models\Footer;
+use App\Models\Google;
+use App\Models\HomeSlide;
 use App\Models\Pages;
 use App\Models\PagesPreview;
-use App\Models\HomeSlide;
-use App\Models\Google;
-use App\Models\Footer;
 use App\Models\TempCart;
-use App\Models\Category;
 use App\Models\Product;
+use App\Models\Settings;
 use App\Models\Slider;
+use File;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-
-use View;
+use Image;
 use Input;
 use Hash;
 use Redirect;
 use Session;
 use Html;
-use Image;
 use Validator;
-use File;
 use Mail;
-
+use View;
 class PagesController extends Controller
 {
     public function getIndex()
     {
-		//if not login redirect to login page
-		if(!Session::has('dnradmin_id')) { return Redirect::to('dnradmin/');}
+        //if not login redirect to login page
+        if (! Session::has('dnradmin_id')) {return Redirect::to('dnradmin/');}
 
-		//check if user is login to the database
+        //check if user is login to the database
         // get the posts from the database by asking the Active Record for "all"
-		$pageid=0;
-		$mainid=555;
+        $pageid = 0;
+        $mainid = 555;
 
-        $pages = Pages::where('fldPagesMainID','=',$pageid)->orderby('fldPagesPosition')->get();
-		$administrator = Settings::where('fldAdministratorID','=',Session::get('dnradmin_id'))->first();
-		$pageClass = 'class=active';
-		$pageTitle = PAGE_MANAGEMENT;
-		return View::make('_admin.pages.pages', array('page' => $pages,
-													  'pageid'=>$pageid,
-													  'mainid'=>$mainid,
-													  'administrator'=>$administrator,
-													  'pageClass'=>$pageClass,
-													  'pageTitle'=>$pageTitle));
+        $pages         = Pages::where('fldPagesMainID', '=', $pageid)->orderby('fldPagesPosition')->get();
+        $administrator = Settings::where('fldAdministratorID', '=', Session::get('dnradmin_id'))->first();
+        $pageClass     = 'class=active';
+        $pageTitle     = PAGE_MANAGEMENT;
+        return View::make('_admin.pages.pages', ['page' => $pages,
+            'pageid'                                             => $pageid,
+            'mainid'                                             => $mainid,
+            'administrator'                                      => $administrator,
+            'pageClass'                                          => $pageClass,
+            'pageTitle'                                          => $pageTitle]);
 
     }
 
 
 
-	 public function getView($id)
+    public function getView($id)
     {
-		//if not login redirect to login page
-		if(!Session::has('dnradmin_id')) { return Redirect::to('dnradmin/');}
+        //if not login redirect to login page
+        if (! Session::has('dnradmin_id')) {return Redirect::to('dnradmin/');}
 
-	    if($id!=0) {
-			$mainpage =  Pages::where('fldPagesID', '=', $id)->first();
-			$mainid = $mainpage->fldPagesMainID;
-		} else {
-			$mainid = 0;
-		}
+        if ($id != 0) {
+            $mainpage = Pages::where('fldPagesID', '=', $id)->first();
+            $mainid   = $mainpage->fldPagesMainID;
+        } else {
+            $mainid = 0;
+        }
 
-		$pages =  Pages::where('fldPagesMainID', '=', $id)->orderby('fldPagesPosition')->get();
-		$page_display = Pages::where('fldPagesID','=',$id)->first();
+        $pages        = Pages::where('fldPagesMainID', '=', $id)->orderby('fldPagesPosition')->get();
+        $page_display = Pages::where('fldPagesID', '=', $id)->first();
 
-		if(!empty($page_display)) {
+        if (! empty($page_display)) {
 
-			if($page_display->fldPagesMainID != 0) {
-				$mainpage = Pages::where('fldPagesID','=',$page_display->fldPagesMainID)->first();
-			} else {
-				$mainpage = "";
-			}
-		} else {
-			return Redirect::to('dnradmin/pages');
-		}
+            if ($page_display->fldPagesMainID != 0) {
+                $mainpage = Pages::where('fldPagesID', '=', $page_display->fldPagesMainID)->first();
+            } else {
+                $mainpage = "";
+            }
+        } else {
+            return Redirect::to('dnradmin/pages');
+        }
 
-		$administrator = Settings::where('fldAdministratorID','=',Session::get('dnradmin_id'))->first();
+        $administrator = Settings::where('fldAdministratorID', '=', Session::get('dnradmin_id'))->first();
 
-		$pageClass = 'class=active';
-		$pageTitle = PAGE_MANAGEMENT;
-        return View::make('_admin.pages.pages', array('page' => $pages,
-        											  'pageid'=>$id,
-        											  'mainid'=>$mainid,
-        											  'page_display'=>$page_display,
-        											  'mainpage'=>$mainpage,
-        											  'administrator'=>$administrator,
-        											  'pageClass'=>$pageClass,
-        											  'pageTitle'=>$pageTitle));
+        $pageClass = 'class=active';
+        $pageTitle = PAGE_MANAGEMENT;
+        return View::make('_admin.pages.pages', ['page' => $pages,
+            'pageid'                                             => $id,
+            'mainid'                                             => $mainid,
+            'page_display'                                       => $page_display,
+            'mainpage'                                           => $mainpage,
+            'administrator'                                      => $administrator,
+            'pageClass'                                          => $pageClass,
+            'pageTitle'                                          => $pageTitle]);
     }
 
-	public function getNew() {
-	   	//if not login redirect to login page
-		if(!Session::has('dnradmin_id')) { return Redirect::to('dnradmin/');}
+    public function getNew()
+    {
+        //if not login redirect to login page
+        if (! Session::has('dnradmin_id')) {return Redirect::to('dnradmin/');}
 
-		$administrator = Settings::where('fldAdministratorID','=',Session::get('dnradmin_id'))->first();
-		$pageClass = 'class=active';
-		$pagelist = Pages::pageList();
+        $administrator = Settings::where('fldAdministratorID', '=', Session::get('dnradmin_id'))->first();
+        $pageClass     = 'class=active';
+        $pagelist      = Pages::pageList();
 
-		$pageTitle = PAGE_MANAGEMENT;
-   		return View::make('_admin.pages.page_add',array('administrator'=>$administrator,
-   													    'pageClass'=>$pageClass,
-   													    'pagelist'=>$pagelist,
-   													    'pageTitle'=>$pageTitle));
-   }
+        $pageTitle = PAGE_MANAGEMENT;
+        return View::make('_admin.pages.page_add', ['administrator' => $administrator,
+            'pageClass'                                                      => $pageClass,
+            'pagelist'                                                       => $pagelist,
+            'pageTitle'                                                      => $pageTitle]);
+    }
 
    public function postNew() {
 
@@ -205,22 +203,22 @@ class PagesController extends Controller
    	 	//if not login redirect to login page
 		if(!Session::has('dnradmin_id')) { return Redirect::to('dnradmin/');}
 
-	    $pages =  Pages::where('fldPagesID', '=', $id)->first();
-		$preview =  PagesPreview::where('fldPagesPreviewID', '=', $id)->first();
-		$administrator = Settings::where('fldAdministratorID','=',Session::get('dnradmin_id'))->first();
-		$pageClass = 'class=active';
-		$pagelist = Pages::pageList();
-		$pageTitle = PAGE_MANAGEMENT;
-		if(empty($pages)){
-			return redirect()->to('dnradmin/not-found');
-		}
-	    return View::make('_admin.pages.page_edit', array('page' => $pages,
-	    												  'preview' => $preview,
-	    												  'administrator'=>$administrator,
-	    												  'pageClass'=>$pageClass,
-	    												  'pagelist'=>$pagelist,
-	    												  'pageTitle'=>$pageTitle));
-   }
+        $pages         = Pages::where('fldPagesID', '=', $id)->first();
+        $preview       = PagesPreview::where('fldPagesPreviewID', '=', $id)->first();
+        $administrator = Settings::where('fldAdministratorID', '=', Session::get('dnradmin_id'))->first();
+        $pageClass     = 'class=active';
+        $pagelist      = Pages::pageList();
+        $pageTitle     = PAGE_MANAGEMENT;
+        if (empty($pages)) {
+            return redirect()->to('dnradmin/not-found');
+        }
+        return View::make('_admin.pages.page_edit', ['page' => $pages,
+            'preview'                                                => $preview,
+            'administrator'                                          => $administrator,
+            'pageClass'                                              => $pageClass,
+            'pagelist'                                               => $pagelist,
+            'pageTitle'                                              => $pageTitle]);
+    }
 
    public function notFound(){
    		if(!Session::has('dnradmin_id')) { return Redirect::to('dnradmin/');}
@@ -231,12 +229,12 @@ class PagesController extends Controller
 		$pagelist = Pages::pageList();
 		$pageTitle = PAGE_MANAGEMENT;
 
-   		return View::make('_admin.error', array('page' => $pages,
-	    												  'administrator'=>$administrator,
-	    												  'pageClass'=>$pageClass,
-	    												  'pagelist'=>$pagelist,
-	    												  'pageTitle'=>$pageTitle));
-   }
+        return View::make('_admin.error', ['page' => $pages,
+            'administrator'                                => $administrator,
+            'pageClass'                                    => $pageClass,
+            'pagelist'                                     => $pagelist,
+            'pageTitle'                                    => $pageTitle]);
+    }
 
     public function getSlug($slug) {
 	   $pages =  Pages::where('fldPagesSlug', '=', $slug)->first();
@@ -840,8 +838,43 @@ class PagesController extends Controller
    														   'pages'=>$pages,
    														   'cart_count'=>$cart_count));
    }
+    public function affiliateLogin()
+    {
+		
+        $menus               = Pages::where('fldPagesMainID', '=', 0)->get();
+        $category            = Category::where('fldCategoryMainID', '=', 0)->orderby('fldCategoryPosition')->get();
+        $settings            = Settings::first();
+        $google              = Google::first();
+        $settings->site_name = "Login";
+        $cart_count          = TempCart::countCart();
+        $slug                = 'login';
+        $pages               = Pages::where('fldPagesSlug', '=', $slug)->first();
+        $pages->fldPagesName = 'shop';
+        return View::make('home.affiliate_login')->with(['pages' => $pages, 'menus' => $menus,
+            'category'                                                     => $category,
+            'settings'                                                     => $settings,
+            'google'                                                       => $google,
+            'cart_count'=> $cart_count]);
 
-   	/*
+    }
+
+	public function affiliateRegistration()
+    {
+        $menus               = Pages::where('fldPagesMainID', '=', 0)->get();
+        $category            = Category::where('fldCategoryMainID', '=', 0)->orderby('fldCategoryPosition')->get();
+        $settings            = Settings::first();
+        $google              = Google::first();
+        $pages               = Pages::find(55);
+        $settings->site_name = "Registration";
+        $cart_count          = TempCart::countCart();
+        return View::make('home.registration_affiliate')->with(['menus' => $menus,
+            'category'                                                       => $category,
+            'settings'                                                       => $settings,
+            'google'                                                         => $google,
+            'pages'                                                          => $pages,
+            'cart_count'                                                     => $cart_count]);
+    }
+    /*
    	public function FAQ() {
 
 	    $pages = Pages::find(88);

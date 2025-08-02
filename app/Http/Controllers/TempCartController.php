@@ -756,7 +756,7 @@ class TempCartController extends BaseController
 
 		// Authorize.net - START
 		$subtotal_amount = $tax_amount = $tax_percent = $grandtotal = $coupon_discount = $discount_formula = $tax_total = $total_quantity = 0;
-		$sales_manager_commission_total = $shop_owner_commission_total = $total_shipping = $total_graphik_cost = $base_amount_commission = 0;
+		$sales_manager_commission_total = $sales_assistant_commission_total = $shop_owner_commission_total = $total_shipping = $total_graphik_cost = $base_amount_commission = 0;
 
 		// echo '<hr>';
 		// echo '<pre>';
@@ -840,7 +840,7 @@ class TempCartController extends BaseController
         Log::debug('---------grandtotal--------------');
         Log::debug($grandtotal);
         Log::debug('---------discount_formula--------------');
-        Log::debug($discount_formula);
+        Log::debug( $discount_formula);
 
         // $tax_total = $discount_formula 	* ($tax_percent/100);
         $tax_total = $data['tax'];
@@ -853,10 +853,16 @@ class TempCartController extends BaseController
         // Log::debug('---------sales_manager_commission_total 0.10 * P * (1 - d/100)--------------');
         // $sales_manager_commission_total = ($discount_formula - $shipping_amount) * 0.10;
         // $sales_manager_commission_total = $discount_formula * 0.10;
+		$sales_assistant_commission_total =0;
 		if($temp_cart[0]['is_custom'] == 1){
 			$sales_manager_commission_total= $discount_formula * 0.1;
 		} else {
-        	$sales_manager_commission_total = $discount_formula * 0.08;
+			if( ( Session::get('couponSource') == 'Affilate' )){
+				$sales_manager_commission_total = $discount_formula * 0.25;
+				$sales_assistant_commission_total = $discount_formula * 0.25;
+			} else {
+        		$sales_manager_commission_total = $discount_formula * 0.08;
+			}
 		}
 
         Log::debug('---------sales_manager_commission_total--------------');
@@ -952,8 +958,8 @@ class TempCartController extends BaseController
                 );
 
 
-        $xml_profile = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_PRODUCTION_SERVER);
-
+       // $xml_profile = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_PRODUCTION_SERVER);
+        $xml_profile = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_DEVELOPMENT_SERVER);
         $refId = date('ymdhis') . rand(1000,9999);
         $xml_profile->createCustomerProfileRequest($customer_profile);
 
@@ -977,8 +983,10 @@ class TempCartController extends BaseController
                     );
 
 
-            $xml_profile_update = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_PRODUCTION_SERVER);
-            // $refId = date('ymdhis') . rand(1000,9999);
+            //$xml_profile_update = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_PRODUCTION_SERVER);
+            			
+			$xml_profile_update = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_DEVELOPMENT_SERVER);
+			$refId = date('ymdhis') . rand(1000,9999);
             $xml_profile_update->updateCustomerProfileRequest($customer_profile_update);
 
             $clientInfo->fldClientAuthProfileID = $customerProfileID;
@@ -1032,8 +1040,8 @@ class TempCartController extends BaseController
         Log::debug('---------one_time_charge--------------');
 
 
-        $xml_charge = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_PRODUCTION_SERVER);
-        $xml_charge = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_PRODUCTION_SERVER);
+        $xml_charge = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_DEVELOPMENT_SERVER);
+        //$xml_charge = new \AuthnetXML(AUTHNET_LOGIN, AUTHNET_TRANSKEY, \AuthnetXML::USE_PRODUCTION_SERVER);
         $refId = date('ymdhis') . rand(1000,9999);
         $xml_charge->createCustomerProfileTransactionRequest($one_time_charge); // authorizeAndCapture
 
@@ -1213,6 +1221,22 @@ class TempCartController extends BaseController
 				 	$managerCommission = ManagerCommission::calculateCommission($sales_manager_commission_total,$manager,$clientInfo,$order_code,1);
 					//dd($managerCommission);
 				}
+				if( ( Session::get('couponSource') == 'Affilate' ) || ( $shop_owner_manager_id > 0 )) {
+				 	//compute manager comissions
+				 	// $this_manager_id = Session::get('couponSource');
+				 	$this_manager_id = Session::get('couponSourceID');
+				 	if($shop_owner_manager_id > 0){
+				 		$this_manager_id = $shop_owner_manager_id;
+				 	}
+
+				 	Log::debug('this_manager_id');
+				 	Log::debug($this_manager_id);
+					Log::debug( 'sales_manager_commission_total 1228');
+				 	Log::debug($sales_manager_commission_total);
+				 	$manager = Manager::find($this_manager_id);
+				 	$managerCommission = ManagerCommission::calculateCommission($sales_manager_commission_total,$manager,$clientInfo,$order_code,1);
+					//dd($managerCommission);
+				}
 			}
 
 			// after successful payment transfer temp cart to cart
@@ -1277,7 +1301,6 @@ class TempCartController extends BaseController
 				return Redirect::to('thankyou/payment');
 			}
 		}
-	}
 
 
 	public function __transferToCart($cart = [], $order_code, $gd_order,$client_id) {

@@ -390,12 +390,17 @@ Route::group(array('prefix' => '/'), function() {
 
     //for sales / territory manager registration
     Route::get('/sales-registration', 'PagesController@salesRegistration');
-    Route::post('/sales-registration', 'ManagerController@newSalesRegistration');
+    Route::post('/sales-registration', action: 'ManagerController@newSalesRegistration');
     Route::get('/sales-login', 'PagesController@salesLogin');
     Route::post('/sales-login', 'ManagerController@salesLogin');
     Route::post('/sales-forgot-password', 'ManagerController@forgotPassword');
     Route::get('/sales-new-password/{hash}', 'ManagerController@newPassword');
     Route::post('/sales-new-password', 'ManagerController@resetPassword');
+
+   Route::get(uri: '/affiliate-login', action: 'PagesController@affiliateLogin');
+   Route::get('/affiliate-registration', 'PagesController@affiliateRegistration');
+   Route::post('/affiliate-registration', action: 'StaffController@affiliateRegistration');
+   Route::post(uri: '/affiliate-login', action: 'StaffController@affiliateLogin');
 
     //for shop owner registration login and forgot password
     Route::get('/shop-owner-login', 'PagesController@shopLogin');
