@@ -77,6 +77,9 @@ Route::group(array('prefix' => '/dnradmin'), function()
     Route::post('/manager/edit/{id}', 'ManagerController@postEdit');
     Route::get('/manager/delete/{id}', 'ManagerController@getDelete');
 
+    //affilate
+   Route::get('/affiliate', 'AffiliateController@getIndex');
+
 
     Route::get('/shop-owner', 'ShopOwnerController@getIndex');
     Route::get('/shop-owner/new', 'ShopOwnerController@getNew');

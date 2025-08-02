@@ -51,13 +51,25 @@ class CommissionController extends Controller
 							->select(DB::raw('tblShopOwner.fldShopOwnerID AS ID, tblShopOwnerCommission.fldShopOwnerCommissionOrderCode AS orderCode, "shop" AS type, tblShopOwner.fldShopOwnerFirstname AS firstName, tblShopOwner.fldShopOwnerLastname AS lastName, tblShopOwner.fldShopOwnerEmail AS email, tblShopOwner.fldShopOwnerCity AS city, tblShopOwner.fldShopOwnerState AS state, sum(tblShopOwnerCommission.fldShopOwnerCommissionAmount) AS totalCommission'));
 
 		// Combine with Manager Commission
-		$commissions 		= ManagerCommission::leftJoin('tblManager','tblManager.fldManagerID','=','tblManagerCommission.fldManagerCommissionManagerID')
-							->groupBy('tblManager.fldManagerID')
-							->select(DB::raw('tblManager.fldManagerID AS ID, tblManagerCommission.fldManagerCommissionOrderCode AS orderCode, "manager" AS type, tblManager.fldManagerFirstname AS firstName, tblManager.fldManagerLastname as lastName, tblManager.fldManagerEmail as email, tblManager.fldManagerCity as city, tblManager.fldManagerState as state, sum(tblManagerCommission.fldManagerCommissionAmount) as totalCommission'))
-							->union($commission_shop)
-							->get();
-
-		$administrator = Settings::where('fldAdministratorID','=',Session::get('dnradmin_id'))->first();				
+		$commissions = ManagerCommission::leftJoin('tblManager','tblManager.fldManagerID','=','tblManagerCommission.fldManagerCommissionManagerID')
+						->groupBy('tblManager.fldManagerID')
+						->select(DB::raw('
+							tblManager.fldManagerID AS ID,
+							tblManagerCommission.fldManagerCommissionOrderCode AS orderCode,
+							CASE 
+								WHEN tblManager.fldManagerType = 4 THEN "affiliate"
+								ELSE "manager"
+							END AS type,
+							tblManager.fldManagerFirstname AS firstName,
+							tblManager.fldManagerLastname AS lastName,
+							tblManager.fldManagerEmail AS email,
+							tblManager.fldManagerCity AS city,
+							tblManager.fldManagerState AS state,
+							SUM(tblManagerCommission.fldManagerCommissionAmount) AS totalCommission
+						'))
+						->union($commission_shop)
+						->get();
+		$administrator = Settings::where('fldAdministratorID','=',Session::get('dnradmin_id'))->first();
 		$orderClass = 'class=active'; 
 		$pageTitle = COMMISSIONS;
 
