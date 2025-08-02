@@ -1234,7 +1234,7 @@ class TempCartController extends BaseController
 					Log::debug( 'sales_manager_commission_total 1228');
 				 	Log::debug($sales_manager_commission_total);
 				 	$manager = Manager::find($this_manager_id);
-				 	$managerCommission = ManagerCommission::calculateCommission($sales_manager_commission_total,$manager,$clientInfo,$order_code,2);
+				 	$managerCommission = ManagerCommission::calculateCommission($sales_manager_commission_total,$manager,$clientInfo,$order_code,4);
 					//dd($managerCommission);
 				}
 			}

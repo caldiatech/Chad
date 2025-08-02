@@ -32,7 +32,7 @@ class ManagerCommission extends Eloquent
 		$managerCom->save();
 
 		if ($managerSales = Manager::find($manager->fldManagerMainID)) {
-			$managerCommission = number_format($commission * 0.25, 2);
+			$managerCommission = $commission;
 			$managerCom->fldManagerCommissionUserType = 2;
 			self::managerComission($managerCommission, $managerSales, $clientInfo, $orderCode, $userType);
 		}
