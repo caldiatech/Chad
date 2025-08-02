@@ -70,15 +70,15 @@ class ManagerCommission extends Eloquent
 
 
 	static function managerComission($amount,$manager,$clientInfo,$orderCode,$userType) {
-		require_once "public/payment/braintree/lib/Braintree.php";
-	 	\Braintree_Configuration::environment(BRAINTREE_ENVIRONMENT);
-		\Braintree_Configuration::merchantId(BRAINTREE_MERCHANTID);
-		\Braintree_Configuration::publicKey(BRAINTREE_PUBLICKEY);
-		\Braintree_Configuration::privateKey(BRAINTREE_PRIVATEKEY);
+		// require_once "public/payment/braintree/lib/Braintree.php";
+	 	// \Braintree_Configuration::environment(BRAINTREE_ENVIRONMENT);
+		// \Braintree_Configuration::merchantId(BRAINTREE_MERCHANTID);
+		// \Braintree_Configuration::publicKey(BRAINTREE_PUBLICKEY);
+		// \Braintree_Configuration::privateKey(BRAINTREE_PRIVATEKEY);
 
-		$results = BraintreeInformation::commissionPayment($amount,$manager->fldManagerBrainTreeMerchantID);
+		// $results = BraintreeInformation::commissionPayment($amount,$manager->fldManagerBrainTreeMerchantID);
 		
-		if($results->success != "") {
+		// if($results->success != "") {
 			//save information to manager commission table
 			$managerCom = new ManagerCommission;
 				$managerCom->fldManagerCommissionManagerID = $manager->fldManagerID;
@@ -88,7 +88,7 @@ class ManagerCommission extends Eloquent
 				$managerCom->fldManagerCommissionDate = date('Y-m-d');
 				$managerCom->fldManagerCommissionAmount = $amount;
 			$managerCom->save();
-		}
+		//}
 	}
 
 	public static function displayOrdersCommission($managerID) {
