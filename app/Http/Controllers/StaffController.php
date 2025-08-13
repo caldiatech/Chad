@@ -308,7 +308,7 @@ class StaffController extends Controller
 					'fldManagerEmail'     => Input::get('email'),
 					'fldManagerPassword'  => $password,
 					'fldManagerPhoneNo'   => Input::get('phone'),
-					'fldManagerStatus'    => 1,
+					'fldManagerStatus'    => 2,
 					'fldManagerType'      => 2,
 					'fldManagerPromoCode' => $promocode,
 					'fldManagerMainID'    => $fldManagerMainID,
