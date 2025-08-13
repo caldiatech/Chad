@@ -21,23 +21,23 @@
                                 <div class = "uk-width-large-1-2  uk-width-small-1-2 uk-margin-top">
                                     {!! Form::label('firstname', '* First Name'); !!}
                                     {!! Form::text('firstname',"",array('id'=>'firstname','required','class'=>'form-control')) !!}
-                                    @if($errors->shop->first('firstname'))
-                                            <div class="uk-text-danger">{!!$errors->shop->first('firstname')!!}</div>
+                                    @if($errors->manager->first('firstname'))
+                                            <div class="uk-text-danger">{!!$errors->manager->first('firstname')!!}</div>
                                     @endif
                                 </div >
                                 <div class = "uk-width-large-1-2 uk-width-small-1-2 uk-margin-top">
                                     {!! Form::label('lastname', '* Last Name'); !!}
                                     {!! Form::text('lastname', "",array('id'=>'lastname','required','class'=>'form-control')) !!}
-                                    @if($errors->shop->first('lastname'))
-                                            <div class="uk-text-danger">{!!$errors->shop->first('lastname')!!}</div>
+                                    @if($errors->manager->first('lastname'))
+                                            <div class="uk-text-danger">{!!$errors->manager->first('lastname')!!}</div>
                                     @endif
                                 </div >
 
                                 <div class = "uk-width-large-1-2 uk-width-small-1-2 uk-margin-top">
                                     {!! Form::label('business_name', 'Business Name'); !!}
                                     {!! Form::text('business_name', "",array('id'=>'business_name','required','class'=>'form-control')) !!}
-                                    @if($errors->shop->first('business_name'))
-                                            <div class="uk-text-danger">{!!$errors->shop->first('business_name')!!}</div>
+                                    @if($errors->manager->first('business_name'))
+                                            <div class="uk-text-danger">{!!$errors->manager->first('business_name')!!}</div>
                                     @endif
                                 </div >
                                 <div class = "uk-width-large-1-2 uk-width-small-1-2 uk-margin-top">&nbsp;</div >
@@ -45,16 +45,16 @@
                                 <div class = "uk-width-large-1-2 uk-width-small-1-2 uk-margin-top">
                                     {!! Form::label('email', '* Email Address'); !!}
                                     {!! Form::email('email',"",array('id'=>'email','required','class'=>'form-control')) !!}
-                                    @if($errors->shop->first('email'))
-                                            <div class="uk-text-danger">{!!$errors->shop->first('email')!!}</div>
+                                    @if($errors->manager->first('email'))
+                                            <div class="uk-text-danger">{!!$errors->manager->first('email')!!}</div>
                                     @endif
                                 </div >
 
                                 <div class = "uk-width-large-1-2 uk-width-small-1-2  uk-margin-top" >
                                     {!! Form::label('phone', '* Phone Number'); !!}
                                     {!! Form::text('phone',"",array('id'=>'phone','required','class'=>'form-control phone_us')) !!}
-                                    @if($errors->shop->first('phone'))
-                                            <div class="uk-text-danger">{!!$errors->shop->first('phone')!!}</div>
+                                    @if($errors->manager->first('phone'))
+                                            <div class="uk-text-danger">{!!$errors->manager->first('phone')!!}</div>
                                     @endif
                                 </div >
 
@@ -69,25 +69,28 @@
                                             <td style="padding-right:5px;font-size:11px;" class="uk-text-small special"> <i class="uk-icon uk-icon-check-circle icon-color" id="passstrong"></i> special char</td>
                                         </tr>
                                     </table>
-                                     @if($errors->shop->first('password'))
-                                            <div class="uk-text-danger">{!!$errors->shop->first('password')!!}</div>
+                                     @if($errors->manager->first('password'))
+                                            <div class="uk-text-danger">{!!$errors->manager->first('password')!!}</div>
                                     @endif
+                                   <div class="uk-text-danger">
+                                    </div>
+
                                 </div >
 
                                  <div class = "uk-width-large-1-2 uk-width-small-1-2  uk-margin-top" >
                                     {!! Form::label('password_confirmation', '* Retype Password'); !!}
                                     {!! Form::password('password_confirmation',array('id'=>'password_confirmation','required', 'class' => 'form-width-large password-fld')) !!}
 
-                                    @if($errors->shop->first('password_confirmation'))
-                                            <div class="uk-text-danger">{!!$errors->shop->first('password_confirmation')!!}</div>
+                                    @if($errors->manager->first('password_confirmation'))
+                                            <div class="uk-text-danger">{!!$errors->manager->first('password_confirmation')!!}</div>
                                     @endif
 
                                 </div>
                                 <div class = "uk-width-large-1-2 uk-width-small-1-2  uk-margin-top" >
                                     {!! Form::label('invite_code', '* Invite Code'); !!}
                                     {!! Form::text('invite_code','',array('id'=>'invite_code','required','class'=>'form-control')) !!}
-                                    @if($errors->shop->first('invite_code'))
-                                            <div class="uk-text-danger">{!!$errors->shop->first('invite_code')!!}</div>
+                                    @if($errors->manager->first('invite_code'))
+                                            <div class="uk-text-danger">{!!$errors->manager->first('invite_code')!!}</div>
                                     @endif
                                 </div >
 
@@ -238,7 +241,24 @@
 
       });
 
+      $('form').on('submit', function(e) {
+        let pwd = $('#password').val();
+        let errors = [];
 
+        if (pwd.length < 9) errors.push('Password must be at least 8 characters.');
+        if (!/[A-Z]/.test(pwd)) errors.push('Password must contain at least one uppercase letter.');
+        if (!/[0-9]/.test(pwd)) errors.push('Password must contain at least one number.');
+        if (!/[!@#$%^&*(),.?":{}|<>]/.test(pwd)) errors.push('Password must contain at least one special character.');
+        if (errors.length > 0) {
+            e.preventDefault();
+            $('.uk-text-danger').html(errors.join('<br>')); // show errors above field
+        }
+    });
+    let $errDiv = $('.uk-text-danger');
+
+      $('#password').on('input', function() {
+            $errDiv.html('');
+        });
     </script>
 
 @stop

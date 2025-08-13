@@ -301,7 +301,6 @@ class StaffController extends Controller
 			$fldManagerMainID = Manager::where('fldManagerPromoCode', $inviteCode)
 				->value('fldManagerID');
 			$promocode = strtoupper('TR'.Str::random(4));
-
 			if($fldManagerMainID) {
 				$manager = new Manager([
 					'fldManagerFirstname' => Input::get('firstname'),
