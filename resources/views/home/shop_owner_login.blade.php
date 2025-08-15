@@ -4,10 +4,10 @@
   <div class="uk-width-1-1">
     <div class="uk-container uk-container-center">
       <article id="main" role="main" class="uk-block uk-text-contrast">
-        <div class="uk-grid">
+        <div class="uk-grid" style="margin-top: 4%">
           <div class="uk-width-medium-2-3 uk-width-small-1-1">
             <div class="uk-container">
-                <h1 class="uk-h2 text-uppercase uk-text-contrast">Registered Shop Owner</h1>
+                <h1 class="uk-h2 text-uppercase uk-text-contrast">Registered Affiliate</h1>
                 <p class="uk-margin-bottom-remove uk-padding-bottom-remove">{!!$pages->fldPagesSubTitle!!}</p>
                 @if(Session::has('shop-owner-reset-success'))
                           <div class="uk-alert uk-alert-success"><strong>Success: </strong>Your password has been reset. You can now use your new password to login.</div>
@@ -93,8 +93,8 @@
                 <hr class="uk-article-divider uk-margin-large-bottom divshow">
                 <div class=" uk-block box-bordered">
                     <div class="uk-container">
-                         <h1 class="uk-h2 text-uppercase">New Shop Owner</h1>
-                        <p>Create an account as a sale manager today.</p>
+                         <h1 class="uk-h2 text-uppercase" style="color: white">New Affiliate</h1>
+                        <p>Create an account as a Affiliate today.</p>
                         {!! Html::link('shop-owner-registration', "Create an Account",array('class'=>'uk-button uk-button-primary')) !!}
                     </div>
                 </div>
