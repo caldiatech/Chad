@@ -677,7 +677,7 @@ class ShopOwnerController extends Controller
 	public function orderHistory() {
 	 	if(!Session::has('shop_owner_id')) { return Redirect::to('/');}
 		$shop_owner_id = Session::get('shop_owner_id');
-		$shopOwner = ShopOwner::find($shop_owner_id);
+		$shopOwner = ShopOwner::find(id: $shop_owner_id);
 
 		settype($pages, 'object');
 		$pages->fldPagesTitle = "Order History";
@@ -879,6 +879,23 @@ class ShopOwnerController extends Controller
 		return Redirect::to('/dashboard/shop-owner');
 	 }
 	
-	
+	public function salesActivities() {
+		if(!Session::has('shop_owner_id')) { return Redirect::to('/');}
+		$shop_owner_id = Session::get('shop_owner_id');
+		$manager = ShopOwner::find(id: $shop_owner_id);
+
+		settype($pages, 'object');
+		$pages->fldPagesTitle = "Sales Activities";
+		$pages->category = "shop-owner";
+		$pages->slug = "sales-activities";
+		$settings = Settings::first();
+
+		$dateFrom = date('Y-1-1');
+		$dateTo = date('Y-12-31');
+
+		$cart = ShopOwnerCommission::salesActivities( $shop_owner_id);
+		$google = Google::first();
+		return View::make('dashboard.shop-owner.sales-activities', compact('manager','pages','settings','cart','google'));
+	 }
 	
 }

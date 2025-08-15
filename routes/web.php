@@ -274,6 +274,8 @@ Route::group(array('prefix' => '/dashboard/shop-owner'), function() {
     Route::get('/settings', 'ShopOwnerController@settings');
     Route::post('/settings', 'ShopOwnerController@settingsUpdate');
     Route::get('/logout', 'ShopOwnerController@logout');
+   Route::get('/sales-activities', action: 'ShopOwnerController@salesActivities');
+
  });
 
 

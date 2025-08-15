@@ -31,11 +31,11 @@ class ManagerCommission extends Eloquent
 		$managerCom->fldManagerCommissionAmount = $commission;
 		$managerCom->save();
 
-		if ($managerSales = Manager::find($manager->fldManagerMainID)) {
-			$managerCommission = $commission;
-			$managerCom->fldManagerCommissionUserType = 2;
-			self::managerComission($managerCommission, $managerSales, $clientInfo, $orderCode, $userType);
-		}
+		// if ($managerSales = Manager::find($manager->fldManagerMainID)) {
+		// 	$managerCommission = $commission;
+		// 	$managerCom->fldManagerCommissionUserType = 2;
+		// 	self::managerComission($managerCommission, $managerSales, $clientInfo, $orderCode, $userType);
+		// }
 
 		/*
 		require_once "public/payment/braintree/lib/Braintree.php";

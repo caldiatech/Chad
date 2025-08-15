@@ -878,7 +878,7 @@ class TempCartController extends BaseController
         // $shop_owner_commission_total = ($discount_formula - $shipping_amount) * 0.47;
         // $shop_owner_commission_total 	= $discount_formula * 0.47;
         // $shop_owner_commission_total 	= $discount_formula * 0.45;
-		if($temp_cart[0]['is_custom'] == 0){
+		if($temp_cart[0]['is_custom'] == 0 && ( Session::get('couponSource') != 'Shop' )){
 			$shop_owner_commission_total = ($discount_formula - $total_graphik_cost) * 0.50;
 		}
        
@@ -1198,8 +1198,8 @@ class TempCartController extends BaseController
 				 	// dd($shopOwner,Session::get('couponSourceID'));
 					$shopOwnerCommission = ShopOwnerCommission::calculateCommission($shop_owner_commission_total,$shopOwner,$clientInfo,$order_code,1);
 				 	// dd($shop_owner_commission_total,$shopOwner,$clientInfo,$order_code,$shopOwnerCommission);
-					Log::debug('shopOwner');
-				 	Log::debug($shopOwner);
+					Log::debug(message: 'shopOwner');
+				 	Log::debug(message: $shopOwner);
 				 	if( $shopOwner->fldShopOwnerManagerID != null && $shopOwner->fldShopOwnerManagerID != '' ){
 				 		$shop_owner_manager_id =  $shopOwner->fldShopOwnerManagerID;
 				 	}

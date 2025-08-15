@@ -53,12 +53,12 @@
                                     <div class="uk-thumbnail-caption">Sales Manager</div>
                                 </a>
                             </div>
-                            <div class="uk-width-medium-1-4">
+                            {{-- <div class="uk-width-medium-1-4">
                                 <a class="uk-thumbnail th-box uk-text-center uk-width-1-1" href="{{url('/dnradmin/affiliate')}}">
                                     <i class="pe-7s-users iconsizelarge"></i>
                                     <div class="uk-thumbnail-caption">Affiliate</div>
                                 </a>
-                            </div>
+                            </div> --}}
 
                             <div class="uk-width-medium-1-4">
                                 <a class="uk-thumbnail th-box uk-text-center uk-width-1-1" href="{{url('/dnradmin/shop-owner')}}">

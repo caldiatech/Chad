@@ -173,7 +173,7 @@ class ShopOwnerCommission extends Eloquent
 		$cartDisplay = self::join('tblCart','tblCart.fldCartOrderNo','=','tblShopOwnerCommission.fldShopOwnerCommissionOrderCode')
 							  ->join('tblCartCouponCode','tblCart.fldCartOrderNo','=','tblCartCouponCode.fldCartCouponCodeOrderNo')
 							->join('tblCartTax','tblCart.fldCartOrderNo','=','tblCartTax.fldCartTaxOrderNo')
-							->join('tblClient','tblClient.fldClientID','=','tblCart.fldCartClientID')	
+							->join('tblClient','tblClient.fldClientID','=','tblCart.fldCartClientID')
 							  ->join('tblProduct','fldProductID','=','fldCartProductID')
 							  ->join('tblClientsShipping','tblClientsShipping.fldClientsShippingClientID','=','tblClient.fldClientID')
 							  ->select('tblProduct.fldProductSlug as fldProductSlug','tblProduct.fldProductID as product_id','tblCart.fldCartID as cart_id','tblCart.fldCartQuantity as quantity','tblProduct.fldProductSubTitle as product_sub_title',
@@ -192,6 +192,7 @@ class ShopOwnerCommission extends Eloquent
 							  ->whereBetween('tblShopOwnerCommission.fldShopOwnerCommissionDate', [$dateFrom,$dateTo])
 							  ->orderBy('fldShopOwnerCommissionID','DESC')							
 							  ->paginate(15);
+		//dd($cartDisplay);
 		return $cartDisplay;							  
 	}
 
