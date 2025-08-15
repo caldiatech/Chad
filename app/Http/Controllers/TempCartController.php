@@ -857,9 +857,9 @@ class TempCartController extends BaseController
 		if($temp_cart[0]['is_custom'] == 1){
 			$sales_manager_commission_total= $discount_formula * 0.1;
 		} else {
-			if( ( Session::get('couponSource') == 'Affilate' )){
-				$sales_manager_commission_total = $discount_formula * 0.25;
-				$sales_assistant_commission_total = $discount_formula * 0.25;
+			if( ( Session::get('couponSource') == 'Shop' )){
+				$sales_manager_commission_total = $discount_formula * 0.40;
+				$shop_owner_commission_total = $discount_formula * 0.40;
 			} else {
         		$sales_manager_commission_total = $discount_formula * 0.08;
 			}
@@ -1221,22 +1221,22 @@ class TempCartController extends BaseController
 				 	$managerCommission = ManagerCommission::calculateCommission($sales_manager_commission_total,$manager,$clientInfo,$order_code,2);
 					//dd($managerCommission);
 				}
-				if( ( Session::get('couponSource') == 'Affilate' ) || ( $shop_owner_manager_id > 0 )) {
-				 	//compute manager comissions
-				 	// $this_manager_id = Session::get('couponSource');
-				 	$this_manager_id = Session::get('couponSourceID');
-				 	if($shop_owner_manager_id > 0){
-				 		$this_manager_id = $shop_owner_manager_id;
-				 	}
+				// if( ( Session::get('couponSource') == 'Affilate' ) || ( $shop_owner_manager_id > 0 )) {
+				//  	//compute manager comissions
+				//  	// $this_manager_id = Session::get('couponSource');
+				//  	$this_manager_id = Session::get('couponSourceID');
+				//  	if($shop_owner_manager_id > 0){
+				//  		$this_manager_id = $shop_owner_manager_id;
+				//  	}
 
-				 	Log::debug('this_manager_id');
-				 	Log::debug($this_manager_id);
-					Log::debug( 'sales_manager_commission_total 1228');
-				 	Log::debug($sales_manager_commission_total);
-				 	$manager = Manager::find($this_manager_id);
-				 	$managerCommission = ManagerCommission::calculateCommission($sales_manager_commission_total,$manager,$clientInfo,$order_code,4);
-					//dd($managerCommission);
-				}
+				//  	Log::debug('this_manager_id');
+				//  	Log::debug($this_manager_id);
+				// 	Log::debug( 'sales_manager_commission_total 1228');
+				//  	Log::debug($sales_manager_commission_total);
+				//  	$manager = Manager::find($this_manager_id);
+				//  	$managerCommission = ManagerCommission::calculateCommission($sales_manager_commission_total,$manager,$clientInfo,$order_code,4);
+				// 	//dd($managerCommission);
+				// }
 			}
 
 			// after successful payment transfer temp cart to cart

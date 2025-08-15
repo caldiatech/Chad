@@ -400,10 +400,10 @@ Route::group(array('prefix' => '/'), function() {
     Route::get('/sales-new-password/{hash}', 'ManagerController@newPassword');
     Route::post('/sales-new-password', 'ManagerController@resetPassword');
 
-   Route::get(uri: '/affiliate-login', action: 'PagesController@affiliateLogin');
-   Route::get('/affiliate-registration', 'PagesController@affiliateRegistration');
-   Route::post('/affiliate-registration', action: 'StaffController@affiliateRegistration');
-   Route::post(uri: '/affiliate-login', action: 'StaffController@affiliateLogin');
+   // Route::get(uri: '/affiliate-login', action: 'PagesController@affiliateLogin');
+   // Route::get('/affiliate-registration', 'PagesController@affiliateRegistration');
+   // Route::post('/affiliate-registration', action: 'StaffController@affiliateRegistration');
+   // Route::post(uri: '/affiliate-login', action: 'StaffController@affiliateLogin');
 
     //for shop owner registration login and forgot password
     Route::get('/shop-owner-login', 'PagesController@shopLogin');

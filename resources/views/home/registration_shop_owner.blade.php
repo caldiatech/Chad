@@ -1,11 +1,11 @@
 @extends('layouts._front.template-1')
 
 @section('content')
-    <?php $login_type_text = 'Shop Owner'; ?>
+    <?php $login_type_text = 'Affiliate'; ?>
 	 <div class="uk-width-1-1">
              <div class="uk-container uk-container-center ">
                 <article id="main" role="main"  class="uk-block uk-text-contrast">
-                    <div class="uk-grid">
+                    <div class="uk-grid" style="margin-top: 4%">
                         <div class=" uk-width-large-7-10 uk-width-medium-1-1 uk-width-1-1">
                             <h1 class="uk-h2 text-uppercase uk-text-contrast">{!! $login_type_text . ' '.$pages->fldPagesName !!}</h1>
                             {!! $pages->fldPagesDescription !!}
@@ -72,6 +72,8 @@
                                      @if($errors->shop->first('password'))
                                             <div class="uk-text-danger">{!!$errors->shop->first('password')!!}</div>
                                     @endif
+                                     <div class="uk-text-danger">
+                                    </div>
                                 </div >
 
                                  <div class = "uk-width-large-1-2 uk-width-small-1-2  uk-margin-top" >
@@ -102,7 +104,7 @@
                         </div><!--uk 6 -10 -->
                         <div class=" uk-width-large-3-10 uk-width-medium-1-2   uk-width-1-1 uk-margin-large-top">
                             <div class="box-bordered padding-medium ">
-                                <h4>Registered {!!$login_type_text!!}</h4>  
+                                <h4 style="color: white">Registered {!!$login_type_text!!}</h4>  
                                 {!!$pages->fldPagesDescription!!}
                                  {!! Html::link('shop-owner-login', "Login",array('class'=>'uk-button uk-button-primary')) !!}
                             </div>
@@ -237,6 +239,24 @@
 
 
       });
+       $('form').on('submit', function(e) {
+        let pwd = $('#password').val();
+        let errors = [];
+
+        if (pwd.length < 9) errors.push('Password must be at least 8 characters.');
+        if (!/[A-Z]/.test(pwd)) errors.push('Password must contain at least one uppercase letter.');
+        if (!/[0-9]/.test(pwd)) errors.push('Password must contain at least one number.');
+        if (!/[!@#$%^&*(),.?":{}|<>]/.test(pwd)) errors.push('Password must contain at least one special character.');
+        if (errors.length > 0) {
+            e.preventDefault();
+            $('.uk-text-danger').html(errors.join('<br>')); // show errors above field
+        }
+    });
+    let $errDiv = $('.uk-text-danger');
+
+      $('#password').on('input', function() {
+            $errDiv.html('');
+        });
 
 
     </script>

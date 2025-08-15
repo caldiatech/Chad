@@ -283,7 +283,7 @@ class ShopOwnerController extends Controller
 			//check if Invite code is valid
 			$sales = Manager::where('fldManagerPromoCode','=',$invite_code)
 							 ->first();
-			if(count($sales) == 0) {
+			if(empty($sales)) {
 				Session::flash('error',"Invalid Invite Code."); 		   
 		  		return Redirect::to('shop-owner-registration')->withInput();
 		  		exit();		
@@ -293,7 +293,6 @@ class ShopOwnerController extends Controller
 
 // 			$promocode = strtoupper('SO'.Str::random(4));
 			$promocode = strtoupper('SH'.Str::random(4));
-
 			$password = Hash::make(Input::get('password'));	   		
 			$shopOwner = new ShopOwner;
 			$shopOwner->fldShopOwnerFirstname = Input::get('firstname');

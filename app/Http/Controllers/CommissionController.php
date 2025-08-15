@@ -283,12 +283,6 @@ class CommissionController extends Controller
 						->where('fldShopOwnerCommissionShopOwnerID','=',$id)
 						->select(DB::raw('fldShopOwnerCommissionOrderCode AS orderCode, fldClientID, fldClientFirstname, fldClientLastname, fldClientEmail, fldClientContact, fldClientCity, fldClientState, fldShopOwnerCommissionAmount AS commissionAmount, fldShopOwnerCommissionDate AS commissionDate'))
 						->get();
-		} else {
-			$commissions = ShopOwnerCommission::leftJoin('tblShopOwner','fldShopOwnerID','=','fldShopOwnerCommissionShopOwnerID')
-						->leftJoin('tblClient','fldClientID','=','fldShopOwnerCommissionUserID')
-						->where('fldShopOwnerCommissionShopOwnerID','=',$id)
-						->select(DB::raw('fldShopOwnerCommissionOrderCode AS orderCode, fldClientID, fldClientFirstname, fldClientLastname, fldClientEmail, fldClientContact, fldClientCity, fldClientState, fldShopOwnerCommissionAmount AS commissionAmount, fldShopOwnerCommissionDate AS commissionDate'))
-						->get();
 		}
 
 		// $commission_shop 	= ShopOwnerCommission::leftJoin('tblShopOwner','tblShopOwner.fldShopOwnerID','=','tblShopOwnerCommission.fldShopOwnerCommissionShopOwnerID')

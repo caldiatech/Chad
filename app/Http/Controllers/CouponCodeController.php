@@ -207,20 +207,21 @@ class CouponCodeController extends Controller
 					$value[] = 'sm';
 					Session::put('couponAmount', $coupon_amount); 
 					// $value[] = 'Manager Promo Code';
-				} else {
-					Session::put('couponSource', value: 'Affilate');
-					Session::put('couponSourceID', value: $couponMgr->fldManagerID);
-					Session::put('couponCode', $code);
+				 }
+				 // else {
+				// 	Session::put('couponSource', value: 'Affilate');
+				// 	Session::put('couponSourceID', value: $couponMgr->fldManagerID);
+				// 	Session::put('couponCode', $code);
 
-					$coupon_amount = ($percentDiscount/100) * $total;
-					Log::debug($percentDiscount);
-					Log::debug('('.$percentDiscount.'/100 ) * '.$total);
-					Log::debug($coupon_amount);
-					$value[] = $coupon_amount;
-					$value[] = $total-(($percentDiscount/100) * $total);
-					$value[] = 'sm';
-					Session::put('couponAmount', $coupon_amount); 
-				}
+				// 	$coupon_amount = ($percentDiscount/100) * $total;
+				// 	Log::debug($percentDiscount);
+				// 	Log::debug('('.$percentDiscount.'/100 ) * '.$total);
+				// 	Log::debug($coupon_amount);
+				// 	$value[] = $coupon_amount;
+				// 	$value[] = $total-(($percentDiscount/100) * $total);
+				// 	$value[] = 'sm';
+				// 	Session::put('couponAmount', $coupon_amount); 
+				// }
 			}
 
 		} else {			
