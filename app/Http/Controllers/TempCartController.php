@@ -858,8 +858,10 @@ class TempCartController extends BaseController
 			$sales_manager_commission_total= $discount_formula * 0.1;
 		} else {
 			if( ( Session::get('couponSource') == 'Shop' )){
-				$sales_manager_commission_total = $discount_formula * 0.10;
+				$sales_manager_commission_total = $discount_formula * 0.40;
 				$shop_owner_commission_total = $discount_formula * 0.40;
+				  Log::debug('---------shop_owner_commission 863--------------');
+        Log::debug(message: '0.40');
 			} else {
         		$sales_manager_commission_total = $discount_formula * 0.08;
 			}
@@ -878,12 +880,18 @@ class TempCartController extends BaseController
         // $shop_owner_commission_total = ($discount_formula - $shipping_amount) * 0.47;
         // $shop_owner_commission_total 	= $discount_formula * 0.47;
         // $shop_owner_commission_total 	= $discount_formula * 0.45;
+		 Log::debug('---------couponSource 881--------------');
+        Log::debug(Session::get('couponSource'));
 		if($temp_cart[0]['is_custom'] == 0 && ( Session::get('couponSource') != 'Shop' )){
 			$shop_owner_commission_total = ($discount_formula - $total_graphik_cost) * 0.50;
+			  Log::debug('---------shop_owner_commission 885--------------');
+        Log::debug('0.50');
 		}
        
         Log::debug('---------shop_owner_commission_total--------------');
         Log::debug($shop_owner_commission_total);
+
+		
 
 		$charge_amount_orig 			= (float)$discount_formula + (float)$tax_total +(float) $shipping_amount;
         // Log::debug('---------Grand Total Price = P * (1 - d/100) + Tax total + s --------------');

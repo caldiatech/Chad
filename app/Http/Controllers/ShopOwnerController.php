@@ -292,7 +292,7 @@ class ShopOwnerController extends Controller
 			}				 	
 
 // 			$promocode = strtoupper('SO'.Str::random(4));
-			$promocode = strtoupper('SH'.Str::random(4));
+			$promocode = strtoupper('AF'.Str::random(4));
 			$password = Hash::make(Input::get('password'));	   		
 			$shopOwner = new ShopOwner;
 			$shopOwner->fldShopOwnerFirstname = Input::get('firstname');

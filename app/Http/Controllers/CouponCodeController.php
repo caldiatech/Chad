@@ -162,7 +162,7 @@ class CouponCodeController extends Controller
 
 		$value = array();
 		// $percentDiscount = 10; // Changed to 20% as per client
-		$percentDiscount = 20;
+		$percentDiscount = 30;
 
 		$coupon = CouponCode::where('fldCouponCode','=',$code)->where('fldCouponCodeExpirationDate','>',date('Y-m-d'))->first();
 		$coupon_amount = 0;
