@@ -25,7 +25,6 @@ class ManagerCommission extends Eloquent
 		Log::debug( 'manager');
 		Log::debug( $manager);
 		$managerCom = new ManagerCommission;
-		$managerCom = new ManagerCommission;
 		$managerCom->fldManagerCommissionManagerID = $manager->fldManagerID;
 		$managerCom->fldManagerCommissionUserType = $userType;
 		$managerCom->fldManagerCommissionUserID = $clientInfo->fldClientID;
