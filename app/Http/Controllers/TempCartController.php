@@ -1202,12 +1202,16 @@ class TempCartController extends BaseController
 				$shop_owner_manager_id = 0;
 				if(Session::get('couponSource') == 'Shop') {
 					$class_shop_owner = new ShopOwner;
+					Log::debug('shopOwner');
+				 	Log::debug( Session::get('couponSourceID'));
 				 	$shopOwner = $class_shop_owner->find(Session::get('couponSourceID'));
+					Log::debug('shopOwner');
+				 	Log::debug( $shopOwner);
 				 	// dd($shopOwner,Session::get('couponSourceID'));
-					$shopOwnerCommission = ShopOwnerCommission::calculateCommission($shop_owner_commission_total,$shopOwner,$clientInfo,$order_code,1);
+					$shopOwnerCommission = ShopOwnerCommission::calculateCommission($shop_owner_commission_total,shopOwner: $shopOwner,$clientInfo,$order_code,1);
 				 	// dd($shop_owner_commission_total,$shopOwner,$clientInfo,$order_code,$shopOwnerCommission);
-					Log::debug(message: 'shopOwner');
-				 	Log::debug(message: $shopOwner);
+					Log::debug( 'shopOwner');
+				 	Log::debug( $shopOwner);
 				 	if( $shopOwner->fldShopOwnerManagerID != null && $shopOwner->fldShopOwnerManagerID != '' ){
 				 		$shop_owner_manager_id =  $shopOwner->fldShopOwnerManagerID;
 				 	}
@@ -1504,7 +1508,7 @@ class TempCartController extends BaseController
 		if ($cart[0]['is_custom'] == 1) {
 				$coupon_code = Client::where('fldClientPromoCode','=',Session::get('couponCode'))->first();
 				$coupon_amount = 0;
-				$percentDiscount = 25;
+				$percentDiscount = 30;
 				$code = Session::get('couponCode');
 				$total =$cart[0]->subtotal;
 			if(empty($coupon_code)) {

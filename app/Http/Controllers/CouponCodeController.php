@@ -188,7 +188,13 @@ class CouponCodeController extends Controller
 					$value[] = $coupon_amount;
 					$value[] = $total-(($percentDiscount/100) * $total);
 					$value[] = 'so';
-					Session::put('couponAmount', value: $coupon_amount); 
+					Session::put('couponAmount', value: $coupon_amount);
+					Log::debug("192");
+
+					Log::debug(message: $percentDiscount);
+					Log::debug($total .'- ('.$percentDiscount.'/100 ) * '.$total);
+					Log::debug($coupon_amount);
+					Log::debug("197");
 				}
 
 			} else {
