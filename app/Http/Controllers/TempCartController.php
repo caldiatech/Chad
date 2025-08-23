@@ -1202,11 +1202,12 @@ class TempCartController extends BaseController
 				$shop_owner_manager_id = 0;
 				if(Session::get('couponSource') == 'Shop') {
 					$class_shop_owner = new ShopOwner;
-					Log::debug('shopOwner');
+					Log::debug('shopOwner 1205');
 				 	Log::debug( Session::get('couponSourceID'));
-				 	$shopOwner = $class_shop_owner->find(Session::get('couponSourceID'));
-					Log::debug(message: 'shopOwner');
-				 	Log::debug( $shopOwner);
+					$shop_owner_id = Session::get('couponSourceID');
+				 	$shopOwner = $class_shop_owner->find($shop_owner_id);
+					Log::debug(message: 'shopOwner 1208');
+				 	Log::debug( message: $shopOwner);
 				 	// dd($shopOwner,Session::get('couponSourceID'));
 					$shopOwnerCommission = ShopOwnerCommission::calculateCommission($shop_owner_commission_total,$shopOwner,$clientInfo,$order_code,1);
 				 	// dd($shop_owner_commission_total,$shopOwner,$clientInfo,$order_code,$shopOwnerCommission);
