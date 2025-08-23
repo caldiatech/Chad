@@ -20,8 +20,11 @@ class ManagerCommission extends Eloquent
 		$commission = $amount;
 		Log::debug('amount');
 		Log::debug($amount);
-		Log::debug(message: 'commission');
+		Log::debug( 'commission');
 		Log::debug($commission);
+		Log::debug( 'manager');
+		Log::debug( $manager);
+		$managerCom = new ManagerCommission;
 		$managerCom = new ManagerCommission;
 		$managerCom->fldManagerCommissionManagerID = $manager->fldManagerID;
 		$managerCom->fldManagerCommissionUserType = $userType;
