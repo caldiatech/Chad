@@ -26,7 +26,7 @@ use DB;
 class CommissionController extends Controller
 {
 
-	public function getIndex()
+		public function getIndex()
 	{
 		//if not login redirect to login page    	
 		if(!Session::has('dnradmin_id')) { return Redirect::to('dnradmin/');}
@@ -90,6 +90,8 @@ class CommissionController extends Controller
 		*/
 
 	}
+
+
 	public function searchOverview() {
 
 		//if not login redirect to login page    	
