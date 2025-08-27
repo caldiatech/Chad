@@ -46,30 +46,45 @@ class CommissionController extends Controller
 		// WHERE fldManagerFirstname LIKE '%er%'
 		// GROUP BY fldManagerID
 
-		$commission_shop 	= ShopOwnerCommission::leftJoin('tblShopOwner','tblShopOwner.fldShopOwnerID','=','tblShopOwnerCommission.fldShopOwnerCommissionShopOwnerID')
-							->groupBy('tblShopOwner.fldShopOwnerID')
-							->select(DB::raw('tblShopOwner.fldShopOwnerID AS ID, tblShopOwnerCommission.fldShopOwnerCommissionOrderCode AS orderCode, "shop" AS type, tblShopOwner.fldShopOwnerFirstname AS firstName, tblShopOwner.fldShopOwnerLastname AS lastName, tblShopOwner.fldShopOwnerEmail AS email, tblShopOwner.fldShopOwnerCity AS city, tblShopOwner.fldShopOwnerState AS state, sum(tblShopOwnerCommission.fldShopOwnerCommissionAmount) AS totalCommission'));
+		// Shop Owner Commission Query (fixed)
+		$commission_shop = DB::table('tblShopOwner')
+			->leftJoin('tblShopOwnerCommission', 'tblShopOwner.fldShopOwnerID', '=', 'tblShopOwnerCommission.fldShopOwnerCommissionShopOwnerID')
+			->groupBy('tblShopOwner.fldShopOwnerID')
+			->select(DB::raw('
+				tblShopOwner.fldShopOwnerID AS ID,
+				tblShopOwnerCommission.fldShopOwnerCommissionOrderCode AS orderCode,
+				"shop" AS type,
+				tblShopOwner.fldShopOwnerFirstname AS firstName,
+				tblShopOwner.fldShopOwnerLastname AS lastName,
+				tblShopOwner.fldShopOwnerEmail AS email,
+				tblShopOwner.fldShopOwnerCity AS city,
+				tblShopOwner.fldShopOwnerState AS state,
+				COALESCE(SUM(tblShopOwnerCommission.fldShopOwnerCommissionAmount), 0) AS totalCommission
+			'));
 
-		// Combine with Manager Commission
-		$commissions = ManagerCommission::leftJoin('tblManager','tblManager.fldManagerID','=','tblManagerCommission.fldManagerCommissionManagerID')
-						->groupBy('tblManager.fldManagerID')
-						->select(DB::raw('
-							tblManager.fldManagerID AS ID,
-							tblManagerCommission.fldManagerCommissionOrderCode AS orderCode,
-							CASE 
-								WHEN tblManagerCommission.fldManagerCommissionUserType = 4 THEN "affiliate"
-								ELSE "manager"
-							END AS type,
-							tblManager.fldManagerFirstname AS firstName,
-							tblManager.fldManagerLastname AS lastName,
-							tblManager.fldManagerEmail AS email,
-							tblManager.fldManagerCity AS city,
-							tblManager.fldManagerState AS state,
-							SUM(tblManagerCommission.fldManagerCommissionAmount) AS totalCommission
-						'))
-						->union($commission_shop)
-						->get();
-						dd($commissions);
+		// Manager Commission Query
+		$commission_manager = ManagerCommission::leftJoin('tblManager','tblManager.fldManagerID','=','tblManagerCommission.fldManagerCommissionManagerID')
+			->groupBy('tblManager.fldManagerID')
+			->select(DB::raw('
+				tblManager.fldManagerID AS ID,
+				tblManagerCommission.fldManagerCommissionOrderCode AS orderCode,
+				CASE 
+					WHEN tblManagerCommission.fldManagerCommissionUserType = 4 THEN "affiliate"
+					ELSE "manager"
+				END AS type,
+				tblManager.fldManagerFirstname AS firstName,
+				tblManager.fldManagerLastname AS lastName,
+				tblManager.fldManagerEmail AS email,
+				tblManager.fldManagerCity AS city,
+				tblManager.fldManagerState AS state,
+				SUM(tblManagerCommission.fldManagerCommissionAmount) AS totalCommission
+			'));
+
+		// Combine Both
+		$commissions = $commission_manager
+			->union($commission_shop)
+			->get();
+
 		$administrator = Settings::where('fldAdministratorID','=',Session::get('dnradmin_id'))->first();
 		$orderClass = 'class=active'; 
 		$pageTitle = COMMISSIONS;
