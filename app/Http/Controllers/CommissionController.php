@@ -69,6 +69,7 @@ class CommissionController extends Controller
 						'))
 						->union($commission_shop)
 						->get();
+						dd($commissions);
 		$administrator = Settings::where('fldAdministratorID','=',Session::get('dnradmin_id'))->first();
 		$orderClass = 'class=active'; 
 		$pageTitle = COMMISSIONS;
