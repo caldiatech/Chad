@@ -858,8 +858,13 @@ class TempCartController extends BaseController
 			$sales_manager_commission_total= $discount_formula * 0.1;
 		} else {
 			if( ( Session::get('couponSource') == 'Shop' )){
-				$sales_manager_commission_total = $discount_formula * 0.10; // 10%
-				$shop_owner_commission_total   = $discount_formula * 0.40; // 40%
+				$codePrice = Input::get('coupon_price');
+				// Calculate Sales Manager Commission (10%)
+				$sales_manager_commission_total = ($subtotal_amount - $codePrice) * 0.10;
+
+				// Calculate Shop Owner Commission (40%)
+				$shop_owner_commission_total = ($subtotal_amount - $codePrice) * 0.40;
+				
 				Log::debug('---------shop_owner_commission 863--------------');
         		Log::debug(message: '0.40');
 			} else {
