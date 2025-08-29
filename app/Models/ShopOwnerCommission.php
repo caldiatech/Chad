@@ -23,7 +23,7 @@ class ShopOwnerCommission extends Eloquent
 
 		//save information to shop owner commission table
 		$shopOwnerCom = new ShopOwnerCommission;
-		$shopOwnerCom->fldShopOwnerCommissionShopOwnerID = $shopOwner->id;
+		$shopOwnerCom->fldShopOwnerCommissionShopOwnerID = $shopOwner->fldShopOwnerID;
 		$shopOwnerCom->fldShopOwnerCommissionUserType = $userType;
 		$shopOwnerCom->fldShopOwnerCommissionUserID = $clientInfo->fldClientID;
 		$shopOwnerCom->fldShopOwnerCommissionOrderCode = $orderCode;

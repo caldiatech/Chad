@@ -1541,8 +1541,6 @@ class TempCartController extends BaseController
 		$client = array();
 		settype($client,'object');
 		$client->fldClientFirstname = $client->fldClientLastname = $client->fldClientEmail = $client->fldClientAddress = $client->fldClientContact = $client->fldClientCity = $client->fldClientState = $client->fldClientZip = '';
-
-
 		return View::make('home.checkout')->with(array('pages'=>$pages,'menus'=>$menus,
 													   'category'=>$category,
 													   'cart'=>$cart,
