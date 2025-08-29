@@ -83,7 +83,7 @@ class ShopOwnerController extends Controller
 		        $randomString .= $characters[rand(0, $charactersLength - 1)];
 		    }
 			// $promocode = 'SO'.$randomString;
-			$promocode = 'SH'.$randomString;
+			$promocode = 'AF'.$randomString;
 
 			// $promocode = 'SO'.Str::random(4);
 			$managerPromo = ShopOwner::where('fldShopOwnerPromoCode','=',$promocode)->count();
