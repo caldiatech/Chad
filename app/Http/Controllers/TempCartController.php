@@ -854,22 +854,27 @@ class TempCartController extends BaseController
         // $sales_manager_commission_total = ($discount_formula - $shipping_amount) * 0.10;
         // $sales_manager_commission_total = $discount_formula * 0.10;
 		$sales_assistant_commission_total =0;
-		if($temp_cart[0]['is_custom'] == 1){
-			$sales_manager_commission_total= $discount_formula * 0.1;
-		} else {
-			if( ( Session::get('couponSource') == 'Shop' )){
-				$codePrice = Input::get('coupon_price');
-				// Calculate Sales Manager Commission (10%)
-				$sales_manager_commission_total = ($subtotal_amount - $codePrice) * 0.10;
+		// if($temp_cart[0]['is_custom'] == 1){
+		// 	$sales_manager_commission_total= $discount_formula * 0.1;
+		// } else {
+		// 	if( ( Session::get('couponSource') == 'Shop' )){
+		// 		$codePrice = Input::get('coupon_price');
+		// 		// Calculate Sales Manager Commission (10%)
+		// 		$sales_manager_commission_total = ($subtotal_amount - $codePrice) * 0.10;
 
-				// Calculate Shop Owner Commission (40%)
-				$shop_owner_commission_total = ($subtotal_amount - $codePrice) * 0.40;
+		// 		// Calculate Shop Owner Commission (40%)
+		// 		$shop_owner_commission_total = ($subtotal_amount - $codePrice) * 0.40;
 				
-				Log::debug('---------shop_owner_commission 863--------------');
-        		Log::debug(message: '0.40');
-			} else {
-        		$sales_manager_commission_total = $discount_formula * 0.08;
-			}
+		// 		Log::debug('---------shop_owner_commission 863--------------');
+        // 		Log::debug(message: '0.40');
+		// 	} else {
+        // 		$sales_manager_commission_total = $discount_formula * 0.08;
+		// 	}
+		// }
+		if ($temp_cart[0]['is_custom'] == 1) {
+			$sales_manager_commission_total = $discount_formula * 0.1;
+		} else {
+			$sales_manager_commission_total = $discount_formula * 0.08;
 		}
 
         Log::debug('---------sales_manager_commission_total--------------');
@@ -887,10 +892,13 @@ class TempCartController extends BaseController
         // $shop_owner_commission_total 	= $discount_formula * 0.45;
 		 Log::debug('---------couponSource 881--------------');
         Log::debug(Session::get('couponSource'));
-		if($temp_cart[0]['is_custom'] == 0 && ( Session::get('couponSource') != 'Shop' )){
-			$shop_owner_commission_total = $discount_formula * 0.50;
-			  Log::debug('---------shop_owner_commission 885--------------');
-        Log::debug('0.50');
+		// if($temp_cart[0]['is_custom'] == 0 && ( Session::get('couponSource') != 'Shop' )){
+		// 	$shop_owner_commission_total = $discount_formula * 0.50;
+		// 	  Log::debug('---------shop_owner_commission 885--------------');
+        // Log::debug('0.50');
+		// }
+		if ($temp_cart[0]['is_custom'] == 0) {
+			$shop_owner_commission_total = ($discount_formula - $total_graphik_cost) * 0.50;
 		}
        
         Log::debug('---------shop_owner_commission_total--------------');
