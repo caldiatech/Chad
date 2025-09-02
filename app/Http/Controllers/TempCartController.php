@@ -874,7 +874,11 @@ class TempCartController extends BaseController
 		if ($temp_cart[0]['is_custom'] == 1) {
 			$sales_manager_commission_total = $discount_formula * 0.1;
 		} else {
-			$sales_manager_commission_total = $discount_formula * 0.08;
+			if( ( Session::get('couponSource') == 'Shop' )){
+				$sales_manager_commission_total = $discount_formula * 0.10;
+			} else {
+				$sales_manager_commission_total = $discount_formula * 0.08;
+			}
 		}
 
         Log::debug('---------sales_manager_commission_total--------------');
@@ -898,7 +902,13 @@ class TempCartController extends BaseController
         // Log::debug('0.50');
 		// }
 		if ($temp_cart[0]['is_custom'] == 0) {
-			$shop_owner_commission_total = ($discount_formula - $total_graphik_cost) * 0.50;
+			if( ( Session::get('couponSource') == 'Shop' )){
+				$shop_owner_commission_total = ($discount_formula - $total_graphik_cost) * 0.40;
+			} else {
+				$shop_owner_commission_total = ($discount_formula - $total_graphik_cost) * 0.50;
+
+			}
+
 		}
        
         Log::debug('---------shop_owner_commission_total--------------');
