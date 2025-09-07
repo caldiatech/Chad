@@ -4,13 +4,9 @@
    <article>
   	<div id=page_control>
     	<div class="col2">
-    
        	  {!! Html::link('/dnradmin/shop-owner',SHOPOWNER_MANAGEMENT) !!} &raquo; Add {{ SHOPOWNER_MANAGEMENT }}
-    
        </div>
     </div>
-    
-  	
     
    {!! Form::open(array('url' => '/dnradmin/shop-owner/new', 'method' => 'post', 'id' => 'pageform', 'files' => true,'class'=>'uk-form')) !!}
      @if (Session::has('success'))
@@ -26,6 +22,7 @@
                <li>{{ SHOPOWNER_MANAGEMENT }}  Information</li>
                <li class="boxfields">
 
+                   {{-- Firstname --}}
                    <div class="uk-grid">
                       <div class="uk-width-large-1-10 uk-width-small-1-1">First name</div>
                       <div class="uk-width-large-6-10 uk-width-small-1-1 ">
@@ -36,6 +33,7 @@
                       </div>
                    </div>
 
+                   {{-- Lastname --}}
                    <div class="uk-grid">
                       <div class="uk-width-large-1-10 uk-width-small-1-1">Last name</div>
                       <div class="uk-width-large-6-10 uk-width-small-1-1 ">
@@ -46,6 +44,7 @@
                       </div>
                    </div>
 
+                   {{-- Business name --}}
                    <div class="uk-grid">
                       <div class="uk-width-large-1-10 uk-width-small-1-1">Business name</div>
                       <div class="uk-width-large-6-10 uk-width-small-1-1 ">
@@ -56,6 +55,7 @@
                       </div>
                    </div>
 
+                   {{-- Email --}}
                    <div class="uk-grid">
                       <div class="uk-width-large-1-10 uk-width-small-1-1">Email Address</div>
                       <div class="uk-width-large-6-10 uk-width-small-1-1 ">
@@ -66,6 +66,7 @@
                       </div>
                    </div>
 
+                   {{-- Password --}}
                    <div class="uk-grid">
                       <div class="uk-width-large-1-10 uk-width-small-1-1">Password</div>
                       <div class="uk-width-large-6-10 uk-width-small-1-1 ">
@@ -84,31 +85,29 @@
                       </div>
                    </div>
 
-                    <div class="uk-grid">
+                   {{-- Phone --}}
+                   <div class="uk-grid">
                       <div class="uk-width-large-1-10 uk-width-small-1-1">Phone no</div>
                       <div class="uk-width-large-6-10 uk-width-small-1-1 ">
-                          {!! Form::text('phone','',array('size'=>'50','class'=>'phone_us')) !!}
+                          {!! Form::text('phone','',array('size'=>'50','class'=>'phone_us required','id'=>'phone')) !!}
+                          @if($errors->shopOwner->first('phone'))
+                              <div class="error">{!!$errors->shopOwner->first('phone')!!}</div>
+                          @endif
                       </div>
                    </div>
 
-
-                 <!--  <div class="uk-grid">
-                      <div class="uk-width-large-1-10 uk-width-small-1-1">Phone no test</div>
-                      <div class="uk-width-large-6-10 uk-width-small-1-1 ">
-                        <input required type="tel" maxlength="12" onKeypress="addDashesPhone(this)" name="Phone" id="Phone"> 
-                      </div>
-                   </div> -->
-
-                    <div class="uk-grid">
+                   {{-- Address --}}
+                   <div class="uk-grid">
                       <div class="uk-width-large-1-10 uk-width-small-1-1">Address</div>
                       <div class="uk-width-large-6-10 uk-width-small-1-1 ">
-                         {!! Form::text('address','',array('size'=>'50')) !!}
+                         {!! Form::text('address','',array('size'=>'50','class'=>'required','id'=>'address')) !!}
                            @if($errors->shopOwner->first('address'))
                               <div class="error">{!!$errors->shopOwner->first('address')!!}</div>
                            @endif
                       </div>
                    </div>
 
+                   {{-- Gender --}}
                    <div class="uk-grid">
                       <div class="uk-width-large-1-10 uk-width-small-1-1">Gender</div>
                       <div class="uk-width-large-6-10 uk-width-small-1-1 radio-cat">
@@ -116,6 +115,7 @@
                       </div>
                    </div>
 
+                   {{-- Birthdate --}}
                    <div class="uk-grid">
                       <div class="uk-width-large-1-10 uk-width-small-1-1">Birthdate</div>
                       <div class="uk-width-large-6-10 uk-width-small-1-1 ">
@@ -123,6 +123,7 @@
                       </div>
                    </div>
 
+                   {{-- Promo code --}}
                    <div class="uk-grid">
                       <div class="uk-width-large-1-10 uk-width-small-1-1">Promo Code</div>
                       <div class="uk-width-large-6-10 uk-width-small-1-1 ">
@@ -132,9 +133,10 @@
                    </div>
 
                </li>   
-               
             </ul>  
         </div>
+
+        {{-- Sales Manager --}}
         <div class="uk-width-large-3-10 uk-width-small-1-1">
             <ul>
                <li>Sales Manager</li>
@@ -143,30 +145,24 @@
                           <table border="0" class="page_manager" style="width:292px !important; border:none; margin-top:-5px">  
                               @foreach($manager as $managers)
                                   <tr>
-                                       <td class="radio-cat"><input type="radio" name="manager_id" value="{{$managers->fldManagerID}}" {{$managers->fldManagerID==$managerId ? 'checked' : ""}} /> {{ $managers->fldManagerFirstname . ' ' . $managers->fldManagerLastname}}</td>
-                                    </tr>
+                                       <td class="radio-cat">
+                                         <input type="radio" name="manager_id" value="{{$managers->fldManagerID}}" {{$managers->fldManagerID==$managerId ? 'checked' : ""}} /> 
+                                         {{ $managers->fldManagerFirstname . ' ' . $managers->fldManagerLastname}}
+                                       </td>
+                                  </tr>
                               @endforeach
                            </table>
                       </div>     
-                      
                </li>
             </ul>   
-           
         </div>  
     </div> 
 
-
-    
-     
-  
       <div class=clear><!-- Clear Section --></div>   
-        {!! Form::submit('Save Record',array('name'=>'saveinfo','class'=>'uk-button uk-button-success'))!!} &nbsp; {!! Form::reset('Reset',array('name'=>'reset','class'=>'uk-button uk-button-danger'))!!}         
+        {!! Form::submit('Save Record',array('name'=>'saveinfo','class'=>'uk-button uk-button-success'))!!} &nbsp; 
+        {!! Form::reset('Reset',array('name'=>'reset','class'=>'uk-button uk-button-danger'))!!}         
     {!! Form::close() !!}
-
-    
   </article>
-  
-
 @stop
 
 @section('headercodes')    
@@ -184,7 +180,6 @@
     {!! Html::script('_admin/manager/tinymce/tiny_mce.js') !!}
     {!! Html::script('_admin/assets/js/cufon_avantgarde.js') !!}
     {!! Html::script('_admin/assets/js/customValidation.js') !!}
-    
     {!! Html::script('_admin/manager/tinymce/styles/mods5.js') !!}
     {!! Html::script('_admin/assets/js/jquery-ui.js') !!}
     {!! Html::script('_admin/plugins/password/strength.js') !!}
@@ -201,27 +196,38 @@
               strengthButtonTextToggle: 'Hide Password'
           });
 
-           isphone_valid = 0;
-            $('.phone_us').mask('(000) 000-0000',{
-              onComplete: function(cep) {
-                $('.phone_us').css({'border':'1px solid green'});
+          // Phone mask validation
+          isphone_valid = 0;
+          $('#phone').mask('(000) 000-0000',{
+              onComplete: function(val) {
+                $('#phone').css({'border':'1px solid green'});
                 isphone_valid = 1;
-              }, onInvalid: function(cep) {
-                $('.phone_us').css({'border':'1px solid red'});
+              }, 
+              onInvalid: function(val) {
+                $('#phone').css({'border':'1px solid red'});
                 isphone_valid = 0;
               }
-            });
+          });
+
+          // Address validation
+          $('#pageform').on('submit', function(e){
+              let addr = $('#address').val().trim();
+              if(addr.length < 5){
+                  $('#address').css({'border':'1px solid red'});
+                  e.preventDefault();
+              }
+              if(isphone_valid === 0){
+                  $('#phone').focus();
+                  e.preventDefault();
+              }
+          });
 
       });       
   </script> 
 
-
-
-   
    {!! Html::script('_admin/assets/js/jquery-latest.min.js') !!}
-  {!! Html::script('_front/plugins/uikit/js/uikit.js') !!}
-  {!! Html::script('_front/plugins/uikit/js/components/form-select.js') !!}
-  {!! Html::script('_front/plugins/uikit/js/components/datepicker.js') !!}
-  {!! Html::script('_front/plugins/uikit/js/components/autocomplete.min.js') !!} 
-   
+   {!! Html::script('_front/plugins/uikit/js/uikit.js') !!}
+   {!! Html::script('_front/plugins/uikit/js/components/form-select.js') !!}
+   {!! Html::script('_front/plugins/uikit/js/components/datepicker.js') !!}
+   {!! Html::script('_front/plugins/uikit/js/components/autocomplete.min.js') !!} 
 @stop

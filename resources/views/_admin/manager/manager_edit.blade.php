@@ -85,7 +85,7 @@
                     <div class="uk-grid">
                       <div class="uk-width-large-1-10 uk-width-small-1-1">Address</div>
                       <div class="uk-width-large-6-10 uk-width-small-1-1 ">
-                         {!! Form::text('address',$manager->fldManagerAddress,array('size'=>'50')) !!}
+                         {!! Form::text('address',$manager->fldManagerAddress,array('size'=>'50','class'=>'required','id'=>'address')) !!}
                           @if($errors->manager->first('address'))
                               <div class="uk-text-danger">{!!$errors->manager->first('address')!!}</div>
                            @endif

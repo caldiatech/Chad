@@ -93,12 +93,12 @@
                                             </div>
                                             <p>
                                                 Don’t have an account? 
-                                                <a href="{{ url('/registration') }}">Register</a>
+                                                <a href="{{ url('/registration') }}" style="color: #0d6efd;">Register</a>
                                             </p>
                                             @if($cart_count > 0)
                                                 <p>
-                                                    {!! Html::link('guest-checkout', "Checkout as Guest",array('class'=>'uk-button uk-button-primary')) !!}
-                                                </p>  
+                                                    {!! Html::link('guest-checkout','Checkout as Guest',['class' => 'uk-button uk-button-primary', 'style' => 'font-size:18px; font-weight:bold; padding:12px 24px;']) !!}
+                                                </p>
                                             @endif                                                                       
                                         {!! Form::close() !!}
                                     </div>
