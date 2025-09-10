@@ -129,6 +129,7 @@
                 $order_details = '';
                
             	foreach($cart as $carts){
+					dd($carts);
             		$cart_order_no = $carts->order_no;
             		if(!isset($cart_order_array[$cart_order_no])){
             			$cart_order_array[$cart_order_no] = $carts;
