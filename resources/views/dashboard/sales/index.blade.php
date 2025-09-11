@@ -119,32 +119,41 @@
             	<div class="uk-vertical-divider full-width  uk-visible-large"><hr></div>
             	
             	<?php 
-            	$cart_order_array = $cart_order_total_array = $cart_order_details_array = $cart_total_shipping = array();
+            		$cart_order_array = $cart_order_total_array = $cart_order_details_array = $cart_total_shipping = array();
 
-                // dd($cart);
-               	foreach($cart as $carts){
-            		$cart_order_no = $carts->order_no;
-            		if(!isset($cart_order_array[$cart_order_no])){
-            			$cart_order_array[$cart_order_no] = $carts;
-            			$cart_order_total_array[$cart_order_no] = $cart_total_shipping[$cart_order_no] = 0;
-            			$cart_order_details_array[$cart_order_no] = array();
-                        $cart_order_details_product_slug[$cart_order_no] = array();
-                        $cart_order_details_product_image[$cart_order_no] = array();
+					foreach ($cart as $carts) {
+						$cart_order_no = $carts->order_no;
 
-            		}
-            		$cart_product_price = $cart_order_total_array[$cart_order_no];
-            		$cart_product_price  += ($carts->product_price * $carts->quantity);
-            		$cart_order_total_array[$cart_order_no] = $cart_product_price;
+						if (!isset($cart_order_array[$cart_order_no])) {
+							$cart_order_array[$cart_order_no] = $carts;
+							$cart_order_total_array[$cart_order_no] = $cart_total_shipping[$cart_order_no] = 0;
+							$cart_order_details_array[$cart_order_no] = array();
+							$cart_order_details_product_slug[$cart_order_no] = array();
+							$cart_order_details_product_image[$cart_order_no] = array();
+						}
 
-                    $cart_shipping_price = $cart_total_shipping[$cart_order_no];
-                    $cart_shipping_price  += ($carts->fldCartShippingPrice * $carts->quantity);
-                    $cart_total_shipping[$cart_order_no] = $cart_shipping_price;
+						// ✅ Clean values before calculation
+						$product_price      = (float) str_replace(',', '', $carts->product_price);
+						$shipping_price     = (float) str_replace(',', '', $carts->fldCartShippingPrice);
+						$quantity           = (int) $carts->quantity;
 
-            		if(!in_array($carts->product_name, $cart_order_details_array[$cart_order_no])){
-                        $cart_order_details_array[$cart_order_no][] = $carts->product_name .'( '.$carts->quantity.' )'; 
-                        $cart_order_details_images[$cart_order_no][] = '<img src="'.url(PRODUCT_IMAGE_PATH.$carts->fldProductSlug.'/'.THUMB_IMAGE.$carts->image).'" alt="'.$carts->product_name.'" /><br>'; 
-                    }
-            	}
+						// ✅ Product total
+						$cart_product_price = $cart_order_total_array[$cart_order_no];
+						$cart_product_price += ($product_price * $quantity);
+						$cart_order_total_array[$cart_order_no] = $cart_product_price;
+
+						// ✅ Shipping total
+						$cart_shipping_price = $cart_total_shipping[$cart_order_no];
+						$cart_shipping_price += ($shipping_price * $quantity);
+						$cart_total_shipping[$cart_order_no] = $cart_shipping_price;
+
+						// ✅ Product details
+						if (!in_array($carts->product_name, $cart_order_details_array[$cart_order_no])) {
+							$cart_order_details_array[$cart_order_no][] = $carts->product_name . ' ( ' . $quantity . ' )';
+							$cart_order_details_images[$cart_order_no][] = '<img src="' . url(PRODUCT_IMAGE_PATH . $carts->fldProductSlug . '/' . THUMB_IMAGE . $carts->image) . '" alt="' . $carts->product_name . '" /><br>';
+						}
+					}
+
             	?>
 
 				@if( !empty($cart_order_array) )
