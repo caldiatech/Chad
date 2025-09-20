@@ -101,7 +101,7 @@
 
 
                     </td>
-                    <td>$ {{ number_format($carts->product_price,2) }}</td>
+                    <td>$ {{ number_format((float) str_replace(',', '', $carts->product_price), 2) }}</td>
                     <td>{{ $carts->quantity }}</td>
                     <td>$ {{ number_format($carts->total,2) }}</td>
                 </tr>
