@@ -83,6 +83,7 @@ class Cart extends Eloquent
 				//******END for product options***********//
 
 				$total =  ((int) $cartDisplays->quantity * (int) $cartDisplays->product_price);
+				dd($total);
 				$total =  $total + $totalOptionPrice;
 
 				// $total =  ($cartDisplays->quantity * $cartDisplays->product_price)+$totalOptionPrice + $cartDisplays->fldCartShippingPrice;
