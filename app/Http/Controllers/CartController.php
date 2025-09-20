@@ -51,8 +51,11 @@ class CartController extends Controller
 			// 	dd($get_shipping_sequence_cost);
 			// }
 
-dd($sum->total , $cartInfo->fldCartCouponCodeCouponPrice , $cartInfo->fldCartTax , $get_shipping_sequence_cost->fldCartShippingPrice,$carts->fldCartOrderNo);
-			$total = ($sum->total - $cartInfo->fldCartCouponCodeCouponPrice) + $cartInfo->fldCartTax + $get_shipping_sequence_cost->fldCartShippingPrice;
+			$total = (float)$sum->total 
+					- (float)$cartInfo->fldCartCouponCodeCouponPrice 
+					+ (float)$cartInfo->fldCartTax 
+					+ (float)$get_shipping_sequence_cost->fldCartShippingPrice;
+
 			$name = $cartInfo->bFirstname. ' ' . $cartInfo->bLastname;
 
 			//echo "Client ID " .  $carts->fldCartClientID;
