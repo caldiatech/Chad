@@ -30,10 +30,9 @@ class CartController extends Controller
 		$status = "Paid";
 		$cart = Cart::where('fldCartStatus','=',$status)->orderby('fldCartOrderDate','DESC')->select('fldCartOrderNo','fldCartClientID')->distinct()->get();
 
-		dd($cart);
-
 		$orderData = array();
 		foreach($cart as $carts) {
+			dd($carts);
 			$cartInfo = Cart::displayCheckout($carts->fldCartOrderNo);
 
 			$sum = Cart::leftJoin('tblClient','tblClient.fldClientID','=','fldCartClientID')
