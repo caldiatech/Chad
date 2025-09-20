@@ -282,7 +282,8 @@ class ManagerCommission extends Eloquent
 				foreach ($sales as $salesRow) {
 					// echo 'sales: '.$salesRow->fldCartProductPrice;
 					// echo ' x itemsSold: '.$salesRow->fldCartQuantity;
-					$totalSales += $salesRow->fldCartProductPrice * $salesRow->fldCartQuantity;
+					$totalSales += ((float) str_replace(',', '', $salesRow->fldCartProductPrice)) * (int) $salesRow->fldCartQuantity;
+
 					// echo '<hr>';
 				}
 			} else {
