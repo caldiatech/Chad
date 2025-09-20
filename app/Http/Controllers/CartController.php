@@ -30,7 +30,7 @@ class CartController extends Controller
 		$status = "Paid";
 		$cart = Cart::where('fldCartStatus','=',$status)->orderby('fldCartOrderDate','DESC')->select('fldCartOrderNo','fldCartClientID')->distinct()->get();
 
-
+		dd($cart);
 
 		$orderData = array();
 		foreach($cart as $carts) {
@@ -47,7 +47,7 @@ class CartController extends Controller
 			// 	dd($get_shipping_sequence_cost);
 			// }
 
-
+dd($sum->total,$cartInfo->fldCartCouponCodeCouponPrice,$cartInfo->fldCartTax, $get_shipping_sequence_cost->fldCartShippingPrice);
 			$total = ($sum->total - $cartInfo->fldCartCouponCodeCouponPrice) + $cartInfo->fldCartTax + $get_shipping_sequence_cost->fldCartShippingPrice;
 			$name = $cartInfo->bFirstname. ' ' . $cartInfo->bLastname;
 
