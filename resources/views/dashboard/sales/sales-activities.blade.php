@@ -88,11 +88,7 @@
                                           $shopownername = $shop_owner->fldShopOwnerBusiness. ' ' .$shop_owner->fldShopOwnerFirstname. ' ' .$shop_owner->fldShopOwnerLastname ;
                                           }
                                     }
-
-                                    // $subtotal = $transactions->product_price * $transactions->quantity;
-                                    // $discount = $subtotal * 0.10;
-                                    // $subtotal = ($transactions->product_price * 0.90) * $transactions->quantity;
-                                    $subtotal = ($transactions->product_price * 0.80) * $transactions->quantity;
+                                    $subtotal = ((float) str_replace(',', '', $transactions->product_price) * 0.80) * (int) $transactions->quantity;
 
                                     if ($order_num_previous == $transactions->order_no) {
                                           $order_num_disp   = '';
