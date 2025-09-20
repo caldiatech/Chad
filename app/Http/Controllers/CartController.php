@@ -45,7 +45,7 @@ class CartController extends Controller
 			// 	dd($get_shipping_sequence_cost);
 			// }
 
-dd($sum->total , $cartInfo->fldCartCouponCodeCouponPrice , $cartInfo->fldCartTax , $get_shipping_sequence_cost->fldCartShippingPrice);
+dd($sum->total , $cartInfo->fldCartCouponCodeCouponPrice , $cartInfo->fldCartTax , $get_shipping_sequence_cost->fldCartShippingPrice,$carts->fldCartOrderNo);
 			$total = ($sum->total - $cartInfo->fldCartCouponCodeCouponPrice) + $cartInfo->fldCartTax + $get_shipping_sequence_cost->fldCartShippingPrice;
 			$name = $cartInfo->bFirstname. ' ' . $cartInfo->bLastname;
 
