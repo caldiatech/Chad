@@ -33,12 +33,11 @@ class CartController extends Controller
 		$orderData = array();
 		foreach($cart as $carts) {
 			$cartInfo = Cart::displayCheckout($carts->fldCartOrderNo);
-			dd($cartInfo);
-
 			$sum = Cart::leftJoin('tblClient','tblClient.fldClientID','=','fldCartClientID')
 						->where('fldCartOrderNo','=',$carts->fldCartOrderNo)
 						// ->select(DB::raw('sum(fldCartProductPrice * fldCartQuantity + fldCartShippingPrice) as total',"fldCartClientID"))->first();
 						->select(DB::raw('sum(fldCartProductPrice * fldCartQuantity) as total',"fldCartClientID"))->first();
+						dd($sum);
 			$get_shipping_sequence_cost = Cart::leftJoin('tblClient','tblClient.fldClientID','=','fldCartClientID')
 						->select(DB::raw('max(fldCartShippingPrice) as fldCartShippingPrice'))
 						->where('fldCartOrderNo','=',$carts->fldCartOrderNo)->first();
