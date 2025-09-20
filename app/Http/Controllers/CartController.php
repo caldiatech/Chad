@@ -32,8 +32,8 @@ class CartController extends Controller
 
 		$orderData = array();
 		foreach($cart as $carts) {
-			dd($carts);
 			$cartInfo = Cart::displayCheckout($carts->fldCartOrderNo);
+			dd($cartInfo);
 
 			$sum = Cart::leftJoin('tblClient','tblClient.fldClientID','=','fldCartClientID')
 						->where('fldCartOrderNo','=',$carts->fldCartOrderNo)
