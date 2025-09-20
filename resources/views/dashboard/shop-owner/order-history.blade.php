@@ -32,30 +32,40 @@
             </div>
        	     
             <?php 
-				// Loop all per cart transaction - product details            
-              $cart_order_array = $cart_order_total_array = $cart_order_details_array = array();
-              foreach($cart as $carts){
-                $cart_order_no = $carts->order_no;
-                if(!isset($cart_order_array[$cart_order_no])){
-                  $cart_order_array[$cart_order_no] = $carts;
-                  $cart_order_total_array[$cart_order_no] = $cart_total_shipping[$cart_order_no] = 0;
-                  $cart_order_details_array[$cart_order_no] = array();
+                  // Loop all per cart transaction - product details            
+                  $cart_order_array = $cart_order_total_array = $cart_order_details_array = $cart_order_details_images = array();
+                  $cart_total_shipping = array();
 
-                }
-                $cart_product_price = $cart_order_total_array[$cart_order_no];
-                $cart_product_price  += ($carts->product_price * $carts->quantity);
-                // $cart_order_total_array[$cart_order_no] = $cart_product_price;
-                $cart_order_total_array[$cart_order_no] = $cart_product_price - ($carts->graphik_cost * $carts->quantity);
+                  foreach($cart as $carts){
+                      $cart_order_no = $carts->order_no;
 
-                if(!in_array($carts->product_name, $cart_order_details_array[$cart_order_no])){
-                    $cart_order_details_array[$cart_order_no][]     = $carts->product_name .'( '.$carts->quantity.' )'; 
-                    $cart_order_details_images[$cart_order_no][]    = '<img src="'.url(PRODUCT_IMAGE_PATH.$carts->fldProductSlug.'/'.THUMB_IMAGE.$carts->image).'" alt="'.$carts->product_name.'" /><br>'; 
-                }
-                // echo 'graphik_cost: '.$carts->graphik_cost;
-                // echo 'quantity: '.$carts->quantity.'<br>';
-                // echo '<hr>';
-              }
-            ?>
+                      if(!isset($cart_order_array[$cart_order_no])){
+                          $cart_order_array[$cart_order_no] = $carts;
+                          $cart_order_total_array[$cart_order_no] = 0;
+                          $cart_total_shipping[$cart_order_no] = 0;
+                          $cart_order_details_array[$cart_order_no] = array();
+                          $cart_order_details_images[$cart_order_no] = array();
+                      }
+
+                      // Convert numeric values safely
+                      $product_price = (float) str_replace(',', '', $carts->product_price);
+                      $quantity      = (int) $carts->quantity;
+                      $graphik_cost  = (float) str_replace(',', '', $carts->graphik_cost);
+
+                      $cart_product_price = $cart_order_total_array[$cart_order_no];
+                      $cart_product_price += $product_price * $quantity;
+
+                      // Subtract graphik cost
+                      $cart_order_total_array[$cart_order_no] = $cart_product_price - ($graphik_cost * $quantity);
+
+                      // Add product details and images
+                      if(!in_array($carts->product_name, $cart_order_details_array[$cart_order_no])){
+                          $cart_order_details_array[$cart_order_no][]  = $carts->product_name .'( '.$quantity.' )'; 
+                          $cart_order_details_images[$cart_order_no][] = '<img src="'.url(PRODUCT_IMAGE_PATH.$carts->fldProductSlug.'/'.THUMB_IMAGE.$carts->image).'" alt="'.$carts->product_name.'" /><br>'; 
+                      }
+                  }
+              ?>
+
 
               @foreach($cart_order_array as $cart_order_no => $cart_order_item)
                 <?php 

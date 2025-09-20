@@ -29,10 +29,53 @@
             </div>
             	<?php             	
 				        $item_ctr = 0; 
+            //     $cart_order_array = $cart_order_total_array = $cart_order_details_array = array();
+            //     foreach($cart as $carts){
+            //       $cart_order_no = $carts->order_no;
+            //       if(!isset($cart_order_array[$cart_order_no])){
+            //         $cart_order_array[$cart_order_no] = $carts;
+            //         $cart_order_total_array[$cart_order_no] = 0;
+            //         $cart_order_details_array[$cart_order_no] = array();
+
+            //       }
+            //       $cart_product_price = $cart_order_total_array[$cart_order_no];
+            //       $cart_product_price  += $carts->product_price;
+            //       $cart_order_total_array[$cart_order_no] = $cart_product_price * $carts->quantity;
+            //       if(!in_array($carts->product_name, $cart_order_details_array[$cart_order_no])){
+            //         $cart_order_details_array[$cart_order_no][] = $carts->product_name; 
+            //       }           
+                  
+            //     }
                 ?>
                 @foreach($cart as $order)
                   <?php 
                     $images = '';
+
+                /* @foreach($cart_order_array as $cart_order_no => $cart_order_item) */
+                    // $cart_order_details = '';
+                    // $cart_order_grand_total = 0;
+                    // $coupon_disc = 0;
+                    // if(isset($cart_order_details_array[$cart_order_no])){
+                    //   $cart_order_details_item = $cart_order_details_array[$cart_order_no];
+                    //   foreach($cart_order_details_item as $cart_order_details_item_i){
+                    //     if($cart_order_details != ''){
+                    //       $cart_order_details .= ',';
+                    //     }
+                    //     $cart_order_details .= $cart_order_details_item_i;
+                    //   }
+                    // }
+                    // if(isset($cart_order_total_array[$cart_order_no]) && ($cart_order_total_array[$cart_order_no] > 0)){
+                    //   $cart_order_grand_total_temp = $cart_order_total_array[$cart_order_no];
+                    //   if(isset($cart_order_item->fldCartCouponCodeCouponPrice)){
+                    //     if($cart_order_item->fldCartCouponCodeCouponPrice > 0){
+                    //       $coupon_disc = $cart_order_item->fldCartCouponCodeCouponPrice;
+                    //     }
+                    //   }
+                    //   $cart_order_grand_total_temp = $cart_order_grand_total_temp - $coupon_disc;
+                    //   $total_tax = $cart_order_item->fldCartTax;                    
+                    //   $cart_order_grand_total = $cart_order_grand_total_temp + $total_tax + $cart_order_item->fldCartShippingRateShippingAmount;
+                    // }
+
                     $cart_order_no = $order->fldCartOrderNo;
                     
                     $order_rows = \App\Models\Cart::where('fldCartOrderNo','=',$order->fldCartOrderNo)->get();
@@ -67,7 +110,7 @@
                             $images .= '<img src="'.url(PRODUCT_IMAGE_PATH.$product->fldProductSlug.'/'.THUMB_IMAGE.$product->fldProductImage).'" alt="'.$product->fldProductName.'" /><br><br>';
                         }
                     }
-dd($subtotal_per_cart,$total_coupon ,$shipping_cost , $total_tax);
+
                     $total_per_cart = $subtotal_per_cart - $total_coupon + $shipping_cost + $total_tax;
                     // $total_per_cart = $subtotal_per_cart + $total_tax - $total_coupon;
                     
