@@ -71,7 +71,6 @@
 
             <?php $shipping_cost = 0; ?>
             @foreach($cart as $carts)
-            @dd($carts);
                 <tr>
                     <td>
                       <img src="{{ App\Models\Cart::getReturnFrameImage($data->order_code ,$carts->fldProductSlug,$carts->image) }}">
