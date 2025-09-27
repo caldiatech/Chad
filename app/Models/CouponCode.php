@@ -49,7 +49,7 @@ class CouponCode extends Eloquent
 			if(empty($coupon)) {
 
 				// $percentDiscount = 10; // Changed to 20% as per client
-				$percentDiscount = 20;
+				$percentDiscount = 30;
 
 				$couponMgr = Manager::where('fldManagerPromoCode','=',$code)->first();
 				if (empty($couponMgr)) { // No manager coupon, check shop owner coupon

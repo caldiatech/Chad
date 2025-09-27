@@ -20,8 +20,10 @@ class ManagerCommission extends Eloquent
 		$commission = $amount;
 		Log::debug('amount');
 		Log::debug($amount);
-		Log::debug('commission');
+		Log::debug( 'commission');
 		Log::debug($commission);
+		Log::debug( 'manager');
+		Log::debug( $manager);
 		$managerCom = new ManagerCommission;
 		$managerCom->fldManagerCommissionManagerID = $manager->fldManagerID;
 		$managerCom->fldManagerCommissionUserType = $userType;
@@ -30,6 +32,12 @@ class ManagerCommission extends Eloquent
 		$managerCom->fldManagerCommissionDate = date('Y-m-d');
 		$managerCom->fldManagerCommissionAmount = $commission;
 		$managerCom->save();
+
+		// if ($managerSales = Manager::find($manager->fldManagerMainID)) {
+		// 	$managerCommission = $commission;
+		// 	$managerCom->fldManagerCommissionUserType = 2;
+		// 	self::managerComission($managerCommission, $managerSales, $clientInfo, $orderCode, $userType);
+		// }
 
 		/*
 		require_once "public/payment/braintree/lib/Braintree.php";
@@ -65,25 +73,25 @@ class ManagerCommission extends Eloquent
 
 
 	static function managerComission($amount,$manager,$clientInfo,$orderCode,$userType) {
-		require_once "public/payment/braintree/lib/Braintree.php";
-	 	\Braintree_Configuration::environment(BRAINTREE_ENVIRONMENT);
-		\Braintree_Configuration::merchantId(BRAINTREE_MERCHANTID);
-		\Braintree_Configuration::publicKey(BRAINTREE_PUBLICKEY);
-		\Braintree_Configuration::privateKey(BRAINTREE_PRIVATEKEY);
+		// require_once "public/payment/braintree/lib/Braintree.php";
+	 	// \Braintree_Configuration::environment(BRAINTREE_ENVIRONMENT);
+		// \Braintree_Configuration::merchantId(BRAINTREE_MERCHANTID);
+		// \Braintree_Configuration::publicKey(BRAINTREE_PUBLICKEY);
+		// \Braintree_Configuration::privateKey(BRAINTREE_PRIVATEKEY);
 
-		$results = BraintreeInformation::commissionPayment($amount,$manager->fldManagerBrainTreeMerchantID);
+		// $results = BraintreeInformation::commissionPayment($amount,$manager->fldManagerBrainTreeMerchantID);
 		
-		if($results->success != "") {
+		// if($results->success != "") {
 			//save information to manager commission table
 			$managerCom = new ManagerCommission;
 				$managerCom->fldManagerCommissionManagerID = $manager->fldManagerID;
-				$managerCom->fldManagerCommissionUserType = $userType;
+				$managerCom->fldManagerCommissionUserType = 2;
 				$managerCom->fldManagerCommissionUserID = $clientInfo->fldClientID;
 				$managerCom->fldManagerCommissionOrderCode = $orderCode;
 				$managerCom->fldManagerCommissionDate = date('Y-m-d');
 				$managerCom->fldManagerCommissionAmount = $amount;
 			$managerCom->save();
-		}
+		//}
 	}
 
 	public static function displayOrdersCommission($managerID) {
@@ -274,7 +282,8 @@ class ManagerCommission extends Eloquent
 				foreach ($sales as $salesRow) {
 					// echo 'sales: '.$salesRow->fldCartProductPrice;
 					// echo ' x itemsSold: '.$salesRow->fldCartQuantity;
-					$totalSales += $salesRow->fldCartProductPrice * $salesRow->fldCartQuantity;
+					$totalSales += ((float) str_replace(',', '', $salesRow->fldCartProductPrice)) * (int) $salesRow->fldCartQuantity;
+
 					// echo '<hr>';
 				}
 			} else {

@@ -148,11 +148,11 @@ class TempCart extends Eloquent
 			}
 
 			Log::debug('Session has couponcode');
-			Log::debug(Session::has('couponCode'));
+			Log::debug(Session::get('couponCode'));
 			if(Session::has('couponCode')) {
 				$freeshipping=false;$coupon_amount=0;$stateName="";
 				//echo $stateName;die();
-				$coupon_code=CouponCode::checkCouponCode(Session::get('couponCode'),$subtotal,$stateName);
+				$coupon_code=CouponCode::checkCouponCode(Session::get( 'couponCode'),$subtotal,$stateName);
 				$coupon_code = json_decode($coupon_code);
 				$cartDisplay[0]['coupon_amount'] = $coupon_code->coupon_amount;
 				$cartDisplay[0]['freeshipping'] = $coupon_code->freeshipping;

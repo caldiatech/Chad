@@ -33,29 +33,41 @@
             	@if($cart->isEmpty())
 	               <div class="uk-alert uk-alert-danger" style="color:#d85030">Order history is empty</div>
         	@endif
-            	<?php 
-              $cart_order_array = $cart_order_total_array = $cart_order_details_array = $cart_shipping_total_array = array();
+            <?php 
+              $cart_order_array = $cart_order_total_array = $cart_order_details_array = $cart_shipping_total_array = $cart_order_details_images = array();
+
               foreach($cart as $carts){
-                $cart_order_no = $carts->order_no;
-                if(!isset($cart_order_array[$cart_order_no])){
-                  $cart_order_array[$cart_order_no] = $carts;
-                  $cart_order_total_array[$cart_order_no] = 0;
-                  $cart_order_details_array[$cart_order_no] = array();
+                  $cart_order_no = $carts->order_no;
 
-                    $cart_shipping_total_array[$cart_order_no] = 0;
-                }
+                  if(!isset($cart_order_array[$cart_order_no])){
+                      $cart_order_array[$cart_order_no] = $carts;
+                      $cart_order_total_array[$cart_order_no] = 0;
+                      $cart_order_details_array[$cart_order_no] = array();
+                      $cart_order_details_images[$cart_order_no] = array();
+                      $cart_shipping_total_array[$cart_order_no] = 0;
+                  }
 
-                $cart_product_price = $cart_order_total_array[$cart_order_no];
-                $cart_product_price  += ($carts->product_price * $carts->quantity);
-                $cart_order_total_array[$cart_order_no] = $cart_product_price;
-                if(!in_array($carts->product_name, $cart_order_details_array[$cart_order_no])){
-                  $cart_order_details_array[$cart_order_no][] = $carts->product_name .'( '.$carts->quantity.' )'; 
-                  $cart_order_details_images[$cart_order_no][] = '<img src="'.url(PRODUCT_IMAGE_PATH.$carts->fldProductSlug.'/'.THUMB_IMAGE.$carts->image).'" alt="'.$carts->product_name.'" /><br>'; 
-                }        
+                  // Ensure numeric values
+                  $product_price = (float) str_replace(',', '', $carts->product_price);
+                  $quantity      = (int) $carts->quantity;
+                  $shipping_price = (float) str_replace(',', '', $carts->fldCartShippingPrice);
 
-                $cart_shipping_total_array[$cart_order_no]  += ($carts->fldCartShippingPrice * $carts->quantity);
+                  // Calculate product total
+                  $cart_product_price = $cart_order_total_array[$cart_order_no];
+                  $cart_product_price += $product_price * $quantity;
+                  $cart_order_total_array[$cart_order_no] = $cart_product_price;
+
+                  // Product details and images
+                  if(!in_array($carts->product_name, $cart_order_details_array[$cart_order_no])){
+                      $cart_order_details_array[$cart_order_no][] = $carts->product_name .'( '.$quantity.' )'; 
+                      $cart_order_details_images[$cart_order_no][] = '<img src="'.url(PRODUCT_IMAGE_PATH.$carts->fldProductSlug.'/'.THUMB_IMAGE.$carts->image).'" alt="'.$carts->product_name.'" /><br>'; 
+                  }
+
+                  // Shipping total
+                  $cart_shipping_total_array[$cart_order_no] += $shipping_price * $quantity;
               }
             ?>
+
 
               @foreach($cart_order_array as $cart_order_no => $cart_order_item)
                 <?php 

@@ -23,7 +23,7 @@ class ShopOwnerCommission extends Eloquent
 
 		//save information to shop owner commission table
 		$shopOwnerCom = new ShopOwnerCommission;
-		$shopOwnerCom->fldShopOwnerCommissionShopOwnerID = Session::get('couponSourceID');
+		$shopOwnerCom->fldShopOwnerCommissionShopOwnerID = $shopOwner->fldShopOwnerID;
 		$shopOwnerCom->fldShopOwnerCommissionUserType = $userType;
 		$shopOwnerCom->fldShopOwnerCommissionUserID = $clientInfo->fldClientID;
 		$shopOwnerCom->fldShopOwnerCommissionOrderCode = $orderCode;
@@ -173,7 +173,7 @@ class ShopOwnerCommission extends Eloquent
 		$cartDisplay = self::join('tblCart','tblCart.fldCartOrderNo','=','tblShopOwnerCommission.fldShopOwnerCommissionOrderCode')
 							  ->join('tblCartCouponCode','tblCart.fldCartOrderNo','=','tblCartCouponCode.fldCartCouponCodeOrderNo')
 							->join('tblCartTax','tblCart.fldCartOrderNo','=','tblCartTax.fldCartTaxOrderNo')
-							->join('tblClient','tblClient.fldClientID','=','tblCart.fldCartClientID')	
+							->join('tblClient','tblClient.fldClientID','=','tblCart.fldCartClientID')
 							  ->join('tblProduct','fldProductID','=','fldCartProductID')
 							  ->join('tblClientsShipping','tblClientsShipping.fldClientsShippingClientID','=','tblClient.fldClientID')
 							  ->select('tblProduct.fldProductSlug as fldProductSlug','tblProduct.fldProductID as product_id','tblCart.fldCartID as cart_id','tblCart.fldCartQuantity as quantity','tblProduct.fldProductSubTitle as product_sub_title',
@@ -192,6 +192,7 @@ class ShopOwnerCommission extends Eloquent
 							  ->whereBetween('tblShopOwnerCommission.fldShopOwnerCommissionDate', [$dateFrom,$dateTo])
 							  ->orderBy('fldShopOwnerCommissionID','DESC')							
 							  ->paginate(15);
+		//dd($cartDisplay);
 		return $cartDisplay;							  
 	}
 
@@ -249,7 +250,7 @@ class ShopOwnerCommission extends Eloquent
 				foreach ($sales as $salesRow) {
 					// echo 'sales: '.$salesRow->fldCartProductPrice;
 					// echo ' x itemsSold: '.$salesRow->fldCartQuantity;
-					$totalSales += $salesRow->fldCartProductPrice * $salesRow->fldCartQuantity;
+					$totalSales += ((float) str_replace(',', '', $salesRow->fldCartProductPrice)) * (int) $salesRow->fldCartQuantity;
 					// echo '<hr>';
 				}
 			} else {
